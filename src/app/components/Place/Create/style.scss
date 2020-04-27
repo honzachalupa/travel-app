@@ -1,0 +1,16 @@
+[data-component="SampleComponent"] {
+    padding: 12px 0;
+
+    p {
+        line-height: 150%;
+
+        & + p {
+            margin-top: 10px;
+        }
+    }
+
+    .sample-image {
+        width: 160px;
+        margin: 10px 0;
+    }
+}

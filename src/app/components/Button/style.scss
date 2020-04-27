@@ -1,0 +1,57 @@
+[data-component="Button"] {
+    min-width: 220px;
+    background-color: $gray-darker;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    padding: 15px 20px;
+    transition: 250ms background-color;
+
+    &:hover {
+        background-color: $gray-lighter;
+    }
+
+    &.blue {
+        background-color: $blue-darker;
+        color: white;
+
+        &:hover {
+            background-color: $blue-lighter;
+        }
+    }
+
+    &.green {
+        background-color: $green-darker;
+        color: white;
+
+        &:hover {
+            background-color: $green-lighter;
+        }
+    }
+
+    &.yellow {
+        background-color: $yellow-darker;
+        color: white;
+
+        &:hover {
+            background-color: $yellow-lighter;
+        }
+    }
+
+    & + & {
+        @media (max-width: 600px) {
+            margin-top: 15px;
+        }
+
+        @media (min-width: 601px) {
+            margin-left: 15px;
+        }
+    }
+
+    &.is-disabled {
+        opacity: 0.6;
+        pointer-events: none;
+        cursor: default;
+    }
+}

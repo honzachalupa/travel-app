@@ -1,0 +1,32 @@
+.Page_LocationDetail {
+    [data-component="Map"] {
+        margin-bottom: 20px;
+    }
+
+    .content {
+        width: 80%;
+        margin: 0 auto;
+
+        .info,
+        .details {
+            padding: 20px;
+            float: left;
+        }
+
+        .info {
+            width: 70%;
+
+            .name {
+                font-size: 30px;
+            }
+
+            .description {
+                line-height: 120%;
+            }
+        }
+
+        .details {
+            width: 30%;
+        }
+    }
+}

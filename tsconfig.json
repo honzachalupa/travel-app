@@ -1,0 +1,59 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "module": "esnext",
+        "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "sourceMap": true,
+        "allowJs": true,
+        "jsx": "preserve",
+        "moduleResolution": "node",
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "resolveJsonModule": true,
+        "noEmit": true,
+        "typeRoots": [
+            "node_modules/@types",
+            "./types"
+        ],
+        "paths": {
+            "App/*": ["./app/App.tsx"],
+            "Components/*": ["./app/components/*"],
+            "Layouts/*": ["./app/layouts/*"],
+            "Pages/*": ["./app/pages/*"],
+            "Images/*": ["./images/*"],
+            "Icons/*": ["./images/icons/*"],
+            "Enums": ["./app/enumerators/index.ts"],
+            "Enums/*": ["./app/enumerators/*"],
+            "Interfaces/*": ["./app/interfaces/*"],
+            "Helpers": ["./app/helpers.ts"],
+            "config": ["./config.js"]
+        }
+    },
+    "include": [
+        "**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*",
+        "**/webpack_cache/**",
+        "**/dist/**",
+        "lib",
+        "**/*.spec.ts",
+        "**/*.js"
+    ]
+}

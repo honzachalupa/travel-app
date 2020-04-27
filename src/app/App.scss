@@ -1,0 +1,100 @@
+@import 'css-reset-and-normalize-sass/scss/flavored-reset-and-normalize';
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,700&display=swap&subset=latin-ext');
+
+html {
+    font-size: 16px;
+
+    @media (max-width: 600px) {
+        font-size: 12px;
+    }
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+
+    /* stylelint-disable media-feature-name-no-unknown */
+
+    /* @media (prefers-color-scheme: dark) {
+        background-color: black;
+        color: white;
+    } */
+
+    @media (max-width: 600px) {
+        padding: 20px;
+    }
+
+    * {
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: 0.5px;
+        line-height: 120%;
+    }
+
+    @supports (padding-top: constant(safe-area-inset-top)) {
+        padding: constant(safe-area-inset-top) constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left);
+    }
+
+    @supports (padding-top: env(safe-area-inset-top)) {
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    label,
+    input,
+    textarea,
+    select,
+    button {
+        &:hover,
+        &:focus,
+        &:active {
+            border: none;
+            outline: none;
+        }
+    }
+
+    input,
+    textarea,
+    select {
+        &:-webkit-autofill {
+            box-shadow: 0 0 0 1000px white inset;
+
+            &:hover,
+            &:focus {
+                box-shadow: 0 0 0 1000px white inset;
+            }
+        }
+    }
+
+    input:not([type=checkbox]),
+    textarea,
+    select {
+        appearance: none;
+    }
+
+    select {
+        background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 95% 50%;
+    }
+
+    .form {
+        max-width: 400px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+
+        input,
+        select,
+        textarea {
+            background-color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
+            padding: 10px 15px;
+            margin: 5px 0 12px 0;
+        }
+
+        [data-component="Button"] {
+            margin: 12px 0;
+        }
+    }
+}
