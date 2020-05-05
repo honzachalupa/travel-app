@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { Database } from 'Helpers';
 import { IPlace } from 'Interfaces/Place';
 import './style';
-import { IRegion } from 'Interfaces/Region';
-import { IArea } from 'Interfaces/SubRegion';
 import { IDifficulty } from 'Interfaces/Difficulty';
-import { Regions } from 'Enums/regions';
-import { Areas } from 'Enums/areas';
 import Button from 'Components/Button';
 import { Difficulties } from 'Enums/Difficulties';
 
@@ -18,10 +14,9 @@ export default () => {
             latitude: 50.16591 - Math.random(),
             longitude: 14.08412 - Math.random(),
         },
-        regionCode: Regions[0].id,
-        areaCode: Areas[0].id,
         rating: 0,
         comments: [],
+        images: [],
         instagramPosts: [],
         accessibility: {
             walkingDistance: 200 * Math.random(),
@@ -68,24 +63,6 @@ export default () => {
 
             <label htmlFor="longitude">Longitude</label>
             <input name="longitude" type="number" step="0.000001" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceProperty('coordinates.longitude', Number(e.target.value))} defaultValue={place.coordinates.longitude} />
-
-            <label htmlFor="region">Kraj</label>
-            <select name="region" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('regionCode', e.target.value)} defaultValue={place.regionCode}>
-                <option id="none">-</option>
-
-                {Regions.map((region: IRegion) => (
-                    <option key={region.id} value={region.id}>{region.label}</option>
-                ))}
-            </select>
-
-            <label htmlFor="area">Oblast</label>
-            <select name="area" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('areaCode', e.target.value)} defaultValue={place.areaCode}>
-                <option id="none">-</option>
-
-                {Areas.map((subregion: IArea) => (
-                    <option key={subregion.id} value={subregion.id}>{subregion.label}</option>
-                ))}
-            </select>
 
             <label htmlFor="walkingDistance">Pěší vzdálenost (např. od parkoviště)</label>
             <input name="walkingDistance" type="number" step={0.1} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceProperty('walkingDistance', Number(e.target.value))} defaultValue={place.accessibility.walkingDistance} />
