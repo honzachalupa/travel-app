@@ -26,7 +26,7 @@ const App = () => {
     });
 
     const getLocations = () => {
-        Database.places.onSnapshot((querySnapshot: any) => {
+        const unsubscribe = Database.places.onSnapshot((querySnapshot: any) => {
             const places: ILocationWithId[] = [];
 
             querySnapshot.forEach((doc: any) => {
@@ -40,6 +40,8 @@ const App = () => {
                 ...prevState,
                 places
             }));
+
+            unsubscribe();
         });
     };
 
@@ -57,6 +59,7 @@ const App = () => {
         <Context.Provider value={{ ...state, ...globalFunctions } as IContext}>
             <Router basename={__BASENAME__}>
                 <Switch>
+                    <Route component={Page_Home} path={Routes.INDEX} />
                     <Route component={Page_Home} path={Routes.ROOT} exact />
                     <Route component={Page_LocationCreate} path={Routes.LOCATION_CREATE} exact />
                     <Route component={Page_LocationDetail} path={Routes.LOCATION_DETAIL} exact />

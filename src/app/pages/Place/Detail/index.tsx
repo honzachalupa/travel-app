@@ -8,18 +8,21 @@ import { Difficulties } from 'Enums/Difficulties';
 import './style';
 import Layout from 'Layouts/Main';
 import Map from 'Components/Map';
+import PostsGrid from './components/PostsGrid';
 
 export default withRouter(({ match: { params: { id } } }: RouteComponentProps<{ id: string }>) => {
     const [place, setPlace] = useState<ILocationWithId | null>(null);
 
     const getPlace = () => {
-        Database.places.doc(id).onSnapshot(doc => {
+        const unsubscribe = Database.places.doc(id).onSnapshot(doc => {
             if (doc.data()) {
                 setPlace({
                     ...doc.data(),
                     id: doc.id
                 } as ILocationWithId);
             }
+
+            unsubscribe();
         });
     };
 
@@ -53,6 +56,10 @@ export default withRouter(({ match: { params: { id } } }: RouteComponentProps<{ 
                     <p>Pěší vzdálenost: {place.accessibility.walkingDistance} km</p>
                     <p>Obtížnost terénu: {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
                 </div>
+
+                {place.instagramPosts && (
+                    <PostsGrid urls={place.instagramPosts} />
+                )}
             </div>
         </Layout>
     ) : null;

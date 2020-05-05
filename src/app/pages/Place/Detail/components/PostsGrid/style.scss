@@ -1,0 +1,8 @@
+[data-component="PostsGrid"] {
+    display: flex;
+    justify-content: space-between;
+
+    .post {
+        float: left;
+    }
+}

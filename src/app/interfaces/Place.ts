@@ -15,6 +15,7 @@ export interface IPlace {
     areaCode: AreaCodes;
     rating: 0 | 1 | 2 | 3 | 4 | 5;
     comments: IComment[];
+    instagramPosts: string[];
     accessibility: {
         walkingDistance: number;
         difficultyCode: DifficultyCodes;

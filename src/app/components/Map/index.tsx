@@ -6,7 +6,10 @@ import './style';
 interface IProps {
     markers: ILocationWithId[],
     defaultZoom: number;
-    defaultPosition: any;
+    defaultPosition: {
+        latitude: number;
+        longitude: number;
+    };
 }
 
 const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => (

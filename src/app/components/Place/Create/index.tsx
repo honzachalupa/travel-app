@@ -22,6 +22,7 @@ export default () => {
         areaCode: Areas[0].id,
         rating: 0,
         comments: [],
+        instagramPosts: [],
         accessibility: {
             walkingDistance: 200 * Math.random(),
             difficultyCode: Difficulties[0].id

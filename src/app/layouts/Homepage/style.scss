@@ -1,8 +1,92 @@
+.button-rounded {
+    width: 6vh;
+    min-width: 6vh;
+    height: 6vh;
+    background-color: white;
+    color: white;
+    border-radius: 50%;
+    font-size: 26px;
+    text-align: center;
+    padding: 12px;
+}
+
 [data-component="Layout_Homepage"] {
-    [data-component="Map"] {
-        .map-container {
-            width: 100vw;
+    position: relative;
+    top: calc(env(safe-area-inset-top) * -1);
+
+    &.is-scrolling-disabled {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .add-button {
+        @extend .button-rounded;
+
+        background: linear-gradient(45deg, $green-darker 0, $green-lighter 100%);
+        position: fixed;
+        bottom: 3vh;
+        right: 3vh;
+    }
+
+    .my-location-map {
+        width: 100%;
+        height: calc(30vh + env(safe-area-inset-top));
+        text-align: center;
+        position: relative;
+        z-index: 9;
+        transition: height 250ms;
+
+        &.is-expanded {
             height: 100vh;
+            padding-bottom: 0;
+
+            .toggle-button {
+                bottom: 7vh;
+            }
+        }
+
+        .toggle-button {
+            @extend .button-rounded;
+
+            background: linear-gradient(45deg, $yellow-darker, $yellow-lighter);
+            position: relative;
+            bottom: 3vh;
+        }
+    }
+
+    .places-list {
+        padding: 12px;
+        margin-top: 30px;
+        float: left;
+        transition: opacity 250ms;
+
+        &.is-faded {
+            filter: blur(3px);
+        }
+
+        .place {
+            margin-bottom: 20px;
+
+            .name {
+                font-size: 16px;
+                padding-bottom: 5px;
+            }
+
+            .details {
+                display: flex;
+
+                .image {
+                    width: 140px;
+                    height: 87px;
+                    background-color: gray;
+                    margin-right: 12px;
+                }
+
+                .description {
+                    color: gray;
+                }
+            }
         }
     }
 }

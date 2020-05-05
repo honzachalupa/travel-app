@@ -34,7 +34,8 @@ module.exports = env => {
         devServer: {
             contentBase: path.resolve(__dirname, 'dist'),
             host: '0.0.0.0',
-            historyApiFallback: true
+            historyApiFallback: true,
+            https: true
         },
         plugins: [
             new CleanPlugin(['./dist']),
