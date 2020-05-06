@@ -1,12 +1,12 @@
-import Button, { EColors } from 'Components/Button';
+import { EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
-import { Database, readUploadedFile } from 'Helpers';
+import { Database } from 'Helpers';
 import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
 import { ICoordinates, IPlace } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
 
@@ -16,10 +16,10 @@ enum ValidationState {
 }
 
 export default withRouter(({ history }: RouteComponentProps) => {
-    const inputElementRef = useRef(null);
+    // const inputElementRef = useRef(null);
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
-    const [images, setImages] = useState<string[]>([]);
+    const [images /* , setImages */] = useState<string[]>([]);
 
     const [place, setPlace] = useState<IPlace>({
         name: '',
@@ -55,11 +55,11 @@ export default withRouter(({ history }: RouteComponentProps) => {
         }
     };
 
-    const handleFileUpload = (files: FileList) => {
+    /* const handleFileUpload = (files: FileList) => {
         Array.from(files).forEach(async file => {
             if (file.size < 1048487) {
                 try {
-                    const fileContent = await readUploadedFile(file) as string
+                    const fileContent = await readUploadedFile(file) as string;
 
                     setImages(prevImages => [...prevImages, fileContent]);
                 } catch (error) {
@@ -69,7 +69,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 alert('File is too big.');
             }
         });
-    };
+    }; */
 
     const handleSubmit = () => {
         const placeClone = { ...place };
@@ -112,12 +112,14 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         ))}
                     </select>
 
-                    <input style={{ display: 'none' }} type="file" accept="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} />
+                    <label htmlFor="instagramPosts">Odkaz na post na Instagramu</label>
+                    <textarea name="instagramPosts" onChange={(e: any) => setPlaceProperty('instagramPosts', e.target.value)} defaultValue={place.instagramPosts} />
 
-                    {console.log(images)}
+                    {/* <input style={{ display: 'none' }} type="file" accept="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} /> */}
+
                     {/*
                      // @ts-ignore */}
-                    <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} />
+                    {/* <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} /> */}
 
                     <Map onMapClick={setSelectedCoordinates} />
                 </form>

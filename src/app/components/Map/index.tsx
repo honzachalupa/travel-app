@@ -22,7 +22,7 @@ interface IProps {
 export default (props: IProps) => (
     <Map
         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5XArugOE_gbteyws5tHht5yGzH-TzT_M&libraries=places"
-        loadingElement={<div style={{ height: `100%` }} />}
+        loadingElement={<span />}
         containerElement={<div data-component="Map" />}
         mapElement={<div className="map-container" />}
         {...props}

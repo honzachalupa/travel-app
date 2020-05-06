@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import { Textfit } from 'react-textfit';
-import ImagesGrid from './components/ImagesGrid';
+// import ImagesGrid from './components/ImagesGrid';
 import PostsGrid from './components/PostsGrid';
 import './style';
 
@@ -99,18 +99,24 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
 
                         <h3 className="subheadline">Hodnocení</h3>
-                        <StarRatings
-                            rating={getRatingStars(place.rating.value, place.rating.count)}
-                            starRatedColor="#0fd99f"
-                            starDimension={30}
-                            starSpacing={2}
-                            changeRating={handleRatingChange}
-                        />
+                        <div className="rating-container">
+                            <StarRatings
+                                rating={getRatingStars(place.rating.value, place.rating.count)}
+                                starRatedColor="#0fd99f"
+                                starDimension={30}
+                                starSpacing={2}
+                                changeRating={handleRatingChange}
+                            />
+
+                            <p className="count">Hodnotilo {place.rating.count} uživatelů.</p>
+                        </div>
                     </div>
 
-                    {place.images && (
+                    {/* place.images && (
                         <ImagesGrid images={place.images} />
-                    )}
+                    ) */}
+
+                    <h3 className="subheadline" style={{ paddingLeft: 22 }}>Vaše IG příspěvky</h3>
 
                     {place.instagramPosts && (
                         <PostsGrid urls={place.instagramPosts} />
