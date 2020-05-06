@@ -30,12 +30,12 @@
         }
     }
 
-    &.yellow {
-        background-color: $yellow-darker;
+    &.orange {
+        background-color: $orange-darker;
         color: white;
 
         &:hover {
-            background-color: $yellow-lighter;
+            background-color: $orange-lighter;
         }
     }
 
@@ -61,7 +61,9 @@
 
     .icon {
         width: 14vw;
+        max-width: 60px;
         height: 14vw;
+        max-height: 60px;
         background-color: $gray-darker;
         color: black;
         font-size: 1.5rem;
@@ -96,12 +98,12 @@
             }
         }
 
-        &.yellow {
-            background-color: $yellow-darker;
+        &.orange {
+            background-color: $orange-darker;
             color: white;
 
             &:hover {
-                background-color: $yellow-lighter;
+                background-color: $orange-lighter;
             }
         }
 

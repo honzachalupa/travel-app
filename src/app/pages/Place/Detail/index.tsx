@@ -1,5 +1,6 @@
-import { ButtonWithIcon, EColors } from 'Components/Button';
+import { EColors } from 'Components/Button';
 import Map from 'Components/Map';
+import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { Routes } from 'Enums/Routes';
 import { Database } from 'Helpers';
@@ -10,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import { Textfit } from 'react-textfit';
+import ImagesGrid from './components/ImagesGrid';
 import PostsGrid from './components/PostsGrid';
 import './style';
 
@@ -64,7 +66,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
 
     useEffect(() => {
         getPlace();
-    });
+    }, []);
 
     const findInEnum = (enumerator: any, key: string) => enumerator.find((x: typeof enumerator) => x.id === key) || { label: null };
 
@@ -101,15 +103,38 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         />
                     </div>
 
+                    {place.images && (
+                        <ImagesGrid images={place.images} />
+                    )}
+
                     {place.instagramPosts && (
                         <PostsGrid urls={place.instagramPosts} />
                     )}
                 </div>
 
-                <ButtonWithIcon className="back-button" label="Zpět" icon="<" onClick={() => history.goBack()} />
-                <ButtonWithIcon className="navigate-button" label="Navigovat" icon="N" color={EColors.BLUE} onClick={() => window.location.href = `http://maps.google.com/maps?daddr=${place.coordinates.latitude},${place.coordinates.longitude}`} />
-                <ButtonWithIcon className="edit-button" label="Upravit" icon="#" color={EColors.GREEN} onClick={() => history.push(Routes.PLACE_EDIT)} />
-                <ButtonWithIcon className="remove-button" label="Smazat" icon="X" color={EColors.RED} onClick={() => null} />
+                <Navigation
+                    items={[{
+                        label: 'Zpět',
+                        icon: '<',
+                        color: EColors.ORANGE,
+                        onClick: () => history.goBack()
+                    }, {
+                        label: 'Navigovat',
+                        icon: 'N',
+                        color: EColors.BLUE,
+                        onClick: () => window.location.href = `http://maps.google.com/maps?daddr=${place.coordinates.latitude},${place.coordinates.longitude}`
+                    }, {
+                        label: 'Upravit',
+                        icon: '#',
+                        color: EColors.GREEN,
+                        onClick: () => history.push(Routes.PLACE_EDIT)
+                    }, {
+                        label: 'Smazat',
+                        icon: 'X',
+                        color: EColors.RED,
+                        onClick: () => history.goBack()
+                    }]}
+                />
             </div>
         </Layout>
     );

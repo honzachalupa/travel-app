@@ -19,12 +19,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-scrolling-disabled': isMapExpanded })}>
-                <Navigation />
-
                 <div className={cx('my-location-map', { 'is-expanded': isMapExpanded })}>
                     <Map markers={places} onPlaceClick={(place: IPlaceWithId) => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))} />
 
-                    <ButtonWithIcon className="toggle-button" icon={isMapExpanded ? 'A' : 'V'} color={EColors.YELLOW} onClick={() => setMapExpanded(!isMapExpanded)} />
+                    <ButtonWithIcon className="toggle-button" icon={isMapExpanded ? 'A' : 'V'} color={EColors.ORANGE} onClick={() => setMapExpanded(!isMapExpanded)} />
                 </div>
 
                 <div className={cx('places-list', { 'is-faded': isMapExpanded })}>
@@ -44,7 +42,15 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     ))}
                 </div>
 
-                <ButtonWithIcon className="add-button" label="Přidat" icon="+" color={EColors.GREEN} onClick={() => history.push(Routes.PLACE_CREATE)} />
+                <Navigation
+                    items={[{
+                        label: 'Přidat',
+                        icon: '+',
+                        color: EColors.GREEN,
+                        onClick: () => history.push(Routes.PLACE_CREATE)
+                    }]}
+                    singleItemAlignment="right"
+                />
             </div>
         </Layout>
     );

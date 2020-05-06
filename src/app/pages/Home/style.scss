@@ -54,6 +54,7 @@
                     height: 95px;
                     background-color: gray;
                     margin-right: 12px;
+                    object-fit: cover;
                 }
 
                 .description {
@@ -75,11 +76,5 @@
                 }
             }
         }
-    }
-
-    .add-button {
-        position: fixed;
-        bottom: 6vw;
-        right: 6vw;
     }
 }

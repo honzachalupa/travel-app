@@ -5,7 +5,7 @@
   "main": "index.tsx",
   "scripts": {
     "dev": "clear && webpack-dev-server --mode development --hot --inline --env.buildTarget=dev --env.baseName=/",
-    "build": "clear && webpack --mode production --env.buildTarget=prod --env.baseName=/"
+    "build": "clear && webpack --mode production --env.buildTarget=prod --env.baseName=/places-app/"
   },
   "keywords": [],
   "author": "Jan Chalupa <janchalupa@outlook.cz> (https://www.honzachalupa.cz/)",

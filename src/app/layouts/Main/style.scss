@@ -1,4 +1,9 @@
 [data-component="Layout_Main"] {
     position: relative;
     top: calc(env(safe-area-inset-top) * -1);
+
+    & > * {
+        width: 100%;
+        float: left;
+    }
 }

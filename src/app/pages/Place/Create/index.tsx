@@ -1,5 +1,6 @@
-import { ButtonWithIcon, EColors } from 'Components/Button';
+import { EColors } from 'Components/Button';
 import Map from 'Components/Map';
+import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { Database } from 'Helpers';
 import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
@@ -17,6 +18,7 @@ enum ValidationState {
 export default withRouter(({ history }: RouteComponentProps) => {
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
+    const [images, setImages] = useState<string[]>([]);
 
     const [place, setPlace] = useState<IPlace>({
         name: '',
@@ -26,7 +28,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
             value: 0,
             count: 0
         },
-        images: [],
+        images,
         instagramPosts: [],
         accessibility: {
             walkingDistance: 0,
@@ -52,10 +54,35 @@ export default withRouter(({ history }: RouteComponentProps) => {
         }
     };
 
+    const handleFileUpload = (files: any) => {
+        console.log(files);
+
+        const reader = new FileReader();
+
+        reader.readAsDataURL(files[0]);
+        reader.onload = (e) => {
+            if (e.target) {
+                const base64 = e.target.result;
+
+                if (base64) {
+                    console.log(base64);
+
+                    setImages([base64.toString()]);
+                }
+            }
+        }
+        reader.onerror = (e) => {
+            console.log('error reading file');
+        }
+    };
+
     const handleSubmit = () => {
         const placeClone = { ...place };
 
         placeClone.coordinates = selectedCoordinates;
+        placeClone.images = images;
+
+        console.log(placeClone);
 
         Database.places.add(placeClone);
     };
@@ -92,11 +119,25 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         ))}
                     </select>
 
-                    <Map onMapClick={setSelectedCoordinates} />
+                    <input type="file" accept="image/png, image/jpeg" onChange={(e: any) => handleFileUpload(e.target.files)} />
 
-                    <ButtonWithIcon className="back-button" label="Zpět" icon="<" onClick={() => history.goBack()} />
-                    <ButtonWithIcon className="submit-button" label="Přidat" icon="+" color={EColors.GREEN} isDisabled={validationState === ValidationState.INVALID} onClick={handleSubmit} />
+                    <Map onMapClick={setSelectedCoordinates} />
                 </form>
+
+                <Navigation
+                    items={[{
+                        label: 'Zpět',
+                        icon: '<',
+                        color: EColors.ORANGE,
+                        onClick: () => history.goBack()
+                    }, {
+                        label: 'Přidat',
+                        icon: '+',
+                        color: EColors.GREEN,
+                        isDisabled: validationState === ValidationState.INVALID,
+                        onClick: handleSubmit
+                    }]}
+                />
             </div>
         </Layout>
     );

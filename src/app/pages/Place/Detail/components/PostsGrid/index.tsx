@@ -7,17 +7,19 @@ interface IProps {
 }
 
 export default ({ urls }: IProps) => {
-    const [postWidth, setPostWidth] = useState<number>(200);
+    const [postWidth, setPostWidth] = useState<number>(0);
 
     const getPostWidth = () => {
         const parent = document.getElementById('container');
 
         if (parent) {
-            setPostWidth(Math.round((parent.offsetWidth) / 2));
+            setPostWidth(Math.round((parent.offsetWidth)));
         }
     };
 
     useEffect(() => {
+        getPostWidth();
+
         window.addEventListener('resize', getPostWidth);
 
         return window.removeEventListener('resize', getPostWidth);

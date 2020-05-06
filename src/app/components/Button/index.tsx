@@ -5,7 +5,7 @@ import './style';
 export enum EColors {
     BLUE = 'blue',
     GREEN = 'green',
-    YELLOW = 'yellow',
+    ORANGE = 'orange',
     RED = 'red'
 }
 

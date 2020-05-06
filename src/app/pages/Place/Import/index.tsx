@@ -1,5 +1,6 @@
 import { Context } from '@honzachalupa/helpers';
-import { ButtonWithIcon, EColors } from 'Components/Button';
+import { EColors } from 'Components/Button';
+import Navigation from 'Components/Navigation';
 import { Routes } from 'Enums/Routes';
 import { Database } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
@@ -28,7 +29,14 @@ export default withRouter(({ history }: RouteComponentProps) => {
     return (
         <Layout>
             <div data-component="Page_PlaceImport">
-                <ButtonWithIcon className="submit-button" label="Importovat" icon="+" color={EColors.GREEN} onClick={handleSubmit} />
+                <Navigation
+                    items={[{
+                        label: 'Importovat',
+                        icon: '+',
+                        color: EColors.RED,
+                        onClick: handleSubmit
+                    }]}
+                />
             </div>
         </Layout>
     );
