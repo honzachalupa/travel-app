@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from 'Layouts/Homepage';
+import Layout from 'Layouts/Main';
 
 export default () => (
     <section>

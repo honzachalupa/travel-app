@@ -1,6 +1,7 @@
 export const Routes = {
     ROOT: '/',
     INDEX: '/index.html',
-    LOCATION_CREATE: '/pridat-lokalitu',
-    LOCATION_DETAIL: '/lokalita/:id'
+    PLACE_CREATE: '/pridat-misto',
+    PLACE_DETAIL: '/misto/:id',
+    PLACE_EDIT: '/misto/:id/upravit'
 };

@@ -8,12 +8,5 @@ module.exports = {
     developerName: 'Jan Chalupa',
     developerUrl: 'https://www.honzachalupa.cz/',
     caching: false,
-    mapConfig: {
-        defaultZoom: 9,
-        defaultPosition: {
-            latitude: 50.073658,
-            longitude: 14.41854
-        }
-    },
     firebase: firebaseCredentials
 };

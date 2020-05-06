@@ -1,32 +1,8 @@
-.button-rounded {
-    width: 6vh;
-    min-width: 6vh;
-    height: 6vh;
-    background-color: white;
-    color: white;
-    border-radius: 50%;
-    font-size: 26px;
-    text-align: center;
-    padding: 12px;
-}
-
-[data-component="Layout_Homepage"] {
-    position: relative;
-    top: calc(env(safe-area-inset-top) * -1);
-
+[data-component="Page_Home"] {
     &.is-scrolling-disabled {
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-    }
-
-    .add-button {
-        @extend .button-rounded;
-
-        background: linear-gradient(45deg, $green-darker 0, $green-lighter 100%);
-        position: fixed;
-        bottom: 3vh;
-        right: 3vh;
     }
 
     .my-location-map {
@@ -47,9 +23,6 @@
         }
 
         .toggle-button {
-            @extend .button-rounded;
-
-            background: linear-gradient(45deg, $yellow-darker, $yellow-lighter);
             position: relative;
             bottom: 3vh;
         }
@@ -88,5 +61,11 @@
                 }
             }
         }
+    }
+
+    .add-button {
+        position: fixed;
+        bottom: 6vw;
+        right: 6vw;
     }
 }

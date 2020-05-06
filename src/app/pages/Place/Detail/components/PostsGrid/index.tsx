@@ -23,8 +23,6 @@ export default ({ urls }: IProps) => {
         return window.removeEventListener('resize', getPostWidth);
     }, []);
 
-    console.log(postWidth);
-
     return (
         <div data-component="PostsGrid" id="container">
             {postWidth > 0 && urls.map(url => (

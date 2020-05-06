@@ -1,14 +1,16 @@
 import { DifficultyCodes } from './Difficulty';
 import { IComment } from './Comment';
 
+export interface ICoordinates {
+    latitude: number;
+    longitude: number;
+}
+
 export interface IPlace {
     id?: string;
     name: string;
     description: string;
-    coordinates: {
-        latitude: number;
-        longitude: number;
-    };
+    coordinates: ICoordinates;
     rating: 0 | 1 | 2 | 3 | 4 | 5;
     comments: IComment[];
     images: string[];
@@ -20,6 +22,6 @@ export interface IPlace {
     tags: string[];
 }
 
-export interface ILocationWithId extends IPlace {
+export interface IPlaceWithId extends IPlace {
     id: string;
 }

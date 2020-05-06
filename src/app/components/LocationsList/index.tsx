@@ -16,7 +16,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <p>{name}</p>
                     <p>{description}</p>
 
-                    <Button label="Detail" onClick={() => history.push(Routes.LOCATION_DETAIL.replace(':id', id))} />
+                    <Button label="Detail" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', id))} />
                 </div>
             ))}
         </div>

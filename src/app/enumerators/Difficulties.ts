@@ -1,6 +1,9 @@
 import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
 
 export const Difficulties = [{
+    id: DifficultyCodes.NONE,
+    label: '-'
+}, {
     id: DifficultyCodes.DIFFICULTY_1,
     label: 'Snadná'
 }, {
