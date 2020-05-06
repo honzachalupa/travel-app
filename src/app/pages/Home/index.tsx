@@ -27,29 +27,19 @@ export default withRouter(({ history }: RouteComponentProps) => {
             const placesCloneTemp = [...places].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)
-            })).sort((a, b) => {
-                if (a.distance < b.distance) {
-                    return -1;
-                  }
-
-                  if (a.distance > b.distance) {
-                    return 1;
-                  }
-
-                  return 0;
-            });
+            })).sort((a, b) =>
+                (a.distance < b.distance) ? -1 :
+                    (a.distance > b.distance) ? 1 :
+                        0);
 
             setPlacesClone(placesCloneTemp);
-        }
-    }, [places]);
+        };
+    }, [currentLocation.timestamp]);
 
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-scrolling-disabled': isMapExpanded })}>
-                <button
-                    className="settings-button"
-                    onClick={() => history.push(Routes.SETTINGS)}
-                >
+                <button className="settings-button" onClick={() => history.push(Routes.SETTINGS)}>
                     <img className="icon" src={SettingsIcon} alt="" />
                 </button>
 
@@ -62,7 +52,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     {selectedPlace && (
                         <div className="selected-place-info">
                             <button className="name" type="button" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', selectedPlace.id))}>{selectedPlace.name}</button>
-
                             <button className="close-button" type="button" onClick={() => setSelectedPlace(null)}>Zavřít</button>
                         </div>
                     )}
