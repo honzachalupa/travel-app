@@ -103,8 +103,8 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                             <StarRatings
                                 rating={getRatingStars(place.rating.value, place.rating.count)}
                                 starRatedColor="#0fd99f"
-                                starDimension={30}
-                                starSpacing={2}
+                                starDimension="30px"
+                                starSpacing="2px"
                                 changeRating={handleRatingChange}
                             />
 
