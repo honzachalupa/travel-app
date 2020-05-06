@@ -64,6 +64,7 @@
     "postcss-loader": "^3.0.0",
     "react-hot-loader": "^4.12.18",
     "react-router-dom": "^4.3.1",
+    "react-simple-image-slider": "^1.0.3",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.5.4",
     "sass-loader": "^7.3.1",

@@ -89,16 +89,21 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                             </Textfit>
                         </h1>
 
+                        <h3 className="subheadline">O místě</h3>
                         <p className="description">{place.description}</p>
                     </div>
 
                     <div className="details">
-                        <p>Pěší vzdálenost: {place.accessibility.walkingDistance} km</p>
-                        <p>Obtížnost terénu: {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
+                        <h3 className="subheadline">Podrobnosti</h3>
+                        <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
+                        <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
 
+                        <h3 className="subheadline">Hodnocení</h3>
                         <StarRatings
                             rating={getRatingStars(place.rating.value, place.rating.count)}
                             starRatedColor="#0fd99f"
+                            starDimension={30}
+                            starSpacing={2}
                             changeRating={handleRatingChange}
                         />
                     </div>

@@ -14,9 +14,16 @@
             margin: 0 auto;
         }
 
+        .subheadline {
+            font-size: 14px;
+            font-weight: 500;
+            padding-top: 30px;
+            padding-bottom: 10px;
+        }
+
         .info,
         .details {
-            padding: 20px;
+            padding: 0 20px;
             float: left;
         }
 
@@ -30,10 +37,12 @@
 
             .name {
                 font-size: 30px;
+                font-weight: 500;
+                padding-top: 20px;
             }
 
             .description {
-                line-height: 120%;
+                line-height: 150%;
             }
         }
 
@@ -43,6 +52,18 @@
             }
             @media (min-width: 7800px) {
                 width: 30%;
+            }
+
+            .item {
+                line-height: 150%;
+
+                .label {
+                    font-weight: 500;
+                }
+            }
+
+            .star-ratings {
+                width: 100%;
             }
         }
     }

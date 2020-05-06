@@ -56,8 +56,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
     };
 
     const handleFileUpload = (files: FileList) => {
-        const images: string[] = [];
-
         Array.from(files).forEach(async file => {
             if (file.size < 1048487) {
                 try {
@@ -71,8 +69,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 alert('File is too big.');
             }
         });
-
-        console.log(images);
     };
 
     const handleSubmit = () => {

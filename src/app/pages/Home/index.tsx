@@ -15,14 +15,31 @@ import './style';
 export default withRouter(({ history }: RouteComponentProps) => {
     const { places } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
+    const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
 
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-scrolling-disabled': isMapExpanded })}>
                 <div className={cx('my-location-map', { 'is-expanded': isMapExpanded })}>
-                    <Map markers={places} onPlaceClick={(place: IPlaceWithId) => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))} />
+                    <Map
+                        markers={places}
+                        onPlaceClick={setSelectedPlace}
+                    />
 
-                    <ButtonWithIcon className="toggle-button" icon={isMapExpanded ? 'A' : 'V'} color={EColors.ORANGE} onClick={() => setMapExpanded(!isMapExpanded)} />
+                    {selectedPlace && (
+                        <div className="selected-place-info">
+                            <button className="name" type="button" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', selectedPlace.id))}>{selectedPlace.name}</button>
+
+                            <button className="close-button" type="button" onClick={() => setSelectedPlace(null)}>Zavřít</button>
+                        </div>
+                    )}
+
+                    <ButtonWithIcon
+                        className="toggle-button"
+                        icon={isMapExpanded ? 'A' : 'V'}
+                        color={EColors.ORANGE}
+                        onClick={() => { setSelectedPlace(null); setMapExpanded(!isMapExpanded); }}
+                    />
                 </div>
 
                 <div className={cx('places-list', { 'is-faded': isMapExpanded })}>

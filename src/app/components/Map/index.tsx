@@ -1,4 +1,6 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
+import CurrentLocationIcon from 'Icons/current-location.svg';
+import PlaceIcon from 'Icons/place.svg';
 import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
 import React, { useState } from 'react';
 import { GoogleMap, GoogleMapProps, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
@@ -64,18 +66,30 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
             defaultOptions={{
                 fullscreenControl: false
             }}
+            clickableIcons={false}
             onClick={handleMapClick}
         >
             {!props.isCurrentPositionHidden && (
-                <Marker position={{ lat: currentLocation.latitude, lng: currentLocation.longitude }} />
+                <Marker
+                    position={{ lat: currentLocation.latitude, lng: currentLocation.longitude }}
+                    icon={CurrentLocationIcon}
+                />
             )}
 
             {selectedPoint && (
-                <Marker position={{ lat: selectedPoint.latitude, lng: selectedPoint.longitude }} />
+                <Marker
+                    position={{ lat: selectedPoint.latitude, lng: selectedPoint.longitude }}
+                    icon={PlaceIcon}
+                />
             )}
 
             {props.markers && props.markers.length > 0 && props.markers.map((marker) => (
-                <Marker key={marker.id} position={{ lat: marker.coordinates.latitude, lng: marker.coordinates.longitude }} onClick={() => handlePlaceClick(marker)} />
+                <Marker
+                    key={marker.id}
+                    position={{ lat: marker.coordinates.latitude, lng: marker.coordinates.longitude }}
+                    icon={PlaceIcon}
+                    onClick={() => handlePlaceClick(marker)}
+                />
             ))}
         </GoogleMap>
     ) : null;
