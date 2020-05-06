@@ -3,5 +3,6 @@ export const Routes = {
     INDEX: '/index.html',
     PLACE_CREATE: '/pridat-misto',
     PLACE_DETAIL: '/misto/:id',
-    PLACE_EDIT: '/misto/:id/upravit'
+    PLACE_EDIT: '/misto/:id/upravit',
+    PLACE_IMPORT: '/import-mist'
 };

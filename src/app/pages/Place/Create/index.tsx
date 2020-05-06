@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Layout from 'Layouts/Main';
-import './style';
-import { IPlace, ICoordinates } from 'Interfaces/Place';
-import { Difficulties } from 'Enums/Difficulties';
-import { Database } from 'Helpers';
-import { IDifficulty, DifficultyCodes } from 'Interfaces/Difficulty';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Difficulties } from 'Enums/Difficulties';
+import { Database } from 'Helpers';
+import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
+import { ICoordinates, IPlace } from 'Interfaces/Place';
+import Layout from 'Layouts/Main';
+import React, { useEffect, useState } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import './style';
 
 enum ValidationState {
     VALID = 'VALID',
@@ -22,8 +22,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
         name: '',
         description: '',
         coordinates: selectedCoordinates,
-        rating: 0,
-        comments: [],
+        rating: {
+            value: 0,
+            count: 0
+        },
         images: [],
         instagramPosts: [],
         accessibility: {
@@ -50,9 +52,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
         }
     };
 
-    const handleAdd = (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const handleSubmit = () => {
         const placeClone = { ...place };
 
         placeClone.coordinates = selectedCoordinates;
@@ -95,7 +95,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <Map onMapClick={setSelectedCoordinates} />
 
                     <ButtonWithIcon className="back-button" label="Zpět" icon="<" onClick={() => history.goBack()} />
-                    <ButtonWithIcon className="submit-button" label="Přidat" icon="#" color={EColors.GREEN} isDisabled={validationState === ValidationState.INVALID} onClick={handleAdd} />
+                    <ButtonWithIcon className="submit-button" label="Přidat" icon="+" color={EColors.GREEN} isDisabled={validationState === ValidationState.INVALID} onClick={handleSubmit} />
                 </form>
             </div>
         </Layout>

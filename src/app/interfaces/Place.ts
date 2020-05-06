@@ -1,5 +1,4 @@
 import { DifficultyCodes } from './Difficulty';
-import { IComment } from './Comment';
 
 export interface ICoordinates {
     latitude: number;
@@ -11,8 +10,10 @@ export interface IPlace {
     name: string;
     description: string;
     coordinates: ICoordinates;
-    rating: 0 | 1 | 2 | 3 | 4 | 5;
-    comments: IComment[];
+    rating: {
+        value: 0 | 1 | 2 | 3 | 4 | 5;
+        count: number;
+    };
     images: string[];
     instagramPosts: string[];
     accessibility: {

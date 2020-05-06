@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { GoogleMap, Marker, withScriptjs, withGoogleMap, GoogleMapProps } from 'react-google-maps';
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
-import { IPlaceWithId, ICoordinates } from 'Interfaces/Place';
-import './style';
+import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
+import React, { useState } from 'react';
+import { GoogleMap, GoogleMapProps, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import { usePosition } from 'use-position';
+import './style';
 
 interface IProps {
     markers?: IPlaceWithId[],

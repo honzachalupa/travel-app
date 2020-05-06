@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './style';
 import InstagramEmbed from 'react-instagram-embed';
+import './style';
 
 interface IProps {
     urls: string[]

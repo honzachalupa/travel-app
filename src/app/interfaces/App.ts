@@ -1,5 +1,7 @@
 declare module '@honzachalupa/helpers';
 declare module 'use-position';
+declare module 'react-star-ratings';
+declare module 'react-textfit';
 
 declare module '*.png' {
     const value: any;

@@ -1,15 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import cx from 'classnames';
 import { Context } from '@honzachalupa/helpers';
-import Layout from 'Layouts/Main';
-import Navigation from 'Components/Navigation';
-import { IContext } from 'Interfaces/Context';
-import { Routes } from 'Enums/Routes';
+import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
-import './style';
+import Navigation from 'Components/Navigation';
+import { Routes } from 'Enums/Routes';
+import { IContext } from 'Interfaces/Context';
 import { IPlaceWithId } from 'Interfaces/Place';
+import Layout from 'Layouts/Main';
+import React, { useContext, useState } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Textfit } from 'react-textfit';
+import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
     const { places } = useContext(Context) as IContext;
@@ -29,10 +30,14 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 <div className={cx('places-list', { 'is-faded': isMapExpanded })}>
                     {places.map(place => (
                         <div key={place.id} className="place" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
-                            <h3 className="name">{place.name}</h3>
+                            <h3 className="name">
+                                <Textfit mode="single" max={20}>
+                                    {place.name}
+                                </Textfit>
+                            </h3>
 
                             <div className="details">
-                                <img className="image" src="https://i.picsum.photos/id/10/360/240.jpg" />
+                                <img className="image" src={place.images[0]} />
                                 <p className="description">{place.description}</p>
                             </div>
                         </div>
