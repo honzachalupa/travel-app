@@ -4,22 +4,55 @@ import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Routes } from 'Enums/Routes';
+import { calculateDistance } from 'Helpers';
+import SettingsIcon from 'Icons/settings.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
+import { usePosition } from 'use-position';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
+    const currentLocation = usePosition(true);
     const { places } = useContext(Context) as IContext;
+    const [placesClone, setPlacesClone] = useState<IPlaceWithId[] | null>();
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
+
+    useEffect(() => {
+        if (currentLocation.timestamp) {
+            const placesCloneTemp = [...places].map(place => ({
+                ...place,
+                distance: calculateDistance(place.coordinates, currentLocation)
+            })).sort((a, b) => {
+                if (a.distance < b.distance) {
+                    return -1;
+                  }
+
+                  if (a.distance > b.distance) {
+                    return 1;
+                  }
+
+                  return 0;
+            });
+
+            setPlacesClone(placesCloneTemp);
+        }
+    }, [places]);
 
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-scrolling-disabled': isMapExpanded })}>
+                <button
+                    className="settings-button"
+                    onClick={() => history.push(Routes.SETTINGS)}
+                >
+                    <img className="icon" src={SettingsIcon} alt="" />
+                </button>
+
                 <div className={cx('my-location-map', { 'is-expanded': isMapExpanded })}>
                     <Map
                         markers={places}
@@ -42,22 +75,26 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     />
                 </div>
 
-                <div className={cx('places-list', { 'is-faded': isMapExpanded })}>
-                    {places.map(place => (
-                        <div key={place.id} className="place" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
-                            <h3 className="name">
-                                <Textfit mode="single" max={20}>
-                                    {place.name}
-                                </Textfit>
-                            </h3>
+                {placesClone && (
+                    <div className={cx('places-list', { 'is-faded': isMapExpanded })}>
+                        {placesClone.map(place => (
+                            <div key={place.id} className="place" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
+                                <h3 className="name">
+                                    <Textfit mode="single" max={20}>
+                                        {/*
+                                        // @ts-ignore */}
+                                        {place.name} ({place.distance} km)
+                                    </Textfit>
+                                </h3>
 
-                            <div className="details">
-                                <img className="image" src={place.images[0]} />
-                                <p className="description">{place.description}</p>
+                                <div className="details">
+                                    <img className="image" src={place.images[0]} />
+                                    <p className="description">{place.description}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
 
                 <Navigation
                     items={[{

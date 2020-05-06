@@ -4,5 +4,6 @@ export const Routes = {
     PLACE_CREATE: '/pridat-misto',
     PLACE_DETAIL: '/misto/:id',
     PLACE_EDIT: '/misto/:id/upravit',
-    PLACE_IMPORT: '/import-mist'
+    PLACE_IMPORT: '/import-mist',
+    SETTINGS: '/nastavení'
 };

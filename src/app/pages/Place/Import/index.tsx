@@ -36,6 +36,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         color: EColors.RED,
                         onClick: handleSubmit
                     }]}
+                    singleItemAlignment="right"
                 />
             </div>
         </Layout>

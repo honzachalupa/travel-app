@@ -31,8 +31,10 @@ const App = () => {
             const places: IPlaceWithId[] = [];
 
             querySnapshot.forEach((doc: any) => {
+                const place = doc.data();
+
                 places.push({
-                    ...doc.data(),
+                    ...place,
                     id: doc.id
                 });
             });

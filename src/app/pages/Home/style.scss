@@ -10,6 +10,21 @@
         left: 0;
     }
 
+    .settings-button {
+        background-color: transparent;
+        border: none;
+        padding: 1vh;
+        position: absolute;
+        top: 5vh;
+        left: 2vh;
+        z-index: 99;
+
+        .icon {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
     .my-location-map {
         width: 100%;
         height: calc(30vh + env(safe-area-inset-top));
@@ -19,7 +34,7 @@
         transition: height 500ms;
 
         .selected-place-info {
-            width: 70%;
+            width: calc(100% - 6vh);
             height: 50px;
             background-color: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px) saturate(500%);
@@ -30,7 +45,7 @@
             justify-content: space-between;
             align-items: center;
             position: absolute;
-            left: 15%;
+            left: 3vh;
             bottom: 12vh;
 
             .name {
@@ -48,8 +63,9 @@
         }
 
         .toggle-button {
-            position: relative;
-            bottom: 3vh;
+            position: absolute;
+            right: 2vh;
+            bottom: -3vh;
             transition: bottom 500ms;
         }
 
@@ -58,14 +74,15 @@
             padding-bottom: 0;
 
             .toggle-button {
-                bottom: 10vh;
+                bottom: 3vh;
             }
         }
     }
 
     .places-list {
+        width: 100%;
         padding: 12px;
-        margin-top: 30px;
+        margin-top: 20px;
         float: left;
         transition: opacity 250ms;
 
@@ -86,8 +103,8 @@
                 display: flex;
 
                 .image {
-                    width: 152px;
-                    height: 95px;
+                    width: 110px;
+                    height: 110px;
                     background-color: gray;
                     margin-right: 12px;
                     object-fit: cover;
