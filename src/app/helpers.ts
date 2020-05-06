@@ -13,5 +13,27 @@ const Database = {
     getTimestamp: () => firebase.firestore.Timestamp.now()
 };
 
-export { Authentication, Database };
+const readUploadedFile = (inputFile: any) => {
+    const fileReader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+        fileReader.onload = () => {
+            if (fileReader.result) {
+                resolve(fileReader.result.toString());
+            } else {
+                reject(new DOMException('Problem parsing input file.'));
+            }
+        };
+
+        fileReader.onerror = () => {
+            fileReader.abort();
+
+            reject(new DOMException('Problem parsing input file.'));
+        };
+
+        fileReader.readAsDataURL(inputFile);
+    });
+};
+
+export { Authentication, Database, readUploadedFile };
 

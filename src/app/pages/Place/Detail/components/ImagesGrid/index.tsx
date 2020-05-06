@@ -9,7 +9,7 @@ export default ({ images }: IProps) => {
     return (
         <div data-component="ImagesGrid">
             {images.map(image => (
-                <img className="image" src={image} alt=""/>
+                <img key={image} className="image" src={image} alt=""/>
             ))}
         </div>
     );

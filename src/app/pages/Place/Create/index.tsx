@@ -1,12 +1,12 @@
-import { EColors } from 'Components/Button';
+import Button, { EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
-import { Database } from 'Helpers';
+import { Database, readUploadedFile } from 'Helpers';
 import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
 import { ICoordinates, IPlace } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
 
@@ -16,6 +16,7 @@ enum ValidationState {
 }
 
 export default withRouter(({ history }: RouteComponentProps) => {
+    const inputElementRef = useRef(null);
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
     const [images, setImages] = useState<string[]>([]);
@@ -54,26 +55,24 @@ export default withRouter(({ history }: RouteComponentProps) => {
         }
     };
 
-    const handleFileUpload = (files: any) => {
-        console.log(files);
+    const handleFileUpload = (files: FileList) => {
+        const images: string[] = [];
 
-        const reader = new FileReader();
+        Array.from(files).forEach(async file => {
+            if (file.size < 1048487) {
+                try {
+                    const fileContent = await readUploadedFile(file) as string
 
-        reader.readAsDataURL(files[0]);
-        reader.onload = (e) => {
-            if (e.target) {
-                const base64 = e.target.result;
-
-                if (base64) {
-                    console.log(base64);
-
-                    setImages([base64.toString()]);
+                    setImages(prevImages => [...prevImages, fileContent]);
+                } catch (error) {
+                    alert(error.message)
                 }
+            } else {
+                alert('File is too big.');
             }
-        }
-        reader.onerror = (e) => {
-            console.log('error reading file');
-        }
+        });
+
+        console.log(images);
     };
 
     const handleSubmit = () => {
@@ -81,8 +80,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
         placeClone.coordinates = selectedCoordinates;
         placeClone.images = images;
-
-        console.log(placeClone);
 
         Database.places.add(placeClone);
     };
@@ -119,7 +116,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         ))}
                     </select>
 
-                    <input type="file" accept="image/png, image/jpeg" onChange={(e: any) => handleFileUpload(e.target.files)} />
+                    <input style={{ display: 'none' }} type="file" accept="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} />
+
+                    {console.log(images)}
+                    {/*
+                     // @ts-ignore */}
+                    <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} />
 
                     <Map onMapClick={setSelectedCoordinates} />
                 </form>

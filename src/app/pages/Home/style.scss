@@ -3,6 +3,11 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
     }
 
     .my-location-map {
@@ -11,20 +16,21 @@
         text-align: center;
         position: relative;
         z-index: 9;
-        transition: height 250ms;
+        transition: height 500ms;
+
+        .toggle-button {
+            position: relative;
+            bottom: 3vh;
+            transition: bottom 500ms;
+        }
 
         &.is-expanded {
             height: 100vh;
             padding-bottom: 0;
 
             .toggle-button {
-                bottom: 7vh;
+                bottom: 10vh;
             }
-        }
-
-        .toggle-button {
-            position: relative;
-            bottom: 3vh;
         }
     }
 
