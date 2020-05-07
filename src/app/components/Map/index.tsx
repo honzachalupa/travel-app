@@ -1,4 +1,5 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
+import cx from 'classnames';
 import config from 'config';
 import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIconFaded from 'Icons/place-faded.svg';
@@ -10,13 +11,14 @@ import { usePosition } from 'use-position';
 import './style';
 
 interface IProps {
-    markers?: IPlaceWithId[],
+    places?: IPlaceWithId[],
     filteredIds?: string[] | null;
     initialZoom?: number;
     initialPosition?: {
         latitude: number;
         longitude: number;
     };
+    isFullWidth?: boolean;
     onMapClick?: (coordinates: ICoordinates) => void;
     onPlaceClick?: (place: IPlaceWithId) => void;
     isCurrentPositionHidden?: boolean
@@ -26,8 +28,8 @@ export default (props: IProps) => (
     <Map
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleCloudKey}&libraries=places`}
         loadingElement={<span />}
-        containerElement={<div data-component="Map" />}
-        mapElement={<div className="map-container" />}
+        containerElement={<div data-component="Map" className={cx({ 'is-full-width': props.isFullWidth })} />}
+        mapElement={<div className="map-container-inner" />}
         {...props}
     />
 );
@@ -97,18 +99,18 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                 />
             )}
 
-            {props.markers && props.markers.length > 0 && props.markers.map((marker) => {
-                const faded = props.filteredIds ? !props.filteredIds.includes(marker.id) : false;
+            {props.places && props.places.length > 0 && props.places.map((place) => {
+                const faded = props.filteredIds ? !props.filteredIds.includes(place.id) : false;
 
                 return (
                     <Marker
-                        key={marker.id}
-                        position={getMarkerCoordinates(marker.coordinates)}
+                        key={place.id}
+                        position={getMarkerCoordinates(place.coordinates)}
                         icon={{
                             url: faded ? PlaceIconFaded : PlaceIcon,
                             scaledSize: new google.maps.Size(faded ? 20 : 40, faded ? 20 : 40)
                         }}
-                        onClick={() => handlePlaceClick(marker)}
+                        onClick={() => handlePlaceClick(place)}
                     />
                 );
             })}

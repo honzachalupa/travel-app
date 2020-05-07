@@ -8,7 +8,8 @@ import { IPlace, IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import importData from './data';
+// import importData from './data';
+import importData from './raw-data';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {

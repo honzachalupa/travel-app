@@ -1,4 +1,5 @@
-import { EColors } from 'Components/Button';
+import cx from 'classnames';
+import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
@@ -16,6 +17,7 @@ import PostsGrid from './components/PostsGrid';
 import './style';
 
 export default withRouter(({ history, match }: RouteComponentProps) => {
+    const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceWithId>({
         id: '',
         name: '',
@@ -70,14 +72,24 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
 
     return (
         <Layout>
-            <div data-component="Page_PlaceDetail">
-                <Map
-                    markers={[place]}
-                    initialPosition={{
-                        latitude: place.coordinates.latitude,
-                        longitude: place.coordinates.longitude
-                    }}
-                />
+            <div data-component="Page_PlaceDetail" className={cx({ 'is-map-expanded': isMapExpanded })}>
+                <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
+                    <Map
+                        places={[place]}
+                        initialPosition={{
+                            latitude: place.coordinates.latitude,
+                            longitude: place.coordinates.longitude
+                        }}
+                        isFullWidth
+                    />
+
+                    <ButtonWithIcon
+                        className="toggle-button"
+                        icon={isMapExpanded ? 'A' : 'V'}
+                        color={EColors.ORANGE}
+                        onClick={() => setMapExpanded(!isMapExpanded)}
+                    />
+                </div>
 
                 <div className="content">
                     <div className="info">

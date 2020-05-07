@@ -18,6 +18,7 @@
     &.is-map-expanded {
         .settings-button {
             opacity: 0;
+            pointer-events: none;
         }
 
         [data-component="PlacesList"],
@@ -26,7 +27,7 @@
         }
     }
 
-    .my-location-map {
+    .map-container {
         width: 100%;
         height: calc(30vh + env(safe-area-inset-top));
         text-align: center;

@@ -7,7 +7,6 @@ import { Routes } from 'Enums/Routes';
 import { calculateDistance } from 'Helpers';
 import SettingsIcon from 'Icons/settings.svg';
 import { IContext } from 'Interfaces/Context';
-import { DifficultyCodes } from 'Interfaces/Difficulty';
 import { IPlaceWithId, IPlaceWithIdWithDistance } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
@@ -30,6 +29,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (currentLocation.timestamp) {
+            console.log(places.length);
             const placesCloneTemp = [...places].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)
@@ -43,11 +43,11 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (filterData && placesClone) {
-            const placesFiltered = [...placesClone].filter(place =>
+            const placesFiltered = [...placesClone] /*.filter(place =>
                 (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
                 place.accessibility.walkingDistance > filterData.walkingDistancesFrom &&
                 place.accessibility.walkingDistance < filterData.walkingDistancesTo
-            );
+            ); */
 
             setPlacesFiltered(placesFiltered);
         }
@@ -60,11 +60,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <img className="icon" src={SettingsIcon} alt="" />
                 </button>
 
-                <div className={cx('my-location-map', { 'is-expanded': isMapExpanded })}>
+                <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
                     {(placesFiltered && filterData) && (
                         <Map
-                            markers={places}
+                            places={places}
                             filteredIds={filterData._isFilterActive ? placesFiltered.map(x => x.id) : places.map(x => x.id)}
+                            isFullWidth
                             onPlaceClick={setSelectedPlace}
                         />
                     )}

@@ -1,8 +1,34 @@
 [data-component="Page_PlaceDetail"] {
-    [data-component="Map"] {
+    &.is-map-expanded {
+        [data-component="Navigation"] {
+            opacity: 0;
+        }
+    }
+
+    .map-container {
         width: 100%;
         height: calc(30vh + env(safe-area-inset-top));
+        text-align: center;
+        position: relative;
+        z-index: 9;
+        transition: height 500ms;
         margin-bottom: 20px;
+
+        .toggle-button {
+            position: absolute;
+            right: 2vh;
+            bottom: -3vh;
+            transition: bottom 500ms;
+        }
+
+        &.is-expanded {
+            height: 100vh;
+            padding-bottom: 0;
+
+            .toggle-button {
+                bottom: 3vh;
+            }
+        }
     }
 
     .content {
