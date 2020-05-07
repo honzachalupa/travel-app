@@ -17,14 +17,9 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 
-export interface IState {
-    places: IPlaceWithId[]
-}
 
 const App = () => {
-    const [state, setState] = useState<IState>({
-        places: []
-    });
+    const [places, setPlaces] = useState<IPlaceWithId[]>([]);
 
     const getLocations = () => {
         Database.places.onSnapshot((querySnapshot: any) => {
@@ -39,10 +34,7 @@ const App = () => {
                 });
             });
 
-            setState(prevState => ({
-                ...prevState,
-                places
-            }));
+            setPlaces(places);
         });
     };
 
@@ -54,10 +46,8 @@ const App = () => {
         getLocations();
     }, []);
 
-    const globalFunctions = {};
-
     return (
-        <Context.Provider value={{ ...state, ...globalFunctions } as IContext}>
+        <Context.Provider value={{ places } as IContext}>
             <Router basename={__BASENAME__}>
                 <Switch>
                     <Route component={Page_Home} path={Routes.INDEX} />

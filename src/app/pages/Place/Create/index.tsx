@@ -3,7 +3,7 @@ import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { Database } from 'Helpers';
-import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
+import { DifficultyCodes } from 'Interfaces/Difficulty';
 import { ICoordinates, IPlace } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useEffect, useState } from 'react';
@@ -107,7 +107,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
                     <label htmlFor="difficultyCode">Obtížnost</label>
                     <select name="difficultyCode" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('accessibility.difficultyCode', e.target.value)} defaultValue={place.accessibility.difficultyCode}>
-                        {Difficulties.map((difficulty: IDifficulty) => (
+                        {Difficulties.map(difficulty => (
                             <option key={difficulty.id} value={difficulty.id}>{difficulty.label}</option>
                         ))}
                     </select>

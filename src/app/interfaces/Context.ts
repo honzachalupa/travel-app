@@ -1,5 +1,5 @@
-import { IState } from "App/*";
+import { IPlaceWithId } from "./Place";
 
-export interface IContext extends IState {
-    setTestValue: (value: string) => void;
+export interface IContext {
+    places: IPlaceWithId[];
 }

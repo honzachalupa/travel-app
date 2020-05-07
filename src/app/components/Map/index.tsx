@@ -1,6 +1,7 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
 import config from 'config';
 import CurrentLocationIcon from 'Icons/current-location.svg';
+import PlaceIconFaded from 'Icons/place-faded.svg';
 import PlaceIcon from 'Icons/place.svg';
 import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
 import React, { useState } from 'react';
@@ -10,6 +11,7 @@ import './style';
 
 interface IProps {
     markers?: IPlaceWithId[],
+    filteredIds?: string[] | null;
     initialZoom?: number;
     initialPosition?: {
         latitude: number;
@@ -92,22 +94,24 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                         url: PlaceIcon,
                         scaledSize: new google.maps.Size(40, 40)
                     }}
-                    animation={google.maps.Animation.DROP}
                 />
             )}
 
-            {props.markers && props.markers.length > 0 && props.markers.map((marker) => (
-                <Marker
-                    key={marker.id}
-                    position={getMarkerCoordinates(marker.coordinates)}
-                    icon={{
-                        url: PlaceIcon,
-                        scaledSize: new google.maps.Size(40, 40)
-                    }}
-                    animation={google.maps.Animation.DROP}
-                    onClick={() => handlePlaceClick(marker)}
-                />
-            ))}
+            {props.markers && props.markers.length > 0 && props.markers.map((marker) => {
+                const faded = props.filteredIds ? !props.filteredIds.includes(marker.id) : false;
+
+                return (
+                    <Marker
+                        key={marker.id}
+                        position={getMarkerCoordinates(marker.coordinates)}
+                        icon={{
+                            url: faded ? PlaceIconFaded : PlaceIcon,
+                            scaledSize: new google.maps.Size(faded ? 20 : 40, faded ? 20 : 40)
+                        }}
+                        onClick={() => handlePlaceClick(marker)}
+                    />
+                );
+            })}
         </GoogleMap>
     ) : null;
 }));

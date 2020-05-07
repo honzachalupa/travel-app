@@ -3,7 +3,7 @@ import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { Routes } from 'Enums/Routes';
-import { Database } from 'Helpers';
+import { Database, findInEnum } from 'Helpers';
 import { DifficultyCodes } from 'Interfaces/Difficulty';
 import { IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
@@ -67,8 +67,6 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
     useEffect(() => {
         getPlace();
     }, []);
-
-    const findInEnum = (enumerator: any, key: string) => enumerator.find((x: typeof enumerator) => x.id === key) || { label: null };
 
     return (
         <Layout>

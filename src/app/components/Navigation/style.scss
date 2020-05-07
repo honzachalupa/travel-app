@@ -2,6 +2,7 @@
     width: 100%;
     height: calc(110px - env(safe-area-inset-bottom));
     float: left;
+    transition: opacity 250ms;
 
     .items {
         width: 100%;

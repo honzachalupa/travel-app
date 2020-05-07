@@ -1,0 +1,54 @@
+[data-component="PlacesList"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    float: left;
+    transition: opacity 250ms;
+
+    .place {
+        margin-bottom: 20px;
+
+        .name {
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 10px;
+
+            .distance {
+                color: gray;
+                font-weight: normal;
+                position: relative;
+                top: -1px;
+            }
+        }
+
+        .details {
+            display: flex;
+
+            .image {
+                width: 110px;
+                height: 110px;
+                background-color: gray;
+                margin-right: 12px;
+                object-fit: cover;
+            }
+
+            .description {
+                $font-size: 12px;
+                $line-height: 1.5;
+                $lines-to-show: 6;
+
+                height: calc(#{$font-size} * #{$line-height} * #{$lines-to-show});
+                color: gray;
+                font-size: $font-size;
+                text-overflow: ellipsis;
+                line-height: $line-height;
+                -webkit-line-clamp: $lines-to-show;
+                -webkit-box-orient: vertical;
+                margin: 0 auto;
+                display: block;
+                display: -webkit-box;
+                overflow: hidden;
+            }
+        }
+    }
+}

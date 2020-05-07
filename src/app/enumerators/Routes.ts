@@ -5,5 +5,5 @@ export const Routes = {
     PLACE_DETAIL: '/misto/:id',
     PLACE_EDIT: '/misto/:id/upravit',
     PLACE_IMPORT: '/import-mist',
-    SETTINGS: '/nastavení'
+    SETTINGS: '/nastaveni'
 };

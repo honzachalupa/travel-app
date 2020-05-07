@@ -4,7 +4,7 @@ import Navigation from 'Components/Navigation';
 import { Routes } from 'Enums/Routes';
 import { Database } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
-import { IPlace } from 'Interfaces/Place';
+import { IPlace, IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -15,7 +15,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const { places } = useContext(Context) as IContext;
 
     const handleSubmit = () => {
-        places.forEach((place: IPlace) => {
+        places.forEach((place: IPlaceWithId) => {
             Database.places.doc(place.id).delete();
         });
 

@@ -7,20 +7,26 @@ import { Routes } from 'Enums/Routes';
 import { calculateDistance } from 'Helpers';
 import SettingsIcon from 'Icons/settings.svg';
 import { IContext } from 'Interfaces/Context';
-import { IPlaceWithId } from 'Interfaces/Place';
+import { DifficultyCodes } from 'Interfaces/Difficulty';
+import { IPlaceWithId, IPlaceWithIdWithDistance } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Textfit } from 'react-textfit';
 import { usePosition } from 'use-position';
+import Filter, { IFilterData } from './components/Filter';
+import PlacesList from './components/PlacesList';
+import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
     const currentLocation = usePosition(true);
     const { places } = useContext(Context) as IContext;
-    const [placesClone, setPlacesClone] = useState<IPlaceWithId[] | null>();
+
+    const [placesClone, setPlacesClone] = useState<IPlaceWithIdWithDistance[] | null>();
+    const [placesFiltered, setPlacesFiltered] = useState<IPlaceWithIdWithDistance[] | null>();
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
+    const [filterData, setFilterData] = useState<IFilterData | null>(null);
 
     useEffect(() => {
         if (currentLocation.timestamp) {
@@ -29,31 +35,42 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 distance: calculateDistance(place.coordinates, currentLocation)
             })).sort((a, b) =>
                 (a.distance < b.distance) ? -1 :
-                    (a.distance > b.distance) ? 1 :
-                        0);
+                    (a.distance > b.distance) ? 1 : 0);
 
             setPlacesClone(placesCloneTemp);
         };
     }, [currentLocation.timestamp]);
 
+    useEffect(() => {
+        if (filterData && placesClone) {
+            const placesFiltered = [...placesClone].filter(place =>
+                (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
+                place.accessibility.walkingDistance > filterData.walkingDistancesFrom &&
+                place.accessibility.walkingDistance < filterData.walkingDistancesTo
+            );
+
+            setPlacesFiltered(placesFiltered);
+        }
+    }, [filterData, placesClone]);
+
     return (
         <Layout>
-            <div data-component="Page_Home">
+            <div data-component="Page_Home" className={cx({ 'is-map-expanded': isMapExpanded })}>
                 <button className="settings-button" onClick={() => history.push(Routes.SETTINGS)}>
                     <img className="icon" src={SettingsIcon} alt="" />
                 </button>
 
                 <div className={cx('my-location-map', { 'is-expanded': isMapExpanded })}>
-                    <Map
-                        markers={places}
-                        onPlaceClick={setSelectedPlace}
-                    />
+                    {(placesFiltered && filterData) && (
+                        <Map
+                            markers={places}
+                            filteredIds={filterData._isFilterActive ? placesFiltered.map(x => x.id) : places.map(x => x.id)}
+                            onPlaceClick={setSelectedPlace}
+                        />
+                    )}
 
                     {selectedPlace && (
-                        <div className="selected-place-info">
-                            <button className="name" type="button" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', selectedPlace.id))}>{selectedPlace.name}</button>
-                            <button className="close-button" type="button" onClick={() => setSelectedPlace(null)}>Zavřít</button>
-                        </div>
+                        <SelectedPlaceInfoBox place={selectedPlace} onClose={() => setSelectedPlace(null)} />
                     )}
 
                     <ButtonWithIcon
@@ -64,25 +81,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     />
                 </div>
 
-                {placesClone && (
-                    <div className={cx('places-list', { 'is-faded': isMapExpanded })}>
-                        {placesClone.map(place => (
-                            <div key={place.id} className="place" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
-                                <h3 className="name">
-                                    <Textfit mode="single" max={20}>
-                                        {/*
-                                        // @ts-ignore */}
-                                        {place.name} ({place.distance} km)
-                                    </Textfit>
-                                </h3>
+                <Filter onFilterChange={setFilterData} />
 
-                                <div className="details">
-                                    <img className="image" src={place.images[0]} />
-                                    <p className="description">{place.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                {placesFiltered && (
+                    <PlacesList places={placesFiltered} />
                 )}
 
                 <Navigation

@@ -6,7 +6,6 @@ export interface ICoordinates {
 }
 
 export interface IPlace {
-    id?: string;
     name: string;
     description: string;
     coordinates: ICoordinates;
@@ -25,4 +24,9 @@ export interface IPlace {
 
 export interface IPlaceWithId extends IPlace {
     id: string;
+}
+
+export interface IPlaceWithIdWithDistance extends IPlace {
+    id: string;
+    distance: number;
 }

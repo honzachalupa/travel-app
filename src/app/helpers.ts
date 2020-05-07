@@ -57,5 +57,9 @@ const calculateDistance = (coordinateA: ICoordinates, coordinateB: ICoordinates)
     return Math.max(Math.round(distance / 1000), 1);
 }
 
-export { Authentication, Database, readUploadedFile, calculateDistance };
+const findInEnum = (enumerator: any, key: string) => enumerator.find((x: typeof enumerator) => x.id === key) || { label: null };
+
+const removeDuplicates = (value: string | number, index: number, self: any) => self.indexOf(value) === index;
+
+export { Authentication, Database, readUploadedFile, calculateDistance, findInEnum, removeDuplicates };
 
