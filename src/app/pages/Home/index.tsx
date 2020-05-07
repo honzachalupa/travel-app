@@ -38,7 +38,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     return (
         <Layout>
-            <div data-component="Page_Home" className={cx({ 'is-scrolling-disabled': isMapExpanded })}>
+            <div data-component="Page_Home">
                 <button className="settings-button" onClick={() => history.push(Routes.SETTINGS)}>
                     <img className="icon" src={SettingsIcon} alt="" />
                 </button>

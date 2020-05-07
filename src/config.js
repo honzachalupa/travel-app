@@ -8,5 +8,6 @@ module.exports = {
     developerName: 'Jan Chalupa',
     developerUrl: 'https://www.honzachalupa.cz/',
     caching: false,
+    googleCloudKey: 'AIzaSyBHmKKahUlHUEZPUjuS2yLb-D_zUyn1_y4',
     firebase: firebaseCredentials
 };

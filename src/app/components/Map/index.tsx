@@ -1,4 +1,5 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
+import config from 'config';
 import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIcon from 'Icons/place.svg';
 import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
@@ -21,7 +22,7 @@ interface IProps {
 
 export default (props: IProps) => (
     <Map
-        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5XArugOE_gbteyws5tHht5yGzH-TzT_M&libraries=places"
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleCloudKey}&libraries=places`}
         loadingElement={<span />}
         containerElement={<div data-component="Map" />}
         mapElement={<div className="map-container" />}
@@ -56,38 +57,54 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
         }
     };
 
+    const getMarkerCoordinates = (place: ICoordinates) => ({ lat: place.latitude, lng: place.longitude });
+
     return currentLocation.latitude && currentLocation.longitude ? (
         <GoogleMap
             defaultZoom={props.initialZoom || config.defaultZoom}
             defaultCenter={{
-                lat: props.initialPosition ? props.initialPosition.latitude : currentLocation.latitude,
+                lat: props.initialPosition ? props.initialPosition.latitude : currentLocation.latitude + 0.0006,
                 lng: props.initialPosition ? props.initialPosition.longitude : currentLocation.longitude
             }}
             defaultOptions={{
-                fullscreenControl: false
+                fullscreenControl: false,
+                disableDefaultUI: true,
+                gestureHandling: 'greedy'
             }}
             clickableIcons={false}
             onClick={handleMapClick}
         >
             {!props.isCurrentPositionHidden && (
                 <Marker
-                    position={{ lat: currentLocation.latitude, lng: currentLocation.longitude }}
-                    icon={CurrentLocationIcon}
+                    position={getMarkerCoordinates(currentLocation)}
+                    icon={{
+                        url: CurrentLocationIcon,
+                        scaledSize: new google.maps.Size(40, 40)
+                    }}
+                    animation={google.maps.Animation.DROP}
                 />
             )}
 
             {selectedPoint && (
                 <Marker
-                    position={{ lat: selectedPoint.latitude, lng: selectedPoint.longitude }}
-                    icon={PlaceIcon}
+                    position={getMarkerCoordinates(selectedPoint)}
+                    icon={{
+                        url: PlaceIcon,
+                        scaledSize: new google.maps.Size(40, 40)
+                    }}
+                    animation={google.maps.Animation.DROP}
                 />
             )}
 
             {props.markers && props.markers.length > 0 && props.markers.map((marker) => (
                 <Marker
                     key={marker.id}
-                    position={{ lat: marker.coordinates.latitude, lng: marker.coordinates.longitude }}
-                    icon={PlaceIcon}
+                    position={getMarkerCoordinates(marker.coordinates)}
+                    icon={{
+                        url: PlaceIcon,
+                        scaledSize: new google.maps.Size(40, 40)
+                    }}
+                    animation={google.maps.Animation.DROP}
                     onClick={() => handlePlaceClick(marker)}
                 />
             ))}

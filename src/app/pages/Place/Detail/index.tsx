@@ -112,14 +112,15 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         </div>
                     </div>
 
-                    {/* place.images && (
+                    {/* place.images.length > 0 && (
                         <ImagesGrid images={place.images} />
                     ) */}
 
-                    <h3 className="subheadline" style={{ paddingLeft: 22 }}>Vaše IG příspěvky</h3>
-
-                    {place.instagramPosts && (
-                        <PostsGrid urls={place.instagramPosts} />
+                    {place.instagramPosts.length > 0 && (
+                        <React.Fragment>
+                            <h3 className="subheadline" style={{ paddingLeft: 22 }}>Vaše IG příspěvky</h3>
+                            <PostsGrid urls={place.instagramPosts} />
+                        </React.Fragment>
                     )}
                 </div>
 
