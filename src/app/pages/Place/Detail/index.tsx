@@ -66,6 +66,12 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
         });
     }
 
+    const handleRemove = () => {
+        Database.places.doc(place.id).delete();
+
+        history.goBack();
+    };
+
     useEffect(() => {
         getPlace();
     }, []);
@@ -154,7 +160,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         label: 'Smazat',
                         icon: 'X',
                         color: EColors.RED,
-                        onClick: () => history.goBack()
+                        onClick: handleRemove
                     }]}
                 />
             </div>

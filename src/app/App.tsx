@@ -22,7 +22,7 @@ const App = () => {
     const [places, setPlaces] = useState<IPlaceWithId[]>([]);
 
     const getLocations = () => {
-        Database.places.limit(30).onSnapshot((querySnapshot: any) => {
+        Database.places.onSnapshot((querySnapshot: any) => {
             const places: IPlaceWithId[] = [];
 
             querySnapshot.forEach((doc: any) => {
