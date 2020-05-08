@@ -1,4 +1,11 @@
-import { DifficultyCodes, IDifficulty } from 'Interfaces/Difficulty';
+import { IDifficulty } from 'Interfaces/Difficulty';
+
+export enum DifficultyCodes {
+    'NONE' = 'NONE',
+    'DIFFICULTY_1' = 'DIFFICULTY_1',
+    'DIFFICULTY_2' = 'DIFFICULTY_2',
+    'DIFFICULTY_3' = 'DIFFICULTY_3'
+}
 
 export const Difficulties = [{
     id: DifficultyCodes.NONE,

@@ -1,4 +1,5 @@
-import { DifficultyCodes } from './Difficulty';
+import { DifficultyCodes } from "Enums/Difficulties";
+import { IWebsite } from "Interfaces/Website";
 
 export interface ICoordinates {
     latitude: number;
@@ -20,13 +21,22 @@ export interface IPlace {
         difficultyCode: DifficultyCodes;
     };
     tags: string[];
+    websites: IWebsite[];
+    addedBy: {
+        id: string;
+        timestamp: string; // To-do: Add correct data type
+    };
+    updatesHistory: {
+        id: string;
+        timestamp: string; // To-do: Add correct data type
+        changes: any; // To-do: Add correct data type
+    }[];
 }
 
 export interface IPlaceWithId extends IPlace {
     id: string;
 }
 
-export interface IPlaceWithIdWithDistance extends IPlace {
-    id: string;
+export interface IPlaceWithIdWithDistance extends IPlaceWithId {
     distance: number;
 }

@@ -37,8 +37,8 @@ export const ButtonWithIcon = ({ label, icon, type, color, isDisabled, onClick, 
         onClick={isDisabled ? () => null : onClick}
         data-component="ButtonWithIcon"
     >
-        <div className={cx('icon', color)}>
-            {icon}
+        <div className={cx('icon-container', color)}>
+            <img className="icon" src={icon} alt="icon" />
         </div>
 
         {label && (

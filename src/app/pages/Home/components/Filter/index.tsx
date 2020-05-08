@@ -1,8 +1,7 @@
 import { Context } from '@honzachalupa/helpers';
-import { Difficulties } from 'Enums/Difficulties';
+import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { findInEnum, removeDuplicates } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
-import { DifficultyCodes } from 'Interfaces/Difficulty';
 import { IPlace } from 'Interfaces/Place';
 import React, { useContext, useEffect, useState } from 'react';
 import './style';
@@ -81,26 +80,35 @@ export default (props: IProps) => {
     }, [difficultyCode, walkingDistancesFrom, walkingDistancesTo]);
 
     return availableOptions && difficultyCode && walkingDistancesFrom && walkingDistancesTo ? (
-        <form data-component="Filter">
-            <select name="difficultyCode" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDifficultyCode(e.target.value as DifficultyCodes)} defaultValue={defaultFilter.difficultyCode}>
-                <option value={DifficultyCodes.NONE}>Všechny</option>
+        <form data-component="Filter" className="form">
+            <div className="item">
+                <label htmlFor="difficultyCode">Náročnost</label>
+                <select name="difficultyCode" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDifficultyCode(e.target.value as DifficultyCodes)} defaultValue={defaultFilter.difficultyCode}>
+                    <option value={DifficultyCodes.NONE}>Všechny</option>
 
-                {availableOptions.difficultyCodes.map(code => (
-                    <option key={code} value={code}>{findInEnum(Difficulties, code).label}</option>
-                ))}
-            </select>
+                    {availableOptions.difficultyCodes.map(code => (
+                        <option key={code} value={code}>{findInEnum(Difficulties, code).label}</option>
+                    ))}
+                </select>
+            </div>
 
-            <select name="walkingDistancesFrom" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesFrom(Number(e.target.value))} defaultValue={defaultFilter.walkingDistancesFrom}>
-                {availableOptions.walkingDistances.filter(x => x < walkingDistancesTo).map(distance => (
-                    <option key={distance} value={distance}>{distance} km</option>
-                ))}
-            </select>
+            <div className="item">
+                <label htmlFor="difficultyCode">Pěší vzdálenost od</label>
+                <select name="walkingDistancesFrom" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesFrom(Number(e.target.value))} defaultValue={defaultFilter.walkingDistancesFrom}>
+                    {availableOptions.walkingDistances.filter(x => x < walkingDistancesTo).map(distance => (
+                        <option key={distance} value={distance}>{distance} km</option>
+                    ))}
+                </select>
+            </div>
 
-            <select name="walkingDistancesTo" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesTo(Number(e.target.value))} defaultValue={defaultFilter.walkingDistancesTo}>
-                {availableOptions.walkingDistances.filter(x => x > walkingDistancesFrom).map(distance => (
-                    <option key={distance} value={distance}>{distance} km</option>
-                ))}
-            </select>
+            <div className="item">
+                <label htmlFor="difficultyCode">Pěší vzdálenost do</label>
+                <select name="walkingDistancesTo" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesTo(Number(e.target.value))} defaultValue={defaultFilter.walkingDistancesTo}>
+                    {availableOptions.walkingDistances.filter(x => x > walkingDistancesFrom).map(distance => (
+                        <option key={distance} value={distance}>{distance} km</option>
+                    ))}
+                </select>
+            </div>
         </form>
     ) : null;
 }

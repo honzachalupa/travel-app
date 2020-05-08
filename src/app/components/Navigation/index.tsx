@@ -21,7 +21,7 @@ export default (props: IProps) => (
     <nav data-component="Navigation">
         <div className={cx('items', `items-count-${props.items.length}`, { [`alignment-${props.singleItemAlignment}`]: props.singleItemAlignment })}>
             {props.items.map(item => (
-                <ButtonWithIcon key={item.label} {...item} />
+                <ButtonWithIcon key={item.label} className="item" {...item} />
             ))}
         </div>
     </nav>

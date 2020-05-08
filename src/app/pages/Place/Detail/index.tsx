@@ -2,10 +2,14 @@ import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
-import { Difficulties } from 'Enums/Difficulties';
+import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { Routes } from 'Enums/Routes';
 import { Database, findInEnum } from 'Helpers';
-import { DifficultyCodes } from 'Interfaces/Difficulty';
+import ArrowDownIcon from 'Icons/arrow-down.svg';
+import ArrowUpIcon from 'Icons/arrow-up.svg';
+import RemoveIcon from 'Icons/bin.svg';
+import EditIcon from 'Icons/edit.svg';
+import NavigateIcon from 'Icons/navigation.svg';
 import { IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useEffect, useState } from 'react';
@@ -36,7 +40,13 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
             walkingDistance: 0,
             difficultyCode: DifficultyCodes.NONE
         },
-        tags: []
+        tags: [],
+        websites: [],
+        addedBy: {
+            id: 'SYSTEM',
+            timestamp: ''
+        },
+        updatesHistory: []
     });
 
     const getPlace = () => {
@@ -90,8 +100,8 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     />
 
                     <ButtonWithIcon
-                        className="toggle-button"
-                        icon={isMapExpanded ? 'A' : 'V'}
+                        className="toggle-map-button"
+                        icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
                         color={EColors.ORANGE}
                         onClick={() => setMapExpanded(!isMapExpanded)}
                     />
@@ -142,23 +152,18 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
 
                 <Navigation
                     items={[{
-                        label: 'Zpět',
-                        icon: '<',
-                        color: EColors.ORANGE,
-                        onClick: () => history.goBack()
-                    }, {
                         label: 'Navigovat',
-                        icon: 'N',
+                        icon: NavigateIcon,
                         color: EColors.BLUE,
                         onClick: () => window.location.href = `http://maps.google.com/maps?daddr=${place.coordinates.latitude},${place.coordinates.longitude}`
                     }, {
                         label: 'Upravit',
-                        icon: '#',
+                        icon: EditIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_EDIT)
                     }, {
                         label: 'Smazat',
-                        icon: 'X',
+                        icon: RemoveIcon,
                         color: EColors.RED,
                         onClick: handleRemove
                     }]}

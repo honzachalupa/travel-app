@@ -1,4 +1,4 @@
-import { DifficultyCodes } from "Interfaces/Difficulty";
+import { DifficultyCodes } from "Enums/Difficulties";
 import { IPlace } from "Interfaces/Place";
 
 const rawData = {
@@ -7077,7 +7077,13 @@ const format = (data: any) => {
                 walkingDistance: 0,
                 difficultyCode: DifficultyCodes.DIFFICULTY_1
             },
-            tags: []
+            tags: [],
+            websites: [],
+            addedBy: {
+                id: 'IMPORT',
+                timestamp: '' // To-do: Add real value.
+            },
+            updatesHistory: []
         });
     });
 

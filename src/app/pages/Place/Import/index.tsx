@@ -2,6 +2,7 @@ import { Context } from '@honzachalupa/helpers';
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
 import { calculateDistance, Database } from 'Helpers';
+import AcceptIcon from 'Icons/accept.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
@@ -46,7 +47,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 <Navigation
                     items={[{
                         label: '(DISABLED) Přepsat aktuální data?!',
-                        icon: '+',
+                        icon: AcceptIcon,
                         color: EColors.RED,
                         isDisabled: true,
                         onClick: handleSubmit

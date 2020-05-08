@@ -85,7 +85,6 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                         url: CurrentLocationIcon,
                         scaledSize: new google.maps.Size(40, 40)
                     }}
-                    animation={google.maps.Animation.DROP}
                 />
             )}
 

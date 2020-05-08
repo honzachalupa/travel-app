@@ -1,9 +1,10 @@
 import { EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
-import { Difficulties } from 'Enums/Difficulties';
+import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { Database } from 'Helpers';
-import { DifficultyCodes } from 'Interfaces/Difficulty';
+import AcceptIcon from 'Icons/accept.svg';
+import CrossIcon from 'Icons/cross.svg';
 import { ICoordinates, IPlace } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useEffect, useState } from 'react';
@@ -33,9 +34,15 @@ export default withRouter(({ history }: RouteComponentProps) => {
         instagramPosts: [],
         accessibility: {
             walkingDistance: 0,
-            difficultyCode: Difficulties[0].id
+            difficultyCode: DifficultyCodes.NONE
         },
-        tags: []
+        tags: [],
+        websites: [],
+        addedBy: {
+            id: '',
+            timestamp: ''
+        },
+        updatesHistory: []
     });
 
     const setPlaceProperty = (propertyKey: string, value: any) => {
@@ -127,12 +134,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 <Navigation
                     items={[{
                         label: 'Zpět',
-                        icon: '<',
+                        icon: CrossIcon,
                         color: EColors.ORANGE,
                         onClick: () => history.goBack()
                     }, {
                         label: 'Přidat',
-                        icon: '+',
+                        icon: AcceptIcon,
                         color: EColors.GREEN,
                         isDisabled: validationState === ValidationState.INVALID,
                         onClick: handleSubmit

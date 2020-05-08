@@ -63,7 +63,7 @@
     justify-content: center;
     align-items: center;
 
-    .icon {
+    .icon-container {
         width: 14vw;
         max-width: 60px;
         height: 14vw;
@@ -117,6 +117,10 @@
             &:hover {
                 background-color: red;
             }
+        }
+
+        .icon {
+            width: 35%;
         }
     }
 

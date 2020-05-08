@@ -5,7 +5,11 @@ import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Routes } from 'Enums/Routes';
 import { calculateDistance } from 'Helpers';
-import SettingsIcon from 'Icons/settings.svg';
+import ArrowDownIcon from 'Icons/arrow-down.svg';
+import ArrowUpIcon from 'Icons/arrow-up.svg';
+import FilterIcon from 'Icons/filter.svg';
+import PlusIcon from 'Icons/plus.svg';
+import SettingsIcon from 'Icons/profile.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlaceWithId, IPlaceWithIdWithDistance } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
@@ -23,6 +27,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     const [placesClone, setPlacesClone] = useState<IPlaceWithIdWithDistance[] | null>();
     const [placesFiltered, setPlacesFiltered] = useState<IPlaceWithIdWithDistance[] | null>();
+    const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
     const [filterData, setFilterData] = useState<IFilterData | null>(null);
@@ -43,7 +48,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (filterData && placesClone) {
-            const placesFiltered = [...placesClone] /*.filter(place =>
+            const placesFiltered = [...placesClone]; /* .filter(place =>
                 (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
                 place.accessibility.walkingDistance > filterData.walkingDistancesFrom &&
                 place.accessibility.walkingDistance < filterData.walkingDistancesTo
@@ -55,7 +60,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     return (
         <Layout>
-            <div data-component="Page_Home" className={cx({ 'is-map-expanded': isMapExpanded })}>
+            <div data-component="Page_Home" className={cx({ 'is-filter-expanded': isFilterExpanded, 'is-map-expanded': isMapExpanded })}>
                 <button className="settings-button" onClick={() => history.push(Routes.SETTINGS)}>
                     <img className="icon" src={SettingsIcon} alt="" />
                 </button>
@@ -75,14 +80,23 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     )}
 
                     <ButtonWithIcon
-                        className="toggle-button"
-                        icon={isMapExpanded ? 'A' : 'V'}
+                        className="toggle-filter-button"
+                        icon={FilterIcon}
                         color={EColors.ORANGE}
-                        onClick={() => { setSelectedPlace(null); setMapExpanded(!isMapExpanded); }}
+                        onClick={() => setFilterExpanded(!isFilterExpanded)}
+                    />
+
+                    <ButtonWithIcon
+                        className="toggle-map-button"
+                        icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
+                        color={EColors.ORANGE}
+                        onClick={() => { setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
                     />
                 </div>
 
-                <Filter onFilterChange={setFilterData} />
+                <div className="filter-container">
+                    <Filter onFilterChange={setFilterData} />
+                </div>
 
                 {placesFiltered && (
                     <PlacesList places={placesFiltered} />
@@ -91,7 +105,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 <Navigation
                     items={[{
                         label: 'Přidat',
-                        icon: '+',
+                        icon: PlusIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_CREATE)
                     }]}
