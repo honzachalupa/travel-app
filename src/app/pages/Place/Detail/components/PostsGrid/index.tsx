@@ -13,7 +13,7 @@ export default ({ urls }: IProps) => {
         const parent = document.getElementById('container');
 
         if (parent) {
-            setPostWidth(Math.round((parent.offsetWidth)));
+            setPostWidth(Math.floor((parent.offsetWidth)) - 40);
         }
     };
 

@@ -10,6 +10,7 @@ export interface IPlace {
     name: string;
     description: string;
     coordinates: ICoordinates;
+    countryCode: string;
     rating: {
         value: 0 | 1 | 2 | 3 | 4 | 5;
         count: number;
@@ -22,13 +23,14 @@ export interface IPlace {
     };
     tags: string[];
     websites: IWebsite[];
+    tripIds: string[];
     addedBy: {
         id: string;
-        timestamp: string; // To-do: Add correct data type
+        timestamp: any; // To-do: Add correct data type
     };
     updatesHistory: {
         id: string;
-        timestamp: string; // To-do: Add correct data type
+        timestamp: any; // To-do: Add correct data type
         changes: any; // To-do: Add correct data type
     }[];
 }

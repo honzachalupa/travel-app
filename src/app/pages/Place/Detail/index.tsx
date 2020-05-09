@@ -1,18 +1,20 @@
+import { Context } from '@honzachalupa/helpers';
 import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
-import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
+import { Difficulties } from 'Enums/Difficulties';
+import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
-import { Database, findInEnum } from 'Helpers';
+import { Database, findInEnum, hasRole } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import RemoveIcon from 'Icons/bin.svg';
 import EditIcon from 'Icons/edit.svg';
 import NavigateIcon from 'Icons/navigation.svg';
-import { IPlaceWithId } from 'Interfaces/Place';
+import { IPlace, IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import { Textfit } from 'react-textfit';
@@ -21,42 +23,23 @@ import PostsGrid from './components/PostsGrid';
 import './style';
 
 export default withRouter(({ history, match }: RouteComponentProps) => {
+    const { currentUser } = useContext(Context);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
-    const [place, setPlace] = useState<IPlaceWithId>({
-        id: '',
-        name: '',
-        description: '',
-        coordinates: {
-            latitude: -1,
-            longitude: -1
-        },
-        rating: {
-            value: 0,
-            count: 0
-        },
-        images: [],
-        instagramPosts: [],
-        accessibility: {
-            walkingDistance: 0,
-            difficultyCode: DifficultyCodes.NONE
-        },
-        tags: [],
-        websites: [],
-        addedBy: {
-            id: 'SYSTEM',
-            timestamp: ''
-        },
-        updatesHistory: []
-    });
+    const [place, setPlace] = useState<IPlaceWithId | null>(null);
+    const [hasEditRights, setHasEditRights] = useState<boolean>(false);
 
     const getPlace = () => {
         // @ts-ignore
         Database.places.doc(match.params.id).onSnapshot(doc => {
-            if (doc.data()) {
+            const place = doc.data() as IPlace;
+
+            if (place) {
                 setPlace({
-                    ...doc.data(),
+                    ...place,
                     id: doc.id
                 } as IPlaceWithId);
+
+                setHasEditRights(hasRole(currentUser, ERoles.SUPER_USER) || place.addedBy.id === currentUser.uid);
             }
         });
     };
@@ -67,26 +50,30 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
             0;
 
     const handleRatingChange = (ratedValue: any) => {
-        Database.places.doc(place.id).set({
-            ...place,
-            rating: {
-                value: place.rating.value + ratedValue,
-                count: place.rating.count + 1
-            }
-        });
+        if (place) {
+            Database.places.doc(place.id).set({
+                ...place,
+                rating: {
+                    value: place.rating.value + ratedValue,
+                    count: place.rating.count + 1
+                }
+            });
+        }
     }
 
     const handleRemove = () => {
-        Database.places.doc(place.id).delete();
+        if (place) {
+            Database.places.doc(place.id).delete();
 
-        history.goBack();
+            history.goBack();
+        }
     };
 
     useEffect(() => {
         getPlace();
-    }, []);
+    }, [currentUser]);
 
-    return (
+    return place ? (
         <Layout>
             <div data-component="Page_PlaceDetail" className={cx({ 'is-map-expanded': isMapExpanded })}>
                 <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
@@ -116,7 +103,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         </h1>
 
                         <h3 className="subheadline">O místě</h3>
-                        <p className="description">{place.description}</p>
+                        <p className="description">{place.description || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
                     </div>
 
                     <div className="details">
@@ -156,19 +143,19 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         icon: NavigateIcon,
                         color: EColors.BLUE,
                         onClick: () => window.location.href = `http://maps.google.com/maps?daddr=${place.coordinates.latitude},${place.coordinates.longitude}`
-                    }, {
+                    }, hasEditRights ? {
                         label: 'Upravit',
                         icon: EditIcon,
                         color: EColors.GREEN,
-                        onClick: () => history.push(Routes.PLACE_EDIT)
-                    }, {
+                        onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
+                    } : null, hasEditRights ? {
                         label: 'Smazat',
                         icon: RemoveIcon,
                         color: EColors.RED,
                         onClick: handleRemove
-                    }]}
+                    } : null]}
                 />
             </div>
         </Layout>
-    );
+    ) : null;
 });

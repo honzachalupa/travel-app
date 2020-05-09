@@ -14,15 +14,15 @@ interface INavigationItem {
 
 interface IProps {
     singleItemAlignment?: string;
-    items: INavigationItem[];
+    items: (INavigationItem | null)[];
 }
 
-export default (props: IProps) => (
+export default ({ items, singleItemAlignment }: IProps) => (
     <nav data-component="Navigation">
-        <div className={cx('items', `items-count-${props.items.length}`, { [`alignment-${props.singleItemAlignment}`]: props.singleItemAlignment })}>
-            {props.items.map(item => (
+        <div className={cx('items', `items-count-${items.length}`, { [`alignment-${singleItemAlignment}`]: singleItemAlignment })}>
+            {items.map(item => item ? (
                 <ButtonWithIcon key={item.label} className="item" {...item} />
-            ))}
+            ) : null)}
         </div>
     </nav>
 );

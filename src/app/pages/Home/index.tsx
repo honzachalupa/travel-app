@@ -34,7 +34,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (currentLocation.timestamp) {
-            console.log(places.length);
             const placesCloneTemp = [...places].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)

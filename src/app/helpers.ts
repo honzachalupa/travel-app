@@ -1,5 +1,6 @@
 import config from 'config';
-import firebase from 'firebase/app';
+import { ERoles } from 'Enums/Roles';
+import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { ICoordinates } from 'Interfaces/Place';
@@ -61,5 +62,22 @@ const findInEnum = (enumerator: any, key: string) => enumerator.find((x: typeof 
 
 const removeDuplicates = (value: string | number, index: number, self: any) => self.indexOf(value) === index;
 
-export { Authentication, Database, readUploadedFile, calculateDistance, findInEnum, removeDuplicates };
+const hasRole = (currentUser: User | null | undefined, role: string) => {
+    const superUsers = ['janchalupa@outlook.cz', 'katharina.binderova@hotmail.com'];
+    const admins = ['janchalupa@outlook.cz'];
+
+    if (currentUser && currentUser.email) {
+        if (role === ERoles.ADMIN && admins.includes(currentUser.email)) {
+            return true;
+        } else if (role === ERoles.SUPER_USER && superUsers.includes(currentUser.email)) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+};
+
+export { Authentication, Database, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole };
 
