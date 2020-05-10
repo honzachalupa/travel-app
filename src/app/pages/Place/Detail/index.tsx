@@ -12,6 +12,7 @@ import ArrowUpIcon from 'Icons/arrow-up.svg';
 import RemoveIcon from 'Icons/bin.svg';
 import EditIcon from 'Icons/edit.svg';
 import NavigateIcon from 'Icons/navigation.svg';
+import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ import PostsGrid from './components/PostsGrid';
 import './style';
 
 export default withRouter(({ history, match }: RouteComponentProps) => {
-    const { currentUser } = useContext(Context);
+    const { currentUser } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceWithId | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
@@ -154,6 +155,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         color: EColors.RED,
                         onClick: handleRemove
                     } : null]}
+                    singleItemAlignment="right"
                 />
             </div>
         </Layout>

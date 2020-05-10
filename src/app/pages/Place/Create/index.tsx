@@ -7,6 +7,7 @@ import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
+import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlace } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
@@ -20,7 +21,7 @@ enum ValidationState {
 
 export default withRouter(({ history }: RouteComponentProps) => {
     // const inputElementRef = useRef(null);
-    const { currentUser } = useContext(Context);
+    const { currentUser } = useContext(Context) as IContext;
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
     const [images /* , setImages */] = useState<string[]>([]);
@@ -133,7 +134,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                      // @ts-ignore */}
                     {/* <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} /> */}
 
-                    <Map onMapClick={setSelectedCoordinates} />
+                    <Map onMapClick={setSelectedCoordinates} isPoiVisible />
                 </form>
 
                 <Navigation

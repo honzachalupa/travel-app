@@ -1,9 +1,9 @@
 import { Context } from '@honzachalupa/helpers';
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
-import config from 'config';
+import { ECountryCodes } from 'Enums/CountryCodes';
 import { DifficultyCodes } from 'Enums/Difficulties';
-import { Database } from 'Helpers';
+import { calculateDistance, Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceWithId } from 'Interfaces/Place';
@@ -20,18 +20,16 @@ export default withRouter(({ history }: RouteComponentProps) => {
         const formatted: IPlace[] = [];
 
         data.features.forEach((place: any) => {
-            fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${place.geometry.coordinates[0]},${place.geometry.coordinates[1]}&key=${config.googleCloudKey}`)
-
             formatted.push({
                 name: place.properties.Name,
-                description: place.properties.description ? place.properties.description : '',
+                description: '',
                 coordinates: {
-                    longitude: place.geometry.coordinates[0],
-                    latitude: place.geometry.coordinates[1]
+                    latitude: place.geometry.coordinates[1],
+                    longitude: place.geometry.coordinates[0]
                 },
-                countryCode: '',
+                countryCode: calculateDistance({ latitude: place.geometry.coordinates[1], longitude: place.geometry.coordinates[0] }) < 350 ? ECountryCodes.CZ : null,
                 rating: {
-                    value: 0,
+                    value: 3,
                     count: 0
                 },
                 images: [],

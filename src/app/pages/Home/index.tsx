@@ -23,7 +23,7 @@ import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
     const currentLocation = usePosition(true);
-    const { places } = useContext(Context) as IContext;
+    const { places, currentUser } = useContext(Context) as IContext;
 
     const [placesClone, setPlacesClone] = useState<IPlaceWithIdWithDistance[] | null>();
     const [placesFiltered, setPlacesFiltered] = useState<IPlaceWithIdWithDistance[] | null>();
@@ -86,6 +86,13 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     />
 
                     <ButtonWithIcon
+                        className="center-map-button"
+                        icon={ArrowUpIcon}
+                        color={EColors.ORANGE}
+                        onClick={() => null}
+                    />
+
+                    <ButtonWithIcon
                         className="toggle-map-button"
                         icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
                         color={EColors.ORANGE}
@@ -102,12 +109,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 )}
 
                 <Navigation
-                    items={[{
+                    items={[currentUser ? {
                         label: 'Přidat',
                         icon: PlusIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_CREATE)
-                    }]}
+                    } : null]}
                     singleItemAlignment="right"
                 />
             </div>

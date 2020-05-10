@@ -1,17 +1,23 @@
 [data-component="PlacesList"] {
     width: 100%;
     padding: 12px;
-    margin-top: 20px;
+    margin-top: 30px;
     float: left;
     transition: opacity 250ms;
 
-    .place {
+    & > .item {
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
+        padding: 10px;
         margin-bottom: 20px;
+        float: left;
 
         .name {
+            width: 100%;
             font-size: 16px;
             font-weight: 500;
             padding-bottom: 10px;
+            float: left;
 
             .distance {
                 color: gray;
@@ -21,33 +27,42 @@
             }
         }
 
+        .image {
+            width: 100%;
+            height: 60vw;
+            object-fit: cover;
+        }
+
+        .description {
+            $font-size: 12px;
+            $line-height: 1.5;
+            $lines-to-show: 2;
+
+            height: calc(#{$font-size} * #{$line-height} * #{$lines-to-show});
+            color: gray;
+            font-size: $font-size;
+            text-overflow: ellipsis;
+            line-height: $line-height;
+            -webkit-line-clamp: $lines-to-show;
+            -webkit-box-orient: vertical;
+            margin: 0 auto;
+            display: block;
+            display: -webkit-box;
+            overflow: hidden;
+        }
+
         .details {
-            display: flex;
+            width: 100%;
+            float: left;
 
-            .image {
-                width: 110px;
-                height: 110px;
-                background-color: lightgray;
-                margin-right: 12px;
-                object-fit: cover;
-            }
+            .item {
+                width: 100%;
+                float: left;
+                line-height: 150%;
 
-            .description {
-                $font-size: 12px;
-                $line-height: 1.5;
-                $lines-to-show: 6;
-
-                height: calc(#{$font-size} * #{$line-height} * #{$lines-to-show});
-                color: gray;
-                font-size: $font-size;
-                text-overflow: ellipsis;
-                line-height: $line-height;
-                -webkit-line-clamp: $lines-to-show;
-                -webkit-box-orient: vertical;
-                margin: 0 auto;
-                display: block;
-                display: -webkit-box;
-                overflow: hidden;
+                .label {
+                    font-weight: 500;
+                }
             }
         }
     }

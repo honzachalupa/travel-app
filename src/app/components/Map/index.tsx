@@ -18,6 +18,7 @@ interface IProps {
         latitude: number;
         longitude: number;
     };
+    isPoiVisible?: boolean;
     isFullWidth?: boolean;
     onMapClick?: (coordinates: ICoordinates) => void;
     onPlaceClick?: (place: IPlaceWithId) => void;
@@ -35,12 +36,15 @@ export default (props: IProps) => (
 );
 
 const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
-    const currentLocation = usePosition(true);
-    const [selectedPoint, setSelectedPoint] = useState<ICoordinates | null>(null);
-
     const config = {
         defaultZoom: 15
     };
+
+    // const mapRef = useRef(null);
+    const currentLocation = usePosition(true);
+    const [selectedPoint, setSelectedPoint] = useState<ICoordinates | null>(null);
+    // const [zoom, setZoom] = useState<number>(props.initialZoom || config.defaultZoom);
+    const [isLockedToCurrentLocation, setIsLockedToCurrentLocation] = useState<boolean>(true);
 
     const handleMapClick = (e: any) => {
         if (props.onMapClick) {
@@ -65,18 +69,43 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
 
     return currentLocation.latitude && currentLocation.longitude ? (
         <GoogleMap
+            // ref={mapRef}
             defaultZoom={props.initialZoom || config.defaultZoom}
             defaultCenter={{
                 lat: props.initialPosition ? props.initialPosition.latitude : currentLocation.latitude + 0.0006,
                 lng: props.initialPosition ? props.initialPosition.longitude : currentLocation.longitude
             }}
+            center={isLockedToCurrentLocation ? {
+                lat: props.initialPosition ? props.initialPosition.latitude : currentLocation.latitude + 0.0006,
+                lng: props.initialPosition ? props.initialPosition.longitude : currentLocation.longitude
+            } : {
+                lat: null,
+                lng: null
+            }}
             defaultOptions={{
                 fullscreenControl: false,
                 disableDefaultUI: true,
-                gestureHandling: 'greedy'
+                gestureHandling: 'greedy',
+                styles: !props.isPoiVisible ? [{
+                    featureType: 'poi',
+                    elementType: 'labels',
+                    stylers: [{
+                        visibility: 'off'
+                    }]
+                }, {
+                    featureType: 'transit',
+                    stylers: [
+                      {
+                        visibility: 'off'
+                      }
+                    ]
+                }] : []
             }}
             clickableIcons={false}
             onClick={handleMapClick}
+            onDrag={() => setIsLockedToCurrentLocation(false)}
+            // @ts-ignore
+            // onZoomChanged={() => setZoom(mapRef.current.getZoom())}
         >
             {!props.isCurrentPositionHidden && (
                 <Marker

@@ -10,7 +10,7 @@ firebase.initializeApp(config.firebase);
 const Authentication = firebase.auth();
 
 const Database = {
-    ...firebase.firestore(),
+    ...firebase.firestore().enablePersistence(),
     places: firebase.firestore().collection('places'),
     getTimestamp: () => firebase.firestore.Timestamp.now()
 };
@@ -37,7 +37,14 @@ const readUploadedFile = (inputFile: any) => {
     });
 };
 
-const calculateDistance = (coordinateA: ICoordinates, coordinateB: ICoordinates) => {
+const calculateDistance = (coordinateA: ICoordinates, coordinateB?: ICoordinates) => {
+    if (!coordinateB) {
+        coordinateB = {
+            latitude: 50.08804,
+            longitude: 14.42076
+        };
+    }
+
     const lat1 = coordinateA.latitude;
     const lon1 = coordinateA.longitude;
 

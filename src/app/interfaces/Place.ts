@@ -10,7 +10,7 @@ export interface IPlace {
     name: string;
     description: string;
     coordinates: ICoordinates;
-    countryCode: string;
+    countryCode: string | null;
     rating: {
         value: 0 | 1 | 2 | 3 | 4 | 5;
         count: number;
