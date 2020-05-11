@@ -89,13 +89,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     />
 
                     <ButtonWithIcon
-                        className="center-map-button"
-                        icon={ArrowUpIcon}
-                        color={EColors.ORANGE}
-                        onClick={() => null}
-                    />
-
-                    <ButtonWithIcon
                         className="toggle-map-button"
                         icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
                         color={EColors.ORANGE}
