@@ -60,9 +60,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-filter-expanded': isFilterExpanded, 'is-map-expanded': isMapExpanded })}>
-                <button className="settings-button" onClick={() => history.push(Routes.SETTINGS)}>
-                    <img className="icon" src={SettingsIcon} alt="" />
-                </button>
+                <ButtonWithIcon
+                    className="settings-button"
+                    icon={SettingsIcon}
+                    color={EColors.WHITE_TRANSPARENT}
+                    onClick={() => history.push(Routes.SETTINGS)}
+                />
 
                 <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
                     {(placesFiltered && filterData) && (

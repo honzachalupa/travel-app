@@ -16,6 +16,7 @@ import Page_PlaceCreate from 'Pages/Place/Create';
 import Page_PlaceDetail from 'Pages/Place/Detail';
 import Page_PlaceEdit from 'Pages/Place/Edit';
 import Page_PlaceImport from 'Pages/Place/Import';
+import Page_Settings from 'Pages/Settings';
 import Page_SignIn from 'Pages/SignIn';
 import Page_SignUp from 'Pages/SignUp';
 import React, { useEffect, useState } from 'react';
@@ -78,6 +79,7 @@ const App = () => {
                     <Route path={Routes.PLACE_DETAIL} component={Page_PlaceDetail} exact />
                     <Route path={Routes.PLACE_EDIT} component={Page_PlaceEdit} exact />
                     <Route path={Routes.PLACE_IMPORT} component={Page_PlaceImport} exact />
+                    <Route path={Routes.SETTINGS} component={Page_Settings} exact />
                     <Route component={Page_NotFound} exact />
                 </Switch>
             </Router>

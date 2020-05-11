@@ -3,6 +3,7 @@ import React from 'react';
 import './style';
 
 export enum EColors {
+    WHITE_TRANSPARENT = 'white-transparent',
     BLUE = 'blue',
     GREEN = 'green',
     ORANGE = 'orange',

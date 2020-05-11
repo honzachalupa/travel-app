@@ -1,0 +1,10 @@
+[data-component="Page_Settings"] {
+    text-align: center;
+    padding: env(safe-area-inset-top) 12px 12px 12px;
+
+    .headline {
+        font-size: 20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
