@@ -1,5 +1,6 @@
 import { Context } from '@honzachalupa/helpers';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
+import { ELoadingStates } from 'Enums/LoadingStates';
 import { findInEnum, removeDuplicates } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IPlace } from 'Interfaces/Place';
@@ -23,7 +24,7 @@ export interface IFilterData {
 }
 
 export default (props: IProps) => {
-    const { places } = useContext(Context) as IContext;
+    const { places, placesLoadingState } = useContext(Context) as IContext;
 
     const walkingDistances = [0.1, 0.25, 0.5, 1, 2.5, 5, 7.5, 10, 15, 20];
 
@@ -32,8 +33,6 @@ export default (props: IProps) => {
         walkingDistancesFrom: walkingDistances[0],
         walkingDistancesTo: walkingDistances[walkingDistances.length - 1]
     };
-
-    const [prevPlaces, setPrevPlaces] = useState<IPlace[] | undefined>();
 
     const [availableOptions, setAvailableOptions] = useState<IAvailableOptions | null>(null);
     const [difficultyCode, setDifficultyCode] = useState<DifficultyCodes | undefined>();
@@ -58,11 +57,10 @@ export default (props: IProps) => {
     };
 
     useEffect(() => {
-        if (prevPlaces !== places) {
+        if (placesLoadingState === ELoadingStates.LOADED) {
             getFilterData(places);
-            setPrevPlaces(places);
         }
-    }, [places]);
+    }, [placesLoadingState]);
 
 
     useEffect(() => {

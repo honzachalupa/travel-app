@@ -1,18 +1,47 @@
 import config from 'config';
+import { ECountryCodes } from 'Enums/CountryCodes';
+import { ELoadingStates } from 'Enums/LoadingStates';
 import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { ICoordinates } from 'Interfaces/Place';
+import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
 
 firebase.initializeApp(config.firebase);
 
 const Authentication = firebase.auth();
 
+const getPlaces = (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadingStatusCallback: (status: string) => void) => {
+    setLoadingStatusCallback(ELoadingStates.LOADING);
+
+    let query = Database.places.where('countryCode', '==', ECountryCodes.CZ);
+
+    if (hasRole(Authentication.currentUser, ERoles.SUPER_USER)) {
+        query = Database.places;
+    }
+
+    query.onSnapshot((querySnapshot: any) => {
+        const places: IPlaceWithId[] = [];
+
+        querySnapshot.forEach((doc: any) => {
+            const place = doc.data();
+
+            places.push({
+                ...place,
+                id: doc.id
+            });
+        });
+
+        setPlacesCallback(places);
+        setLoadingStatusCallback(places.length > 0 ? ELoadingStates.LOADED : ELoadingStates.NO_DATA);
+    });
+};
+
 const Database = {
     ...firebase.firestore().enablePersistence(),
     places: firebase.firestore().collection('places'),
-    getTimestamp: () => firebase.firestore.Timestamp.now()
+    getPlaces: (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadingStatusCallback: (status: string) => void) => getPlaces(setPlacesCallback, setLoadingStatusCallback),
+    getTimestamp: firebase.firestore.Timestamp.now
 };
 
 const readUploadedFile = (inputFile: any) => {

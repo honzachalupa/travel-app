@@ -8,35 +8,26 @@
     padding: 15px 20px;
     transition: 250ms background-color;
 
-    &:hover {
-        background-color: $gray-lighter;
-    }
-
     &.blue {
         background-color: $blue-darker;
+        background-image: linear-gradient(45deg, $blue-darker, $blue-lighter);
         color: white;
-
-        &:hover {
-            background-color: $blue-lighter;
-        }
     }
 
     &.green {
         background-color: $green-darker;
+        background-image: linear-gradient(45deg, $green-darker, $green-lighter);
         color: white;
 
-        &:hover {
+        &:active {
             background-color: $green-lighter;
         }
     }
 
     &.orange {
         background-color: $orange-darker;
+        background-image: linear-gradient(45deg, $orange-darker, $orange-lighter);
         color: white;
-
-        &:hover {
-            background-color: $orange-lighter;
-        }
     }
 
     & + & {
@@ -77,7 +68,7 @@
         position: relative;
         z-index: auto;
 
-        &:hover {
+        &:active {
             background-color: $gray-lighter;
         }
 
@@ -86,45 +77,32 @@
             color: black;
             backdrop-filter: blur(10px) saturate(200%);
 
-            &:hover {
+            &:active {
                 background-color: rgba(255, 255, 255, 0.6);
             }
         }
 
         &.blue {
             background-color: $blue-darker;
+            background-image: linear-gradient(45deg, $blue-darker, $blue-lighter);
             color: white;
-
-            &:hover {
-                background-color: $blue-lighter;
-            }
         }
 
         &.green {
             background-color: $green-darker;
+            background-image: linear-gradient(45deg, $green-darker, $green-lighter);
             color: white;
-
-            &:hover {
-                background-color: $green-lighter;
-            }
         }
 
         &.orange {
             background-color: $orange-darker;
+            background-image: linear-gradient(45deg, $orange-darker, $orange-lighter);
             color: white;
-
-            &:hover {
-                background-color: $orange-lighter;
-            }
         }
 
         &.red {
             background-color: red;
             color: white;
-
-            &:hover {
-                background-color: red;
-            }
         }
 
         .icon {

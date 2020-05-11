@@ -1,13 +1,14 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
+import { Context } from '@honzachalupa/helpers';
 import cx from 'classnames';
 import config from 'config';
 import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIconFaded from 'Icons/place-faded.svg';
 import PlaceIcon from 'Icons/place.svg';
+import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GoogleMap, GoogleMapProps, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
-import { usePosition } from 'use-position';
 import './style';
 
 interface IProps {
@@ -28,7 +29,7 @@ interface IProps {
 export default (props: IProps) => (
     <Map
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleCloudKey}&libraries=places`}
-        loadingElement={<span />}
+        loadingElement={<p>loading</p>}
         containerElement={<div data-component="Map" className={cx({ 'is-full-width': props.isFullWidth })} />}
         mapElement={<div className="map-container-inner" />}
         {...props}
@@ -40,10 +41,11 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
         defaultZoom: 15
     };
 
-    // const mapRef = useRef(null);
-    const currentLocation = usePosition(true);
+    const mapRef = useRef(null);
+    const { currentLocation } = useContext(Context) as IContext;
     const [selectedPoint, setSelectedPoint] = useState<ICoordinates | null>(null);
-    // const [zoom, setZoom] = useState<number>(props.initialZoom || config.defaultZoom);
+    const [zoom, setZoom] = useState<number>(props.initialZoom || config.defaultZoom);
+    const [markerSize, setMarkerSize] = useState<number>(40);
     const [isLockedToCurrentLocation, setIsLockedToCurrentLocation] = useState<boolean>(true);
 
     const handleMapClick = (e: any) => {
@@ -67,9 +69,13 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
 
     const getMarkerCoordinates = (place: ICoordinates) => ({ lat: place.latitude, lng: place.longitude });
 
+    useEffect(() => {
+        setMarkerSize(Math.min(zoom * 4, 40));
+    }, [zoom]);
+
     return currentLocation.latitude && currentLocation.longitude ? (
         <GoogleMap
-            // ref={mapRef}
+            ref={mapRef}
             defaultZoom={props.initialZoom || config.defaultZoom}
             defaultCenter={{
                 lat: props.initialPosition ? props.initialPosition.latitude : currentLocation.latitude + 0.0006,
@@ -78,10 +84,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
             center={isLockedToCurrentLocation ? {
                 lat: props.initialPosition ? props.initialPosition.latitude : currentLocation.latitude + 0.0006,
                 lng: props.initialPosition ? props.initialPosition.longitude : currentLocation.longitude
-            } : {
-                lat: null,
-                lng: null
-            }}
+            } : undefined}
             defaultOptions={{
                 fullscreenControl: false,
                 disableDefaultUI: true,
@@ -105,15 +108,16 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
             onClick={handleMapClick}
             onDrag={() => setIsLockedToCurrentLocation(false)}
             // @ts-ignore
-            // onZoomChanged={() => setZoom(mapRef.current.getZoom())}
+            onZoomChanged={() => setZoom(mapRef.current.getZoom())}
         >
             {!props.isCurrentPositionHidden && (
                 <Marker
                     position={getMarkerCoordinates(currentLocation)}
                     icon={{
                         url: CurrentLocationIcon,
-                        scaledSize: new google.maps.Size(40, 40)
+                        scaledSize: new google.maps.Size(markerSize, markerSize)
                     }}
+                    zIndex={100}
                 />
             )}
 
@@ -122,7 +126,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                     position={getMarkerCoordinates(selectedPoint)}
                     icon={{
                         url: PlaceIcon,
-                        scaledSize: new google.maps.Size(40, 40)
+                        scaledSize: new google.maps.Size(markerSize, markerSize)
                     }}
                 />
             )}
@@ -136,7 +140,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                         position={getMarkerCoordinates(place.coordinates)}
                         icon={{
                             url: faded ? PlaceIconFaded : PlaceIcon,
-                            scaledSize: new google.maps.Size(faded ? 20 : 40, faded ? 20 : 40)
+                            scaledSize: new google.maps.Size(faded ? markerSize / 2 : markerSize, faded ? markerSize / 2 : markerSize)
                         }}
                         onClick={() => handlePlaceClick(place)}
                     />

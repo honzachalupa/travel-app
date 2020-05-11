@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
+import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { calculateDistance } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
@@ -15,35 +16,33 @@ import { IPlaceWithId, IPlaceWithIdWithDistance } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { usePosition } from 'use-position';
 import Filter, { IFilterData } from './components/Filter';
 import PlacesList from './components/PlacesList';
 import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
-    const currentLocation = usePosition(true);
-    const { places, currentUser } = useContext(Context) as IContext;
+    const { places, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
 
     const [placesClone, setPlacesClone] = useState<IPlaceWithIdWithDistance[] | null>();
-    const [placesFiltered, setPlacesFiltered] = useState<IPlaceWithIdWithDistance[] | null>();
+    const [placesFiltered, setPlacesFiltered] = useState<IPlaceWithIdWithDistance[]>([]);
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
     const [filterData, setFilterData] = useState<IFilterData | null>(null);
 
     useEffect(() => {
-        if (currentLocation.timestamp) {
-            const placesCloneTemp = [...places].map(place => ({
+        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.timestamp) {
+            const placesClone = [...places].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)
             })).sort((a, b) =>
                 (a.distance < b.distance) ? -1 :
                     (a.distance > b.distance) ? 1 : 0);
 
-            setPlacesClone(placesCloneTemp);
+            setPlacesClone(placesClone);
         };
-    }, [currentLocation.timestamp]);
+    }, [placesLoadingState, currentLocation.latitude, currentLocation.longitude]);
 
     useEffect(() => {
         if (filterData && placesClone) {
@@ -100,8 +99,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <Filter onFilterChange={setFilterData} />
                 </div>
 
-                {placesFiltered && (
+                {placesLoadingState === ELoadingStates.LOADED ? (
                     <PlacesList places={placesFiltered} />
+                ) : placesLoadingState === ELoadingStates.LOADING ? (
+                    <p>Loading</p>
+                ) : (
+                    <p>Nastala</p>
                 )}
 
                 <Navigation

@@ -1,7 +1,10 @@
 [data-component="Page_Home"] {
+    position: absolute;
+    top: 0;
+
     .settings-button {
         position: absolute;
-        top: 5vh;
+        top: calc(15px + env(safe-area-inset-top) / 2);
         left: 10px;
         z-index: 99;
     }
@@ -40,7 +43,7 @@
 
     .map-container {
         width: 100%;
-        height: calc(30vh + env(safe-area-inset-top));
+        height: 30vh;
         text-align: center;
         position: relative;
         z-index: 9;

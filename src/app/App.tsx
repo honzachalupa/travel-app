@@ -3,11 +3,10 @@
 import '@babel/polyfill';
 import { app, Context } from '@honzachalupa/helpers';
 import config from 'config';
-import { ECountryCodes } from 'Enums/CountryCodes';
-import { ERoles } from 'Enums/Roles';
+import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { User } from 'firebase';
-import { Authentication, Database, hasRole } from 'Helpers';
+import { Authentication, Database } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IPlaceWithId } from 'Interfaces/Place';
 import Page_Home from 'Pages/Home';
@@ -22,36 +21,14 @@ import Page_SignUp from 'Pages/SignUp';
 import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { usePosition } from 'use-position';
 import './App.scss';
 
-
 const App = () => {
+    const currentLocation = usePosition(true);
     const [currentUser, setCurrentUser] = useState<User | null>();
-
-    const [places, setPlaces] = useState<IPlaceWithId[]>([]);
-
-    const getLocations = () => {
-        let dbQuery = Database.places.where('countryCode', '==', ECountryCodes.CZ);
-
-        if (hasRole(currentUser, ERoles.SUPER_USER)) {
-            dbQuery = Database.places.limit(10);
-        }
-
-        dbQuery.onSnapshot((querySnapshot: any) => {
-            const places: IPlaceWithId[] = [];
-
-            querySnapshot.forEach((doc: any) => {
-                const place = doc.data();
-
-                places.push({
-                    ...place,
-                    id: doc.id
-                });
-            });
-
-            setPlaces(places);
-        });
-    };
+    const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
+    const [places, setPlaces] = useState<IPlaceWithId[] | null>(null);
 
     useEffect(() => {
         if (config.caching) {
@@ -63,12 +40,12 @@ const App = () => {
 
     useEffect(() => {
         if (currentUser !== undefined) {
-            getLocations();
+            Database.getPlaces(setPlaces, setLoadingState);
         }
     }, [currentUser]);
 
     return (
-        <Context.Provider value={{ currentUser, places } as IContext}>
+        <Context.Provider value={{ currentLocation, currentUser, placesLoadingState, places } as IContext}>
             <Router basename={__BASENAME__}>
                 <Switch>
                     <Route path={Routes.INDEX} component={Page_Home} />

@@ -106,7 +106,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     }, [place, selectedCoordinates]);
 
     return (
-        <Layout>
+        <Layout className="has-default-paddings">
             <div data-component="Page_PlaceCreate">
                 <form className="form">
                     <label htmlFor="name">Název</label>
