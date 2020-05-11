@@ -80,19 +80,23 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         <SelectedPlaceInfoBox place={selectedPlace} onClose={() => setSelectedPlace(null)} />
                     )}
 
-                    <ButtonWithIcon
-                        className="toggle-filter-button"
-                        icon={FilterIcon}
-                        color={EColors.ORANGE}
-                        onClick={() => setFilterExpanded(!isFilterExpanded)}
-                    />
+                    {placesFiltered && (
+                        <ButtonWithIcon
+                            className="toggle-filter-button"
+                            icon={FilterIcon}
+                            color={EColors.ORANGE}
+                            onClick={() => setFilterExpanded(!isFilterExpanded)}
+                        />
+                    )}
 
-                    <ButtonWithIcon
-                        className="toggle-map-button"
-                        icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
-                        color={EColors.ORANGE}
-                        onClick={() => { setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
-                    />
+                    {placesFiltered && (
+                        <ButtonWithIcon
+                            className="toggle-map-button"
+                            icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
+                            color={EColors.ORANGE}
+                            onClick={() => { setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
+                        />
+                    )}
                 </div>
 
                 <div className="filter-container">

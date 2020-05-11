@@ -26,7 +26,7 @@ export interface IFilterData {
 export default (props: IProps) => {
     const { places, placesLoadingState } = useContext(Context) as IContext;
 
-    const walkingDistances = [0.1, 0.25, 0.5, 1, 2.5, 5, 7.5, 10, 15, 20];
+    const walkingDistances = [0, 0.5, 1, 2.5, 5, 7.5, 10, 15, 20];
 
     const defaultFilter = {
         difficultyCode: DifficultyCodes.NONE,
