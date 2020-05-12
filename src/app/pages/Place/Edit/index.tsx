@@ -4,7 +4,7 @@ import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
-import { IPlaceWithId } from 'Interfaces/Place';
+import { IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -22,7 +22,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
     const [instagramPostsString, setInstagramPostsString] = useState<string>('');
     const [images /* , setImages */] = useState<string[]>([]);
 
-    const [place, setPlace] = useState<IPlaceWithId | null>(null);
+    const [place, setPlace] = useState<IPlaceRemote | null>(null);
 
     const getPlace = () => {
         // @ts-ignore
@@ -33,7 +33,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                 setPlace({
                     ...place,
                     id: doc.id
-                } as IPlaceWithId);
+                } as IPlaceRemote);
             }
         });
     };

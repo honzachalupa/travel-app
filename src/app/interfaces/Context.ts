@@ -1,5 +1,5 @@
 import { User } from 'firebase';
-import { IPlaceWithId } from "./Place";
+import { IPlaceRemote } from "./Place";
 
 export interface IContext {
     currentLocation: {
@@ -7,7 +7,7 @@ export interface IContext {
         longitude: number;
         timestamp: number;
     };
-    places: IPlaceWithId[];
+    places: IPlaceRemote[];
     placesLoadingState: string;
     currentUser: User;
 }

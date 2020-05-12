@@ -13,7 +13,7 @@ import FilterIcon from 'Icons/filter.svg';
 import PlusIcon from 'Icons/plus.svg';
 import SettingsIcon from 'Icons/profile.svg';
 import { IContext } from 'Interfaces/Context';
-import { IPlaceWithId, IPlaceWithIdWithDistance } from 'Interfaces/Place';
+import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -24,10 +24,10 @@ import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
     const { places: placesContext, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
-    const [places, setPlaces] = useState<IPlaceWithIdWithDistance[]>([]);
+    const [places, setPlaces] = useState<IPlace[]>([]);
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
-    const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
+    const [selectedPlace, setSelectedPlace] = useState<IPlaceRemote | null>(null);
     const [filterData, setFilterData] = useState<IFilterData>();
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
             const placesFiltered = [...placesContext].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)
-            })).sort((a, b) => a.distance - b.distance).filter(place =>
+            } as IPlace)).sort((a, b) => a.distance - b.distance).filter(place =>
                 (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
                 place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
                 place.accessibility.walkingDistance <= filterData.walkingDistancesTo
@@ -94,7 +94,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 </div>
 
                 <div className="filter-container">
-                    <Filter onFilterChange={setFilterData} />
+                    <Filter onFilterChange={setFilterData} isExpanded={isFilterExpanded} />
                 </div>
 
                 <PlacesList places={places} />

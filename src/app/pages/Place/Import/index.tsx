@@ -6,18 +6,17 @@ import { DifficultyCodes } from 'Enums/Difficulties';
 import { calculateDistance, Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import { IContext } from 'Interfaces/Context';
-import { IPlace, IPlaceWithId } from 'Interfaces/Place';
+import { IPlacePartial, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import rawData from './data';
 import './style';
 
-export default withRouter(({ history }: RouteComponentProps) => {
+export default () => {
     const { places } = useContext(Context) as IContext;
 
     const formatData = (data: any) => {
-        const formatted: IPlace[] = [];
+        const formatted: IPlacePartial[] = [];
 
         data.features.forEach((place: any) => {
             formatted.push({
@@ -55,11 +54,11 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const handleSubmit = () => {
         let count = 0;
 
-        places.forEach((place: IPlaceWithId) => {
+        places.forEach((place: IPlaceRemote) => {
             Database.places.doc(place.id).delete();
         });
 
-        formatData(rawData).forEach((place: IPlace) => {
+        formatData(rawData).forEach((place: IPlacePartial) => {
             Database.places.add(place);
 
             count += 1;
@@ -90,4 +89,4 @@ export default withRouter(({ history }: RouteComponentProps) => {
             </div>
         </Layout>
     );
-});
+};

@@ -6,13 +6,13 @@ import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIconFaded from 'Icons/place-faded.svg';
 import PlaceIcon from 'Icons/place.svg';
 import { IContext } from 'Interfaces/Context';
-import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
+import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GoogleMap, GoogleMapProps, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import './style';
 
 interface IProps {
-    places?: IPlaceWithId[],
+    places?: IPlaceRemote[],
     filteredIds?: string[] | null;
     initialZoom?: number;
     initialPosition?: {
@@ -22,7 +22,7 @@ interface IProps {
     isPoiVisible?: boolean;
     isFullWidth?: boolean;
     onMapClick?: (coordinates: ICoordinates) => void;
-    onPlaceClick?: (place: IPlaceWithId) => void;
+    onPlaceClick?: (place: IPlaceRemote) => void;
     isCurrentPositionHidden?: boolean
 }
 
@@ -61,7 +61,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
         }
     };
 
-    const handlePlaceClick = (place: IPlaceWithId) => {
+    const handlePlaceClick = (place: IPlaceRemote) => {
         if (props.onPlaceClick) {
             props.onPlaceClick(place);
         }

@@ -6,7 +6,7 @@ export interface ICoordinates {
     longitude: number;
 }
 
-export interface IPlace {
+export interface IPlacePartial {
     name: string;
     description: string;
     coordinates: ICoordinates;
@@ -35,10 +35,12 @@ export interface IPlace {
     }[];
 }
 
-export interface IPlaceWithId extends IPlace {
+export interface IPlaceRemote extends IPlacePartial {
     id: string;
 }
 
-export interface IPlaceWithIdWithDistance extends IPlaceWithId {
+export interface IPlace extends IPlacePartial {
+    id: string;
     distance: number;
+    isVisited: boolean;
 }

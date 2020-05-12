@@ -16,10 +16,6 @@
             transition: bottom 250ms;
         }
 
-        .filter-container {
-            display: block;
-        }
-
         [data-component="PlacesList"] {
             margin-top: 0;
         }
@@ -42,7 +38,6 @@
     .filter-container {
         width: 100%;
         float: left;
-        display: none;
     }
 
     .map-container {

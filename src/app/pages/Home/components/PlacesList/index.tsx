@@ -4,14 +4,14 @@ import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { findInEnum } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
-import { IPlaceWithIdWithDistance } from 'Interfaces/Place';
+import { IPlace } from 'Interfaces/Place';
 import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import './style';
 
 interface IProps extends RouteComponentProps {
-    places: IPlaceWithIdWithDistance[];
+    places: IPlace[];
 }
 
 export default withRouter((props: IProps) => {

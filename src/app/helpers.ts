@@ -6,7 +6,7 @@ import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { ICoordinates, IPlaceWithId } from 'Interfaces/Place';
+import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
 
 firebase.initializeApp(config.firebase);
 
@@ -29,13 +29,15 @@ class TimeCost {
     }
 }
 
+const getUrlParameter = (key: string) => new URL(window.location.href).searchParams.get(key);
+
 type filterQuery = [string, firebase.firestore.WhereFilterOp, any];
-const getPlaces = (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadingStatusCallback: (status: string) => void, filterQueries?: filterQuery[]) => {
+const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadingStatusCallback: (status: string) => void, filterQueries?: filterQuery[]) => {
     setLoadingStatusCallback(ELoadingStates.LOADING);
 
     let query: firebase.firestore.Query;
 
-    if (hasRole(Authentication.currentUser, ERoles.SUPER_USER)) {
+    if (hasRole(Authentication.currentUser, ERoles.SUPER_USER) && getUrlParameter('showAll') === 'true') {
         query = Database.places;
     } else {
         query = Database.places
@@ -52,7 +54,7 @@ const getPlaces = (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadi
     }
 
     query.onSnapshot((querySnapshot: any) => {
-        const places: IPlaceWithId[] = [];
+        const places: IPlaceRemote[] = [];
 
         querySnapshot.forEach((doc: any) => {
             const place = doc.data();
@@ -73,7 +75,7 @@ const Database = {
     places: firebase.firestore().collection('places'),
     getPlaces: (
         setPlacesCallback:
-            (places: IPlaceWithId[]) => void,
+            (places: IPlaceRemote[]) => void,
         setLoadingStatusCallback:
             (status: string) => void,
         filterQueries?: filterQuery[]

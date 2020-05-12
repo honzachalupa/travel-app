@@ -13,7 +13,7 @@ import RemoveIcon from 'Icons/bin.svg';
 import EditIcon from 'Icons/edit.svg';
 import NavigateIcon from 'Icons/navigation.svg';
 import { IContext } from 'Interfaces/Context';
-import { IPlace, IPlaceWithId } from 'Interfaces/Place';
+import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -26,7 +26,7 @@ import './style';
 export default withRouter(({ history, match }: RouteComponentProps) => {
     const { currentUser } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
-    const [place, setPlace] = useState<IPlaceWithId | null>(null);
+    const [place, setPlace] = useState<IPlaceRemote | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
 
     const getPlace = () => {
@@ -38,7 +38,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                 setPlace({
                     ...place,
                     id: doc.id
-                } as IPlaceWithId);
+                } as IPlaceRemote);
 
                 setHasEditRights(hasRole(currentUser, ERoles.SUPER_USER) || (!!currentUser && place.addedBy.id === currentUser.uid));
             }

@@ -1,11 +1,11 @@
 import { Routes } from 'Enums/Routes';
-import { IPlaceWithId } from 'Interfaces/Place';
+import { IPlaceRemote } from 'Interfaces/Place';
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
 
 interface IProps extends RouteComponentProps {
-    place: IPlaceWithId;
+    place: IPlaceRemote;
     onClose: () => void;
 }
 

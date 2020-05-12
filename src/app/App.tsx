@@ -8,7 +8,7 @@ import { Routes } from 'Enums/Routes';
 import { User } from 'firebase';
 import { Authentication, Database, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
-import { IPlaceWithId } from 'Interfaces/Place';
+import { IPlaceRemote } from 'Interfaces/Place';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
 import Page_PlaceCreate from 'Pages/Place/Create';
@@ -28,7 +28,7 @@ const App = () => {
     const currentLocation = usePosition(true);
     const [currentUser, setCurrentUser] = useState<User | null>();
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
-    const [places, setPlaces] = useState<IPlaceWithId[]>([]);
+    const [places, setPlaces] = useState<IPlaceRemote[]>([]);
 
     useEffect(() => {
         if (config.caching) {

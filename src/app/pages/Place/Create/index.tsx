@@ -8,7 +8,7 @@ import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
-import { ICoordinates, IPlace } from 'Interfaces/Place';
+import { ICoordinates, IPlacePartial } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -27,7 +27,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const [instagramPostsString, setInstagramPostsString] = useState<string>('');
     const [images /* , setImages */] = useState<string[]>([]);
 
-    const [place, setPlace] = useState<IPlace>({
+    const [place, setPlace] = useState<IPlacePartial>({
         name: '',
         description: '',
         coordinates: selectedCoordinates,
@@ -54,7 +54,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     const setPlaceProperty = (propertyKey: string, value: any) => {
         if (propertyKey.includes('.')) {
-            setPlace(place => ({
+            setPlace((place: IPlacePartial) => ({
                 ...place,
                 [propertyKey.split('.')[0]]: {
                     ...place[propertyKey.split('.')[0]],
@@ -62,7 +62,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 }
             }));
         } else {
-            setPlace(place => ({
+            setPlace((place: IPlacePartial) => ({
                 ...place,
                 [propertyKey]: value
             }));
