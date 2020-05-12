@@ -40,7 +40,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     id: doc.id
                 } as IPlaceWithId);
 
-                setHasEditRights(hasRole(currentUser, ERoles.SUPER_USER) || place.addedBy.id === currentUser.uid);
+                setHasEditRights(hasRole(currentUser, ERoles.SUPER_USER) || (!!currentUser && place.addedBy.id === currentUser.uid));
             }
         });
     };
@@ -153,7 +153,8 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         label: 'Smazat',
                         icon: RemoveIcon,
                         color: EColors.RED,
-                        onClick: handleRemove
+                        onClick: handleRemove,
+                        isDisabled: true
                     } : null]}
                     singleItemAlignment="right"
                 />

@@ -6,7 +6,7 @@ import Navigation from 'Components/Navigation';
 import { DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
-import { calculateDistance } from 'Helpers';
+import { calculateDistance, TimeCost } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import FilterIcon from 'Icons/filter.svg';
@@ -21,7 +21,6 @@ import Filter, { IFilterData } from './components/Filter';
 import PlacesList from './components/PlacesList';
 import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
 import './style';
-import Performance from '../../Performance';
 
 export default withRouter(({ history }: RouteComponentProps) => {
     const { places: placesContext, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
@@ -33,7 +32,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (placesLoadingState === ELoadingStates.LOADED && currentLocation.timestamp && filterData) {
-            const p = new Performance('Calculating distance from current location and ordering.');
+            const p = new TimeCost('Calculating distance from current location and setting sorting.');
             p.start();
 
             const placesFiltered = [...placesContext].map(place => ({

@@ -1,5 +1,6 @@
 import config from 'config';
 import { ECountryCodes } from 'Enums/CountryCodes';
+import { DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
@@ -11,13 +12,43 @@ firebase.initializeApp(config.firebase);
 
 const Authentication = firebase.auth();
 
-const getPlaces = (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadingStatusCallback: (status: string) => void) => {
+class TimeCost {
+    description: string;
+    startedAt = 0;
+
+    constructor(description: string) {
+        this.description = description;
+    }
+
+    start = () => {
+        this.startedAt = performance.now();
+    }
+
+    end = () => {
+        console.log(`Task "${this.description}" run for ${performance.now() - this.startedAt} ms`);
+    }
+}
+
+type filterQuery = [string, firebase.firestore.WhereFilterOp, any];
+const getPlaces = (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadingStatusCallback: (status: string) => void, filterQueries?: filterQuery[]) => {
     setLoadingStatusCallback(ELoadingStates.LOADING);
 
-    let query = Database.places.where('countryCode', '==', ECountryCodes.CZ);
+    let query: firebase.firestore.Query;
 
     if (hasRole(Authentication.currentUser, ERoles.SUPER_USER)) {
         query = Database.places;
+    } else {
+        query = Database.places
+            .where('countryCode', '==', ECountryCodes.CZ)
+            .where('accessibility.difficultyCode', 'in', [DifficultyCodes.DIFFICULTY_1, DifficultyCodes.DIFFICULTY_2, DifficultyCodes.DIFFICULTY_3])
+            .where('description', '>', '');
+    }
+
+    if (filterQueries) {
+        filterQueries.forEach((filterQuery: any) => {
+            // @ts-ignore
+            query = query.where(...filterQuery);
+        });
     }
 
     query.onSnapshot((querySnapshot: any) => {
@@ -40,7 +71,13 @@ const getPlaces = (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadi
 const Database = {
     ...firebase.firestore().enablePersistence(),
     places: firebase.firestore().collection('places'),
-    getPlaces: (setPlacesCallback: (places: IPlaceWithId[]) => void, setLoadingStatusCallback: (status: string) => void) => getPlaces(setPlacesCallback, setLoadingStatusCallback),
+    getPlaces: (
+        setPlacesCallback:
+            (places: IPlaceWithId[]) => void,
+        setLoadingStatusCallback:
+            (status: string) => void,
+        filterQueries?: filterQuery[]
+    ) => getPlaces(setPlacesCallback, setLoadingStatusCallback, filterQueries),
     getTimestamp: firebase.firestore.Timestamp.now
 };
 
@@ -115,5 +152,5 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
     }
 };
 
-export { Authentication, Database, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole };
+export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole };
 

@@ -1,10 +1,8 @@
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
-import { Routes } from 'Enums/Routes';
 import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
-import RemoveIcon from 'Icons/bin.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IPlaceWithId } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
@@ -62,7 +60,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
             const placeClone = { ...place };
 
             // placeClone.coordinates = selectedCoordinates;
-            placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim());
+            placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim()).filter(x => x.length > 0);
             placeClone.images = images;
 
             delete placeClone.id;
@@ -70,14 +68,6 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
             Database.places.doc(place.id).set(placeClone);
 
             history.goBack();
-        }
-    };
-
-    const handleRemove = () => {
-        if (place) {
-            Database.places.doc(place.id).delete();
-
-            history.push(Routes.ROOT);
         }
     };
 
@@ -109,8 +99,8 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     <label htmlFor="description">Popis</label>
                     <textarea name="description" onChange={(e: any) => setPlaceProperty('description', e.target.value)} defaultValue={place.description} />
 
-                    <label htmlFor="walkingDistance">Pěší vzdálenost (např. od parkoviště)</label>
-                    <input name="walkingDistance" type="number" step={0.1} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceProperty('accessibility.walkingDistance', Number(e.target.value))} defaultValue={place.accessibility.walkingDistance} />
+                    <label htmlFor="walkingDistance">Pěší vzdálenost v km (např. od parkoviště)</label>
+                    <input name="walkingDistance" type="number" step={0.5} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceProperty('accessibility.walkingDistance', Number(e.target.value))} defaultValue={place.accessibility.walkingDistance} />
 
                     <label htmlFor="difficultyCode">Obtížnost</label>
                     <select name="difficultyCode" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('accessibility.difficultyCode', e.target.value)} defaultValue={place.accessibility.difficultyCode}>
@@ -129,11 +119,6 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         icon: CrossIcon,
                         color: EColors.ORANGE,
                         onClick: () => history.goBack()
-                    }, {
-                        label: 'Smazat',
-                        icon: RemoveIcon,
-                        color: EColors.RED,
-                        onClick: handleRemove
                     }, {
                         label: 'Uložit',
                         icon: AcceptIcon,

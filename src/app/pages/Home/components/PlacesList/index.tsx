@@ -1,14 +1,14 @@
+import { Context } from '@honzachalupa/helpers';
 import { Difficulties } from 'Enums/Difficulties';
+import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { findInEnum } from 'Helpers';
+import { IContext } from 'Interfaces/Context';
 import { IPlaceWithIdWithDistance } from 'Interfaces/Place';
 import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
 import './style';
-import { IContext } from 'Interfaces/Context';
-import { Context } from '@honzachalupa/helpers';
-import { ELoadingStates } from 'Enums/LoadingStates';
 
 interface IProps extends RouteComponentProps {
     places: IPlaceWithIdWithDistance[];
@@ -31,8 +31,6 @@ export default withRouter((props: IProps) => {
                         {place.images.length > 0 && (
                             <img className="image" src={place.images[0]} />
                         )}
-
-                        <p className="description">{place.description || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
 
                         <div className="details">
                             {!!place.accessibility.walkingDistance && (

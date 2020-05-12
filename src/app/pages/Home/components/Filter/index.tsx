@@ -1,12 +1,11 @@
 import { Context } from '@honzachalupa/helpers';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
-import { findInEnum, removeDuplicates } from 'Helpers';
+import { findInEnum, removeDuplicates, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IPlace } from 'Interfaces/Place';
 import React, { useContext, useEffect, useState } from 'react';
 import './style';
-import Performance from '../../../../Performance';
 
 interface IProps {
     onFilterChange: (e: IFilterData) => void;
@@ -41,7 +40,7 @@ export default (props: IProps) => {
     const [walkingDistancesTo, setWalkingDistancesTo] = useState<IFilterData['walkingDistancesTo']>();
 
     const getFilterData = (places: IPlace[]) => {
-        const p = new Performance('getFilterData');
+        const p = new TimeCost('getFilterData');
         p.start();
 
         const difficultyCodes: DifficultyCodes[] = [];

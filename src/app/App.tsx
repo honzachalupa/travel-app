@@ -6,7 +6,7 @@ import config from 'config';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { User } from 'firebase';
-import { Authentication, Database } from 'Helpers';
+import { Authentication, Database, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IPlaceWithId } from 'Interfaces/Place';
 import Page_Home from 'Pages/Home';
@@ -23,7 +23,6 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { usePosition } from 'use-position';
 import './App.scss';
-import Performance from './Performance';
 
 const App = () => {
     const currentLocation = usePosition(true);
@@ -41,7 +40,7 @@ const App = () => {
 
     useEffect(() => {
         if (currentUser !== undefined && placesLoadingState === ELoadingStates.WAITING) {
-            const p = new Performance('Fetching data from Firebase.');
+            const p = new TimeCost('Fetching data from Firebase.');
             p.start();
 
             Database.getPlaces(setPlaces, setLoadingState);

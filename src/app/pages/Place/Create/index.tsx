@@ -24,6 +24,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const { currentUser } = useContext(Context) as IContext;
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
+    const [instagramPostsString, setInstagramPostsString] = useState<string>('');
     const [images /* , setImages */] = useState<string[]>([]);
 
     const [place, setPlace] = useState<IPlace>({
@@ -88,6 +89,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
         const placeClone = { ...place };
 
         placeClone.coordinates = selectedCoordinates;
+        placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim()).filter(x => x.length > 0);
         placeClone.images = images;
 
         Database.places.add(placeClone);
@@ -115,7 +117,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <label htmlFor="description">Popis</label>
                     <textarea name="description" onChange={(e: any) => setPlaceProperty('description', e.target.value)} defaultValue={place.description} />
 
-                    <label htmlFor="walkingDistance">Pěší vzdálenost (např. od parkoviště)</label>
+                    <label htmlFor="walkingDistance">Pěší vzdálenost v km (např. od parkoviště)</label>
                     <input name="walkingDistance" type="number" step={0.1} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceProperty('accessibility.walkingDistance', Number(e.target.value))} defaultValue={place.accessibility.walkingDistance} />
 
                     <label htmlFor="difficultyCode">Obtížnost</label>
@@ -126,7 +128,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     </select>
 
                     <label htmlFor="instagramPosts">Odkaz na post na Instagramu</label>
-                    <textarea name="instagramPosts" onChange={(e: any) => setPlaceProperty('instagramPosts', e.target.value)} defaultValue={place.instagramPosts} />
+                    <textarea name="instagramPosts" onChange={(e: any) => setInstagramPostsString(e.target.value)} defaultValue={place.instagramPosts} />
 
                     {/* <input style={{ display: 'none' }} type="file" accept="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} /> */}
 
