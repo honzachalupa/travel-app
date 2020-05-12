@@ -21,41 +21,35 @@ import Filter, { IFilterData } from './components/Filter';
 import PlacesList from './components/PlacesList';
 import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
 import './style';
+import Performance from '../../Performance';
 
 export default withRouter(({ history }: RouteComponentProps) => {
-    const { places, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
-
-    const [placesClone, setPlacesClone] = useState<IPlaceWithIdWithDistance[] | null>();
-    const [placesFiltered, setPlacesFiltered] = useState<IPlaceWithIdWithDistance[]>([]);
+    const { places: placesContext, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
+    const [places, setPlaces] = useState<IPlaceWithIdWithDistance[]>([]);
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
     const [filterData, setFilterData] = useState<IFilterData>();
 
     useEffect(() => {
-        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.timestamp) {
-            const placesClone = [...places].map(place => ({
+        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.timestamp && filterData) {
+            const p = new Performance('Calculating distance from current location and ordering.');
+            p.start();
+
+            const placesFiltered = [...placesContext].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)
-            })).sort((a, b) => a.distance < b.distance ? -1 : a.distance > b.distance ? 1 : 0);
-
-            setPlacesClone(placesClone);
-        };
-    }, [placesLoadingState, currentLocation.latitude, currentLocation.longitude]);
-
-    useEffect(() => {
-        if (filterData && placesClone) {
-            console.log(filterData);
-
-            const placesFiltered = [...placesClone].filter(place =>
+            })).sort((a, b) => a.distance - b.distance).filter(place =>
                 (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
                 place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
                 place.accessibility.walkingDistance <= filterData.walkingDistancesTo
             );
 
-            setPlacesFiltered(placesFiltered);
-        }
-    }, [filterData, placesClone]);
+            setPlaces(placesFiltered);
+
+            p.end();
+        };
+    }, [placesLoadingState, currentLocation.latitude, currentLocation.longitude, filterData]);
 
     return (
         <Layout>
@@ -68,10 +62,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 />
 
                 <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
-                    {(places && placesFiltered && filterData) && (
+                    {(places && places && filterData) && (
                         <Map
                             places={places}
-                            filteredIds={placesFiltered.map(x => x.id)}
+                            filteredIds={places.map(x => x.id)}
                             isFullWidth
                             onPlaceClick={setSelectedPlace}
                         />
@@ -81,7 +75,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         <SelectedPlaceInfoBox place={selectedPlace} onClose={() => setSelectedPlace(null)} />
                     )}
 
-                    {placesFiltered && (
+                    {places && (
                         <ButtonWithIcon
                             className="toggle-filter-button"
                             icon={FilterIcon}
@@ -90,7 +84,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         />
                     )}
 
-                    {placesFiltered && (
+                    {places && (
                         <ButtonWithIcon
                             className="toggle-map-button"
                             icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
@@ -104,13 +98,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <Filter onFilterChange={setFilterData} />
                 </div>
 
-                {placesLoadingState === ELoadingStates.LOADED ? (
-                    <PlacesList places={placesFiltered} />
-                ) : placesLoadingState === ELoadingStates.LOADING ? (
-                    <p>Loading</p>
-                ) : (
-                    <p>Nastala</p>
-                )}
+                <PlacesList places={places} />
 
                 <Navigation
                     items={[currentUser ? {

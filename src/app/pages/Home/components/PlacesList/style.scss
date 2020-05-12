@@ -66,4 +66,14 @@
             }
         }
     }
+
+    .message {
+        width: 100%;
+        text-align: center;
+        float: left;
+
+        &.error {
+            color: red;
+        }
+    }
 }

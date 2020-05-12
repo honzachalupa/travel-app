@@ -23,12 +23,13 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { usePosition } from 'use-position';
 import './App.scss';
+import Performance from './Performance';
 
 const App = () => {
     const currentLocation = usePosition(true);
     const [currentUser, setCurrentUser] = useState<User | null>();
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
-    const [places, setPlaces] = useState<IPlaceWithId[] | null>(null);
+    const [places, setPlaces] = useState<IPlaceWithId[]>([]);
 
     useEffect(() => {
         if (config.caching) {
@@ -39,8 +40,13 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (currentUser !== undefined) {
+        if (currentUser !== undefined && placesLoadingState === ELoadingStates.WAITING) {
+            const p = new Performance('Fetching data from Firebase.');
+            p.start();
+
             Database.getPlaces(setPlaces, setLoadingState);
+
+            p.end();
         }
     }, [currentUser]);
 

@@ -6,6 +6,7 @@ import { IContext } from 'Interfaces/Context';
 import { IPlace } from 'Interfaces/Place';
 import React, { useContext, useEffect, useState } from 'react';
 import './style';
+import Performance from '../../../../Performance';
 
 interface IProps {
     onFilterChange: (e: IFilterData) => void;
@@ -40,6 +41,9 @@ export default (props: IProps) => {
     const [walkingDistancesTo, setWalkingDistancesTo] = useState<IFilterData['walkingDistancesTo']>();
 
     const getFilterData = (places: IPlace[]) => {
+        const p = new Performance('getFilterData');
+        p.start();
+
         const difficultyCodes: DifficultyCodes[] = [];
 
         places.forEach(place => {
@@ -54,6 +58,8 @@ export default (props: IProps) => {
         setDifficultyCode(defaultFilter.difficultyCode);
         setWalkingDistancesFrom(defaultFilter.walkingDistancesFrom);
         setWalkingDistancesTo(defaultFilter.walkingDistancesTo);
+
+        p.end();
     };
 
     useEffect(() => {
