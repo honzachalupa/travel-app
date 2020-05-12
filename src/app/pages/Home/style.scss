@@ -1,19 +1,17 @@
 [data-component="Page_Home"] {
-    position: absolute;
-    top: 0;
-
     .settings-button {
         position: absolute;
         top: calc(15px + env(safe-area-inset-top) / 2);
         left: 10px;
         z-index: 99;
+        transition: top 250ms;
     }
 
     &.is-filter-expanded {
         .toggle-filter-button,
         .toggle-map-button {
             bottom: 0.5vh !important;
-            transition: bottom 250ms;
+            transition: bottom opacity 250ms;
         }
 
         [data-component="PlacesList"] {
@@ -22,9 +20,10 @@
     }
 
     &.is-map-expanded {
-        z-index: 999;
+        .settings-button {
+            top: calc(-70px - env(safe-area-inset-top))
+        }
 
-        .settings-button,
         .toggle-filter-button {
             opacity: 0;
         }
@@ -52,14 +51,14 @@
             position: absolute;
             left: 10px;
             bottom: -3vh;
-            transition: bottom 500ms;
+            transition: bottom 250ms;
         }
 
         .toggle-map-button {
             position: absolute;
             right: 10px;
             bottom: -3vh;
-            transition: bottom 500ms;
+            transition: bottom 250ms;
         }
 
         &.is-expanded {

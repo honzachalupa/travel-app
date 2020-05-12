@@ -4,9 +4,7 @@
 
     .animated-container {
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.05);
-        border-top: 1px solid $orange-lighter;
-        padding: 5px 12px 0 12px;
+        padding: 10px 12px 0 12px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -22,6 +20,11 @@
             label {
                 color: gray;
                 font-size: 10px;
+                padding-left: 3px;
+            }
+
+            select {
+                font-size: 12px !important;
             }
         }
     }

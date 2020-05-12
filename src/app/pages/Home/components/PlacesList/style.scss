@@ -1,7 +1,7 @@
 [data-component="PlacesList"] {
     width: 100%;
     padding: 12px;
-    margin-top: 22px;
+    margin-top: 30px;
     float: left;
     transition: opacity 250ms;
 
@@ -9,7 +9,8 @@
         width: 100%;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
         padding: 10px;
-        margin-bottom: 20px;
+        border-radius: 5px;
+        margin-bottom: 12px;
         float: left;
 
         .name {
