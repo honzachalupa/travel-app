@@ -35,9 +35,9 @@ export default (props: IProps) => {
     };
 
     const [availableOptions, setAvailableOptions] = useState<IAvailableOptions | null>(null);
-    const [difficultyCode, setDifficultyCode] = useState<DifficultyCodes | undefined>();
-    const [walkingDistancesFrom, setWalkingDistancesFrom] = useState<number | undefined>();
-    const [walkingDistancesTo, setWalkingDistancesTo] = useState<number | undefined>();
+    const [difficultyCode, setDifficultyCode] = useState<IFilterData['difficultyCode']>();
+    const [walkingDistancesFrom, setWalkingDistancesFrom] = useState<IFilterData['walkingDistancesFrom']>();
+    const [walkingDistancesTo, setWalkingDistancesTo] = useState<IFilterData['walkingDistancesTo']>();
 
     const getFilterData = (places: IPlace[]) => {
         const difficultyCodes: DifficultyCodes[] = [];
@@ -58,26 +58,34 @@ export default (props: IProps) => {
 
     useEffect(() => {
         if (placesLoadingState === ELoadingStates.LOADED) {
+            props.onFilterChange({
+                _isFilterActive: false,
+                difficultyCode: defaultFilter.difficultyCode,
+                walkingDistancesFrom: defaultFilter.walkingDistancesFrom,
+                walkingDistancesTo: defaultFilter.walkingDistancesTo
+            });
+
             getFilterData(places);
         }
     }, [placesLoadingState]);
 
-
     useEffect(() => {
-        if (difficultyCode && walkingDistancesFrom && walkingDistancesTo) {
+        if (difficultyCode && Number(walkingDistancesFrom) !== Number.NaN && Number(walkingDistancesTo) !== Number.NaN) {
             props.onFilterChange({
                 _isFilterActive:
                     difficultyCode !== defaultFilter.difficultyCode ||
                     walkingDistancesFrom !== defaultFilter.walkingDistancesFrom ||
                     walkingDistancesTo !== defaultFilter.walkingDistancesTo,
                 difficultyCode,
+                // @ts-ignore
                 walkingDistancesFrom,
+                // @ts-ignore
                 walkingDistancesTo
             });
         }
     }, [difficultyCode, walkingDistancesFrom, walkingDistancesTo]);
 
-    return availableOptions && difficultyCode && walkingDistancesFrom && walkingDistancesTo ? (
+    return availableOptions && difficultyCode && walkingDistancesFrom !== undefined && walkingDistancesTo !== undefined ? (
         <form data-component="Filter" className="form">
             <div className="item">
                 <label htmlFor="difficultyCode">Náročnost</label>

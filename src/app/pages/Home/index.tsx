@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
+import { DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { calculateDistance } from 'Helpers';
@@ -29,16 +30,14 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceWithId | null>(null);
-    const [filterData, setFilterData] = useState<IFilterData | null>(null);
+    const [filterData, setFilterData] = useState<IFilterData>();
 
     useEffect(() => {
         if (placesLoadingState === ELoadingStates.LOADED && currentLocation.timestamp) {
             const placesClone = [...places].map(place => ({
                 ...place,
                 distance: calculateDistance(place.coordinates, currentLocation)
-            })).sort((a, b) =>
-                (a.distance < b.distance) ? -1 :
-                    (a.distance > b.distance) ? 1 : 0);
+            })).sort((a, b) => a.distance < b.distance ? -1 : a.distance > b.distance ? 1 : 0);
 
             setPlacesClone(placesClone);
         };
@@ -46,11 +45,13 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (filterData && placesClone) {
-            const placesFiltered = [...placesClone]; /* .filter(place =>
+            console.log(filterData);
+
+            const placesFiltered = [...placesClone].filter(place =>
                 (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
-                place.accessibility.walkingDistance > filterData.walkingDistancesFrom &&
-                place.accessibility.walkingDistance < filterData.walkingDistancesTo
-            ); */
+                place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
+                place.accessibility.walkingDistance <= filterData.walkingDistancesTo
+            );
 
             setPlacesFiltered(placesFiltered);
         }
@@ -67,10 +68,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 />
 
                 <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
-                    {(placesFiltered && filterData) && (
+                    {(places && placesFiltered && filterData) && (
                         <Map
                             places={places}
-                            filteredIds={filterData._isFilterActive ? placesFiltered.map(x => x.id) : places.map(x => x.id)}
+                            filteredIds={placesFiltered.map(x => x.id)}
                             isFullWidth
                             onPlaceClick={setSelectedPlace}
                         />
