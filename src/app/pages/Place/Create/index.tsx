@@ -49,7 +49,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
             id: currentUser.uid,
             timestamp: ''
         },
-        updatesHistory: []
+        updatesHistory: [],
+        usersVisited: []
     });
 
     const setPlaceProperty = (propertyKey: string, value: any) => {

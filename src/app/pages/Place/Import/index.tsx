@@ -44,7 +44,8 @@ export default () => {
                     id: 'IMPORT',
                     timestamp: Database.getTimestamp()
                 },
-                updatesHistory: []
+                updatesHistory: [],
+                usersVisited: []
             });
         });
 

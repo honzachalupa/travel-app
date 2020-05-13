@@ -6,12 +6,14 @@ import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
-import { Database, findInEnum, hasRole } from 'Helpers';
+import { Database, findInEnum, getIsVisited, hasRole } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import RemoveIcon from 'Icons/bin.svg';
+import UncheckIcon from 'Icons/cross.svg';
 import EditIcon from 'Icons/edit.svg';
 import NavigateIcon from 'Icons/navigation.svg';
+import CheckIcon from 'Icons/plus.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
@@ -28,6 +30,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
+    const [isVisited, setIsVisited] = useState<boolean>(false);
 
     const getPlace = () => {
         // @ts-ignore
@@ -41,6 +44,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                 } as IPlaceRemote);
 
                 setHasEditRights(hasRole(currentUser, ERoles.SUPER_USER) || (!!currentUser && place.addedBy.id === currentUser.uid));
+                setIsVisited(getIsVisited(place, currentUser));
             }
         });
     };
@@ -59,6 +63,22 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     count: place.rating.count + 1
                 }
             });
+        }
+    }
+
+    const handleToggleVisitedState = () => {
+        if (place) {
+            if (isVisited) {
+                Database.places.doc(place.id).set({
+                    ...place,
+                    usersVisited: place.usersVisited.filter(emailAddress => emailAddress !== currentUser.email)
+                });
+            } else {
+                Database.places.doc(place.id).set({
+                    ...place,
+                    usersVisited: [...place.usersVisited, currentUser.email]
+                });
+            }
         }
     }
 
@@ -112,18 +132,22 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
                         <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
 
-                        <h3 className="subheadline">Hodnocení</h3>
-                        <div className="rating-container">
-                            <StarRatings
-                                rating={getRatingStars(place.rating.value, place.rating.count)}
-                                starRatedColor="#0fd99f"
-                                starDimension="30px"
-                                starSpacing="2px"
-                                changeRating={handleRatingChange}
-                            />
+                        {isVisited && (
+                            <React.Fragment>
+                                <h3 className="subheadline">Hodnocení</h3>
+                                <div className="rating-container">
+                                    <StarRatings
+                                        rating={getRatingStars(place.rating.value, place.rating.count)}
+                                        starRatedColor="#0fd99f"
+                                        starDimension="30px"
+                                        starSpacing="2px"
+                                        changeRating={handleRatingChange}
+                                    />
 
-                            <p className="count">Hodnotilo {place.rating.count} uživatelů.</p>
-                        </div>
+                                    <p className="count">Hodnotilo {place.rating.count} uživatelů.</p>
+                                </div>
+                            </React.Fragment>
+                        )}
                     </div>
 
                     {/* place.images.length > 0 && (
@@ -149,6 +173,11 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         icon: EditIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
+                    } : null, hasEditRights ? {
+                        label: isVisited ? 'Nenavštíveno' : 'Navštíveno',
+                        icon: isVisited ? UncheckIcon : CheckIcon,
+                        color: EColors.GREEN,
+                        onClick: handleToggleVisitedState
                     } : null, hasEditRights ? {
                         label: 'Smazat',
                         icon: RemoveIcon,

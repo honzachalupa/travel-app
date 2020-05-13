@@ -33,6 +33,7 @@ export interface IPlacePartial {
         timestamp: any; // To-do: Add correct data type
         changes: any; // To-do: Add correct data type
     }[];
+    usersVisited: string[];
 }
 
 export interface IPlaceRemote extends IPlacePartial {
@@ -42,5 +43,4 @@ export interface IPlaceRemote extends IPlacePartial {
 export interface IPlace extends IPlacePartial {
     id: string;
     distance: number;
-    isVisited: boolean;
 }

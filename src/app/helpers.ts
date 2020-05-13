@@ -6,7 +6,7 @@ import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
+import { ICoordinates, IPlace, IPlaceRemote } from 'Interfaces/Place';
 
 firebase.initializeApp(config.firebase);
 
@@ -154,5 +154,7 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
     }
 };
 
-export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole };
+const getIsVisited = (place: IPlace, currentUser: User | null): boolean => currentUser && currentUser.email ? place.usersVisited.includes(currentUser.email) : false;
+
+export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole, getIsVisited };
 

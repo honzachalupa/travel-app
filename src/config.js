@@ -4,7 +4,7 @@ module.exports = {
     name: 'Places',
     nameShort: 'Places',
     description: 'Some description.',
-    accentColor: '#30e292',
+    accentColor: '#ffb12a',
     developerName: 'Jan Chalupa',
     developerUrl: 'https://www.honzachalupa.cz/',
     caching: false,
