@@ -29,15 +29,15 @@ class TimeCost {
     }
 }
 
-const getUrlParameter = (key: string) => new URL(window.location.href).searchParams.get(key);
-
-type filterQuery = [string, firebase.firestore.WhereFilterOp, any];
-const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadingStatusCallback: (status: string) => void, filterQueries?: filterQuery[]) => {
-    setLoadingStatusCallback(ELoadingStates.LOADING);
+type TFilterQuery = [string, firebase.firestore.WhereFilterOp, any];
+const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadingStatusCallback?: (status: string) => void, filterQueries?: TFilterQuery[]) => {
+    if (setLoadingStatusCallback) {
+        setLoadingStatusCallback(ELoadingStates.LOADING);
+    }
 
     let query: firebase.firestore.Query;
 
-    if (hasRole(Authentication.currentUser, ERoles.SUPER_USER) && getUrlParameter('showAll') === 'true') {
+    if (hasRole(Authentication.currentUser, ERoles.SUPER_USER)) {
         query = Database.places;
     } else {
         query = Database.places
@@ -66,7 +66,10 @@ const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadi
         });
 
         setPlacesCallback(places);
-        setLoadingStatusCallback(places.length > 0 ? ELoadingStates.LOADED : ELoadingStates.NO_DATA);
+
+        if (setLoadingStatusCallback) {
+            setLoadingStatusCallback(places.length > 0 ? ELoadingStates.LOADED : ELoadingStates.NO_DATA);
+        }
     });
 };
 
@@ -76,9 +79,9 @@ const Database = {
     getPlaces: (
         setPlacesCallback:
             (places: IPlaceRemote[]) => void,
-        setLoadingStatusCallback:
+        setLoadingStatusCallback?:
             (status: string) => void,
-        filterQueries?: filterQuery[]
+        filterQueries?: TFilterQuery[]
     ) => getPlaces(setPlacesCallback, setLoadingStatusCallback, filterQueries),
     getTimestamp: firebase.firestore.Timestamp.now
 };

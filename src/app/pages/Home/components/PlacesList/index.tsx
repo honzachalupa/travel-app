@@ -32,7 +32,7 @@ export default withRouter((props: IProps) => {
                     <div key={place.id} className={cx('item', { 'is-visited': getIsVisited(place, currentUser) })} onClick={() => props.history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
                         <h3 className="name">
                             <Textfit mode="single" max={20}>
-                                {place.name}<span className="distance"> ({formatDistance(place.distance)})</span>
+                                {place.name}{place.distance ? <span className="distance"> ({formatDistance(place.distance)})</span> : null}
                             </Textfit>
                         </h3>
 

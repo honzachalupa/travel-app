@@ -7,5 +7,5 @@ export enum Routes {
     PLACE_DETAIL = '/misto/:id',
     PLACE_EDIT = '/misto/:id/upravit',
     PLACE_IMPORT = '/import-mist',
-    SETTINGS = '/nastaveni'
+    ADMINISTRATION_PLACES_TO_EDIT = '/administrace/mista-k-editaci'
 };

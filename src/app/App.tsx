@@ -9,13 +9,13 @@ import { User } from 'firebase';
 import { Authentication, Database, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
+import Page_AdministrationPlacesToEdit from 'Pages/Administration/PlacesToEdit';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
 import Page_PlaceCreate from 'Pages/Place/Create';
 import Page_PlaceDetail from 'Pages/Place/Detail';
 import Page_PlaceEdit from 'Pages/Place/Edit';
 import Page_PlaceImport from 'Pages/Place/Import';
-import Page_Settings from 'Pages/Settings';
 import Page_SignIn from 'Pages/SignIn';
 import Page_SignUp from 'Pages/SignUp';
 import React, { useEffect, useState } from 'react';
@@ -56,10 +56,6 @@ const App = () => {
         }
     }, [currentUser]);
 
-    useEffect(() => {
-        console.log(currentLocation);
-    }, [currentLocation.latitude, currentLocation.longitude]);
-
     return (
         <Context.Provider value={{ currentLocation, currentUser, placesLoadingState, places } as IContext}>
             <Router basename={__BASENAME__}>
@@ -72,7 +68,7 @@ const App = () => {
                     <Route path={Routes.PLACE_DETAIL} component={Page_PlaceDetail} exact />
                     <Route path={Routes.PLACE_EDIT} component={Page_PlaceEdit} exact />
                     <Route path={Routes.PLACE_IMPORT} component={Page_PlaceImport} exact />
-                    <Route path={Routes.SETTINGS} component={Page_Settings} exact />
+                    <Route path={Routes.ADMINISTRATION_PLACES_TO_EDIT} component={Page_AdministrationPlacesToEdit} exact />
                     <Route component={Page_NotFound} exact />
                 </Switch>
             </Router>
