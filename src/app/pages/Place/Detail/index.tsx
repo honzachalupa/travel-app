@@ -19,10 +19,10 @@ import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/Main';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import StarRatings from 'react-star-ratings';
 import { Textfit } from 'react-textfit';
 // import ImagesGrid from './components/ImagesGrid';
 import PostsGrid from './components/PostsGrid';
+import Rating from './components/Rating';
 import './style';
 
 export default withRouter(({ history, match }: RouteComponentProps) => {
@@ -48,23 +48,6 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
             }
         });
     };
-
-    const getRatingStars = (value: number, count: number) =>
-        value > 0 && count > 0 ?
-            Math.round(value / count) :
-            0;
-
-    const handleRatingChange = (ratedValue: any) => {
-        if (place) {
-            Database.places.doc(place.id).set({
-                ...place,
-                rating: {
-                    value: place.rating.value + ratedValue,
-                    count: place.rating.count + 1
-                }
-            });
-        }
-    }
 
     const handleToggleVisitedState = () => {
         if (place) {
@@ -135,17 +118,10 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         {isVisited && (
                             <React.Fragment>
                                 <h3 className="subheadline">Hodnocení</h3>
-                                <div className="rating-container">
-                                    <StarRatings
-                                        rating={getRatingStars(place.rating.value, place.rating.count)}
-                                        starRatedColor="#0fd99f"
-                                        starDimension="30px"
-                                        starSpacing="2px"
-                                        changeRating={handleRatingChange}
-                                    />
 
-                                    <p className="count">Hodnotilo {place.rating.count} uživatelů.</p>
-                                </div>
+                                {place && (
+                                    <Rating place={place} />
+                                )}
                             </React.Fragment>
                         )}
                     </div>

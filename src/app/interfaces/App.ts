@@ -3,6 +3,7 @@ declare module 'use-position';
 declare module 'react-star-ratings';
 declare module 'react-textfit';
 declare module 'marker-animate-unobtrusive';
+declare module 'geolocator';
 
 declare module '*.png' {
     const value: any;

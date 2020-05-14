@@ -130,7 +130,7 @@ const calculateDistance = (coordinateA: ICoordinates, coordinateB?: ICoordinates
 
     const distance = R * c;
 
-    return Math.max(Math.round(distance / 1000), 1);
+    return Math.round(distance);
 }
 
 const findInEnum = (enumerator: any, key: string) => enumerator.find((x: typeof enumerator) => x.id === key) || { label: null };

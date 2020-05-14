@@ -8,7 +8,7 @@ import { Routes } from 'Enums/Routes';
 import { User } from 'firebase';
 import { Authentication, Database, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
-import { IPlaceRemote } from 'Interfaces/Place';
+import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
 import Page_PlaceCreate from 'Pages/Place/Create';
@@ -21,11 +21,10 @@ import Page_SignUp from 'Pages/SignUp';
 import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { usePosition } from 'use-position';
 import './App.scss';
 
 const App = () => {
-    const currentLocation = usePosition(true);
+    const [currentLocation, setCurrentLocation] = useState<ICoordinates>({ latitude: 0, longitude: 0 });
     const [currentUser, setCurrentUser] = useState<User | null>();
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
@@ -33,6 +32,14 @@ const App = () => {
     useEffect(() => {
         if (config.caching) {
             app.initServiceWorker();
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
+                setCurrentLocation({ latitude, longitude });
+            });
+        } else {
+            console.log('Geolocation denied.');
         }
 
         Authentication.onAuthStateChanged(user => setCurrentUser(user));
@@ -48,6 +55,10 @@ const App = () => {
             p.end();
         }
     }, [currentUser]);
+
+    useEffect(() => {
+        console.log(currentLocation);
+    }, [currentLocation.latitude, currentLocation.longitude]);
 
     return (
         <Context.Provider value={{ currentLocation, currentUser, placesLoadingState, places } as IContext}>

@@ -4,6 +4,7 @@ import { IWebsite } from "Interfaces/Website";
 export interface ICoordinates {
     latitude: number;
     longitude: number;
+    timestamp?: number;
 }
 
 export interface IPlacePartial {

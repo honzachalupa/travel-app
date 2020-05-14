@@ -18,6 +18,13 @@ interface IProps extends RouteComponentProps {
 export default withRouter((props: IProps) => {
     const { placesLoadingState, currentUser } = useContext(Context) as IContext;
 
+    const formatDistance = (meters: number) =>
+        meters < 1000 ?
+            `${meters} m` :
+            meters < 5000 ?
+                `${Math.round(meters / 1000 * 10) / 10} km`.replace('.', ',') :
+                `${Math.round(meters / 1000)} km`.replace('.', ',');
+
     return (
         <div data-component="PlacesList">
             {placesLoadingState === ELoadingStates.LOADED ? (
@@ -25,7 +32,7 @@ export default withRouter((props: IProps) => {
                     <div key={place.id} className={cx('item', { 'is-visited': getIsVisited(place, currentUser) })} onClick={() => props.history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
                         <h3 className="name">
                             <Textfit mode="single" max={20}>
-                                {place.name}<span className="distance"> ({place.distance} km)</span>
+                                {place.name}<span className="distance"> ({formatDistance(place.distance)})</span>
                             </Textfit>
                         </h3>
 

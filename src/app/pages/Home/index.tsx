@@ -2,6 +2,7 @@ import { Context } from '@honzachalupa/helpers';
 import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
+import Menu from 'Components/Menu';
 import Navigation from 'Components/Navigation';
 import { DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
@@ -25,24 +26,28 @@ import './style';
 export default withRouter(({ history }: RouteComponentProps) => {
     const { places: placesContext, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
     const [places, setPlaces] = useState<IPlace[]>([]);
+    const [isMenuExpanded, setMenuExpanded] = useState<boolean>(false);
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceRemote | null>(null);
     const [filterData, setFilterData] = useState<IFilterData>();
 
+    const addDistance = (place: IPlaceRemote) => ({
+        ...place,
+        distance: calculateDistance(place.coordinates, currentLocation)
+    });
+
+    const applyFilter = (place: IPlace) => filterData ?
+        (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
+        place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
+        place.accessibility.walkingDistance <= filterData.walkingDistancesTo : [];
+
     useEffect(() => {
-        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.timestamp && filterData) {
+        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData) {
             const p = new TimeCost('Calculating distance from current location and setting sorting.');
             p.start();
 
-            const placesFiltered = [...placesContext].map(place => ({
-                ...place,
-                distance: calculateDistance(place.coordinates, currentLocation)
-            } as IPlace)).sort((a, b) => a.distance - b.distance).filter(place =>
-                (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
-                place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
-                place.accessibility.walkingDistance <= filterData.walkingDistancesTo
-            );
+            const placesFiltered = [...placesContext].map(place => addDistance(place)).sort((a, b) => a.distance - b.distance).filter(applyFilter);
 
             setPlaces(placesFiltered);
 
@@ -53,11 +58,13 @@ export default withRouter(({ history }: RouteComponentProps) => {
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-filter-expanded': isFilterExpanded, 'is-map-expanded': isMapExpanded })}>
+                <Menu isExpanded={isMenuExpanded} />
+
                 <ButtonWithIcon
                     className="settings-button"
                     icon={SettingsIcon}
                     color={EColors.WHITE_TRANSPARENT}
-                    onClick={() => history.push(Routes.SETTINGS)}
+                    onClick={() => setMenuExpanded(!isMenuExpanded)}
                 />
 
                 <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
@@ -88,7 +95,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                             className="toggle-map-button"
                             icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
                             color={EColors.ORANGE}
-                            onClick={() => { setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
+                            onClick={() => { setMenuExpanded(false); setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
                         />
                     )}
                 </div>

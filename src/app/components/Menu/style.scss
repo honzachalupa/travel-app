@@ -1,0 +1,15 @@
+[data-component="Menu"] {
+    width: 80vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(5px);
+    position: absolute;
+    top: 0;
+    left: -80vw;
+    transition: left 250ms;
+    z-index: 99;
+
+    &.is-expanded {
+        left: 0;
+    }
+}

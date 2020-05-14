@@ -1,0 +1,15 @@
+[data-component="Rating"] {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 30px;
+
+    .star-ratings {
+        width: 170px;
+    }
+
+    .count {
+        color: gray;
+    }
+}
