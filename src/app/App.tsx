@@ -35,9 +35,14 @@ const App = () => {
         }
 
         if (navigator.geolocation) {
+            const p = new TimeCost('Getting user\'s location.');
+            p.start();
+
             navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
                 setCurrentLocation({ latitude, longitude });
-            });
+
+                p.end(true);
+            }, console.log);
         } else {
             console.log('Geolocation denied.');
         }
@@ -46,18 +51,18 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (currentUser !== undefined && placesLoadingState === ELoadingStates.WAITING) {
+        if (currentUser !== undefined && placesLoadingState === ELoadingStates.WAITING && currentLocation.latitude > 0 && currentLocation.longitude > 0) {
             const p = new TimeCost('Fetching data from Firebase.');
             p.start();
 
-            Database.getPlaces(setPlaces, setLoadingState);
+            Database.getPlaces(setPlaces, setLoadingState, [['isPublished', '==', true]]);
 
             p.end();
         }
-    }, [currentUser]);
+    }, [currentUser, currentLocation]);
 
     return (
-        <Context.Provider value={{ currentLocation, currentUser, placesLoadingState, places } as IContext}>
+        <Context.Provider value={{ currentLocation, currentUser, placesLoadingState, places, setLoadingState } as IContext}>
             <Router basename={__BASENAME__}>
                 <Switch>
                     <Route path={Routes.INDEX} component={Page_Home} />

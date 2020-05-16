@@ -16,4 +16,19 @@
     &.is-expanded {
         left: 0;
     }
+
+    .items {
+        .group-label {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            float: left;
+            margin-bottom: 15px;
+        }
+
+        .item {
+            width: 100%;
+            float: left;
+        }
+    }
 }

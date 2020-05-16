@@ -9,7 +9,7 @@ import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlacePartial } from 'Interfaces/Place';
-import Layout from 'Layouts/Main';
+import Layout from 'Layouts/WithSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
@@ -24,6 +24,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const { currentUser } = useContext(Context) as IContext;
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
+    const [websitesString, setWebsitesString] = useState<string>('');
     const [instagramPostsString, setInstagramPostsString] = useState<string>('');
     const [images /* , setImages */] = useState<string[]>([]);
 
@@ -50,7 +51,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
             timestamp: ''
         },
         updatesHistory: [],
-        usersVisited: []
+        usersVisited: [],
+        isPublished: false
     });
 
     const setPlaceProperty = (propertyKey: string, value: any) => {
@@ -90,6 +92,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
         const placeClone = { ...place };
 
         placeClone.coordinates = selectedCoordinates;
+        placeClone.websites = websitesString.split(',').map(url => url.trim()).filter(x => x.length > 0);
         placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim()).filter(x => x.length > 0);
         placeClone.images = images;
 
@@ -100,8 +103,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
         const isValid =
             place.name.length > 2 &&
             // place.description.length > 10 &&
-            place.accessibility.walkingDistance > 0 &&
-            place.accessibility.difficultyCode !== DifficultyCodes.NONE &&
+            // place.accessibility.walkingDistance > 0 &&
+            // place.accessibility.difficultyCode !== DifficultyCodes.NONE &&
             selectedCoordinates.latitude > 0 &&
             selectedCoordinates.longitude > 0;
 
@@ -109,7 +112,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     }, [place, selectedCoordinates]);
 
     return (
-        <Layout className="has-default-paddings">
+        <Layout title="Přidat místo">
             <div data-component="Page_PlaceCreate">
                 <form className="form">
                     <label htmlFor="name">Název</label>
@@ -128,7 +131,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         ))}
                     </select>
 
-                    <label htmlFor="instagramPosts">Odkaz na post na Instagramu</label>
+                    <label htmlFor="websites">Odkazy na web</label>
+                    <textarea name="websites" onChange={(e: any) => setWebsitesString(e.target.value)} defaultValue={place.websites.join(',')} />
+
+                    <label htmlFor="instagramPosts">Odkazy na IG</label>
                     <textarea name="instagramPosts" onChange={(e: any) => setInstagramPostsString(e.target.value)} defaultValue={place.instagramPosts} />
 
                     {/* <input style={{ display: 'none' }} type="file" accept="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} /> */}
@@ -136,6 +142,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     {/*
                      // @ts-ignore */}
                     {/* <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} /> */}
+
+                    <label htmlFor="isPublished">Publikováno</label>
+                    <select name="isPublished" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPublished', e.target.value === 'true')} defaultValue={place.isPublished.toString()}>
+                        <option value="true">Ano</option>
+                        <option value="false">Ne</option>
+                    </select>
 
                     <Map onMapClick={setSelectedCoordinates} isPoiVisible />
                 </form>

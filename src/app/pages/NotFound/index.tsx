@@ -1,10 +1,10 @@
-import Layout from 'Layouts/Main';
+import Layout from 'Layouts/WithSpacing';
 import React from 'react';
 
 export default () => (
     <section>
-        <Layout>
-            <h1>Not Found</h1>
+        <Layout title="Stránka nenalezena">
+            <h1>Chyba 404 - Tato stránka nebyla nalezena.</h1>
         </Layout>
     </section>
 );

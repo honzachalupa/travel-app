@@ -16,7 +16,7 @@ import NavigateIcon from 'Icons/navigation.svg';
 import CheckIcon from 'Icons/plus.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceRemote } from 'Interfaces/Place';
-import Layout from 'Layouts/Main';
+import Layout from 'Layouts/WithoutSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Textfit } from 'react-textfit';
@@ -43,7 +43,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     id: doc.id
                 } as IPlaceRemote);
 
-                setHasEditRights(hasRole(currentUser, ERoles.SUPER_USER) || (!!currentUser && place.addedBy.id === currentUser.uid));
+                setHasEditRights(hasRole(currentUser, ERoles.ADMIN) || (!!currentUser && place.addedBy.id === currentUser.uid));
                 setIsVisited(getIsVisited(place, currentUser));
             }
         });
@@ -99,32 +99,28 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                 </div>
 
                 <div className="content">
-                    <div className="info">
-                        <h1 className="name">
-                            <Textfit mode="single" max={24}>
-                                {place.name}
-                            </Textfit>
-                        </h1>
+                    <h1 className="name">
+                        <Textfit mode="single" max={24}>
+                            {place.name}
+                        </Textfit>
+                    </h1>
 
-                        <h3 className="subheadline">O místě</h3>
-                        <p className="description">{place.description || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
-                    </div>
+                    <h3 className="headline">O místě</h3>
+                    <p className="description">{place.description || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
 
-                    <div className="details">
-                        <h3 className="subheadline">Podrobnosti</h3>
-                        <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
-                        <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
+                    <h3 className="headline">Podrobnosti</h3>
+                    <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
+                    <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
 
-                        {isVisited && (
-                            <React.Fragment>
-                                <h3 className="subheadline">Hodnocení</h3>
+                    {isVisited && (
+                        <React.Fragment>
+                            <h3 className="headline">Hodnocení</h3>
 
-                                {place && (
-                                    <Rating place={place} />
-                                )}
-                            </React.Fragment>
-                        )}
-                    </div>
+                            {place && (
+                                <Rating place={place} />
+                            )}
+                        </React.Fragment>
+                    )}
 
                     {/* place.images.length > 0 && (
                         <ImagesGrid images={place.images} />
@@ -132,8 +128,17 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
 
                     {place.instagramPosts.length > 0 && (
                         <React.Fragment>
-                            <h3 className="subheadline" style={{ paddingLeft: 22 }}>Vaše IG příspěvky</h3>
+                            <h3 className="headline">Vaše IG příspěvky</h3>
                             <PostsGrid urls={place.instagramPosts} />
+                        </React.Fragment>
+                    )}
+
+                    {place.websites.length > 0 && (
+                        <React.Fragment>
+                            <h3 className="headline">Odkazy</h3>
+                            {place.websites.map(website => (
+                                <a key={website} href={website}>{website.replace(/https?:\/\//, '').replace(/\/$/, '')}</a>
+                            ))}
                         </React.Fragment>
                     )}
                 </div>
@@ -154,6 +159,11 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         icon: isVisited ? UncheckIcon : CheckIcon,
                         color: EColors.GREEN,
                         onClick: handleToggleVisitedState
+                    } : null, !hasEditRights ? {
+                        label: 'Navštíveno',
+                        icon: CheckIcon,
+                        color: EColors.GREEN,
+                        onClick: () => history.push(Routes.SIGN_IN)
                     } : null, hasEditRights ? {
                         label: 'Smazat',
                         icon: RemoveIcon,

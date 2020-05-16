@@ -15,7 +15,7 @@ import PlusIcon from 'Icons/plus.svg';
 import SettingsIcon from 'Icons/profile.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceRemote } from 'Interfaces/Place';
-import Layout from 'Layouts/Main';
+import Layout from 'Layouts/WithoutSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Filter, { IFilterData } from './components/Filter';

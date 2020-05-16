@@ -13,7 +13,7 @@ export default ({ urls }: IProps) => {
         const parent = document.getElementById('container');
 
         if (parent) {
-            setPostWidth(Math.floor((parent.offsetWidth)) - 40);
+            setPostWidth(Math.floor(parent.offsetWidth));
         }
     };
 
@@ -28,7 +28,7 @@ export default ({ urls }: IProps) => {
     return (
         <div data-component="PostsGrid" id="container">
             {postWidth > 0 && urls.map(url => (
-                <div key={url} className="post" style={{ width: postWidth }}>
+                <div key={url} className="item" style={{ width: postWidth }}>
                     <InstagramEmbed
                         url={url}
                         maxWidth={postWidth}

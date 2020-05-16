@@ -7,7 +7,7 @@ interface IProps {
 }
 
 export default ({ children, className }: IProps) => (
-    <div data-component="Layout_Main" className={className}>
+    <div data-component="Layout_WithoutSpacing" className={className}>
         {children}
     </div>
 );

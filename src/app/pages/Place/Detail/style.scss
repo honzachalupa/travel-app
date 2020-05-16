@@ -12,7 +12,6 @@
         position: relative;
         z-index: 9;
         transition: height 500ms;
-        margin-bottom: 20px;
 
         .toggle-map-button {
             position: absolute;
@@ -32,61 +31,40 @@
     }
 
     .content {
+        padding: 20px;
+
         @media (max-width: 799px) {
             width: 100%;
+            float: left;
         }
         @media (min-width: 800px) {
             width: 70%;
             margin: 0 auto;
         }
 
-        .subheadline {
+        .headline {
             font-size: 14px;
             font-weight: 500;
             padding-top: 30px;
             padding-bottom: 10px;
         }
 
-        .info,
-        .details {
-            padding: 0 20px;
-            float: left;
+        .name {
+            font-size: 30px;
+            font-weight: 500;
+            padding-top: 20px;
         }
 
-        .info {
-            @media (max-width: 799px) {
-                width: 100%;
-            }
-            @media (min-width: 7800px) {
-                width: 70%;
-            }
+        .description {
+            line-height: 150%;
+            opacity: 0.5;
+        }
 
-            .name {
-                font-size: 30px;
+        .item {
+            line-height: 150%;
+
+            .label {
                 font-weight: 500;
-                padding-top: 20px;
-            }
-
-            .description {
-                line-height: 150%;
-                opacity: 0.5;
-            }
-        }
-
-        .details {
-            @media (max-width: 799px) {
-                width: 100%;
-            }
-            @media (min-width: 7800px) {
-                width: 30%;
-            }
-
-            .item {
-                line-height: 150%;
-
-                .label {
-                    font-weight: 500;
-                }
             }
         }
     }

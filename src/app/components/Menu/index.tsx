@@ -1,5 +1,6 @@
 import { Context } from '@honzachalupa/helpers';
 import cx from 'classnames';
+import Button from 'Components/Button';
 import { Routes } from 'Enums/Routes';
 import { IContext } from 'Interfaces/Context';
 import React, { useContext } from 'react';
@@ -17,19 +18,16 @@ export default withRouter(({ isExpanded, history }: IProps) => {
 
     return (
         <nav data-component="Menu" className={cx({ 'is-expanded': isExpanded })}>
-            {isUserSigned ? (
-                <div>
-                    <p>Administrace</p>
+            <nav className="items">
+                {isUserSigned && (
+                    <React.Fragment>
+                        <p className="group-label">Administrace</p>
 
-                    <ul>
-                        <li>
-                            <button onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)}>Místa k editaci</button>
-                        </li>
-                    </ul>
-                </div>
-            ) : (
-                <div />
-            )}
+                        <Button className="item" label="Místa k editaci" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)} />
+                        <Button className="item" label="Import" onClick={() => history.push(Routes.PLACE_IMPORT)} />
+                    </React.Fragment>
+                )}
+            </nav>
 
             <Authentication />
         </nav>

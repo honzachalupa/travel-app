@@ -1,6 +1,4 @@
 import config from 'config';
-import { ECountryCodes } from 'Enums/CountryCodes';
-import { DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
@@ -13,6 +11,7 @@ firebase.initializeApp(config.firebase);
 const Authentication = firebase.auth();
 
 class TimeCost {
+    isUsed: boolean | undefined;
     description: string;
     startedAt = 0;
 
@@ -24,30 +23,32 @@ class TimeCost {
         this.startedAt = performance.now();
     }
 
-    end = () => {
-        console.log(`Task "${this.description}" run for ${performance.now() - this.startedAt} ms`);
+    end = (disableAfterRun?: boolean) => {
+        if (this.isUsed) {
+            const ms = performance.now() - this.startedAt;
+            const timeString = ms < 1000 ?
+                `${Math.round(ms * 1000) / 1000} miliseconds` :
+                `${Math.round(ms) / 1000} seconds`;
+
+            console.log(`Task "${this.description}" run for ${timeString}.`);
+
+            if (disableAfterRun) {
+                this.isUsed = true
+            }
+        }
     }
 }
 
-type TFilterQuery = [string, firebase.firestore.WhereFilterOp, any];
+export type TFilterQuery = [string, firebase.firestore.WhereFilterOp, any];
 const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadingStatusCallback?: (status: string) => void, filterQueries?: TFilterQuery[]) => {
     if (setLoadingStatusCallback) {
         setLoadingStatusCallback(ELoadingStates.LOADING);
     }
 
-    let query: firebase.firestore.Query;
-
-    if (hasRole(Authentication.currentUser, ERoles.SUPER_USER)) {
-        query = Database.places;
-    } else {
-        query = Database.places
-            .where('countryCode', '==', ECountryCodes.CZ)
-            .where('accessibility.difficultyCode', 'in', [DifficultyCodes.DIFFICULTY_1, DifficultyCodes.DIFFICULTY_2, DifficultyCodes.DIFFICULTY_3])
-            .where('description', '>', '');
-    }
+    let query = Database.places;
 
     if (filterQueries) {
-        filterQueries.forEach((filterQuery: any) => {
+        filterQueries.forEach((filterQuery: TFilterQuery) => {
             // @ts-ignore
             query = query.where(...filterQuery);
         });
@@ -144,17 +145,9 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
     const superUsers = ['janchalupa@outlook.cz', 'katharina.binderova@hotmail.com'];
     const admins = ['janchalupa@outlook.cz'];
 
-    if (currentUser && currentUser.email) {
-        if (role === ERoles.ADMIN && admins.includes(currentUser.email)) {
-            return true;
-        } else if (role === ERoles.SUPER_USER && superUsers.includes(currentUser.email)) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
+    return currentUser && currentUser.email ?
+        role === ERoles.ADMIN && admins.includes(currentUser.email) || role === ERoles.SUPER_USER && superUsers.includes(currentUser.email) :
+            false;
 };
 
 const getIsVisited = (place: IPlace, currentUser: User | null): boolean => currentUser && currentUser.email ? place.usersVisited.includes(currentUser.email) : false;

@@ -1,5 +1,4 @@
-import { DifficultyCodes } from "Enums/Difficulties";
-import { IWebsite } from "Interfaces/Website";
+import { DifficultyCodes } from 'Enums/Difficulties';
 
 export interface ICoordinates {
     latitude: number;
@@ -23,7 +22,7 @@ export interface IPlacePartial {
         difficultyCode: DifficultyCodes;
     };
     tags: string[];
-    websites: IWebsite[];
+    websites: string[];
     tripIds: string[];
     addedBy: {
         id: string;
@@ -35,6 +34,7 @@ export interface IPlacePartial {
         changes: any; // To-do: Add correct data type
     }[];
     usersVisited: string[];
+    isPublished: boolean;
 }
 
 export interface IPlaceRemote extends IPlacePartial {

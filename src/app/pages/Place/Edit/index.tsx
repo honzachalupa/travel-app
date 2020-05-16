@@ -1,11 +1,11 @@
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
-import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
+import { Difficulties } from 'Enums/Difficulties';
 import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IPlaceRemote } from 'Interfaces/Place';
-import Layout from 'Layouts/Main';
+import Layout from 'Layouts/WithSpacing';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
@@ -20,8 +20,8 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     // const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
     const [instagramPostsString, setInstagramPostsString] = useState<string>('');
+    const [websitesString, setWebsitesString] = useState<string>('');
     const [images /* , setImages */] = useState<string[]>([]);
-
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
 
     const getPlace = () => {
@@ -60,6 +60,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
             const placeClone = { ...place };
 
             // placeClone.coordinates = selectedCoordinates;
+            placeClone.websites = websitesString.split(',').map(url => url.trim()).filter(x => x.length > 0);
             placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim()).filter(x => x.length > 0);
             placeClone.images = images;
 
@@ -78,19 +79,19 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
     useEffect(() => {
         if (place) {
             const isValid =
-                place.name.length > 2 &&
+                place.name.length > 2 // &&
                 // place.description.length > 10 &&
-                place.accessibility.walkingDistance > 0 &&
-                place.accessibility.difficultyCode !== DifficultyCodes.NONE /* &&
-                selectedCoordinates.latitude > 0 &&
-                selectedCoordinates.longitude > 0; */
+                // place.accessibility.walkingDistance > 0 &&
+                // place.accessibility.difficultyCode !== DifficultyCodes.NONE &&
+                // selectedCoordinates.latitude > 0 &&
+                // selectedCoordinates.longitude > 0;
 
             setValidationState(isValid ? ValidationState.VALID : ValidationState.INVALID);
         }
     }, [place /*, selectedCoordinates */]);
 
     return place ? (
-        <Layout>
+        <Layout title="Upravit">
             <div data-component="Page_PlaceEdit">
                 <form className="form">
                     <label htmlFor="name">Název</label>
@@ -109,8 +110,17 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         ))}
                     </select>
 
-                    <label htmlFor="instagramPosts">Odkaz na post na Instagramu</label>
+                    <label htmlFor="websites">Odkazy na web</label>
+                    <textarea name="websites" onChange={(e: any) => setWebsitesString(e.target.value)} defaultValue={place.websites.join(',')} />
+
+                    <label htmlFor="instagramPosts">Odkazy na IG</label>
                     <textarea name="instagramPosts" onChange={(e: any) => setInstagramPostsString(e.target.value)} defaultValue={place.instagramPosts.join(',')} />
+
+                    <label htmlFor="isPublished">Publikováno</label>
+                    <select name="isPublished" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPublished', e.target.value === 'true')} defaultValue={place.isPublished.toString()}>
+                        <option value="true">Ano</option>
+                        <option value="false">Ne</option>
+                    </select>
                 </form>
 
                 <Navigation

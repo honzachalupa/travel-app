@@ -10,4 +10,5 @@ export interface IContext {
     places: IPlaceRemote[];
     placesLoadingState: string;
     currentUser: User;
+    setLoadingState: () => void;
 }
