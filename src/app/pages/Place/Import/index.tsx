@@ -65,6 +65,8 @@ export default () => {
     const handleSubmit = () => {
         places.forEach((place: IPlaceRemote) => {
             Database.places.doc(place.id).delete();
+            Database.visits.doc(place.id).delete();
+            Database.ratings.doc(place.id).delete();
         });
 
         formatData(rawData.features);

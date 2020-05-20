@@ -3,13 +3,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 30px;
+
+    &:not(.is-visited) > * {
+        pointer-events: none;
+    }
 
     .star-ratings {
         width: 170px;
     }
 
     .count {
-        color: gray;
+        opacity: 0.5;
     }
 }

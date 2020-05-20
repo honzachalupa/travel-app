@@ -75,8 +75,10 @@ const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadi
 };
 
 const Database = {
-    ...firebase.firestore().enablePersistence(),
+    ...firebase.firestore().enablePersistence({ synchronizeTabs: true }),
     places: firebase.firestore().collection('places'),
+    visits: firebase.firestore().collection('visits'),
+    ratings: firebase.firestore().collection('ratings'),
     getPlaces: (
         setPlacesCallback:
             (places: IPlaceRemote[]) => void,

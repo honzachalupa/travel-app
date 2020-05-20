@@ -112,14 +112,16 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
                     <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
 
-                    {isVisited && (
-                        <React.Fragment>
+                    {place && (
+                        <div className="rating-container">
                             <h3 className="headline">Hodnocení</h3>
 
-                            {place && (
-                                <Rating place={place} />
+                            <Rating placeId={place.id} isVisited={isVisited} />
+
+                            {!isVisited && (
+                                <p className="note">Místo můžete hodnotit až tehdy, kdy ho navštívíte.</p>
                             )}
-                        </React.Fragment>
+                        </div>
                     )}
 
                     {/* place.images.length > 0 && (
@@ -154,16 +156,11 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         icon: EditIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
-                    } : null, hasEditRights ? {
+                    } : null, hasEditRights || (currentUser && currentUser.email) ? {
                         label: isVisited ? 'Nenavštíveno' : 'Navštíveno',
                         icon: isVisited ? UncheckIcon : CheckIcon,
                         color: EColors.GREEN,
                         onClick: handleToggleVisitedState
-                    } : null, !hasEditRights ? {
-                        label: 'Navštíveno',
-                        icon: CheckIcon,
-                        color: EColors.GREEN,
-                        onClick: () => history.push(Routes.SIGN_IN)
                     } : null, hasEditRights ? {
                         label: 'Smazat',
                         icon: RemoveIcon,
