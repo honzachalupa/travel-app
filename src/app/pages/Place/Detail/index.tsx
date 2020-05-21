@@ -26,7 +26,7 @@ import Rating from './components/Rating';
 import './style';
 
 export default withRouter(({ history, match }: RouteComponentProps) => {
-    const { currentUser } = useContext(Context) as IContext;
+    const { currentUser, isAuthenticated } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
@@ -43,7 +43,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     id: doc.id
                 } as IPlaceRemote);
 
-                setHasEditRights(hasRole(currentUser, ERoles.ADMIN) || (!!currentUser && place.addedBy.id === currentUser.uid));
+                setHasEditRights(hasRole(currentUser, ERoles.ADMIN) || (isAuthenticated && place.addedBy.id === currentUser.uid));
                 setIsVisited(getIsVisited(place, currentUser));
             }
         });
@@ -156,7 +156,7 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                         icon: EditIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
-                    } : null, hasEditRights || (currentUser && currentUser.email) ? {
+                    } : null, isAuthenticated ? {
                         label: isVisited ? 'Nenavštíveno' : 'Navštíveno',
                         icon: isVisited ? UncheckIcon : CheckIcon,
                         color: EColors.GREEN,

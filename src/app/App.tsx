@@ -26,6 +26,7 @@ import './App.scss';
 const App = () => {
     const [currentLocation, setCurrentLocation] = useState<ICoordinates>({ latitude: 0, longitude: 0 });
     const [currentUser, setCurrentUser] = useState<User | null>();
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
 
@@ -47,7 +48,10 @@ const App = () => {
             console.log('Geolocation denied.');
         }
 
-        Authentication.onAuthStateChanged(user => setCurrentUser(user));
+        Authentication.onAuthStateChanged(user => {
+            setCurrentUser(user);
+            setIsAuthenticated(Boolean(user && user.uid));
+        });
     }, []);
 
     useEffect(() => {
@@ -62,7 +66,7 @@ const App = () => {
     }, [currentUser, currentLocation]);
 
     return (
-        <Context.Provider value={{ currentLocation, currentUser, placesLoadingState, places, setLoadingState } as IContext}>
+        <Context.Provider value={{ currentLocation, currentUser, isAuthenticated, placesLoadingState, places, setLoadingState } as IContext}>
             <Router basename={__BASENAME__}>
                 <Switch>
                     <Route path={Routes.INDEX} component={Page_Home} />

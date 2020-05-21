@@ -13,13 +13,12 @@ interface IProps extends RouteComponentProps {
 }
 
 export default withRouter(({ isExpanded, history }: IProps) => {
-    const { currentUser } = useContext(Context) as IContext;
-    const isUserSigned = currentUser && currentUser.email;
+    const { isAuthenticated } = useContext(Context) as IContext;
 
     return (
         <nav data-component="Menu" className={cx({ 'is-expanded': isExpanded })}>
             <nav className="items">
-                {isUserSigned && (
+                {isAuthenticated && (
                     <React.Fragment>
                         <p className="group-label">Administrace</p>
 
