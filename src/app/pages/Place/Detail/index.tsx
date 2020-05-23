@@ -9,7 +9,7 @@ import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
-import { findInEnum, getIsVisited, hasRole } from 'Helpers';
+import { findInEnum, hasRole } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import RemoveIcon from 'Icons/bin.svg';
@@ -38,11 +38,10 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
 
     const handleToggleVisitedState = () => {
         if (place) {
+            VisitsActions.set(place.id, !isVisited);
+
             if (isVisited) {
-                VisitsActions.delete(place.id);
                 RatingsActions.delete(place.id);
-            } else {
-                VisitsActions.set(place.id);
             }
         }
     }
@@ -66,9 +65,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                 (isAuthenticated && place.addedBy.id === currentUser.uid)
             );
 
-            setIsVisited(
-                getIsVisited(place, currentUser)
-            );
+            VisitsActions.get(place.id, setIsVisited);
         }
     }, [place]);
 

@@ -1,38 +1,36 @@
 import { Database } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
-import { IPlace } from 'Interfaces/Place';
 
 export default {
     set: (
-        placeId: string
+        placeId: string,
+        value: boolean
     ) => {
         const { currentUser } = window['context'] as IContext;
 
-        const unsubscribe = Database.places.doc(placeId).onSnapshot(doc => {
-            const place = doc.data() as IPlace;
+        const unsubscribe = Database.visits.doc(placeId).onSnapshot(doc => {
+            const visits = doc.data() as { [key: string]: number };
 
-             Database.places.doc(placeId).set({
-                ...place,
-                usersVisited: [...place.usersVisited, currentUser.uid]
+            Database.visits.doc(placeId).set({
+                ...visits || [],
+                [currentUser.uid]: value
             });
 
             unsubscribe();
         });
     },
-    delete: (
-        placeId: string
+    get: (
+        placeId: string,
+        setCallback: (isVisited: boolean) => void
     ) => {
         const { currentUser } = window['context'] as IContext;
 
-        const unsubscribe = Database.places.doc(placeId).onSnapshot(doc => {
-            const place = doc.data() as IPlace;
+        Database.visits.doc(placeId).onSnapshot(doc => {
+            const visits = doc.data() as { [key: string]: boolean };
 
-            Database.places.doc(placeId).set({
-                ...place,
-                usersVisited: place.usersVisited.filter((id: string) => id !== currentUser.uid)
-            });
-
-            unsubscribe();
+            if (visits) {
+                setCallback(visits[currentUser.uid] ? visits[currentUser.uid] : false);
+            }
         });
-    }
+    },
 };

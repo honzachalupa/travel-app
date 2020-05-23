@@ -33,7 +33,6 @@ export interface IPlacePartial {
         timestamp: any; // To-do: Add correct data type
         changes: any; // To-do: Add correct data type
     }[];
-    usersVisited: string[];
     isPublished: boolean;
 }
 

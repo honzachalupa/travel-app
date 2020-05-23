@@ -54,7 +54,6 @@ export default () => {
                                 timestamp: Database.getTimestamp()
                             },
                             updatesHistory: [],
-                            usersVisited: [],
                             isPublished: false
                         } as IPlacePartial
                     ]);

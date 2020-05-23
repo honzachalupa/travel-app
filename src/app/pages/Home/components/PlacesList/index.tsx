@@ -1,9 +1,8 @@
 import { Context } from '@honzachalupa/helpers';
-import cx from 'classnames';
 import { Difficulties } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
-import { findInEnum, getIsVisited } from 'Helpers';
+import { findInEnum } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IPlace } from 'Interfaces/Place';
 import React, { useContext } from 'react';
@@ -16,7 +15,7 @@ interface IProps extends RouteComponentProps {
 }
 
 export default withRouter((props: IProps) => {
-    const { placesLoadingState, currentUser } = useContext(Context) as IContext;
+    const { placesLoadingState } = useContext(Context) as IContext;
 
     const formatDistance = (meters: number) =>
         meters < 1000 ?
@@ -29,7 +28,7 @@ export default withRouter((props: IProps) => {
         <div data-component="PlacesList">
             {placesLoadingState === ELoadingStates.LOADED ? (
                 props.places.map(place => (
-                    <div key={place.id} className={cx('item', { 'is-visited': getIsVisited(place, currentUser) })} onClick={() => props.history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
+                    <div key={place.id} className="item" onClick={() => props.history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
                         <h3 className="name">
                             <Textfit mode="single" max={20}>
                                 {place.name}{place.distance ? <span className="distance"> ({formatDistance(place.distance)})</span> : null}

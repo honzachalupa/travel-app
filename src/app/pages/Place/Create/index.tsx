@@ -51,7 +51,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
             timestamp: ''
         },
         updatesHistory: [],
-        usersVisited: [],
         isPublished: false
     });
 

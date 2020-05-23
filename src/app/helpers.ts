@@ -3,7 +3,7 @@ import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { ICoordinates, IPlace, IPlaceRemote } from 'Interfaces/Place';
+import { ICoordinates } from 'Interfaces/Place';
 
 firebase.initializeApp(config.firebase);
 
@@ -109,7 +109,5 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
             false;
 };
 
-const getIsVisited = (place: IPlace | IPlaceRemote, currentUser: User | null): boolean => currentUser && currentUser.uid ? place.usersVisited.includes(currentUser.uid) : false;
-
-export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole, getIsVisited };
+export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole };
 
