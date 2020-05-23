@@ -10,6 +10,5 @@ export interface IContext {
     places: IPlaceRemote[];
     placesLoadingState: string;
     currentUser: User;
-    isAuthenticated: boolean;
     setLoadingState: () => void;
 }

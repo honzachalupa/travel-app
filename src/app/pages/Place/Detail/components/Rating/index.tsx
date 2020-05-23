@@ -13,7 +13,7 @@ interface IProps {
 }
 
 export default ({ placeId, isVisited }: IProps) => {
-    const { isAuthenticated } = useContext(Context) as IContext;
+    const { currentUser } = useContext(Context) as IContext;
     const [rating, setRating] = useState<IRating>({ value: 0, count: 0, currentUser: 0 });
 
     const handleRatingChange = (value: any) => {
@@ -33,7 +33,7 @@ export default ({ placeId, isVisited }: IProps) => {
                 starRatedColor="#FF0006"
                 starDimension="30px"
                 starSpacing="2px"
-                changeRating={isAuthenticated ? handleRatingChange : () => null}
+                changeRating={currentUser && currentUser.uid ? handleRatingChange : () => null}
             />
 
             <div>

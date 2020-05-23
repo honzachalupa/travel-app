@@ -30,7 +30,7 @@ import './style';
 
 
 export default withRouter(({ history, match }: RouteComponentProps & { match: { params: { id: string }} }) => {
-    const { currentUser, isAuthenticated } = useContext(Context) as IContext;
+    const { currentUser } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
@@ -59,11 +59,11 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
     }, []);
 
     useEffect(() => {
-        if (place) {
-            setHasEditRights(
+        if (place && currentUser) {
+            setHasEditRights(!!(
                 hasRole(currentUser, ERoles.ADMIN) ||
-                (isAuthenticated && place.addedBy.id === currentUser.uid)
-            );
+                (currentUser && currentUser.uid && place.addedBy.id === currentUser.uid)
+            ));
 
             VisitsActions.get(place.id, setIsVisited);
         }
@@ -106,10 +106,13 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
 
                     <h3 className="headline">O místě</h3>
                     <p className="description">{place.description.value || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
-                    <p className="description-source">
-                        <span>Zdroj: </span>
-                        <a className="url" href={place.description.source}>{getSourceDomain(place.description.source)}</a>
-                    </p>
+
+                    {place.description.source && (
+                        <p className="description-source">
+                            <span>Zdroj: </span>
+                            <a className="url" href={place.description.source}>{getSourceDomain(place.description.source)}</a>
+                        </p>
+                    )}
 
                     <h3 className="headline">Podrobnosti</h3>
                     <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
@@ -159,7 +162,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                         icon: EditIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
-                    } : null, isAuthenticated ? {
+                    } : null, currentUser ? {
                         label: isVisited ? 'Nenavštíveno' : 'Navštíveno',
                         icon: isVisited ? UncheckIcon : CheckIcon,
                         color: EColors.GREEN,
@@ -168,8 +171,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                         label: 'Smazat',
                         icon: RemoveIcon,
                         color: EColors.RED,
-                        onClick: handleRemove,
-                        isDisabled: true
+                        onClick: handleRemove
                     } : null]}
                     singleItemAlignment="right"
                 />

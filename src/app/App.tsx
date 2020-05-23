@@ -27,7 +27,6 @@ import './App.scss';
 const App = () => {
     const [currentLocation, setCurrentLocation] = useState<ICoordinates>({ latitude: 0, longitude: 0 });
     const [currentUser, setCurrentUser] = useState<User | null>();
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
 
@@ -44,17 +43,13 @@ const App = () => {
                 setCurrentLocation({ latitude, longitude });
 
                 p.end(true);
-            }, console.log);
+            });
         } else {
             console.log('Geolocation denied.');
         }
 
         Authentication.onAuthStateChanged(user => {
             setCurrentUser(user);
-            setIsAuthenticated(Boolean(user && user.uid));
-
-            // @ts-ignore
-            window.currentUser = user;
         });
     }, []);
 
@@ -72,7 +67,6 @@ const App = () => {
     const context = {
         currentLocation,
         currentUser,
-        isAuthenticated,
         placesLoadingState,
         places,
         setLoadingState

@@ -30,7 +30,7 @@ export default () => {
 
         geolocator.locate(options, (error: any, { coords, timestamp }: any) => {
             if (error) {
-                console.log(error);
+                console.error(error);
             } else {
                 setCoordinates({
                     latitude: coords.latitude,

@@ -17,8 +17,6 @@ export default () => {
 
     const formatData = (data: any) => {
         data.forEach((place: any) => {
-            console.log({ place });
-
             fetch(`https://cors-anywhere.herokuapp.com/http://api.geonames.org/countryCodeJSON?lat=${place.geometry.coordinates[1]}&lng=${place.geometry.coordinates[0]}&username=janchalupa`)
                 .then(response => response.json())
                 .then(data => {
@@ -76,8 +74,6 @@ export default () => {
 
     useEffect(() => {
         if (formattedPlaces.length === rawData.features.length) {
-            console.log(formattedPlaces);
-
             formattedPlaces.forEach(place => {
                 Database.places.add(place);
             });

@@ -1,12 +1,15 @@
+import { Context } from '@honzachalupa/helpers';
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
-import { Database } from 'Helpers';
+import { ERoles } from 'Enums/Roles';
+import { Database, hasRole } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
+import { IContext } from 'Interfaces/Context';
 import { IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithSpacing';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
 
@@ -16,6 +19,7 @@ enum ValidationState {
 }
 
 export default withRouter(({ history, match }: RouteComponentProps) => {
+    const { currentUser } = useContext(Context) as IContext;
     // const inputElementRef = useRef(null);
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
     // const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
@@ -119,11 +123,15 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     <label htmlFor="instagramPosts">Odkazy na IG</label>
                     <textarea name="instagramPosts" onChange={(e: any) => setInstagramPostsString(e.target.value)} defaultValue={place.instagramPosts.join(',')} />
 
-                    <label htmlFor="isPublished">Publikováno</label>
-                    <select name="isPublished" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPublished', e.target.value === 'true')} defaultValue={place.isPublished.toString()}>
-                        <option value="true">Ano</option>
-                        <option value="false">Ne</option>
-                    </select>
+                    {hasRole(currentUser, ERoles.ADMIN) && (
+                        <React.Fragment>
+                            <label htmlFor="isPublished">Publikováno</label>
+                            <select name="isPublished" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPublished', e.target.value === 'true')} defaultValue={place.isPublished.toString()}>
+                                <option value="true">Ano</option>
+                                <option value="false">Ne</option>
+                            </select>
+                        </React.Fragment>
+                    )}
                 </form>
 
                 <Navigation

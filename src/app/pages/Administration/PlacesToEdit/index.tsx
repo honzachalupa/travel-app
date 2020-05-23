@@ -18,10 +18,8 @@ export default () => {
         ]);
     }, []);
 
-    console.log(places);
-
     return (
-        <Layout title="Místa k editaci">
+        <Layout title={`Místa k editaci (${places.length} míst)`}>
             <div data-component="Page_PlacesToEdit">
                 <PlacesList places={places as IPlace[]} />
             </div>

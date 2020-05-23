@@ -8,11 +8,11 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
-    const { currentUser, isAuthenticated } = useContext(Context) as IContext;
+    const { currentUser } = useContext(Context) as IContext;
 
     return (
         <div data-component="Authentication">
-            {isAuthenticated ? (
+            {currentUser && currentUser.uid ? (
                 <React.Fragment>
                     <p className="email-address">{currentUser.email}</p>
 

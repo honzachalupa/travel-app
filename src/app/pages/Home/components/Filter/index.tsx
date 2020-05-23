@@ -27,7 +27,7 @@ export interface IFilterData {
 }
 
 export default (props: IProps) => {
-    const { places, placesLoadingState } = useContext(Context) as IContext;
+    const { places, placesLoadingState, currentUser } = useContext(Context) as IContext;
 
     const walkingDistances = [0, 0.5, 1, 2.5, 5, 7.5, 10, 15, 20];
 
@@ -64,8 +64,6 @@ export default (props: IProps) => {
         if (storageItem) {
             const filterData = JSON.parse(storageItem);
 
-            console.log(filterData);
-
             setDifficultyCode(filterData.difficultyCode);
             setWalkingDistancesFrom(filterData.walkingDistancesFrom);
             setWalkingDistancesTo(filterData.walkingDistancesTo);
@@ -96,7 +94,7 @@ export default (props: IProps) => {
                 difficultyCode,
                 walkingDistancesFrom,
                 walkingDistancesTo,
-                includeVisitedPlaces
+                includeVisitedPlaces: currentUser ? includeVisitedPlaces : false
             } as IFilterData;
 
             props.onFilterChange(filterData);
@@ -137,10 +135,12 @@ export default (props: IProps) => {
                     </select>
                 </div>
 
-                <div className="item">
+                {currentUser && (
+                    <div className="item">
                     <input name="includeVisitedPlaces" type="checkbox" defaultChecked={includeVisitedPlaces} onChange={() => setIncludeVisitedPlaces(!includeVisitedPlaces)} />
                     <label htmlFor="includeVisitedPlaces">Zahrnout již navštívená místa</label>
                 </div>
+                )}
             </AnimateHeight>
         </form>
     ) : null;

@@ -43,7 +43,7 @@ export default {
                 setCallback({
                     value: getValue(sum, ratingCount),
                     count: ratingCount,
-                    currentUser: currentUser.uid && ratings[currentUser.uid] ? ratings[currentUser.uid] : 0
+                    currentUser: currentUser && currentUser.uid && ratings[currentUser.uid] ? ratings[currentUser.uid] : 0
                 });
             }
         });

@@ -24,8 +24,8 @@ export default withRouter(({ isExpanded, history }: IProps) => {
                     <React.Fragment>
                         <p className="group-label">Administrace</p>
 
-                        <Button className="item" label="Místa k editaci" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)} />
-                        <Button className="item" label="Import" onClick={() => history.push(Routes.PLACE_IMPORT)} />
+                        <Button className="item" label="Místa ke schválení" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)} />
+                        <Button className="item" label="Import míst" onClick={() => history.push(Routes.PLACE_IMPORT)} />
                     </React.Fragment>
                 )}
             </nav>

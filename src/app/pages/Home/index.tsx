@@ -44,8 +44,9 @@ export default withRouter(({ history }: RouteComponentProps) => {
             filterData.difficultyCode === DifficultyCodes.NONE ||
             place.accessibility.difficultyCode === filterData.difficultyCode
         ) && (
-            (filterData.includeVisitedPlaces && visits[place.id] && visits[place.id].includes(currentUser.uid)) ||
-            (visits[place.id] && visits[place.id] && !visits[place.id].includes(currentUser.uid))
+            !currentUser ||
+            (currentUser && filterData.includeVisitedPlaces && visits[place.id] && visits[place.id].includes(currentUser.uid)) ||
+            (currentUser && visits[place.id] && visits[place.id] && !visits[place.id].includes(currentUser.uid))
         ) &&
         place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
         place.accessibility.walkingDistance <= filterData.walkingDistancesTo : [];

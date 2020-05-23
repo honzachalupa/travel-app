@@ -148,12 +148,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
                      // @ts-ignore */}
                     {/* <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} /> */}
 
-                    <label htmlFor="isPublished">Publikováno</label>
-                    <select name="isPublished" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPublished', e.target.value === 'true')} defaultValue={place.isPublished.toString()}>
-                        <option value="true">Ano</option>
-                        <option value="false">Ne</option>
-                    </select>
-
                     <Map onMapClick={setSelectedCoordinates} isPoiVisible />
                 </form>
 
