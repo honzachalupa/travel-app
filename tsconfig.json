@@ -41,6 +41,7 @@
             "Enums/*": ["./app/enumerators/*"],
             "Interfaces/*": ["./app/interfaces/*"],
             "Helpers": ["./app/helpers.ts"],
+            "Actions/*": ["./app/actions/*"],
             "config": ["./config.js"]
         }
     },

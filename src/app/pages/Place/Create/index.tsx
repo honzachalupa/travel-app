@@ -1,10 +1,10 @@
 import { Context } from '@honzachalupa/helpers';
+import PlacesActions from 'Actions/places';
 import { EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { ECountryCodes } from 'Enums/CountryCodes';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
-import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
@@ -96,7 +96,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
         placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim()).filter(x => x.length > 0);
         placeClone.images = images;
 
-        Database.places.add(placeClone);
+        PlacesActions.create(placeClone);
     };
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { Context } from '@honzachalupa/helpers';
-import { Database } from 'Helpers';
+import PlacesActions from 'Actions/places';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithSpacing';
@@ -12,7 +12,7 @@ export default () => {
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
 
     useEffect(() => {
-        Database.getPlaces(setPlaces, setLoadingState, [
+        PlacesActions.get(setPlaces, setLoadingState, [
             ['isPublished', '==', false],
             ['countryCode', '==', 'CZ']
         ]);

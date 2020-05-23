@@ -1,4 +1,7 @@
 import { Context } from '@honzachalupa/helpers';
+import PlacesActions from 'Actions/places';
+import RatingsActions from 'Actions/ratings';
+import VisitsActions from 'Actions/visits';
 import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
@@ -6,7 +9,7 @@ import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
-import { Database, findInEnum, getIsVisited, hasRole } from 'Helpers';
+import { findInEnum, getIsVisited, hasRole } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import RemoveIcon from 'Icons/bin.svg';
@@ -15,7 +18,7 @@ import EditIcon from 'Icons/edit.svg';
 import NavigateIcon from 'Icons/navigation.svg';
 import CheckIcon from 'Icons/plus.svg';
 import { IContext } from 'Interfaces/Context';
-import { IPlace, IPlaceRemote } from 'Interfaces/Place';
+import { IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithoutSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -25,57 +28,49 @@ import PostsGrid from './components/PostsGrid';
 import Rating from './components/Rating';
 import './style';
 
-export default withRouter(({ history, match }: RouteComponentProps) => {
+
+export default withRouter(({ history, match }: RouteComponentProps & { match: { params: { id: string }} }) => {
     const { currentUser, isAuthenticated } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
     const [isVisited, setIsVisited] = useState<boolean>(false);
 
-    const getPlace = () => {
-        // @ts-ignore
-        Database.places.doc(match.params.id).onSnapshot(doc => {
-            const place = doc.data() as IPlace;
-
-            if (place) {
-                setPlace({
-                    ...place,
-                    id: doc.id
-                } as IPlaceRemote);
-
-                setHasEditRights(hasRole(currentUser, ERoles.ADMIN) || (isAuthenticated && place.addedBy.id === currentUser.uid));
-                setIsVisited(getIsVisited(place, currentUser));
-            }
-        });
-    };
-
     const handleToggleVisitedState = () => {
         if (place) {
             if (isVisited) {
-                Database.places.doc(place.id).set({
-                    ...place,
-                    usersVisited: place.usersVisited.filter(emailAddress => emailAddress !== currentUser.email)
-                });
+                VisitsActions.delete(place.id);
+                RatingsActions.delete(place.id);
             } else {
-                Database.places.doc(place.id).set({
-                    ...place,
-                    usersVisited: [...place.usersVisited, currentUser.email]
-                });
+                VisitsActions.set(place.id);
             }
         }
     }
 
     const handleRemove = () => {
         if (place) {
-            Database.places.doc(place.id).delete();
+            PlacesActions.delete(place.id);
 
             history.goBack();
         }
     };
 
     useEffect(() => {
-        getPlace();
-    }, [currentUser]);
+        PlacesActions.getById(match.params.id, setPlace);
+    }, []);
+
+    useEffect(() => {
+        if (place) {
+            setHasEditRights(
+                hasRole(currentUser, ERoles.ADMIN) ||
+                (isAuthenticated && place.addedBy.id === currentUser.uid)
+            );
+
+            setIsVisited(
+                getIsVisited(place, currentUser)
+            );
+        }
+    }, [place]);
 
     return place ? (
         <Layout>

@@ -1,3 +1,5 @@
-export interface IRatings {
-    [key: string]: number
+export interface IRating {
+    value: number;
+    count: number;
+    currentUser: number;
 }

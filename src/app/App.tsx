@@ -2,11 +2,12 @@
 
 import '@babel/polyfill';
 import { app, Context } from '@honzachalupa/helpers';
+import PlacesActions from 'Actions/places';
 import config from 'config';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { User } from 'firebase';
-import { Authentication, Database, TimeCost } from 'Helpers';
+import { Authentication, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
 import Page_AdministrationPlacesToEdit from 'Pages/Administration/PlacesToEdit';
@@ -51,6 +52,9 @@ const App = () => {
         Authentication.onAuthStateChanged(user => {
             setCurrentUser(user);
             setIsAuthenticated(Boolean(user && user.uid));
+
+            // @ts-ignore
+            window.currentUser = user;
         });
     }, []);
 
@@ -59,14 +63,25 @@ const App = () => {
             const p = new TimeCost('Fetching data from Firebase.');
             p.start();
 
-            Database.getPlaces(setPlaces, setLoadingState, [['isPublished', '==', true]]);
+            PlacesActions.get(setPlaces, setLoadingState, [['isPublished', '==', true]]);
 
             p.end();
         }
     }, [currentUser, currentLocation]);
 
+    const context = {
+        currentLocation,
+        currentUser,
+        isAuthenticated,
+        placesLoadingState,
+        places,
+        setLoadingState
+    } as IContext;
+
+    window['context'] = context;
+
     return (
-        <Context.Provider value={{ currentLocation, currentUser, isAuthenticated, placesLoadingState, places, setLoadingState } as IContext}>
+        <Context.Provider value={context}>
             <Router basename={__BASENAME__}>
                 <Switch>
                     <Route path={Routes.INDEX} component={Page_Home} />

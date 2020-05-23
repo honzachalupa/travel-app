@@ -1,5 +1,4 @@
 import config from 'config';
-import { ELoadingStates } from 'Enums/LoadingStates';
 import { ERoles } from 'Enums/Roles';
 import firebase, { User } from 'firebase/app';
 import 'firebase/auth';
@@ -39,53 +38,11 @@ class TimeCost {
     }
 }
 
-export type TFilterQuery = [string, firebase.firestore.WhereFilterOp, any];
-const getPlaces = (setPlacesCallback: (places: IPlaceRemote[]) => void, setLoadingStatusCallback?: (status: string) => void, filterQueries?: TFilterQuery[]) => {
-    if (setLoadingStatusCallback) {
-        setLoadingStatusCallback(ELoadingStates.LOADING);
-    }
-
-    let query = Database.places;
-
-    if (filterQueries) {
-        filterQueries.forEach((filterQuery: TFilterQuery) => {
-            // @ts-ignore
-            query = query.where(...filterQuery);
-        });
-    }
-
-    query.onSnapshot((querySnapshot: any) => {
-        const places: IPlaceRemote[] = [];
-
-        querySnapshot.forEach((doc: any) => {
-            const place = doc.data();
-
-            places.push({
-                ...place,
-                id: doc.id
-            });
-        });
-
-        setPlacesCallback(places);
-
-        if (setLoadingStatusCallback) {
-            setLoadingStatusCallback(places.length > 0 ? ELoadingStates.LOADED : ELoadingStates.NO_DATA);
-        }
-    });
-};
-
 const Database = {
     ...firebase.firestore().enablePersistence({ synchronizeTabs: true }),
     places: firebase.firestore().collection('places'),
     visits: firebase.firestore().collection('visits'),
     ratings: firebase.firestore().collection('ratings'),
-    getPlaces: (
-        setPlacesCallback:
-            (places: IPlaceRemote[]) => void,
-        setLoadingStatusCallback?:
-            (status: string) => void,
-        filterQueries?: TFilterQuery[]
-    ) => getPlaces(setPlacesCallback, setLoadingStatusCallback, filterQueries),
     getTimestamp: firebase.firestore.Timestamp.now
 };
 
@@ -152,7 +109,7 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
             false;
 };
 
-const getIsVisited = (place: IPlace, currentUser: User | null): boolean => currentUser && currentUser.email ? place.usersVisited.includes(currentUser.email) : false;
+const getIsVisited = (place: IPlace | IPlaceRemote, currentUser: User | null): boolean => currentUser && currentUser.uid ? place.usersVisited.includes(currentUser.uid) : false;
 
 export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole, getIsVisited };
 
