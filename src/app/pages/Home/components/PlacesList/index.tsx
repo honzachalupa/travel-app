@@ -1,5 +1,5 @@
 import { Context } from '@honzachalupa/helpers';
-import { Difficulties } from 'Enums/Difficulties';
+import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { findInEnum, formatDistance } from 'Helpers';
@@ -37,7 +37,9 @@ export default withRouter((props: IProps) => {
                                 <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
                             )}
 
-                            <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
+                            {place.accessibility.difficultyCode !== DifficultyCodes.NONE && (
+                                <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
+                            )}
                         </div>
                     </div>
                 ))

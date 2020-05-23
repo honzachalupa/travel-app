@@ -6,6 +6,7 @@ import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
+import config from 'config';
 import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
@@ -60,6 +61,8 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
 
     useEffect(() => {
         if (place && currentUser) {
+            document.title = `${config.name} | ${place.name}`;
+
             setHasEditRights(!!(
                 hasRole(currentUser, ERoles.ADMIN) ||
                 (currentUser && currentUser.uid && place.addedBy.id === currentUser.uid)

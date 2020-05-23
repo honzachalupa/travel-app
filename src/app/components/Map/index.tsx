@@ -31,7 +31,7 @@ interface IProps {
 export default (props: IProps) => (
     <Map
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${config.googleCloudKey}&libraries=places`}
-        loadingElement={<p>loading</p>}
+        loadingElement={<div />}
         containerElement={<div data-component="Map" className={cx({ 'is-full-width': props.isFullWidth })} />}
         mapElement={<div className="map-container-inner" />}
         {...props}
