@@ -2,6 +2,7 @@
 import { Context } from '@honzachalupa/helpers';
 import cx from 'classnames';
 import config from 'config';
+import { calculateDistance, formatDistance } from 'Helpers';
 import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIconFaded from 'Icons/place-faded.svg';
 import PlaceIcon from 'Icons/place.svg';
@@ -23,7 +24,8 @@ interface IProps {
     isFullWidth?: boolean;
     onMapClick?: (coordinates: ICoordinates) => void;
     onPlaceClick?: (place: IPlaceRemote) => void;
-    isCurrentPositionHidden?: boolean
+    isCurrentPositionHidden?: boolean;
+    isDistanceShown?: boolean;
 }
 
 export default (props: IProps) => (
@@ -110,6 +112,12 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
             // @ts-ignore
             onZoomChanged={() => setZoom(mapRef.current.getZoom())}
         >
+            {(props.isDistanceShown && props.places) && (
+                <div className="distance-container">
+                    <p className="distance">Vzdálenost od vás: {formatDistance(calculateDistance(props.places[0].coordinates, currentLocation))}</p>
+                </div>
+            )}
+
             {!props.isCurrentPositionHidden && (
                 <Marker
                     position={getMarkerCoordinates(currentLocation)}

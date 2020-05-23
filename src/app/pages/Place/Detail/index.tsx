@@ -80,6 +80,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                             longitude: place.coordinates.longitude
                         }}
                         isFullWidth
+                        isDistanceShown
                     />
 
                     <ButtonWithIcon

@@ -2,7 +2,7 @@ import { Context } from '@honzachalupa/helpers';
 import { Difficulties } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
-import { findInEnum } from 'Helpers';
+import { findInEnum, formatDistance } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IPlace } from 'Interfaces/Place';
 import React, { useContext } from 'react';
@@ -16,13 +16,6 @@ interface IProps extends RouteComponentProps {
 
 export default withRouter((props: IProps) => {
     const { placesLoadingState } = useContext(Context) as IContext;
-
-    const formatDistance = (meters: number) =>
-        meters < 1000 ?
-            `${meters} m` :
-            meters < 5000 ?
-                `${Math.round(meters / 1000 * 10) / 10} km`.replace('.', ',') :
-                `${Math.round(meters / 1000)} km`.replace('.', ',');
 
     return (
         <div data-component="PlacesList">

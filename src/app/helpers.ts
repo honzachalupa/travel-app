@@ -96,6 +96,13 @@ const calculateDistance = (coordinateA: ICoordinates, coordinateB?: ICoordinates
     return Math.round(distance);
 }
 
+const formatDistance = (meters: number) =>
+    meters < 1000 ?
+        `${meters} m` :
+        meters < 5000 ?
+            `${Math.round(meters / 1000 * 10) / 10} km`.replace('.', ',') :
+            `${Math.round(meters / 1000)} km`.replace('.', ',');
+
 const findInEnum = (enumerator: any, key: string) => enumerator.find((x: typeof enumerator) => x.id === key) || { label: null };
 
 const removeDuplicates = (value: string | number, index: number, self: any) => self.indexOf(value) === index;
@@ -109,5 +116,5 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
             false;
 };
 
-export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, findInEnum, removeDuplicates, hasRole };
+export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, formatDistance, findInEnum, removeDuplicates, hasRole };
 
