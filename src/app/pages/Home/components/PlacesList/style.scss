@@ -3,7 +3,7 @@
     padding: 12px;
     margin-top: 30px;
     float: left;
-    transition: opacity 250ms;
+    transition: opacity, margin 250ms;
 
     & > .item {
         width: 100%;

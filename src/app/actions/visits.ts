@@ -33,4 +33,15 @@ export default {
             }
         });
     },
+    getById: (
+        placeId: string,
+        setCallback: (userIDs: string[]) => void
+    ) => {
+        Database.visits.doc(placeId).onSnapshot(doc => {
+            const visits = doc.data() as { [key: string]: boolean };
+            const userIDs = visits ? Object.keys(visits) : [];
+
+            setCallback(userIDs);
+        });
+    }
 };

@@ -60,6 +60,17 @@
             opacity: 0.5;
         }
 
+        .description-source {
+            font-size: 10px;
+            margin-top: 10px;
+            opacity: 0.5;
+
+            .url {
+                color: black;
+                text-decoration: none;
+            }
+        }
+
         .item {
             line-height: 150%;
 

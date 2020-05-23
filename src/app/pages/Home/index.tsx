@@ -1,4 +1,5 @@
 import { Context } from '@honzachalupa/helpers';
+import VisitsActions from 'Actions/visits';
 import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
@@ -31,20 +32,38 @@ export default withRouter(({ history }: RouteComponentProps) => {
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceRemote | null>(null);
     const [filterData, setFilterData] = useState<IFilterData>();
+    const [visits, setVisits] = useState<{ [key: string]: string[] }>();
 
     const addDistance = (place: IPlaceRemote) => ({
         ...place,
         distance: calculateDistance(place.coordinates, currentLocation)
     });
 
-    const applyFilter = (place: IPlace) => filterData ?
-        (filterData.difficultyCode === DifficultyCodes.NONE || place.accessibility.difficultyCode === filterData.difficultyCode) &&
+    const applyFilter = (place: IPlace) => filterData && visits ?
+        (
+            filterData.difficultyCode === DifficultyCodes.NONE ||
+            place.accessibility.difficultyCode === filterData.difficultyCode
+        ) && (
+            (filterData.includeVisitedPlaces && visits[place.id] && visits[place.id].includes(currentUser.uid)) ||
+            (visits[place.id] && visits[place.id] && !visits[place.id].includes(currentUser.uid))
+        ) &&
         place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
         place.accessibility.walkingDistance <= filterData.walkingDistancesTo : [];
 
     useEffect(() => {
-        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData) {
-            const p = new TimeCost('Calculating distance from current location and setting sorting.');
+        placesContext.forEach(place =>
+            VisitsActions.getById(place.id, (userIDs) => {
+                setVisits(visits => ({
+                    ...visits,
+                    [place.id]: userIDs
+                }));
+            })
+        );
+    }, [placesContext]);
+
+    useEffect(() => {
+        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData && visits) {
+            const p = new TimeCost('Calculating distance from current location and applying sorting.');
             p.start();
 
             const placesFiltered = [...placesContext].map(place => addDistance(place)).sort((a, b) => a.distance - b.distance).filter(applyFilter);
@@ -53,7 +72,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
             p.end();
         };
-    }, [placesLoadingState, currentLocation.latitude, currentLocation.longitude, filterData]);
+    }, [placesLoadingState, currentLocation.latitude, currentLocation.longitude, filterData, visits]);
 
     return (
         <Layout>

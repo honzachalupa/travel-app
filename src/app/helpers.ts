@@ -109,7 +109,7 @@ const removeDuplicates = (value: string | number, index: number, self: any) => s
 
 const hasRole = (currentUser: User | null | undefined, role: string) => {
     const superUsers = ['janchalupa@outlook.cz', 'katharina.binderova@hotmail.com'];
-    const admins = ['janchalupa@outlook.cz'];
+    const admins = ['janchalupa@outlook.cz', 'katharina.binderova@hotmail.com'];
 
     return currentUser && currentUser.email ?
         role === ERoles.ADMIN && admins.includes(currentUser.email) || role === ERoles.SUPER_USER && superUsers.includes(currentUser.email) :

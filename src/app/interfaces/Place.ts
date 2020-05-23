@@ -8,11 +8,14 @@ export interface ICoordinates {
 
 export interface IPlacePartial {
     name: string;
-    description: string;
+    description: {
+        value: string;
+        source: string;
+    };
     coordinates: ICoordinates;
     countryCode: string | null;
     rating: {
-        value: 0 | 1 | 2 | 3 | 4 | 5;
+        value: number;
         count: number;
     };
     images: string[];

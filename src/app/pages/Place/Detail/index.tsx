@@ -69,6 +69,12 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
         }
     }, [place]);
 
+    const getSourceDomain = (url: string) => {
+        const matches = url.match(/https?:\/\/(.+?)\//i);
+
+        return matches ? matches[1].toLowerCase() : '';
+    };
+
     return place ? (
         <Layout>
             <div data-component="Page_PlaceDetail" className={cx({ 'is-map-expanded': isMapExpanded })}>
@@ -99,7 +105,11 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                     </h1>
 
                     <h3 className="headline">O místě</h3>
-                    <p className="description">{place.description || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
+                    <p className="description">{place.description.value || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>
+                    <p className="description-source">
+                        <span>Zdroj: </span>
+                        <a className="url" href={place.description.source}>{getSourceDomain(place.description.source)}</a>
+                    </p>
 
                     <h3 className="headline">Podrobnosti</h3>
                     <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>

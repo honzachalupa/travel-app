@@ -30,21 +30,24 @@ export default () => {
                         ...formattedPlaces,
                         {
                             name: place.properties.Name,
-                            description: '',
+                            description: {
+                                value: '',
+                                source: ''
+                            },
                             coordinates: {
                                 latitude: place.geometry.coordinates[1],
                                 longitude: place.geometry.coordinates[0]
                             },
                             countryCode: data.hasOwnProperty('countryCode') ? data.countryCode : '',
                             rating: {
-                                value: 3,
+                                value: 2.5,
                                 count: 0
                             },
                             images: [],
                             instagramPosts: [],
                             accessibility: {
                                 walkingDistance: 0,
-                                difficultyCode: DifficultyCodes.DIFFICULTY_1
+                                difficultyCode: DifficultyCodes.NONE
                             },
                             tags: [],
                             websites: [],

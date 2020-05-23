@@ -97,8 +97,11 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
                     <label htmlFor="name">Název</label>
                     <input name="name" type="text" onChange={(e: any) => setPlaceProperty('name', e.target.value)} defaultValue={place.name} />
 
-                    <label htmlFor="description">Popis</label>
-                    <textarea name="description" onChange={(e: any) => setPlaceProperty('description', e.target.value)} defaultValue={place.description} />
+                    <label htmlFor="descriptionValue">Popis</label>
+                    <textarea name="descriptionValue" onChange={(e: any) => setPlaceProperty('description.value', e.target.value)} defaultValue={place.description.value} />
+
+                    <label htmlFor="descriptionSource">Zdroj popisu</label>
+                    <input name="descriptionSource" type="text" onChange={(e: any) => setPlaceProperty('description.source', e.target.value)} defaultValue={place.description.source} />
 
                     <label htmlFor="walkingDistance">Pěší vzdálenost v km (např. od parkoviště)</label>
                     <input name="walkingDistance" type="number" step={0.5} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPlaceProperty('accessibility.walkingDistance', Number(e.target.value))} defaultValue={place.accessibility.walkingDistance} />

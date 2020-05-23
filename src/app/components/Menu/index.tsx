@@ -1,7 +1,9 @@
 import { Context } from '@honzachalupa/helpers';
 import cx from 'classnames';
 import Button from 'Components/Button';
+import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
+import { hasRole } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -13,12 +15,12 @@ interface IProps extends RouteComponentProps {
 }
 
 export default withRouter(({ isExpanded, history }: IProps) => {
-    const { isAuthenticated } = useContext(Context) as IContext;
+    const { currentUser } = useContext(Context) as IContext;
 
     return (
         <nav data-component="Menu" className={cx({ 'is-expanded': isExpanded })}>
             <nav className="items">
-                {isAuthenticated && (
+                {hasRole(currentUser, ERoles.ADMIN) && (
                     <React.Fragment>
                         <p className="group-label">Administrace</p>
 
