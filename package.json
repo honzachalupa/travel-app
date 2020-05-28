@@ -62,7 +62,7 @@
     "file-loader": "^3.0.1",
     "file-saver": "^2.0.2",
     "html-webpack-plugin": "^3.2.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.14.1",
     "path": "^0.12.7",
     "postcss-loader": "^3.0.0",
     "react-hot-loader": "^4.12.18",
@@ -80,7 +80,7 @@
     "webapp-webpack-plugin": "^2.7.1",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1",
+    "webpack-dev-server": "^3.11.0",
     "whatwg-fetch": "^3.0.0"
   }
 }

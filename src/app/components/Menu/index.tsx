@@ -15,6 +15,7 @@ interface IProps extends RouteComponentProps {
 }
 
 export default withRouter(({ isExpanded, history }: IProps) => {
+    // const { currentUser, isDarkModeSupported, isDarkModeOn, setIsDarkModeOn } = useContext(Context) as IContext;
     const { currentUser } = useContext(Context) as IContext;
 
     return (
@@ -28,6 +29,13 @@ export default withRouter(({ isExpanded, history }: IProps) => {
                         <Button className="item" label="Import míst" onClick={() => history.push(Routes.PLACE_IMPORT)} />
                     </React.Fragment>
                 )}
+
+                {/* !isDarkModeSupported && (
+                    <div>
+                        <input name="isDarkModeOn" type="checkbox" defaultChecked={isDarkModeOn} onChange={() => setIsDarkModeOn(!isDarkModeOn)} />
+                        <label htmlFor="isDarkModeOn">Zapnout tmavý vzhled</label>
+                    </div>
+                ) */}
             </nav>
 
             <Authentication />

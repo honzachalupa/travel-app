@@ -68,7 +68,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                 (currentUser && currentUser.uid && place.addedBy.id === currentUser.uid)
             ));
 
-            VisitsActions.get(place.id, setIsVisited);
+            VisitsActions.getById(place.id, setIsVisited);
         }
     }, [place]);
 

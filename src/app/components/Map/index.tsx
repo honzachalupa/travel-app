@@ -1,5 +1,6 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
 import { Context } from '@honzachalupa/helpers';
+import { EThemes } from 'app/hooks/useTheme';
 import cx from 'classnames';
 import config from 'config';
 import { calculateDistance, formatDistance } from 'Helpers';
@@ -11,6 +12,7 @@ import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GoogleMap, GoogleMapProps, Marker, withGoogleMap, withScriptjs } from 'react-google-maps';
 import './style';
+import MapThemes from './themes';
 
 interface IProps {
     places?: IPlaceRemote[],
@@ -44,7 +46,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
     };
 
     const mapRef = useRef(null);
-    const { currentLocation } = useContext(Context) as IContext;
+    const { currentLocation, isDarkModeOn } = useContext(Context) as IContext;
     const [selectedPoint, setSelectedPoint] = useState<ICoordinates | null>(null);
     const [zoom, setZoom] = useState<number>(props.initialZoom || config.defaultZoom);
     const [markerSize, setMarkerSize] = useState<number>(40);
@@ -58,7 +60,6 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
             };
 
             setSelectedPoint(coordinatesObject);
-
             props.onMapClick(coordinatesObject);
         }
     };
@@ -91,20 +92,26 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                 fullscreenControl: false,
                 disableDefaultUI: true,
                 gestureHandling: 'greedy',
-                styles: !props.isPoiVisible ? [{
-                    featureType: 'poi',
-                    elementType: 'labels',
-                    stylers: [{
-                        visibility: 'off'
-                    }]
-                }, {
-                    featureType: 'transit',
-                    stylers: [
-                      {
-                        visibility: 'off'
-                      }
-                    ]
-                }] : []
+                // @ts-ignore
+                styles: [
+                    ...MapThemes[isDarkModeOn ? EThemes.DARK : EThemes.LIGHT],
+                    ...(
+                        !props.isPoiVisible ? [{
+                            featureType: 'poi',
+                            elementType: 'labels',
+                            stylers: [{
+                                visibility: 'off'
+                            }]
+                        }, {
+                            featureType: 'transit',
+                            stylers: [
+                              {
+                                visibility: 'off'
+                              }
+                            ]
+                        }]: []
+                    )
+                ]
             }}
             clickableIcons={false}
             onClick={handleMapClick}

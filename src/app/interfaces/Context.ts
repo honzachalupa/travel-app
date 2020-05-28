@@ -10,5 +10,9 @@ export interface IContext {
     places: IPlaceRemote[];
     placesLoadingState: string;
     currentUser: User;
+    isDarkModeSupported: boolean;
+    isDarkModeOn: boolean;
     setLoadingState: () => void;
+    setIsDarkModeSupported: (value: boolean) => void;
+    setIsDarkModeOn: (value: boolean) => void;
 }

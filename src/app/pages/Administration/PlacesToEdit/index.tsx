@@ -21,7 +21,7 @@ export default () => {
     return (
         <Layout title={`Místa k editaci (${places.length} míst)`}>
             <div data-component="Page_PlacesToEdit">
-                <PlacesList places={places as IPlace[]} />
+                <PlacesList places={places.sort((a: IPlaceRemote, b: IPlaceRemote) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0) as IPlace[]} />
             </div>
         </Layout>
     );

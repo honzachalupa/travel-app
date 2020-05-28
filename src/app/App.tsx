@@ -3,6 +3,7 @@
 import '@babel/polyfill';
 import { app, Context } from '@honzachalupa/helpers';
 import PlacesActions from 'Actions/places';
+// import useTheme, { EThemes } from 'app/hooks/useTheme';
 import config from 'config';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
@@ -25,9 +26,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 
 const App = () => {
+    // const theme = useTheme();
     const [currentLocation, setCurrentLocation] = useState<ICoordinates>({ latitude: 0, longitude: 0 });
     const [currentUser, setCurrentUser] = useState<User | null>();
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
+    const [isDarkModeSupported, setIsDarkModeSupported] = useState<boolean>(false);
+    const [isDarkModeOn, setIsDarkModeOn] = useState<boolean>();
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
 
     useEffect(() => {
@@ -64,12 +68,20 @@ const App = () => {
         }
     }, [currentUser, currentLocation]);
 
+    /* useEffect(() => {
+        setIsDarkModeOn(theme === EThemes.DARK);
+    }, [theme]); */
+
     const context = {
         currentLocation,
         currentUser,
         placesLoadingState,
         places,
-        setLoadingState
+        isDarkModeSupported,
+        isDarkModeOn,
+        setLoadingState,
+        setIsDarkModeSupported,
+        setIsDarkModeOn
     } as IContext;
 
     window['context'] = context;

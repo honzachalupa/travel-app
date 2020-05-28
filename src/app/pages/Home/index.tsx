@@ -39,37 +39,46 @@ export default withRouter(({ history }: RouteComponentProps) => {
         distance: calculateDistance(place.coordinates, currentLocation)
     });
 
-    const applyFilter = (place: IPlace) => filterData && visits ?
-        (
+    const applyFilter = (place: IPlaceRemote) => (
+        filterData &&
+        visits && (
             filterData.difficultyCode === DifficultyCodes.NONE ||
             place.accessibility.difficultyCode === filterData.difficultyCode
         ) && (
-            !currentUser ||
-            (currentUser && filterData.includeVisitedPlaces && visits[place.id] && visits[place.id].includes(currentUser.uid)) ||
-            (currentUser && visits[place.id] && visits[place.id] && !visits[place.id].includes(currentUser.uid))
+            !currentUser || (
+                filterData.includeVisitedPlaces && (
+                    visits[place.id] &&
+                    visits[place.id].includes(currentUser.uid)
+                ) || (
+                    !visits[place.id] ||
+                    !visits[place.id].includes(currentUser.uid)
+                )
+            ) || (
+                !filterData.includeVisitedPlaces && (
+                    !visits[place.id] ||
+                    !visits[place.id].includes(currentUser.uid)
+                )
+            )
         ) &&
         place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
-        place.accessibility.walkingDistance <= filterData.walkingDistancesTo : [];
+        place.accessibility.walkingDistance <= filterData.walkingDistancesTo
+    );
 
     useEffect(() => {
-        placesContext.forEach(place =>
-            VisitsActions.getById(place.id, (userIDs) => {
-                setVisits(visits => ({
-                    ...visits,
-                    [place.id]: userIDs
-                }));
-            })
-        );
-    }, [placesContext]);
+        VisitsActions.get(setVisits);
+    }, []);
 
     useEffect(() => {
-        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData && visits) {
+        if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData && visits && Object.keys(visits).length > 0) {
             const p = new TimeCost('Calculating distance from current location and applying sorting.');
             p.start();
 
-            const placesFiltered = [...placesContext].map(place => addDistance(place)).sort((a, b) => a.distance - b.distance).filter(applyFilter);
+            const itemsFiltered = [...placesContext]
+                .filter(applyFilter)
+                .map(place => addDistance(place))
+                .sort((a: IPlace, b: IPlace) => a.distance - b.distance);
 
-            setPlaces(placesFiltered);
+            setPlaces(itemsFiltered as IPlace[]);
 
             p.end();
         };

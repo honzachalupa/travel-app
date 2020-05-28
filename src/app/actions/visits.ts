@@ -19,7 +19,7 @@ export default {
             unsubscribe();
         });
     },
-    get: (
+    getById: (
         placeId: string,
         setCallback: (isVisited: boolean) => void
     ) => {
@@ -33,15 +33,27 @@ export default {
             }
         });
     },
-    getById: (
-        placeId: string,
-        setCallback: (userIDs: string[]) => void
+    get: (
+        setCallback: (visits: any) => void
     ) => {
-        Database.visits.doc(placeId).onSnapshot(doc => {
-            const visits = doc.data() as { [key: string]: boolean };
-            const userIDs = visits ? Object.keys(visits) : [];
+        const unsubscribe = Database.visits.onSnapshot((querySnapshot: any) => {
+            const visits: { [key: string]: string[] } = {};
 
-            setCallback(userIDs);
+            querySnapshot.forEach((doc: any) => {
+                const visit = doc.data() as { [key: string]: boolean };
+                const userIDs: string[] = [];
+
+                Object.keys(visit).forEach(key => {
+                    if (visit[key]) {
+                        userIDs.push(key);
+                    }
+                });
+
+                visits[doc.id] = userIDs;
+            });
+
+            setCallback(visits);
+            unsubscribe();
         });
     }
 };
