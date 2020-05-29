@@ -6,6 +6,7 @@ import config from 'config';
 import { calculateDistance, formatDistance } from 'Helpers';
 import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIconFaded from 'Icons/place-faded.svg';
+import PlaceIconVisited from 'Icons/place-visited.svg';
 import PlaceIcon from 'Icons/place.svg';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
@@ -46,7 +47,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
     };
 
     const mapRef = useRef(null);
-    const { currentLocation, isDarkModeOn } = useContext(Context) as IContext;
+    const { visits, currentLocation, currentUser, isDarkModeOn } = useContext(Context) as IContext;
     const [selectedPoint, setSelectedPoint] = useState<ICoordinates | null>(null);
     const [zoom, setZoom] = useState<number>(props.initialZoom || config.defaultZoom);
     const [markerSize, setMarkerSize] = useState<number>(40);
@@ -71,6 +72,12 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
     };
 
     const getMarkerCoordinates = (place: ICoordinates) => ({ lat: place.latitude, lng: place.longitude });
+
+    const getMarkerSize = (isFilteredOut?: boolean, isVisited?: boolean) => {
+        const size = isFilteredOut || isVisited ? markerSize / 2 : markerSize;
+
+        return [size, size];
+    };
 
     useEffect(() => {
         setMarkerSize(Math.min(zoom * 4, 40));
@@ -130,7 +137,8 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                     position={getMarkerCoordinates(currentLocation)}
                     icon={{
                         url: CurrentLocationIcon,
-                        scaledSize: new google.maps.Size(markerSize, markerSize)
+                        // @ts-ignore
+                        scaledSize: new google.maps.Size(...getMarkerSize())
                     }}
                     zIndex={100}
                 />
@@ -141,21 +149,24 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
                     position={getMarkerCoordinates(selectedPoint)}
                     icon={{
                         url: PlaceIcon,
-                        scaledSize: new google.maps.Size(markerSize, markerSize)
+                        // @ts-ignore
+                        scaledSize: new google.maps.Size(...getMarkerSize())
                     }}
                 />
             )}
 
             {props.places && props.places.length > 0 && props.places.map((place) => {
-                const faded = props.filteredIds ? !props.filteredIds.includes(place.id) : false;
+                const isFilteredOut = props.filteredIds ? !props.filteredIds.includes(place.id) : false;
+                const isVisited = visits && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
 
                 return (
                     <Marker
                         key={place.id}
                         position={getMarkerCoordinates(place.coordinates)}
                         icon={{
-                            url: faded ? PlaceIconFaded : PlaceIcon,
-                            scaledSize: new google.maps.Size(faded ? markerSize / 2 : markerSize, faded ? markerSize / 2 : markerSize)
+                            url: isVisited ? PlaceIconVisited : isFilteredOut ? PlaceIconFaded : PlaceIcon,
+                            // @ts-ignore
+                            scaledSize: new google.maps.Size(...getMarkerSize(isFilteredOut, isVisited))
                         }}
                         onClick={() => handlePlaceClick(place)}
                     />

@@ -8,6 +8,7 @@ export interface IContext {
         timestamp: number;
     };
     places: IPlaceRemote[];
+    visits: { [key: string]: string[] };
     placesLoadingState: string;
     currentUser: User;
     isDarkModeSupported: boolean;

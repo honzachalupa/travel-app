@@ -3,6 +3,7 @@
 import '@babel/polyfill';
 import { app, Context } from '@honzachalupa/helpers';
 import PlacesActions from 'Actions/places';
+import VisitsActions from 'Actions/visits';
 // import useTheme, { EThemes } from 'app/hooks/useTheme';
 import config from 'config';
 import { ELoadingStates } from 'Enums/LoadingStates';
@@ -33,6 +34,7 @@ const App = () => {
     const [isDarkModeSupported, setIsDarkModeSupported] = useState<boolean>(false);
     const [isDarkModeOn, setIsDarkModeOn] = useState<boolean>();
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
+    const [visits, setVisits] = useState<{ [key: string]: string[] }>({});
 
     useEffect(() => {
         if (config.caching) {
@@ -68,6 +70,10 @@ const App = () => {
         }
     }, [currentUser, currentLocation]);
 
+    useEffect(() => {
+        VisitsActions.get(setVisits);
+    }, []);
+
     /* useEffect(() => {
         setIsDarkModeOn(theme === EThemes.DARK);
     }, [theme]); */
@@ -77,6 +83,7 @@ const App = () => {
         currentUser,
         placesLoadingState,
         places,
+        visits,
         isDarkModeSupported,
         isDarkModeOn,
         setLoadingState,

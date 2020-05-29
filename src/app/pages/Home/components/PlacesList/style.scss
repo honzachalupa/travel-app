@@ -13,6 +13,10 @@
         margin-bottom: 12px;
         float: left;
 
+        &.is-visited {
+            border: 1px solid $green-darker;
+        }
+
         .name {
             width: 100%;
             font-size: 16px;
@@ -34,9 +38,29 @@
             object-fit: cover;
         }
 
+        .description {
+            $font-size: 12px;
+            $line-height: 1.5;
+            $lines-to-show: 3;
+
+            width: 100%;
+            height: calc(#{$font-size} * #{$line-height} * #{$lines-to-show});
+            color: gray;
+            font-size: $font-size;
+            text-overflow: ellipsis;
+            line-height: $line-height;
+            -webkit-line-clamp: $lines-to-show;
+            -webkit-box-orient: vertical;
+            margin: 0 auto;
+            display: block;
+            display: -webkit-box;
+            overflow: hidden;
+        }
+
         .details {
             width: 100%;
             float: left;
+            margin-top: 12px;
 
             .item {
                 width: 100%;

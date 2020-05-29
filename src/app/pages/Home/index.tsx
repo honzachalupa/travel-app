@@ -1,5 +1,4 @@
 import { Context } from '@honzachalupa/helpers';
-import VisitsActions from 'Actions/visits';
 import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
@@ -25,14 +24,13 @@ import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
-    const { places: placesContext, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
+    const { places: placesContext, visits, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
     const [places, setPlaces] = useState<IPlace[]>([]);
     const [isMenuExpanded, setMenuExpanded] = useState<boolean>(false);
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [selectedPlace, setSelectedPlace] = useState<IPlaceRemote | null>(null);
     const [filterData, setFilterData] = useState<IFilterData>();
-    const [visits, setVisits] = useState<{ [key: string]: string[] }>();
 
     const addDistance = (place: IPlaceRemote) => ({
         ...place,
@@ -63,10 +61,6 @@ export default withRouter(({ history }: RouteComponentProps) => {
         place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
         place.accessibility.walkingDistance <= filterData.walkingDistancesTo
     );
-
-    useEffect(() => {
-        VisitsActions.get(setVisits);
-    }, []);
 
     useEffect(() => {
         if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData && visits && Object.keys(visits).length > 0) {

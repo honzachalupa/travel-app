@@ -56,7 +56,7 @@ export default (props: IProps) => {
 
         setAvailableOptions({
             walkingDistances,
-            difficultyCodes: difficultyCodes.filter(removeDuplicates).sort()
+            difficultyCodes: difficultyCodes.filter(code => code !== DifficultyCodes.NONE).filter(removeDuplicates).sort()
         });
 
         const storageItem = localStorage.getItem('filter');
