@@ -9,6 +9,7 @@ import AnimateHeight from 'react-animate-height';
 import './style';
 
 interface IProps {
+    resultsCount: number;
     isExpanded: boolean;
     onFilterChange: (e: IFilterData) => void;
 }
@@ -153,6 +154,10 @@ export default (props: IProps) => {
                     <label htmlFor="includeVisitedPlaces">Zahrnout již navštívená místa</label>
                 </div>
                 )}
+
+                <div className="item">
+                    Počet výsledků: {props.resultsCount}
+                </div>
             </AnimateHeight>
         </form>
     ) : null;

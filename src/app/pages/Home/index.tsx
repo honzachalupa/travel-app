@@ -129,7 +129,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 </div>
 
                 <div className="filter-container">
-                    <Filter onFilterChange={setFilterData} isExpanded={isFilterExpanded} />
+                    <Filter resultsCount={places.length} onFilterChange={setFilterData} isExpanded={isFilterExpanded} />
                 </div>
 
                 <PlacesList places={places} />
