@@ -1,13 +1,13 @@
-import { Context } from '@honzachalupa/helpers';
-import { IContext } from 'Interfaces/Context';
-import { useContext, useEffect, useState } from 'react';
+// import { Context } from '@honzachalupa/helpers';
+// import { IContext } from 'Interfaces/Context';
+// import { useContext, useEffect, useState } from 'react';
 
 export enum EThemes {
     DARK = 'DARK',
     LIGHT = 'LIGHT'
 }
 
-export default () => {
+/* export default () => {
     const { setIsDarkModeOn, setIsDarkModeSupported } = useContext(Context) as IContext;
     const [theme, setTheme] = useState<EThemes>();
 
@@ -49,4 +49,4 @@ export default () => {
     }, [theme]);
 
     return theme;
-}
+} */
