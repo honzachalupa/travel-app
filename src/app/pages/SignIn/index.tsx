@@ -20,10 +20,10 @@ export default withRouter(({ history }) => {
     return (
         <Layout title="Přihlásit">
             <form className="form" data-component="SignInForm">
-                <input type="text" placeholder="E-mail Address" onChange={e => setEmailAddress(e.target.value)} />
-                <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                <input type="text" placeholder="E-mailová adresa" onChange={e => setEmailAddress(e.target.value)} />
+                <input type="password" placeholder="Heslo" onChange={e => setPassword(e.target.value)} />
 
-                <Button className="yellow" label="Sign In" onClick={handleSignIn} />
+                <Button className="yellow" label="Přihlásit" onClick={handleSignIn} />
             </form>
         </Layout>
     );

@@ -40,6 +40,7 @@ class TimeCost {
 
 const Database = {
     ...firebase.firestore().enablePersistence({ synchronizeTabs: true }),
+    users: firebase.firestore().collection('users'),
     places: firebase.firestore().collection('places'),
     visits: firebase.firestore().collection('visits'),
     ratings: firebase.firestore().collection('ratings'),
