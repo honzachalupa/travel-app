@@ -157,7 +157,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
 
             {props.places && props.places.length > 0 && props.places.map((place) => {
                 const isFilteredOut = props.filteredIds ? !props.filteredIds.includes(place.id) : false;
-                const isVisited = visits && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
+                const isVisited = visits && currentUser && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
 
                 return (
                     <Marker

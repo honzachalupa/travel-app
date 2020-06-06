@@ -18,6 +18,7 @@ import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithoutSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import removeAccents from 'remove-accents';
 import Filter, { IFilterData } from './components/Filter';
 import PlacesList from './components/PlacesList';
 import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
@@ -36,6 +37,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
         ...place,
         distance: calculateDistance(place.coordinates, currentLocation)
     });
+
+    const cleanQuery = (value: string) => removeAccents(value).replace(/\s+/, '');
 
     const applyFilter = (place: IPlaceRemote) => (
         filterData &&
@@ -57,6 +60,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     !visits[place.id].includes(currentUser.uid)
                 )
             )
+        ) && (
+            filterData.query.length === 0 || new RegExp(cleanQuery(filterData.query), 'i').test(cleanQuery(place.name))
         ) &&
         place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
         place.accessibility.walkingDistance <= filterData.walkingDistancesTo
@@ -64,7 +69,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     useEffect(() => {
         if (placesLoadingState === ELoadingStates.LOADED && currentLocation.latitude > 0 && currentLocation.longitude > 0 && filterData && visits && Object.keys(visits).length > 0) {
-            const p = new TimeCost('Calculating distance from current location and applying sorting.');
+            const p = new TimeCost('Filtering and sorting places.');
             p.start();
 
             const itemsFiltered = [...placesContext]

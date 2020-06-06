@@ -41,6 +41,16 @@ const App = () => {
             app.initServiceWorker();
         }
 
+        const geolocationFallback = () => {
+            const itemLS = localStorage.getItem('lastPosition');
+
+            if (itemLS) {
+                setCurrentLocation(JSON.parse(itemLS));
+            } else {
+                setCurrentLocation(config.coordinatesFallback);
+            }
+        };
+
         if (navigator.geolocation) {
             const p = new TimeCost('Getting user\'s location.');
             p.start();
@@ -48,9 +58,13 @@ const App = () => {
             navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
                 setCurrentLocation({ latitude, longitude });
 
+                localStorage.setItem('lastPosition', JSON.stringify({ latitude, longitude }));
+
                 p.end(true);
-            });
+            }, geolocationFallback);
         } else {
+            geolocationFallback();
+
             console.log('Geolocation denied.');
         }
 

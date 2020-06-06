@@ -22,7 +22,7 @@ export default withRouter(({ places, history }: IProps) => {
         <div data-component="PlacesList">
             {placesLoadingState === ELoadingStates.LOADED ? (
                 places.map(place => {
-                    const isVisited = visits && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
+                    const isVisited = visits && currentUser && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
 
                     return (
                         <div key={place.id} className={cx('item', { 'is-visited': isVisited })} onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>

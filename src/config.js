@@ -9,5 +9,6 @@ module.exports = {
     developerUrl: 'https://www.honzachalupa.cz/',
     caching: false,
     googleCloudKey: 'AIzaSyBHmKKahUlHUEZPUjuS2yLb-D_zUyn1_y4',
+    coordinatesFallback: { latitude: 50.083333, longitude: 14.416667 },
     firebase: firebaseCredentials
 };

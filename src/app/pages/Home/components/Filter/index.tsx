@@ -24,6 +24,7 @@ export interface IFilterData {
     walkingDistancesFrom: number;
     walkingDistancesTo: number;
     includeVisitedPlaces: boolean;
+    query: string;
 }
 
 export default (props: IProps) => {
@@ -35,7 +36,8 @@ export default (props: IProps) => {
         difficultyCode: DifficultyCodes.NONE,
         walkingDistancesFrom: walkingDistances[0],
         walkingDistancesTo: walkingDistances[walkingDistances.length - 1],
-        includeVisitedPlaces: false
+        includeVisitedPlaces: false,
+        query: ''
     };
 
     const [availableOptions, setAvailableOptions] = useState<IAvailableOptions | null>(null);
@@ -43,6 +45,7 @@ export default (props: IProps) => {
     const [walkingDistancesFrom, setWalkingDistancesFrom] = useState<IFilterData['walkingDistancesFrom']>();
     const [walkingDistancesTo, setWalkingDistancesTo] = useState<IFilterData['walkingDistancesTo']>();
     const [includeVisitedPlaces, setIncludeVisitedPlaces] = useState<IFilterData['includeVisitedPlaces']>();
+    const [query, setQuery] = useState<IFilterData['query']>();
 
     const getFilterData = (places: IPlaceRemote[]) => {
         const p = new TimeCost('getFilterData');
@@ -68,11 +71,13 @@ export default (props: IProps) => {
             setWalkingDistancesFrom(filterData.walkingDistancesFrom);
             setWalkingDistancesTo(filterData.walkingDistancesTo);
             setIncludeVisitedPlaces(filterData.includeVisitedPlaces);
+            setQuery(filterData.query);
         } else {
             setDifficultyCode(defaultFilter.difficultyCode);
             setWalkingDistancesFrom(defaultFilter.walkingDistancesFrom);
             setWalkingDistancesTo(defaultFilter.walkingDistancesTo);
             setIncludeVisitedPlaces(defaultFilter.includeVisitedPlaces);
+            setQuery(defaultFilter.query);
         }
 
         p.end();
@@ -90,18 +95,20 @@ export default (props: IProps) => {
                 _isFilterActive:
                     difficultyCode !== defaultFilter.difficultyCode ||
                     walkingDistancesFrom !== defaultFilter.walkingDistancesFrom ||
-                    walkingDistancesTo !== defaultFilter.walkingDistancesTo,
+                    walkingDistancesTo !== defaultFilter.walkingDistancesTo ||
+                    query !== defaultFilter.query,
                 difficultyCode,
                 walkingDistancesFrom,
                 walkingDistancesTo,
-                includeVisitedPlaces: currentUser ? includeVisitedPlaces : false
+                includeVisitedPlaces: currentUser ? includeVisitedPlaces : false,
+                query
             } as IFilterData;
 
             props.onFilterChange(filterData);
 
             localStorage.setItem('filter', JSON.stringify(filterData));
         }
-    }, [difficultyCode, walkingDistancesFrom, walkingDistancesTo, includeVisitedPlaces]);
+    }, [difficultyCode, walkingDistancesFrom, walkingDistancesTo, includeVisitedPlaces, query]);
 
     return availableOptions && difficultyCode && walkingDistancesFrom !== undefined && walkingDistancesTo !== undefined ? (
         <form data-component="Filter" className="form">
@@ -133,6 +140,11 @@ export default (props: IProps) => {
                             <option key={distance} value={distance}>{distance} km</option>
                         ))}
                     </select>
+                </div>
+
+                <div className="item">
+                    <label htmlFor="query">Podle názvu</label>
+                    <input name="query" type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value.trim())} defaultValue={query} />
                 </div>
 
                 {currentUser && (

@@ -10,7 +10,7 @@ firebase.initializeApp(config.firebase);
 const Authentication = firebase.auth();
 
 class TimeCost {
-    isUsed: boolean | undefined;
+    isUsed = false;
     description: string;
     startedAt = 0;
 
@@ -23,7 +23,7 @@ class TimeCost {
     }
 
     end = (disableAfterRun?: boolean) => {
-        if (this.isUsed) {
+        if (!this.isUsed) {
             const ms = performance.now() - this.startedAt;
             const timeString = ms < 1000 ?
                 `${Math.round(ms * 1000) / 1000} miliseconds` :
@@ -32,7 +32,7 @@ class TimeCost {
             console.log(`Task "${this.description}" run for ${timeString}.`);
 
             if (disableAfterRun) {
-                this.isUsed = true
+                this.isUsed = true;
             }
         }
     }
