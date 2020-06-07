@@ -1,72 +1,111 @@
 [data-component="Page_Home"] {
-    .settings-button {
-        position: absolute;
-        top: calc(15px + env(safe-area-inset-top) / 2);
-        left: 10px;
-        z-index: 99;
-        transition: top 250ms;
-    }
-
-    &.is-filter-expanded {
-        .toggle-filter-button,
-        .toggle-map-button {
-            bottom: 0.5vh !important;
-            transition: bottom opacity 250ms;
+    .layout-container {
+        @media (min-width: $deviceBreakpoint) {
+            overflow: hidden;
         }
 
-        [data-component="PlacesList"] {
-            margin-top: 0;
-        }
-    }
+        &.top-left {
+            @media (max-width: $deviceBreakpoint) {
+                width: 100%;
+            }
 
-    &.is-map-expanded {
+            @media (min-width: $deviceBreakpoint) {
+                width: 75%;
+                height: 100vh;
+                float: left;
+
+                .map-container {
+                    height: 100%;
+                }
+
+                .toggle-filter-button,
+                .toggle-map-button {
+                    display: none;
+                }
+            }
+        }
+
+        &.bottom-right {
+            @media (max-width: $deviceBreakpoint) {
+                width: 100%;
+            }
+
+            @media (min-width: $deviceBreakpoint) {
+                width: 25%;
+                height: 100vh;
+                float: right;
+            }
+        }
+
         .settings-button {
-            top: calc(-70px - env(safe-area-inset-top))
-        }
-
-        .toggle-filter-button {
-            opacity: 0;
-        }
-
-        [data-component="PlacesList"],
-        [data-component="Navigation"] {
-            opacity: 0;
-        }
-    }
-
-    .filter-container {
-        width: 100%;
-        float: left;
-    }
-
-    .map-container {
-        width: 100%;
-        height: 30vh;
-        text-align: center;
-        position: relative;
-        z-index: 9;
-        transition: height 500ms;
-
-        .toggle-filter-button {
             position: absolute;
+            top: calc(15px + env(safe-area-inset-top) / 2);
             left: 10px;
-            bottom: -3vh;
-            transition: bottom 250ms;
+            z-index: 99;
+            transition: top 250ms;
         }
 
-        .toggle-map-button {
-            position: absolute;
-            right: 10px;
-            bottom: -3vh;
-            transition: bottom 250ms;
+        &.is-filter-expanded {
+            .toggle-filter-button,
+            .toggle-map-button {
+                bottom: 0.5vh !important;
+                transition: bottom opacity 250ms;
+            }
+
+            [data-component="PlacesList"] {
+                margin-top: 0;
+            }
         }
 
-        &.is-expanded {
-            height: 100vh;
-            padding-bottom: 0;
+        &.is-map-expanded {
+            .settings-button {
+                top: calc(-70px - env(safe-area-inset-top))
+            }
+
+            .toggle-filter-button {
+                opacity: 0;
+            }
+
+            [data-component="PlacesList"],
+            [data-component="Navigation"] {
+                opacity: 0;
+            }
+        }
+
+        .filter-container {
+            width: 100%;
+            float: left;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 30vh;
+            text-align: center;
+            position: relative;
+            z-index: 9;
+            transition: height 500ms;
+
+            .toggle-filter-button {
+                position: absolute;
+                left: 10px;
+                bottom: -3vh;
+                transition: bottom 250ms;
+            }
 
             .toggle-map-button {
-                bottom: 3vh;
+                position: absolute;
+                right: 10px;
+                bottom: -3vh;
+                transition: bottom 250ms;
+            }
+
+            &.is-expanded {
+                height: 100vh;
+                padding-bottom: 0;
+
+                .toggle-map-button {
+                    bottom: 3vh;
+                }
             }
         }
     }

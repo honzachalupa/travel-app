@@ -4,10 +4,12 @@ import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Menu from 'Components/Menu';
 import Navigation from 'Components/Navigation';
+import config from 'config';
 import { DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
 import { calculateDistance, TimeCost } from 'Helpers';
+import useDimensions from 'Hooks/useDimensions';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import FilterIcon from 'Icons/filter.svg';
@@ -26,6 +28,7 @@ import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
     const { places: placesContext, visits, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
+    const { width } = useDimensions();
     const [places, setPlaces] = useState<IPlace[]>([]);
     const [isMenuExpanded, setMenuExpanded] = useState<boolean>(false);
     const [isFilterExpanded, setFilterExpanded] = useState<boolean>(false);
@@ -86,63 +89,67 @@ export default withRouter(({ history }: RouteComponentProps) => {
     return (
         <Layout>
             <div data-component="Page_Home" className={cx({ 'is-filter-expanded': isFilterExpanded, 'is-map-expanded': isMapExpanded })}>
-                <Menu isExpanded={isMenuExpanded} />
+                <div className="layout-container top-left">
+                    <Menu isExpanded={isMenuExpanded} />
 
-                <ButtonWithIcon
-                    className="settings-button"
-                    icon={SettingsIcon}
-                    color={EColors.WHITE_TRANSPARENT}
-                    onClick={() => setMenuExpanded(!isMenuExpanded)}
-                />
+                    <ButtonWithIcon
+                        className="settings-button"
+                        icon={SettingsIcon}
+                        color={EColors.WHITE_TRANSPARENT}
+                        onClick={() => setMenuExpanded(!isMenuExpanded)}
+                    />
 
-                <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
-                    {(places && places && filterData) && (
-                        <Map
-                            places={places}
-                            filteredIds={places.map(x => x.id)}
-                            isFullWidth
-                            onPlaceClick={setSelectedPlace}
-                        />
-                    )}
+                    <div className={cx('map-container', { 'is-expanded': isMapExpanded })}>
+                        {(places && places && filterData) && (
+                            <Map
+                                places={places}
+                                filteredIds={places.map(x => x.id)}
+                                isFullWidth={width < config.deviceBreakpoint}
+                                onPlaceClick={setSelectedPlace}
+                            />
+                        )}
 
-                    {selectedPlace && (
-                        <SelectedPlaceInfoBox place={selectedPlace} onClose={() => setSelectedPlace(null)} />
-                    )}
+                        {selectedPlace && (
+                            <SelectedPlaceInfoBox place={selectedPlace} onClose={() => setSelectedPlace(null)} />
+                        )}
 
-                    {places && (
-                        <ButtonWithIcon
-                            className="toggle-filter-button"
-                            icon={FilterIcon}
-                            color={EColors.ORANGE}
-                            onClick={() => setFilterExpanded(!isFilterExpanded)}
-                        />
-                    )}
+                        {places && (
+                            <ButtonWithIcon
+                                className="toggle-filter-button"
+                                icon={FilterIcon}
+                                color={EColors.ORANGE}
+                                onClick={() => setFilterExpanded(!isFilterExpanded)}
+                            />
+                        )}
 
-                    {places && (
-                        <ButtonWithIcon
-                            className="toggle-map-button"
-                            icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
-                            color={EColors.ORANGE}
-                            onClick={() => { setMenuExpanded(false); setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
-                        />
-                    )}
+                        {places && (
+                            <ButtonWithIcon
+                                className="toggle-map-button"
+                                icon={isMapExpanded ? ArrowUpIcon : ArrowDownIcon}
+                                color={EColors.ORANGE}
+                                onClick={() => { setMenuExpanded(false); setSelectedPlace(null); setFilterExpanded(false); setMapExpanded(!isMapExpanded); }}
+                            />
+                        )}
+                    </div>
                 </div>
 
-                <div className="filter-container">
-                    <Filter resultsCount={places.length} onFilterChange={setFilterData} isExpanded={isFilterExpanded} />
+                <div className="layout-container bottom-right">
+                    <div className="filter-container">
+                        <Filter resultsCount={places.length} onFilterChange={setFilterData} isExpanded={isFilterExpanded || width > config.deviceBreakpoint} />
+                    </div>
+
+                    <PlacesList places={places} />
+
+                    <Navigation
+                        items={[currentUser ? {
+                            label: 'Přidat',
+                            icon: PlusIcon,
+                            color: EColors.GREEN,
+                            onClick: () => history.push(Routes.PLACE_CREATE)
+                        } : null]}
+                        singleItemAlignment="right"
+                    />
                 </div>
-
-                <PlacesList places={places} />
-
-                <Navigation
-                    items={[currentUser ? {
-                        label: 'Přidat',
-                        icon: PlusIcon,
-                        color: EColors.GREEN,
-                        onClick: () => history.push(Routes.PLACE_CREATE)
-                    } : null]}
-                    singleItemAlignment="right"
-                />
             </div>
         </Layout>
     );

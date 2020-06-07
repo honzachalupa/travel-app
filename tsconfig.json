@@ -42,6 +42,7 @@
             "Interfaces/*": ["./app/interfaces/*"],
             "Helpers": ["./app/helpers.ts"],
             "Actions/*": ["./app/actions/*"],
+            "Hooks/*": ["./app/hooks/*"],
             "config": ["./config.js"]
         }
     },

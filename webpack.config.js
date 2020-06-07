@@ -145,7 +145,11 @@ module.exports = env => {
                             loader: 'sass-loader',
                             options: {
                                 sourceMap: !isProduction,
-                                data: `@import "app/_globals.scss"; $accent-color: ${config.accentColor};`,
+                                data: `
+                                    @import "app/_globals.scss";
+                                    $accent-color: ${config.accentColor};
+                                    $deviceBreakpoint: ${config.deviceBreakpoint}px;
+                                `,
                                 includePaths: [__dirname, path.resolve(__dirname, 'src')]
                             }
                         },

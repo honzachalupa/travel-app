@@ -5,6 +5,11 @@
     float: left;
     transition: opacity, margin 250ms;
 
+    @media (min-width: $deviceBreakpoint) {
+        height: 100vh;
+        overflow: auto;
+    }
+
     & > .item {
         width: 100%;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
