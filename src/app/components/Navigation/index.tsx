@@ -9,6 +9,7 @@ interface INavigationItem {
     icon: string;
     color: EColors;
     isDisabled?: boolean;
+    isHidden?: boolean;
     onClick: () => void;
 }
 
@@ -18,7 +19,7 @@ interface IProps {
 }
 
 export default ({ items, singleItemAlignment }: IProps) => {
-    const itemsFiltered = items.filter(x => x) as INavigationItem[];
+    const itemsFiltered = items.filter(x => x).filter(x => !x?.isHidden) as INavigationItem[];
 
     return itemsFiltered.length > 0 ? (
         <nav data-component="Navigation">

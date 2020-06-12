@@ -182,32 +182,37 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                 </div>
 
                 <Navigation
-                    items={[!place.isArchived ? {
+                    items={[{
                         label: 'Navigovat',
                         icon: NavigateIcon,
                         color: EColors.BLUE,
+                        isHidden: place.isArchived,
                         onClick: () => window.location.href = `http://maps.google.com/maps?daddr=${place.coordinates.latitude},${place.coordinates.longitude}`
-                    } : null, hasEditRights && !place.isArchived ? {
+                    }, {
                         label: 'Upravit',
                         icon: EditIcon,
                         color: EColors.GREEN,
+                        isHidden: !hasEditRights || place.isArchived,
                         onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
-                    } : null, currentUser && !place.isArchived ? {
+                    }, {
                         label: isVisited ? 'Nenavštíveno' : 'Navštíveno',
                         icon: isVisited ? UncheckIcon : CheckIcon,
                         color: EColors.GREEN,
+                        isHidden: !currentUser || place.isArchived,
                         onClick: handleToggleVisitedState
-                    } : null, hasEditRights && !place.isArchived ? {
+                    }, {
                         label: 'Smazat',
                         icon: RemoveIcon,
                         color: EColors.RED,
+                        isHidden: !hasEditRights || place.isArchived,
                         onClick: handleArchive
-                    } : null, hasEditRights && place.isArchived ?  {
+                    }, {
                         label: 'Obnovit',
                         icon: RemoveIcon,
                         color: EColors.GREEN,
+                        isHidden: !hasEditRights || !place.isArchived,
                         onClick: handleUnarchive
-                    } : null]}
+                    }]}
                     singleItemAlignment="right"
                 />
             </div>
