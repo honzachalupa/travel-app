@@ -1,8 +1,8 @@
 // import SearchBox from 'react-google-maps/lib/components/places/SearchBox';
 import { Context } from '@honzachalupa/helpers';
-import { EThemes } from 'app/hooks/useTheme';
 import cx from 'classnames';
 import config from 'config';
+import { EThemes } from 'Enums/Themes';
 import { calculateDistance, formatDistance } from 'Helpers';
 import CurrentLocationIcon from 'Icons/current-location.svg';
 import PlaceIconFaded from 'Icons/place-faded.svg';
@@ -85,6 +85,7 @@ const Map = withScriptjs(withGoogleMap((props: GoogleMapProps & IProps) => {
 
     return currentLocation.latitude && currentLocation.longitude ? (
         <GoogleMap
+            key={isDarkModeOn.toString().length}
             ref={mapRef}
             defaultZoom={props.initialZoom || config.defaultZoom}
             defaultCenter={{

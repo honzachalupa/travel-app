@@ -13,6 +13,7 @@ export interface IContext {
     currentUser: User;
     isDarkModeSupported: boolean;
     isDarkModeOn: boolean;
+    isInstalledIos: boolean;
     setLoadingState: () => void;
     setIsDarkModeSupported: (value: boolean) => void;
     setIsDarkModeOn: (value: boolean) => void;

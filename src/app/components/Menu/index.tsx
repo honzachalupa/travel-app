@@ -16,8 +16,7 @@ interface IProps extends RouteComponentProps {
 }
 
 export default withRouter(({ isExpanded, history }: IProps) => {
-    // const { currentUser, isDarkModeSupported, isDarkModeOn, setIsDarkModeOn } = useContext(Context) as IContext;
-    const { currentUser } = useContext(Context) as IContext;
+    const { currentUser, isDarkModeSupported, isDarkModeOn, setIsDarkModeOn } = useContext(Context) as IContext;
 
     return (
         <nav data-component="Menu" className={cx({ 'is-expanded': isExpanded })}>
@@ -32,12 +31,15 @@ export default withRouter(({ isExpanded, history }: IProps) => {
                     </React.Fragment>
                 )}
 
-                {/* !isDarkModeSupported && (
+                {!isDarkModeSupported && (
                     <div>
-                        <input name="isDarkModeOn" type="checkbox" defaultChecked={isDarkModeOn} onChange={() => setIsDarkModeOn(!isDarkModeOn)} />
+                        <input name="isDarkModeOn" type="checkbox" defaultChecked={isDarkModeOn} onChange={() => {
+                            setIsDarkModeOn(!isDarkModeOn);
+                            localStorage.setItem('theme', (!isDarkModeOn).toString());
+                        }} />
                         <label htmlFor="isDarkModeOn">Zapnout tmavý vzhled</label>
                     </div>
-                ) */}
+                )}
             </nav>
 
             <Authentication />

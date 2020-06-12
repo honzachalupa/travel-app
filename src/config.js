@@ -7,7 +7,7 @@ module.exports = {
     accentColor: '#ffb12a',
     developerName: 'Jan Chalupa',
     developerUrl: 'https://www.honzachalupa.cz/',
-    caching: false,
+    caching: true,
     deviceBreakpoint: 600,
     googleCloudKey: 'AIzaSyBHmKKahUlHUEZPUjuS2yLb-D_zUyn1_y4',
     coordinatesFallback: { latitude: 50.083333, longitude: 14.416667 },

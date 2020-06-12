@@ -31,7 +31,7 @@
     }
 
     .content {
-        padding: 20px;
+        padding: 20px 20px 50px 20px;
 
         @media (max-width: 799px) {
             width: 100%;
@@ -51,11 +51,12 @@
 
         .name {
             font-size: 30px;
-            font-weight: 500;
+            font-weight: 300;
             padding-top: 20px;
         }
 
         .description {
+            font-size: 14px;
             line-height: 150%;
             opacity: 0.5;
         }

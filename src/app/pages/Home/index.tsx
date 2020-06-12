@@ -14,7 +14,7 @@ import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import FilterIcon from 'Icons/filter.svg';
 import PlusIcon from 'Icons/plus.svg';
-import SettingsIcon from 'Icons/profile.svg';
+import HamburgerIcon from 'Icons/profile.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithoutSpacing';
@@ -94,7 +94,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
                     <ButtonWithIcon
                         className="settings-button"
-                        icon={SettingsIcon}
+                        icon={HamburgerIcon}
                         color={EColors.WHITE_TRANSPARENT}
                         onClick={() => setMenuExpanded(!isMenuExpanded)}
                     />

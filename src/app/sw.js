@@ -11,11 +11,24 @@ const cacheFilesObject = {
     ],
     images: {
         _root: [
-            'icon.png',
-            'sample.png'
+            'icon.png'
         ],
         icons: [
-            'sample.svg'
+            'accept.svg',
+            'arrow-down.svg',
+            'arrow-up.svg',
+            'bin.svg',
+            'cross.svg',
+            'current-location.svg',
+            'edit.svg',
+            'filter.svg',
+            'fullscreen.svg',
+            'navigation.svg',
+            'place.svg',
+            'place-faded.svg',
+            'place-visited.svg',
+            'plus.svg',
+            'profile.svg'
         ],
         favicons: [
             'manifest.json',
@@ -66,7 +79,7 @@ const cacheFilesObject = {
     }
 };
 
-const cacheName = 'dev-stack-cache';
+const cacheName = 'places-app-cache';
 const path = __BASENAME__.substring(0, __BASENAME__.length - 1) || '';
 const cacheFiles = objectToArray(cacheFilesObject).map(url => { return path + url; });
 

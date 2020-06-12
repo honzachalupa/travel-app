@@ -5,4 +5,10 @@
     .email-address {
         margin-bottom: 20px;
     }
+
+    [data-component="Button"] {
+        width: 100%;
+        float: left;
+        margin: 0 0 20px 0;
+    }
 }

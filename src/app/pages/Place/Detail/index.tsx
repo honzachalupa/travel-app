@@ -111,11 +111,9 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                 </div>
 
                 <div className="content">
-                    <h1 className="name">
-                        <Textfit mode="single" max={24}>
-                            {place.name}
-                        </Textfit>
-                    </h1>
+                    <Textfit className="name" mode="single" max={24}>
+                        {place.name}
+                    </Textfit>
 
                     <h3 className="headline">O místě</h3>
                     <p className="description">{place.description.value || 'Popisek k tomuto místu zatím nebyl vytvořen.'}</p>

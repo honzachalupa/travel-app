@@ -56,9 +56,9 @@ module.exports = env => {
                     developerName: 'Jan Chalupa',
                     developerURL: 'http://www.honzachalupa.cz/',
                     lang: 'cs-CZ',
-                    background: config.accentColor,
+                    display: 'standalone',
+                    background: 'white',
                     theme_color: config.accentColor,
-                    orientation: 'portrait',
                     start_url: `${baseName}index.html?pwa=true`
                 }
             }),
