@@ -6,6 +6,6 @@ export enum Routes {
     PLACE_CREATE = '/pridat-misto',
     PLACE_DETAIL = '/misto/:id',
     PLACE_EDIT = '/misto/:id/upravit',
-    PLACE_IMPORT = '/import-mist',
+    PLACE_BATCH_OPERATIONS = '/hromadne-operace',
     ADMINISTRATION_PLACES_TO_EDIT = '/administrace/mista-k-editaci'
 };

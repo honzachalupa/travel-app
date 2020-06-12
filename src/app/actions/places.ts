@@ -57,9 +57,18 @@ export default {
             });
         });
     },
+    update: (
+        placeId: string,
+        data: Partial<IPlaceRemote>
+    ) => {
+        Database.places.doc(placeId).update(data);
+    },
     delete: (
         placeId: string
     ) => {
-        Database.places.doc(placeId).delete();
+        Database.places.doc(placeId).update({
+            isPublished: false,
+            archived: true
+        });
     }
 };

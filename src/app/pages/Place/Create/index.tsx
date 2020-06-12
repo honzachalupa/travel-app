@@ -5,6 +5,7 @@ import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { ECountryCodes } from 'Enums/CountryCodes';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
+import { Routes } from 'Enums/Routes';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
@@ -99,6 +100,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
         placeClone.images = images;
 
         PlacesActions.create(placeClone);
+
+        history.push(Routes.ROOT);
     };
 
     useEffect(() => {

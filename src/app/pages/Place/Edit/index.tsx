@@ -1,13 +1,15 @@
 import { Context } from '@honzachalupa/helpers';
+import PlacesActions from 'Actions/places';
 import { EColors } from 'Components/Button';
+import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
-import { Database, hasRole } from 'Helpers';
+import { hasRole } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
-import { IPlaceRemote } from 'Interfaces/Place';
+import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -18,29 +20,15 @@ enum ValidationState {
     INVALID = 'INVALID'
 }
 
-export default withRouter(({ history, match }: RouteComponentProps) => {
+export default withRouter(({ history, match }: RouteComponentProps & { match: { params: { id: string }} }) => {
     const { currentUser } = useContext(Context) as IContext;
     // const inputElementRef = useRef(null);
     const [validationState, setValidationState] = useState<ValidationState>(ValidationState.INVALID);
-    // const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
+    const [selectedCoordinates, setSelectedCoordinates] = useState<ICoordinates>({ latitude: 0, longitude: 0});
     const [instagramPostsString, setInstagramPostsString] = useState<string>('');
     const [websitesString, setWebsitesString] = useState<string>('');
     const [images /* , setImages */] = useState<string[]>([]);
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
-
-    const getPlace = () => {
-        // @ts-ignore
-        Database.places.doc(match.params.id).onSnapshot(doc => {
-            const place = doc.data();
-
-            if (place) {
-                setPlace({
-                    ...place,
-                    id: doc.id
-                } as IPlaceRemote);
-            }
-        });
-    };
 
     const setPlaceProperty = (propertyKey: string, value: any) => {
         if (propertyKey.includes('.')) {
@@ -63,36 +51,39 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
         if (place) {
             const placeClone = { ...place };
 
-            // placeClone.coordinates = selectedCoordinates;
+            placeClone.coordinates = selectedCoordinates;
             placeClone.websites = websitesString.split(',').map(url => url.trim()).filter(x => x.length > 0);
             placeClone.instagramPosts = instagramPostsString.split(',').map(url => url.trim()).filter(x => x.length > 0);
             placeClone.images = images;
 
             delete placeClone.id;
 
-            Database.places.doc(place.id).set(placeClone);
+            PlacesActions.update(place.id, placeClone);
 
             history.goBack();
         }
     };
 
     useEffect(() => {
-        getPlace();
+        PlacesActions.getById(match.params.id, (place) => {
+            setPlace(place);
+            setSelectedCoordinates(place.coordinates);
+        });
     }, []);
 
     useEffect(() => {
         if (place) {
             const isValid =
-                place.name.length > 2 // &&
+                place.name.length > 2 &&
                 // place.description.length > 10 &&
                 // place.accessibility.walkingDistance > 0 &&
                 // place.accessibility.difficultyCode !== DifficultyCodes.NONE &&
-                // selectedCoordinates.latitude > 0 &&
-                // selectedCoordinates.longitude > 0;
+                selectedCoordinates.latitude > 0 &&
+                selectedCoordinates.longitude > 0;
 
             setValidationState(isValid ? ValidationState.VALID : ValidationState.INVALID);
         }
-    }, [place /*, selectedCoordinates */]);
+    }, [place, selectedCoordinates]);
 
     return place ? (
         <Layout title="Upravit">
@@ -122,6 +113,8 @@ export default withRouter(({ history, match }: RouteComponentProps) => {
 
                     <label htmlFor="instagramPosts">Odkazy na IG</label>
                     <textarea name="instagramPosts" onChange={(e: any) => setInstagramPostsString(e.target.value)} defaultValue={place.instagramPosts.join(',')} />
+
+                    <Map places={[place]} onMapClick={setSelectedCoordinates} isPoiVisible initialPosition={place.coordinates} />
 
                     {hasRole(currentUser, ERoles.ADMIN) && (
                         <React.Fragment>
