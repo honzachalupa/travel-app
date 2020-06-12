@@ -50,11 +50,17 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
         }
     }
 
-    const handleRemove = () => {
+    const handleArchive = () => {
         if (place) {
-            PlacesActions.delete(place.id);
+            PlacesActions.archive(place.id);
 
             history.goBack();
+        }
+    };
+
+    const handleUnarchive = () => {
+        if (place) {
+            PlacesActions.unarchive(place.id);
         }
     };
 
@@ -176,26 +182,31 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                 </div>
 
                 <Navigation
-                    items={[{
+                    items={[!place.isArchived ? {
                         label: 'Navigovat',
                         icon: NavigateIcon,
                         color: EColors.BLUE,
                         onClick: () => window.location.href = `http://maps.google.com/maps?daddr=${place.coordinates.latitude},${place.coordinates.longitude}`
-                    }, hasEditRights ? {
+                    } : null, hasEditRights && !place.isArchived ? {
                         label: 'Upravit',
                         icon: EditIcon,
                         color: EColors.GREEN,
                         onClick: () => history.push(Routes.PLACE_EDIT.replace(':id', place.id))
-                    } : null, currentUser ? {
+                    } : null, currentUser && !place.isArchived ? {
                         label: isVisited ? 'Nenavštíveno' : 'Navštíveno',
                         icon: isVisited ? UncheckIcon : CheckIcon,
                         color: EColors.GREEN,
                         onClick: handleToggleVisitedState
-                    } : null, hasEditRights ? {
+                    } : null, hasEditRights && !place.isArchived ? {
                         label: 'Smazat',
                         icon: RemoveIcon,
                         color: EColors.RED,
-                        onClick: handleRemove
+                        onClick: handleArchive
+                    } : null, hasEditRights && place.isArchived ?  {
+                        label: 'Obnovit',
+                        icon: RemoveIcon,
+                        color: EColors.GREEN,
+                        onClick: handleUnarchive
                     } : null]}
                     singleItemAlignment="right"
                 />

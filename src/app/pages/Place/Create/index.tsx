@@ -55,7 +55,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
             timestamp: ''
         },
         updatesHistory: [],
-        isPublished: false
+        isPublished: false,
+        isArchived: false
     });
 
     const setPlaceProperty = (propertyKey: string, value: any) => {

@@ -1,23 +1,32 @@
-import { Context } from '@honzachalupa/helpers';
+import PlacesActions from 'Actions/places';
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
-import { Database } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
-import { IContext } from 'Interfaces/Context';
 import { IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithSpacing';
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default () => {
-    const { places } = useContext(Context) as IContext;
+    const [placesCount, setPlacesCount] = useState<number>(0);
+    const [progress, setProgress] = useState<number>(0);
 
     const handleSubmit = () => {
-        places.forEach((place: IPlaceRemote) => {
-            Database.places.doc(place.id).delete();
-            Database.visits.doc(place.id).delete();
-            Database.ratings.doc(place.id).delete();
+        PlacesActions.get((places) => {
+            setPlacesCount(places.length);
+
+            places.forEach((place: IPlaceRemote) => {
+                setProgress(progress + 1);
+
+                PlacesActions.update(place.id, { isArchived: false });
+            });
         });
     };
+
+    useEffect(() => {
+        if (progress === placesCount) {
+            console.log('Operation finished!');
+        }
+    }, [progress]);
 
     return (
         <Layout title="Hromadné operace">

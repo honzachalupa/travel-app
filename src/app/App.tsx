@@ -12,6 +12,7 @@ import { User } from 'firebase';
 import { Authentication, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';
+import Page_AdministrationPlacesArchived from 'Pages/Administration/PlacesArchived';
 import Page_AdministrationPlacesToEdit from 'Pages/Administration/PlacesToEdit';
 import Page_Home from 'Pages/Home';
 import Page_NotFound from 'Pages/NotFound';
@@ -78,7 +79,7 @@ const App = () => {
             const p = new TimeCost('Fetching data from Firebase.');
             p.start();
 
-            PlacesActions.get(setPlaces, setLoadingState, [['isPublished', '==', true]]);
+            PlacesActions.get(setPlaces, setLoadingState, [['isPublished', '==', true], ['isArchived', '==', false]]);
 
             p.end();
         }
@@ -120,6 +121,7 @@ const App = () => {
                     <Route path={Routes.PLACE_EDIT} component={Page_PlaceEdit} exact />
                     <Route path={Routes.PLACE_BATCH_OPERATIONS} component={Page_PlaceBatchOperations} exact />
                     <Route path={Routes.ADMINISTRATION_PLACES_TO_EDIT} component={Page_AdministrationPlacesToEdit} exact />
+                    <Route path={Routes.ADMINISTRATION_PLACES_ARCHIVED} component={Page_AdministrationPlacesArchived} exact />
                     <Route component={Page_NotFound} exact />
                 </Switch>
             </Router>

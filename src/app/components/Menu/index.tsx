@@ -26,6 +26,7 @@ export default withRouter(({ isExpanded, history }: IProps) => {
                         <p className="group-label">Administrace</p>
 
                         <Button className="item" label="Místa ke schválení" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)} />
+                        <Button className="item" label="Smazaná místa" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_ARCHIVED)} />
                         <Button className="item" label="Hromadné operace" onClick={() => history.push(Routes.PLACE_BATCH_OPERATIONS)} />
                     </React.Fragment>
                 )}

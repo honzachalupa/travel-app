@@ -63,12 +63,19 @@ export default {
     ) => {
         Database.places.doc(placeId).update(data);
     },
-    delete: (
+    archive: (
         placeId: string
     ) => {
         Database.places.doc(placeId).update({
             isPublished: false,
-            archived: true
+            isArchived: true
+        });
+    },
+    unarchive: (
+        placeId: string
+    ) => {
+        Database.places.doc(placeId).update({
+            isArchived: false
         });
     }
 };

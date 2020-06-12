@@ -37,6 +37,7 @@ export interface IPlacePartial {
         changes: any; // To-do: Add correct data type
     }[];
     isPublished: boolean;
+    isArchived: boolean;
 }
 
 export interface IPlaceRemote extends IPlacePartial {
