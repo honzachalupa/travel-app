@@ -30,7 +30,7 @@ export default withRouter(({ places, history }: IProps) => {
                                 <Textfit className="name" mode="single" max={22}>{place.name}</Textfit>
 
                                 {place.distance && (
-                                    <p className="distance">{isFirst ? `Vzdáleno ${formatDistance(place.distance)} od vás.` : formatDistance(place.distance)}</p>
+                                    <p className="distance">{isFirst ? `Vzdáleno ${formatDistance(place.distance)} od vás` : formatDistance(place.distance)}</p>
                                 )}
                             </h3>
 

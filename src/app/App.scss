@@ -12,15 +12,9 @@ html {
 body {
     width: 100vw;
     height: 100vh;
-    background-color: transparentize(#ededee, 0.5);
+    background-color: $background-color-light;
+    color: $foreground-color-light;
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Montserrat", sans-serif;
-
-    /* stylelint-disable media-feature-name-no-unknown */
-
-    /* @media (prefers-color-scheme: dark) {
-        background-color: black;
-        color: white;
-    } */
 
     label,
     input,
@@ -83,6 +77,18 @@ body {
 
         [data-component="Button"] {
             margin: 12px 0;
+        }
+    }
+
+    &.is-dark-mode-on {
+        background-color: $background-color-dark;
+        color: $foreground-color-dark;
+
+        input,
+        select,
+        textarea {
+            background-color: black !important;
+            color: white !important;
         }
     }
 }

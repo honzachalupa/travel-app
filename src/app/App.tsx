@@ -8,7 +8,6 @@ import VisitsActions from 'Actions/visits';
 import config from 'config';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
-import { EThemes } from 'Enums/Themes';
 import { User } from 'firebase';
 import { Authentication, TimeCost } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
@@ -75,20 +74,7 @@ const App = () => {
         }
     };
 
-    useEffect(() => {
-        if (config.caching && _e.isProdEnvironment()) {
-            app.initServiceWorker('./sw.js', __BASENAME__);
-        }
-
-        getUser();
-        getUserLocation();
-
-        VisitsActions.get(setVisits);
-
-        if (!window.matchMedia('(display-mode: standalone)').matches && _b.getPlatformName() === 'iOS') {
-            setIsInstalledIos(false);
-        }
-
+    const getTheme = () => {
         try {
             if (window.matchMedia) {
                 setIsDarkModeSupported(true);
@@ -97,12 +83,31 @@ const App = () => {
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
                     setIsDarkModeOn(!!e.matches);
                 });
+            } else {
+                setIsDarkModeSupported(false);
+                setIsDarkModeOn(false);
             }
         } catch (e) {
-            const theme = localStorage.getItem('theme');
+            const isDarkModeOn = localStorage.getItem('isDarkModeOn');
 
             setIsDarkModeSupported(false);
-            setIsDarkModeOn(theme === EThemes.DARK);
+            setIsDarkModeOn(isDarkModeOn === 'true');
+        }
+    };
+
+    useEffect(() => {
+        if (config.caching && _e.isProdEnvironment()) {
+            app.initServiceWorker('./sw.js', __BASENAME__);
+        }
+
+        getUser();
+        getUserLocation();
+        getTheme();
+
+        VisitsActions.get(setVisits);
+
+        if (!window.matchMedia('(display-mode: standalone)').matches && _b.getPlatformName() === 'iOS') {
+            setIsInstalledIos(false);
         }
     }, []);
 
@@ -117,9 +122,13 @@ const App = () => {
         }
     }, [currentUser, currentLocation]);
 
-    /* useEffect(() => {
-        setIsDarkModeOn(theme === EThemes.DARK);
-    }, [theme]); */
+    useEffect(() => {
+        if (isDarkModeOn) {
+            document.querySelector('body')?.classList.add('is-dark-mode-on');
+        } else {
+            document.querySelector('body')?.classList.remove('is-dark-mode-on');
+        }
+    }, [isDarkModeOn]);
 
     const context = {
         currentLocation,

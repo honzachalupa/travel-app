@@ -122,3 +122,11 @@
         cursor: default;
     }
 }
+
+.is-dark-mode-on {
+    [data-component="PlacesList"] {
+        & > .item {
+            background-color: black;
+        }
+    }
+}

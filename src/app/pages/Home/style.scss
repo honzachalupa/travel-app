@@ -111,3 +111,13 @@
         }
     }
 }
+
+.is-dark-mode-on {
+    [data-component="Page_Home"] {
+        .layout-container {
+            .map-container {
+                box-shadow: none;
+            }
+        }
+    }
+}

@@ -1,5 +1,7 @@
 [data-component="Layout_WithSpacing"] {
     width: 100%;
+    background-color: $background-color-light;
+    color: $foreground-color-light;
     float: left;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 
@@ -8,14 +10,16 @@
         float: left;
     }
 
-    &.id-dark-mode {
-        background-color: black;
-        color: white;
-    }
-
     .page-title {
         font-size: 20px;
         font-size: 400;
         padding: 20px 20px 0 20px;
+    }
+}
+
+.is-dark-mode-on {
+    [data-component="Layout_WithSpacing"] {
+        background-color: $background-color-dark;
+        color: $foreground-color-dark;
     }
 }

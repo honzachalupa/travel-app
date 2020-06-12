@@ -35,7 +35,7 @@ export default withRouter(({ isExpanded, history }: IProps) => {
                     <div>
                         <input name="isDarkModeOn" type="checkbox" defaultChecked={isDarkModeOn} onChange={() => {
                             setIsDarkModeOn(!isDarkModeOn);
-                            localStorage.setItem('theme', (!isDarkModeOn).toString());
+                            localStorage.setItem('isDarkModeOn', (!isDarkModeOn).toString());
                         }} />
                         <label htmlFor="isDarkModeOn">Zapnout tmavý vzhled</label>
                     </div>
