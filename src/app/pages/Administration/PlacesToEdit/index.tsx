@@ -13,8 +13,7 @@ export default () => {
 
     useEffect(() => {
         PlacesActions.get(setPlaces, setLoadingState, [
-            ['isPublished', '==', false],
-            ['countryCode', '==', 'CZ']
+            ['isPublished', '==', false]
         ]);
     }, []);
 

@@ -64,7 +64,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                 )
             )
         ) && (
-            filterData.query.length === 0 || new RegExp(cleanQuery(filterData.query), 'i').test(cleanQuery(place.name))
+            filterData.query?.length === 0 || new RegExp(cleanQuery(filterData.query), 'i').test(cleanQuery(place.name))
         ) &&
         place.accessibility.walkingDistance >= filterData.walkingDistancesFrom &&
         place.accessibility.walkingDistance <= filterData.walkingDistancesTo
@@ -88,8 +88,8 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
     return (
         <Layout>
-            <div data-component="Page_Home" className={cx({ 'is-filter-expanded': isFilterExpanded, 'is-map-expanded': isMapExpanded })}>
-                <div className="layout-container top-left">
+            <div data-component="Page_Home">
+                <div className={cx('layout-container', 'top-left', { 'is-filter-expanded': isFilterExpanded, 'is-map-expanded': isMapExpanded })}>
                     <Menu isExpanded={isMenuExpanded} />
 
                     <ButtonWithIcon
@@ -135,7 +135,12 @@ export default withRouter(({ history }: RouteComponentProps) => {
 
                 <div className="layout-container bottom-right">
                     <div className="filter-container">
-                        <Filter resultsCount={places.length} onFilterChange={setFilterData} isExpanded={isFilterExpanded || width > config.deviceBreakpoint} />
+                        <Filter
+                            resultsCount={places.length}
+                            isExpanded={isFilterExpanded || width > config.deviceBreakpoint}
+                            onFilterChange={setFilterData}
+                            onFilterReset={() => setFilterExpanded(false)}
+                        />
                     </div>
 
                     <PlacesList places={places} />
@@ -144,7 +149,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                         items={[currentUser ? {
                             label: 'Přidat',
                             icon: PlusIcon,
-                            color: EColors.GREEN,
+                            color: EColors.BLUE,
                             onClick: () => history.push(Routes.PLACE_CREATE)
                         } : null]}
                         singleItemAlignment="right"

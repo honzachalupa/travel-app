@@ -1,5 +1,4 @@
 import { Context } from '@honzachalupa/helpers';
-import cx from 'classnames';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
@@ -21,20 +20,19 @@ export default withRouter(({ places, history }: IProps) => {
     return (
         <div data-component="PlacesList">
             {placesLoadingState === ELoadingStates.LOADED ? (
-                places.map(place => {
+                places.map((place, i: number) => {
+                    const isFirst = i === 0;
                     const isVisited = visits && currentUser && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
 
                     return (
-                        <div key={place.id} className={cx('item', { 'is-visited': isVisited })} onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
-                            <h3 className="name">
-                                <Textfit mode="single" max={20}>
-                                    {place.name}{place.distance ? <span className="distance"> ({formatDistance(place.distance)})</span> : null}
-                                </Textfit>
-                            </h3>
+                        <div key={place.id} className="item" onClick={() => history.push(Routes.PLACE_DETAIL.replace(':id', place.id))}>
+                            <h3 className="header">
+                                <Textfit className="name" mode="single" max={22}>{place.name}</Textfit>
 
-                            {place.images.length > 0 && (
-                                <img className="image" src={place.images[0]} />
-                            )}
+                                {place.distance && (
+                                    <p className="distance">{isFirst ? `Vzdáleno ${formatDistance(place.distance)} od vás.` : formatDistance(place.distance)}</p>
+                                )}
+                            </h3>
 
                             {place.description.value && (
                                 <p className="description">
@@ -52,6 +50,10 @@ export default withRouter(({ places, history }: IProps) => {
                                         <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
                                     )}
                                 </div>
+                            )}
+
+                            {isVisited && (
+                                <p className="visited-label">Navštíveno</p>
                             )}
                         </div>
                     );

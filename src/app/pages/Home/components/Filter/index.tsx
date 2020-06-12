@@ -1,4 +1,5 @@
 import { Context } from '@honzachalupa/helpers';
+import Button from 'Components/Button';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { findInEnum, removeDuplicates, TimeCost } from 'Helpers';
@@ -12,6 +13,7 @@ interface IProps {
     resultsCount: number;
     isExpanded: boolean;
     onFilterChange: (e: IFilterData) => void;
+    onFilterReset: () => void;
 }
 
 interface IAvailableOptions {
@@ -48,6 +50,14 @@ export default (props: IProps) => {
     const [includeVisitedPlaces, setIncludeVisitedPlaces] = useState<IFilterData['includeVisitedPlaces']>();
     const [query, setQuery] = useState<IFilterData['query']>();
 
+    const resetFilter = () => {
+        setDifficultyCode(defaultFilter.difficultyCode);
+        setWalkingDistancesFrom(defaultFilter.walkingDistancesFrom);
+        setWalkingDistancesTo(defaultFilter.walkingDistancesTo);
+        setIncludeVisitedPlaces(defaultFilter.includeVisitedPlaces);
+        setQuery(defaultFilter.query);
+    };
+
     const getFilterData = (places: IPlaceRemote[]) => {
         const p = new TimeCost('getFilterData');
         p.start();
@@ -74,14 +84,16 @@ export default (props: IProps) => {
             setIncludeVisitedPlaces(filterData.includeVisitedPlaces);
             setQuery(filterData.query);
         } else {
-            setDifficultyCode(defaultFilter.difficultyCode);
-            setWalkingDistancesFrom(defaultFilter.walkingDistancesFrom);
-            setWalkingDistancesTo(defaultFilter.walkingDistancesTo);
-            setIncludeVisitedPlaces(defaultFilter.includeVisitedPlaces);
-            setQuery(defaultFilter.query);
+            resetFilter();
         }
 
         p.end();
+    };
+
+    const handleFilterReset = () => {
+        resetFilter();
+
+        props.onFilterReset();
     };
 
     useEffect(() => {
@@ -116,7 +128,7 @@ export default (props: IProps) => {
             <AnimateHeight height={props.isExpanded ? 'auto' : 0} contentClassName="animated-container">
                 <div className="item">
                     <label htmlFor="difficultyCode">Náročnost</label>
-                    <select name="difficultyCode" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDifficultyCode(e.target.value as DifficultyCodes)} defaultValue={difficultyCode}>
+                    <select name="difficultyCode" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setDifficultyCode(e.target.value as DifficultyCodes)} value={difficultyCode}>
                         <option value={DifficultyCodes.NONE}>Všechny</option>
 
                         {availableOptions.difficultyCodes.map(code => (
@@ -127,7 +139,7 @@ export default (props: IProps) => {
 
                 <div className="item">
                     <label htmlFor="walkingDistancesFrom">Pěší vzdálenost od</label>
-                    <select name="walkingDistancesFrom" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesFrom(Number(e.target.value))} defaultValue={walkingDistancesFrom}>
+                    <select name="walkingDistancesFrom" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesFrom(Number(e.target.value))} value={walkingDistancesFrom}>
                         {availableOptions.walkingDistances.filter(x => x < walkingDistancesTo).map(distance => (
                             <option key={distance} value={distance}>{distance} km</option>
                         ))}
@@ -136,27 +148,30 @@ export default (props: IProps) => {
 
                 <div className="item">
                     <label htmlFor="walkingDistancesTo">Pěší vzdálenost do</label>
-                    <select name="walkingDistancesTo" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesTo(Number(e.target.value))} defaultValue={walkingDistancesTo}>
+                    <select name="walkingDistancesTo" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWalkingDistancesTo(Number(e.target.value))} value={walkingDistancesTo}>
                         {availableOptions.walkingDistances.filter(x => x > walkingDistancesFrom).map(distance => (
                             <option key={distance} value={distance}>{distance} km</option>
                         ))}
                     </select>
                 </div>
 
-                <div className="item">
+                <div className="item colspan-2">
                     <label htmlFor="query">Podle názvu</label>
-                    <input name="query" type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value.trim())} defaultValue={query} />
+                    <input name="query" type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value.trim())} value={query} />
                 </div>
 
                 {currentUser && (
                     <div className="item">
-                    <input name="includeVisitedPlaces" type="checkbox" defaultChecked={includeVisitedPlaces} onChange={() => setIncludeVisitedPlaces(!includeVisitedPlaces)} />
-                    <label htmlFor="includeVisitedPlaces">Zahrnout již navštívená místa</label>
-                </div>
+                        <label htmlFor="includeVisitedPlaces">Navštívená místa</label>
+                        <select name="includeVisitedPlaces" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setIncludeVisitedPlaces(e.target.value === 'true')} value={includeVisitedPlaces?.toString()}>
+                            <option value="true">Ano</option>
+                            <option value="false">Ne</option>
+                        </select>
+                    </div>
                 )}
 
                 <div className="item">
-                    Počet výsledků: {props.resultsCount}
+                    <Button label="Resetovat" onClick={handleFilterReset} />
                 </div>
             </AnimateHeight>
         </form>

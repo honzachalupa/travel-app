@@ -12,6 +12,8 @@ html {
 body {
     width: 100vw;
     height: 100vh;
+    background-color: transparentize(#ededee, 0.5);
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Montserrat", sans-serif;
 
     /* stylelint-disable media-feature-name-no-unknown */
 
@@ -19,12 +21,6 @@ body {
         background-color: black;
         color: white;
     } */
-
-    * {
-        font-family: "Montserrat", sans-serif;
-        letter-spacing: 0.5px;
-        line-height: 120%;
-    }
 
     label,
     input,

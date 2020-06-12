@@ -12,28 +12,33 @@
 
     & > .item {
         width: 100%;
+        background-color: white;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.07);
-        padding: 10px;
-        border-radius: 5px;
-        margin-bottom: 12px;
+        padding: 12px;
+        border-radius: 15px;
+        margin-bottom: 15px;
         float: left;
+        overflow: hidden;
 
-        &.is-visited {
-            border: 1px solid $green-darker;
-        }
-
-        .name {
+        .header {
             width: 100%;
-            font-size: 16px;
-            font-weight: 500;
             padding-bottom: 10px;
             float: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .name {
+                max-width: 80%;
+                font-size: 18px;
+                font-weight: 300;
+            }
 
             .distance {
-                color: gray;
-                font-weight: normal;
-                position: relative;
-                top: -1px;
+                font-size: 12px;
+                font-weight: 200;
+                white-space: nowrap;
+                opacity: 0.5;
             }
         }
 
@@ -44,14 +49,14 @@
         }
 
         .description {
-            $font-size: 12px;
-            $line-height: 1.5;
+            $font-size: 14px;
+            $line-height: 1.6;
             $lines-to-show: 3;
 
             width: 100%;
             height: calc(#{$font-size} * #{$line-height} * #{$lines-to-show});
-            color: gray;
             font-size: $font-size;
+            font-weight: 300;
             text-overflow: ellipsis;
             line-height: $line-height;
             -webkit-line-clamp: $lines-to-show;
@@ -60,6 +65,7 @@
             display: block;
             display: -webkit-box;
             overflow: hidden;
+            opacity: 0.7;
         }
 
         .details {
@@ -76,6 +82,18 @@
                     font-weight: 500;
                 }
             }
+        }
+
+        .visited-label {
+            width: calc(100% + 24px);
+            background-color: $green-darker;
+            color: white;
+            text-align: center;
+            padding: 8px;
+            float: left;
+            position: relative;
+            left: -12px;
+            bottom: -12px;
         }
     }
 

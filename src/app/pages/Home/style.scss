@@ -84,6 +84,7 @@
             position: relative;
             z-index: 9;
             transition: height 500ms;
+            box-shadow: 0 0 20px 10px white;
 
             .toggle-filter-button {
                 position: absolute;
