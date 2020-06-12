@@ -1,6 +1,7 @@
 import UserActions from 'Actions/users';
 import Button from 'Components/Button';
 import { Routes } from 'Enums/Routes';
+import { RoutesLabels } from 'Enums/RoutesLabels';
 import { Authentication } from 'Helpers';
 import Layout from 'Layouts/WithSpacing';
 import React, { useState } from 'react';
@@ -28,7 +29,7 @@ export default withRouter(({ history }) => {
     };
 
     return (
-        <Layout title="Registrace">
+        <Layout title={RoutesLabels.SIGN_UP}>
             <form className="form" data-component="SignUpForm">
                 <input type="text" placeholder="E-mailová adresa" onChange={e => setEmailAddress(e.target.value)} />
                 <input type="password" placeholder="Heslo" onChange={e => setPassword(e.target.value)} />

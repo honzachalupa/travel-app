@@ -1,6 +1,7 @@
 import PlacesActions from 'Actions/places';
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
+import { RoutesLabels } from 'Enums/RoutesLabels';
 import AcceptIcon from 'Icons/accept.svg';
 import { IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithSpacing';
@@ -29,7 +30,7 @@ export default () => {
     }, [progress]);
 
     return (
-        <Layout title="Hromadné operace">
+        <Layout title={RoutesLabels.PLACE_BATCH_OPERATIONS}>
             <div data-component="Page_PlaceImport">
                 <Navigation
                     items={[{

@@ -3,6 +3,7 @@ import cx from 'classnames';
 import Button from 'Components/Button';
 import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
+import { RoutesLabels } from 'Enums/RoutesLabels';
 import { hasRole } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import React, { useContext } from 'react';
@@ -25,9 +26,9 @@ export default withRouter(({ isExpanded, history }: IProps) => {
                     <React.Fragment>
                         <p className="group-label">Administrace</p>
 
-                        <Button className="item" label="Místa ke schválení" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)} />
-                        <Button className="item" label="Smazaná místa" onClick={() => history.push(Routes.ADMINISTRATION_PLACES_ARCHIVED)} />
-                        <Button className="item" label="Hromadné operace" onClick={() => history.push(Routes.PLACE_BATCH_OPERATIONS)} />
+                        <Button className="item" label={RoutesLabels.ADMINISTRATION_PLACES_TO_EDIT} onClick={() => history.push(Routes.ADMINISTRATION_PLACES_TO_EDIT)} />
+                        <Button className="item" label={RoutesLabels.ADMINISTRATION_PLACES_ARCHIVED} onClick={() => history.push(Routes.ADMINISTRATION_PLACES_ARCHIVED)} />
+                        <Button className="item" label={RoutesLabels.PLACE_BATCH_OPERATIONS} onClick={() => history.push(Routes.PLACE_BATCH_OPERATIONS)} />
                     </React.Fragment>
                 )}
 

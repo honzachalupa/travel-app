@@ -6,6 +6,7 @@ import Navigation from 'Components/Navigation';
 import { ECountryCodes } from 'Enums/CountryCodes';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { Routes } from 'Enums/Routes';
+import { RoutesLabels } from 'Enums/RoutesLabels';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
@@ -118,7 +119,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
     }, [place, selectedCoordinates]);
 
     return (
-        <Layout title="Přidat místo">
+        <Layout title={RoutesLabels.PLACE_CREATE}>
             <div data-component="Page_PlaceCreate">
                 <form className="form">
                     <label htmlFor="name">Název</label>

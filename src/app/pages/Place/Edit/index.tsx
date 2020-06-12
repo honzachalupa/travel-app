@@ -5,6 +5,7 @@ import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
+import { RoutesLabels } from 'Enums/RoutesLabels';
 import { hasRole } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
@@ -86,7 +87,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
     }, [place, selectedCoordinates]);
 
     return place ? (
-        <Layout title="Upravit">
+        <Layout title={RoutesLabels.PLACE_EDIT}>
             <div data-component="Page_PlaceEdit">
                 <form className="form">
                     <label htmlFor="name">Název</label>
