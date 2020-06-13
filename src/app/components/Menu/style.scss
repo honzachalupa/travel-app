@@ -2,15 +2,16 @@
     width: 100vw;
     max-width: 500px;
     height: 100vh;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: transparentize($background-color-light, 0.5);
     backdrop-filter: blur(5px) saturate(200%);
+    box-shadow: 20px 0 20px transparentize($background-color-dark, 0.97);
     padding: 100px 20px 20px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
     top: 0;
-    left: -100vw;
+    left: -110vw;
     transition: left 250ms;
     z-index: 99;
 
@@ -32,5 +33,12 @@
             float: left;
             margin: 0 0 20px 0;
         }
+    }
+}
+
+.is-dark-mode-on {
+    [data-component="Menu"] {
+        background-color: transparentize($background-color-dark, 0.2);
+        box-shadow: 20px 0 20px transparentize($background-color-light, 0.97);
     }
 }

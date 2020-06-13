@@ -60,12 +60,14 @@ const App = () => {
             const p = new TimeCost('Getting user\'s location.');
             p.start();
 
+            geolocationFallback();
+
             navigator.geolocation.watchPosition(({ coords: { latitude, longitude } }) => {
                 setCurrentLocation({ latitude, longitude });
 
                 localStorage.setItem('lastPosition', JSON.stringify({ latitude, longitude }));
 
-                p.end(true);
+                p.end();
             }, geolocationFallback);
         } else {
             geolocationFallback();

@@ -28,7 +28,7 @@
 
         &.items-count-1,
         &.items-count-2 {
-            background-color: transparent;
+            background-color: transparent !important;
             backdrop-filter: none;
             padding-bottom: 15px;
 
@@ -42,7 +42,9 @@
 }
 
 .is-dark-mode-on {
-    .items {
-        background-color: rgba(0, 0, 0, 0.5);
+    [data-component="Navigation"] {
+        .items {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
     }
 }

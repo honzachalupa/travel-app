@@ -3,7 +3,7 @@
     background-color: $gray-darker;
     font-size: 1rem;
     border: none;
-    border-radius: 0;
+    border-radius: 5px;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     padding: 15px 20px;
     transition: 250ms background-color;
@@ -124,9 +124,7 @@
 }
 
 .is-dark-mode-on {
-    [data-component="PlacesList"] {
-        & > .item {
-            background-color: black;
-        }
+    [data-component="Button"] {
+        background-color: black;
     }
 }
