@@ -5,8 +5,10 @@ import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
 import { ECountryCodes } from 'Enums/CountryCodes';
 import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
+import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
 import { RoutesLabels } from 'Enums/RoutesLabels';
+import { hasRole } from 'Helpers';
 import AcceptIcon from 'Icons/accept.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
@@ -57,6 +59,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
         },
         updatesHistory: [],
         isPublished: false,
+        isPromoted: false,
         isArchived: false
     });
 
@@ -154,6 +157,22 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     {/* <Button label={`Nahrát fotky ${images.length > 0 ? ` (nahráno: ${images.length})` : ''}`} color={EColors.ORANGE} onClick={() => inputElementRef.current.click()} /> */}
 
                     <Map onMapClick={setSelectedCoordinates} isPoiVisible />
+
+                    {hasRole(currentUser, ERoles.ADMIN) && (
+                        <React.Fragment>
+                            <label htmlFor="isPublished">Publikováno</label>
+                            <select name="isPublished" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPublished', e.target.value === 'true')} defaultValue={place.isPublished.toString()}>
+                                <option value="true">Ano</option>
+                                <option value="false">Ne</option>
+                            </select>
+
+                            <label htmlFor="isPromoted">Doporučeno</label>
+                            <select name="isPromoted" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPromoted', e.target.value === 'true')} defaultValue={place.isPromoted.toString()}>
+                                <option value="true">Ano</option>
+                                <option value="false">Ne</option>
+                            </select>
+                        </React.Fragment>
+                    )}
                 </form>
 
                 <Navigation

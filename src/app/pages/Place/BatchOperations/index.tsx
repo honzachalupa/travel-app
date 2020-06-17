@@ -18,14 +18,16 @@ export default () => {
             places.forEach((place: IPlaceRemote) => {
                 setProgress(progress + 1);
 
-                PlacesActions.update(place.id, { isArchived: false });
+                PlacesActions.update(place.id, { isPromoted: false });
             });
         });
     };
 
     useEffect(() => {
-        if (progress === placesCount) {
-            console.log('Operation finished!');
+        console.log(progress, placesCount, progress === placesCount);
+
+        if (placesCount > 0 && progress === placesCount) {
+            alert('Operation finished!');
         }
     }, [progress]);
 

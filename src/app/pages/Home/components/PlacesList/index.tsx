@@ -21,7 +21,6 @@ export default withRouter(({ places, history }: IProps) => {
         <div data-component="PlacesList">
             {placesLoadingState === ELoadingStates.LOADED ? (
                 places.map((place, i: number) => {
-                    const isFirst = i === 0;
                     const isVisited = visits && currentUser && visits[place.id] ? visits[place.id].includes(currentUser.uid) : false;
 
                     return (
@@ -30,7 +29,7 @@ export default withRouter(({ places, history }: IProps) => {
                                 <Textfit className="name" mode="single" max={22}>{place.name}</Textfit>
 
                                 {place.distance && (
-                                    <p className="distance">{isFirst ? `Vzdáleno ${formatDistance(place.distance)} od vás` : formatDistance(place.distance)}</p>
+                                    <p className="distance">{i === 0 ? `Vzdáleno ${formatDistance(place.distance)} od vás` : formatDistance(place.distance)}</p>
                                 )}
                             </h3>
 
@@ -52,9 +51,11 @@ export default withRouter(({ places, history }: IProps) => {
                                 </div>
                             )}
 
-                            {isVisited && (
-                                <p className="visited-label">Navštíveno</p>
-                            )}
+                            {isVisited ? (
+                                <p className="info-box is-visited">Navštíveno</p>
+                            ) : place.isPromoted ? (
+                                <p className="info-box is-promoted">Náš tip</p>
+                            ) : null}
                         </div>
                     );
                 })

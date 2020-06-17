@@ -124,6 +124,12 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                                 <option value="true">Ano</option>
                                 <option value="false">Ne</option>
                             </select>
+
+                            <label htmlFor="isPromoted">Doporučeno</label>
+                            <select name="isPromoted" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPlaceProperty('isPromoted', e.target.value === 'true')} defaultValue={place.isPromoted.toString()}>
+                                <option value="true">Ano</option>
+                                <option value="false">Ne</option>
+                            </select>
                         </React.Fragment>
                     )}
                 </form>

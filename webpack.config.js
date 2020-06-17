@@ -14,7 +14,7 @@ module.exports = env => {
     console.log('Build started with following arguments:', env || 'NONE');
 
     const isProduction = env.buildTarget === 'prod';
-    const buildDate = moment().format('D.M.YYYY');
+    const buildDateTime = moment().format('D.M.YYYY HH:mm:ss');
     const buildTarget = env ? env.buildTarget : '';
     const baseName = env ? env.baseName : '/';
     const platform = env ? env.platform : '';
@@ -68,7 +68,7 @@ module.exports = env => {
                 { from: 'src/images', to: 'images' }
             ]),
             new webpack.DefinePlugin({
-                __BUILDDATE__: `'${buildDate}'`,
+                __BUILDDATETIME__: `'${buildDateTime}'`,
                 __BUILDTARGET__: `'${buildTarget}'`,
                 __BASENAME__: `'${baseName}'`,
                 __PLATFORM__: `'${platform}'`

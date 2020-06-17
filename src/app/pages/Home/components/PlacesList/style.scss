@@ -86,9 +86,8 @@
             }
         }
 
-        .visited-label {
+        .info-box {
             width: calc(100% + 24px);
-            background-color: $green-darker;
             color: white;
             text-align: center;
             padding: 8px;
@@ -96,6 +95,14 @@
             position: relative;
             left: -12px;
             bottom: -12px;
+
+            &.is-visited {
+                background-color: $green-darker;
+            }
+
+            &.is-promoted {
+                background-color: $orange-darker;
+            }
         }
     }
 

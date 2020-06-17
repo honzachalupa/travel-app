@@ -1,4 +1,4 @@
-/* globals __BASENAME__ */
+/* globals __BASENAME__ __BUILDDATETIME__ */
 /* eslint-disable no-restricted-globals */
 
 const cacheFilesObject = {
@@ -79,7 +79,7 @@ const cacheFilesObject = {
     }
 };
 
-const cacheName = 'places-app-cache';
+const cacheName = `places-app-cache_${__BUILDDATETIME__}`;
 const path = __BASENAME__.substring(0, __BASENAME__.length - 1) || '';
 const cacheFiles = objectToArray(cacheFilesObject).map(url => { return path + url; });
 

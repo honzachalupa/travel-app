@@ -4,7 +4,6 @@ import '@babel/polyfill';
 import { app, Context, _b, _e } from '@honzachalupa/helpers';
 import PlacesActions from 'Actions/places';
 import VisitsActions from 'Actions/visits';
-// import useTheme, { EThemes } from 'app/hooks/useTheme';
 import config from 'config';
 import { ELoadingStates } from 'Enums/LoadingStates';
 import { Routes } from 'Enums/Routes';
@@ -29,13 +28,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.scss';
 
 const App = () => {
-    // const theme = useTheme();
     const [currentLocation, setCurrentLocation] = useState<ICoordinates>({ latitude: 0, longitude: 0 });
     const [currentUser, setCurrentUser] = useState<User | null>();
     const [placesLoadingState, setLoadingState] = useState<string>(ELoadingStates.WAITING);
     const [isDarkModeSupported, setIsDarkModeSupported] = useState<boolean>();
     const [isDarkModeOn, setIsDarkModeOn] = useState<boolean>();
-    const [isInstalledIos, setIsInstalledIos] = useState<boolean>(true);
+    const [isIosInstalled, setIsIosInstalled] = useState<boolean>(true);
     const [places, setPlaces] = useState<IPlaceRemote[]>([]);
     const [visits, setVisits] = useState<{ [key: string]: string[] }>({});
 
@@ -67,7 +65,7 @@ const App = () => {
 
                 localStorage.setItem('lastPosition', JSON.stringify({ latitude, longitude }));
 
-                p.end();
+                p.end(true);
             }, geolocationFallback);
         } else {
             geolocationFallback();
@@ -109,7 +107,7 @@ const App = () => {
         VisitsActions.get(setVisits);
 
         if (!window.matchMedia('(display-mode: standalone)').matches && _b.getPlatformName() === 'iOS') {
-            setIsInstalledIos(false);
+            setIsIosInstalled(false);
         }
     }, []);
 
@@ -140,7 +138,7 @@ const App = () => {
         visits,
         isDarkModeSupported,
         isDarkModeOn,
-        isInstalledIos,
+        isIosInstalled,
         setLoadingState,
         setIsDarkModeSupported,
         setIsDarkModeOn
