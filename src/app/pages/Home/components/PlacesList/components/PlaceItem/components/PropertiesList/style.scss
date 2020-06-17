@@ -1,0 +1,14 @@
+[data-component="PropertiesList"] {
+    width: calc(100% + 24px);
+    background-color: black;
+    padding: 8px 12px;
+    float: left;
+    position: relative;
+    left: -12px;
+    bottom: -12px;
+
+    .icon {
+        width: 20px;
+        margin-right: 5px;
+    }
+}
