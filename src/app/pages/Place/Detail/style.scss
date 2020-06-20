@@ -57,7 +57,8 @@
 
         .description {
             font-size: 14px;
-            line-height: 150%;
+            font-weight: 300;
+            line-height: 160%;
             opacity: 0.5;
         }
 
@@ -67,7 +68,7 @@
             opacity: 0.5;
 
             .url {
-                color: black;
+                color: $foreground-color-light;
                 text-decoration: none;
             }
         }
@@ -84,6 +85,18 @@
             .note {
                 padding-top: 10px;
                 opacity: 0.5;
+            }
+        }
+    }
+}
+
+.is-dark-mode-on {
+    [data-component="Page_PlaceDetail"] {
+        .content {
+            .description-source {
+                .url {
+                    color: $foreground-color-dark;
+                }
             }
         }
     }

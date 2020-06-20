@@ -31,6 +31,7 @@
             background-color: transparent !important;
             backdrop-filter: none;
             padding-bottom: 15px;
+            pointer-events: none;
 
             .item {
                 border-radius: 20px;

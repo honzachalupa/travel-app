@@ -39,7 +39,7 @@
     .description {
         $font-size: 14px;
         $line-height: 1.6;
-        $lines-to-show: 3;
+        $lines-to-show: 4;
 
         width: 100%;
         height: calc(#{$font-size} * #{$line-height} * #{$lines-to-show});
@@ -54,24 +54,6 @@
         display: -webkit-box;
         overflow: hidden;
         opacity: 0.7;
-    }
-
-    .details {
-        width: 100%;
-        font-size: 13px;
-        float: left;
-        opacity: 0.7;
-        margin-top: 12px;
-
-        .item {
-            width: 100%;
-            float: left;
-            line-height: 150%;
-
-            .label {
-                font-weight: 500;
-            }
-        }
     }
 }
 

@@ -1,17 +1,16 @@
 import { Context } from '@honzachalupa/helpers';
 import PlacesActions from 'Actions/places';
 import RatingsActions from 'Actions/ratings';
-import UserActions from 'Actions/users';
 import VisitsActions from 'Actions/visits';
 import cx from 'classnames';
 import { ButtonWithIcon, EColors } from 'Components/Button';
 import Map from 'Components/Map';
 import Navigation from 'Components/Navigation';
+import PropertiesList, { EViews } from 'Components/PropertiesList';
 import config from 'config';
-import { Difficulties, DifficultyCodes } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
-import { findInEnum, hasRole } from 'Helpers';
+import { hasRole } from 'Helpers';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import RemoveIcon from 'Icons/bin.svg';
@@ -21,7 +20,6 @@ import NavigateIcon from 'Icons/navigation.svg';
 import CheckIcon from 'Icons/plus.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlaceRemote } from 'Interfaces/Place';
-import { IUser } from 'Interfaces/User';
 import Layout from 'Layouts/WithoutSpacing';
 import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -36,9 +34,14 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
     const { currentUser } = useContext(Context) as IContext;
     const [isMapExpanded, setMapExpanded] = useState<boolean>(false);
     const [place, setPlace] = useState<IPlaceRemote | null>(null);
-    const [addedByUser, setAddedByUser] = useState<IUser | null>(null);
     const [hasEditRights, setHasEditRights] = useState<boolean>(false);
     const [isVisited, setIsVisited] = useState<boolean>(false);
+
+    const getSourceDomain = (url: string) => {
+        const matches = url.match(/https?:\/\/(.+?)\//i);
+
+        return matches ? matches[1].toLowerCase() : '';
+    };
 
     const handleToggleVisitedState = () => {
         if (place) {
@@ -78,15 +81,12 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
             ));
 
             VisitsActions.getById(place.id, setIsVisited);
-            UserActions.getById(place.addedBy.id, setAddedByUser);
         }
     }, [place]);
 
-    const getSourceDomain = (url: string) => {
-        const matches = url.match(/https?:\/\/(.+?)\//i);
-
-        return matches ? matches[1].toLowerCase() : '';
-    };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [isMapExpanded]);
 
     return place ? (
         <Layout>
@@ -125,26 +125,7 @@ export default withRouter(({ history, match }: RouteComponentProps & { match: { 
                         </p>
                     )}
 
-                    {(
-                        place.accessibility.walkingDistance > 0 ||
-                        place.accessibility.difficultyCode !== DifficultyCodes.NONE ||
-                        (hasRole(currentUser, ERoles.ADMIN) && addedByUser)
-                    ) && (
-                        <React.Fragment>
-                            <h3 className="headline">Podrobnosti</h3>
-                            {place.accessibility.walkingDistance > 0 && (
-                                <p className="item"><span className="label">Pěší vzdálenost:</span> {place.accessibility.walkingDistance} km</p>
-                            )}
-
-                            {place.accessibility.difficultyCode !== DifficultyCodes.NONE && (
-                                <p className="item"><span className="label">Obtížnost terénu:</span> {findInEnum(Difficulties, place.accessibility.difficultyCode).label}</p>
-                            )}
-
-                            {(hasRole(currentUser, ERoles.ADMIN) && addedByUser) && (
-                                <p className="item"><span className="label">Autor:</span> {addedByUser.emailAddress}</p>
-                            )}
-                        </React.Fragment>
-                    )}
+                    <PropertiesList place={place} view={EViews.BLOCK} showHeadline showAuthor />
 
                     {place && (
                         <div className="rating-container">

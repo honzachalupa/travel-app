@@ -86,6 +86,10 @@ export default withRouter(({ history }: RouteComponentProps) => {
         };
     }, [placesLoadingState, currentLocation.latitude, currentLocation.longitude, filterData, visits]);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [isMapExpanded]);
+
     return (
         <Layout>
             <div data-component="Page_Home">

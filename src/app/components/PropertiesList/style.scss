@@ -1,0 +1,53 @@
+[data-component="PropertiesList"] {
+    &.inline {
+        width: calc(100% + 24px);
+        background-color: rgba(0, 0, 0, 0.075);
+        padding: 10px 12px;
+        float: left;
+        position: relative;
+        left: -12px;
+        bottom: -12px;
+        display: flex;
+        overflow-x: auto;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    &.block {
+        .item {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    }
+
+    .item {
+        display: inline-flex;
+        align-items: center;
+        padding-right: 25px;
+
+        .icon {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .label {
+            color: $foreground-color-light;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+    }
+}
+
+.is-dark-mode-on {
+    [data-component="PropertiesList"] {
+        &.inline {
+            background-color: black;
+        }
+
+        .item {
+            .label {
+                color: $foreground-color-dark;
+            }
+        }
+    }
+}
