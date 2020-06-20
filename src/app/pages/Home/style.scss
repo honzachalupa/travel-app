@@ -37,7 +37,7 @@
             }
         }
 
-        .settings-button {
+        .hamburger-button {
             position: absolute;
             top: calc(15px + env(safe-area-inset-top) / 2);
             left: 10px;
@@ -58,7 +58,7 @@
         }
 
         &.is-map-expanded {
-            .settings-button {
+            .hamburger-button {
                 top: calc(-70px - env(safe-area-inset-top))
             }
 

@@ -72,7 +72,7 @@
             background-color: $gray-lighter;
         }
 
-        &.white-transparent {
+        &.semi-transparent {
             background-color: rgba(255, 255, 255, 0.5);
             color: black;
             backdrop-filter: blur(10px) saturate(200%);
@@ -126,5 +126,19 @@
 .is-dark-mode-on {
     [data-component="Button"] {
         background-color: black;
+    }
+
+    [data-component="ButtonWithIcon"] {
+        .icon-container {
+
+            &.semi-transparent {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+
+                &:active {
+                    background-color: rgba(0, 0, 0, 0.6);
+                }
+            }
+        }
     }
 }

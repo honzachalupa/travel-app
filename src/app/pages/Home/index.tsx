@@ -13,8 +13,9 @@ import useDimensions from 'Hooks/useDimensions';
 import ArrowDownIcon from 'Icons/arrow-down.svg';
 import ArrowUpIcon from 'Icons/arrow-up.svg';
 import FilterIcon from 'Icons/filter.svg';
+import HamburgerIcon_Light from 'Icons/hamburger-black.svg';
+import HamburgerIcon_Dark from 'Icons/hamburger-white.svg';
 import PlusIcon from 'Icons/plus.svg';
-import HamburgerIcon from 'Icons/profile.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace, IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithoutSpacing';
@@ -27,7 +28,7 @@ import SelectedPlaceInfoBox from './components/SelectedPlaceInfoBox';
 import './style';
 
 export default withRouter(({ history }: RouteComponentProps) => {
-    const { places: placesContext, visits, placesLoadingState, currentLocation, currentUser } = useContext(Context) as IContext;
+    const { places: placesContext, visits, placesLoadingState, currentLocation, currentUser, isDarkModeOn } = useContext(Context) as IContext;
     const { width } = useDimensions();
     const [places, setPlaces] = useState<IPlace[]>([]);
     const [isMenuExpanded, setMenuExpanded] = useState<boolean>(false);
@@ -97,9 +98,9 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <Menu isExpanded={isMenuExpanded} />
 
                     <ButtonWithIcon
-                        className="settings-button"
-                        icon={HamburgerIcon}
-                        color={EColors.WHITE_TRANSPARENT}
+                        className="hamburger-button"
+                        icon={isDarkModeOn ? HamburgerIcon_Dark : HamburgerIcon_Light}
+                        color={EColors.SEMI_TRANSPARENT}
                         onClick={() => setMenuExpanded(!isMenuExpanded)}
                     />
 
