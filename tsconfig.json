@@ -50,6 +50,7 @@
         "**/*"
     ],
     "exclude": [
+        "firebase-functions",
         "node_modules",
         "**/node_modules/*",
         "**/webpack_cache/**",

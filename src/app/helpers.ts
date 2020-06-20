@@ -117,5 +117,10 @@ const hasRole = (currentUser: User | null | undefined, role: string) => {
             false;
 };
 
-export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, formatDistance, findInEnum, removeDuplicates, hasRole };
+const getRatingValue = (value: number, count: number) =>
+    value > 0 && count > 0 ?
+        Math.round(value / count) :
+        0;
+
+export { Authentication, Database, TimeCost, readUploadedFile, calculateDistance, formatDistance, findInEnum, removeDuplicates, hasRole, getRatingValue };
 

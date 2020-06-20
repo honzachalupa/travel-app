@@ -9,7 +9,7 @@ import { ERoles } from 'Enums/Roles';
 import { Routes } from 'Enums/Routes';
 import { RoutesLabels } from 'Enums/RoutesLabels';
 import { hasRole } from 'Helpers';
-import AcceptIcon from 'Icons/accept.svg';
+import AcceptIcon from 'Icons/checked.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlacePartial } from 'Interfaces/Place';
@@ -40,10 +40,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
         },
         coordinates: selectedCoordinates,
         countryCode: ECountryCodes.CZ,
-        rating: {
-            value: 0,
-            count: 0
-        },
+        rating: 2.5,
         images,
         instagramPosts: [],
         accessibility: {
@@ -150,7 +147,7 @@ export default withRouter(({ history }: RouteComponentProps) => {
                     <label htmlFor="instagramPosts">Odkazy na IG</label>
                     <textarea name="instagramPosts" onChange={(e: any) => setInstagramPostsString(e.target.value)} defaultValue={place.instagramPosts} />
 
-                    {/* <input style={{ display: 'none' }} type="file" accept="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} /> */}
+                    {/* <input style={{ display: 'none' }} type="file" checked="image/png, image/jpeg" multiple onChange={(e: any) => handleFileUpload(e.target.files)} ref={inputElementRef} /> */}
 
                     {/*
                      // @ts-ignore */}

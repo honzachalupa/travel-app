@@ -1,12 +1,7 @@
 import firebase from 'firebase';
-import { Database } from 'Helpers';
+import { Database, getRatingValue } from 'Helpers';
 import { IContext } from 'Interfaces/Context';
 import { IRating } from 'Interfaces/Ratings';
-
-const getValue = (value: number, count: number) =>
-        value > 0 && count > 0 ?
-            Math.round(value / count) :
-            0;
 
 export default {
     set: (
@@ -28,20 +23,20 @@ export default {
     },
     get: (
         placeId: string,
-        setCallback: (place: IRating) => void
+        setCallback: (rating: IRating) => void
     ) => {
         const { currentUser } = window['context'] as IContext;
 
         Database.ratings.doc(placeId).onSnapshot(doc => {
             const ratings = doc.data() as { [key: string]: number };
-            const ratingCount = Object.keys(ratings || []).length;
+            const ratingCount = Object.keys(ratings || {}).length;
 
             if (ratings) {
                 let sum = 0;
                 Object.keys(ratings).forEach((userId: any) => sum += ratings[userId]);
 
                 setCallback({
-                    value: getValue(sum, ratingCount),
+                    value: getRatingValue(sum, ratingCount),
                     count: ratingCount,
                     currentUser: currentUser && currentUser.uid && ratings[currentUser.uid] ? ratings[currentUser.uid] : 0
                 });

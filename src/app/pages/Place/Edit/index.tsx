@@ -7,7 +7,7 @@ import { Difficulties } from 'Enums/Difficulties';
 import { ERoles } from 'Enums/Roles';
 import { RoutesLabels } from 'Enums/RoutesLabels';
 import { hasRole } from 'Helpers';
-import AcceptIcon from 'Icons/accept.svg';
+import AcceptIcon from 'Icons/checked.svg';
 import CrossIcon from 'Icons/cross.svg';
 import { IContext } from 'Interfaces/Context';
 import { ICoordinates, IPlaceRemote } from 'Interfaces/Place';

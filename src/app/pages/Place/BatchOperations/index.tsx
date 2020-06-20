@@ -2,7 +2,7 @@ import PlacesActions from 'Actions/places';
 import { EColors } from 'Components/Button';
 import Navigation from 'Components/Navigation';
 import { RoutesLabels } from 'Enums/RoutesLabels';
-import AcceptIcon from 'Icons/accept.svg';
+import AcceptIcon from 'Icons/checked.svg';
 import { IPlaceRemote } from 'Interfaces/Place';
 import Layout from 'Layouts/WithSpacing';
 import React, { useEffect, useState } from 'react';
@@ -15,10 +15,14 @@ export default () => {
         PlacesActions.get((places) => {
             setPlacesCount(places.length);
 
-            places.forEach((place: IPlaceRemote) => {
-                setProgress(progress + 1);
+            places.forEach(async (place: IPlaceRemote) => {
+                await PlacesActions.update(
+                    place.id, {
+                        rating: 2.5
+                    }
+                );
 
-                PlacesActions.update(place.id, { isPromoted: false });
+                setProgress(progress + 1);
             });
         });
     };

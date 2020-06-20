@@ -14,7 +14,7 @@ const cacheFilesObject = {
             'icon.png'
         ],
         icons: [
-            'accept.svg',
+            'checked.svg',
             'arrow-down.svg',
             'arrow-up.svg',
             'bin.svg',
@@ -122,8 +122,8 @@ self.addEventListener('fetch', event => {
     console.log('[ServiceWorker] Fetch', event.request.url);
 
     event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request);
+        fetch(event.request).catch(() => {
+            return caches.match(event.request);
         })
     );
 });

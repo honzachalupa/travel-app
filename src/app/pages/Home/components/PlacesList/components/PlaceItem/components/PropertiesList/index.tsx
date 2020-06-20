@@ -1,5 +1,7 @@
 import { Context } from '@honzachalupa/helpers';
-import CheckedIcon from 'Icons/accept.svg';
+import CheckedIcon from 'Icons/checked-green.svg';
+import HeartIcon from 'Icons/heart-red.svg';
+import StarIcon from 'Icons/star-yellow.svg';
 import { IContext } from 'Interfaces/Context';
 import { IPlace } from 'Interfaces/Place';
 import React, { useContext } from 'react';
@@ -16,7 +18,7 @@ export default ({ place }: IProps) => {
 
     const items = [{
         label: 'Doporučeno',
-        icon: CheckedIcon,
+        icon: StarIcon,
         isHidden: !place.isPromoted
     }, {
         label: 'Navštíveno',
@@ -24,16 +26,14 @@ export default ({ place }: IProps) => {
         isHidden: !isVisited
     }, {
         label: 'Skvělé hodnocení',
-        icon: CheckedIcon,
-        isHidden: place.rating.value < 5
+        icon: HeartIcon,
+        isHidden: place.rating < 4.5
     }].filter(x => !x.isHidden);
-
-    console.log(items);
 
     return (
         <div data-component="PropertiesList">
             {items.map(item => (
-                <img className="icon" src={item.icon} alt={item.label} title={item.label} />
+                <img key={item.label} className="icon" src={item.icon} alt={item.label} title={item.label} />
             ))}
         </div>
     )

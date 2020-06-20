@@ -14,10 +14,7 @@ export interface IPlacePartial {
     };
     coordinates: ICoordinates;
     countryCode: string | null;
-    rating: {
-        value: number;
-        count: number;
-    };
+    rating: number;
     images: string[];
     instagramPosts: string[];
     accessibility: {
