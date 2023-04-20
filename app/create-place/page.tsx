@@ -2,6 +2,7 @@
 
 import { PlaceActions } from "@/actions/place";
 import { Map } from "@/components/Map";
+import { PlaceType } from "@/types/map";
 import {
     Button,
     ButtonsGroup,
@@ -9,7 +10,6 @@ import {
     TextArea,
 } from "@honzachalupa/design-system";
 import { useState } from "react";
-import { GPT_ROUTE } from "../api/gpt/route";
 import { LayoutPrimary as Layout } from "../layouts/Primary";
 import { placePrompt } from "../prompts/place";
 
@@ -56,7 +56,7 @@ export default function CreatePlace() {
         if (query) {
             setIsLoading(true);
 
-            fetch(GPT_ROUTE, {
+            fetch("/api/gpt", {
                 method: "POST",
                 body: JSON.stringify({
                     prompt: placePrompt(query),
@@ -131,7 +131,7 @@ export default function CreatePlace() {
             PlaceActions.create({
                 name,
                 description,
-                type,
+                type: type as unknown as PlaceType,
                 coordinates: {
                     longitude,
                     latitude,

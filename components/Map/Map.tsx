@@ -1,3 +1,4 @@
+import { CurrentLocationIcon, MarkerIcon } from "@/app/icons";
 import { Place } from "@/types/map";
 import { usePrefersDarkMode } from "@honzachalupa/design-system";
 import cx from "classnames";
@@ -11,7 +12,6 @@ import MapGL, {
     ViewStateChangeEvent,
 } from "react-map-gl";
 import { Context } from "../Context";
-import { MarkerIcon } from "./Map.icon";
 import { Coordinates } from "./Map.types";
 
 interface Props {
@@ -64,7 +64,7 @@ export const Map: React.FC<Props> = ({
         onPlaceClick?.(id);
     };
 
-    const onZoom = ({ viewState }: ViewStateChangeEvent) => {
+    const handleZoom = ({ viewState }: ViewStateChangeEvent) => {
         setZoom(viewState.zoom);
     };
 
@@ -90,7 +90,6 @@ export const Map: React.FC<Props> = ({
         <div className={cx("w-full aspect-square", className)}>
             {currentLocation ? (
                 <MapGL
-                    onZoom={onZoom}
                     ref={ref}
                     mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
                     initialViewState={{
@@ -107,8 +106,19 @@ export const Map: React.FC<Props> = ({
                             ? "mapbox://styles/mapbox/dark-v11"
                             : "mapbox://styles/mapbox/light-v11"
                     }
+                    onZoom={handleZoom}
                     onClick={handleClick}
                 >
+                    <Marker
+                        longitude={currentLocation.longitude}
+                        latitude={currentLocation.latitude}
+                    >
+                        <div className="w-5 aspect-square relative">
+                            <CurrentLocationIcon className="w-full h-full fill-green-600 absolute" />
+                            <CurrentLocationIcon className="w-full h-full fill-green-600 animate-ping absolute" />
+                        </div>
+                    </Marker>
+
                     {places.map(({ id, name, coordinates }) => (
                         <Marker
                             key={id}
@@ -137,7 +147,7 @@ export const Map: React.FC<Props> = ({
                                     )}
                                 />
 
-                                {name && zoom > 10 && <p>{name}</p>}
+                                {name && zoom > 8 && <p>{name}</p>}
                             </div>
                         </Marker>
                     ))}

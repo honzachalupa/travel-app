@@ -1,7 +1,4 @@
-interface IconProps {
-    color?: string;
-    className?: string;
-}
+import { IconProps } from "@/types/icon";
 
 export const MarkerIcon: React.FC<IconProps> = ({ color, className }) => (
     <svg

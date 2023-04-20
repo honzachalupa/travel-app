@@ -17,11 +17,21 @@ export const useGeoLocation = () => {
     };
 
     useEffect(() => {
+        let watch: number;
+
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(onCurrentPositionChanged);
+            watch = navigator.geolocation.watchPosition(
+                onCurrentPositionChanged
+            );
         } else {
             // TODO
         }
+
+        return () => {
+            if (watch) {
+                navigator.geolocation.clearWatch(watch);
+            }
+        };
     }, []);
 
     return coordinates;
