@@ -1,7 +1,7 @@
 "use client";
 
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
-import "@honzachalupa/design-system/tailwind-globals.css";
+import "@honzachalupa/design-system/build/tailwind-globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ReactNode } from "react";
 import { ContextProvider } from "./Context";

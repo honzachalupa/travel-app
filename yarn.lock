@@ -951,10 +951,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.35.0.tgz#b7569632b0b788a0ca0e438235154e45d42813a7"
   integrity sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==
 
-"@honzachalupa/design-system@^1.0.0-alpha.24":
-  version "1.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/@honzachalupa/design-system/-/design-system-1.0.0-alpha.24.tgz#3b306d7d24bf34aa62ba3e05fac86fc6d57bf71f"
-  integrity sha512-cvBjdCBL6njm0WoEhC8OQ4EiVmLZMU6eEzHkLw2UJA39nqpoYIlX5GzVgde/f8I4DzlYcYDHmfBaTFhBQEdRzQ==
+"@honzachalupa/design-system@^1.0.0-alpha.36":
+  version "1.0.0-alpha.36"
+  resolved "https://registry.yarnpkg.com/@honzachalupa/design-system/-/design-system-1.0.0-alpha.36.tgz#cce9b34c6035431653b9ea537cf5350f135283be"
+  integrity sha512-5AwVujbt8py4GO9rHWXlBh5ZD1vyjpM0n9XJHdKzO+rpfWuy2iBqzp9sxmP0WbE9Bo3PdIetOJ//XHhCijrcSA==
   dependencies:
     classnames "^2.3.2"
     react "^18.2.0"
