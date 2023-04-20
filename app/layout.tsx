@@ -17,15 +17,18 @@ export default function RootLayout({
         <>
             <link rel="manifest" href="/manifest.json" />
 
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta
+                name="apple-mobile-web-app-status-bar-style"
+                content="black-translucent"
+            />
             <meta
                 name="viewport"
-                content="width=device-width, initial-scale=1.0"
+                content="viewport-fit=cover, width=device-width, initial-scale=1.0"
             />
 
-            <meta name="apple-mobile-web-app-capable" content="yes" />
-
             <html lang="en">
-                <body className="px-5 text-slate-200 text-sm w-full h-full overscroll-none">
+                <body className="px-5 bg-black text-sm w-full h-full overscroll-none">
                     <Providers>{children}</Providers>
                 </body>
             </html>

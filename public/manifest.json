@@ -1,11 +1,11 @@
 {
-    "theme_color": "#0a192f",
-    "background_color": "#0a192f",
+    "theme_color": "#e11d48",
+    "background_color": "black",
     "display": "standalone",
     "scope": "/",
     "start_url": "/?pwa=true",
-    "name": "OpenAI Client",
-    "short_name": "OpenAI",
+    "name": "Výletuje.me",
+    "short_name": "Výletuje.me",
     "description": "",
     "icons": [
         {

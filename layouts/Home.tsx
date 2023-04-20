@@ -10,5 +10,5 @@ interface Props {
 export const LayoutHome: React.FC<Props> = ({ children }) => {
     useServiceWorker();
 
-    return <div>{children}</div>;
+    return <>{children}</>;
 };

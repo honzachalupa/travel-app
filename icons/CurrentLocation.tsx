@@ -1,11 +1,7 @@
 import { IconProps } from "@/types/icon";
 
-export const CurrentLocationIcon: React.FC<IconProps> = ({
-    color,
-    className,
-}) => (
+export const CurrentLocationIcon: React.FC<IconProps> = ({ className }) => (
     <svg
-        fill={color}
         className={className}
         width="800px"
         height="800px"
