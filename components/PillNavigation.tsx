@@ -24,14 +24,14 @@ export const PillNavigation: React.FC<Props> = ({
 
     return (
         <div
-            className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex flex-row absolute top-3 right-3 z-10"
+            className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex flex-row px-3 absolute top-3 right-3 z-10"
             style={{ filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.8))" }}
         >
             {items.map(({ label, icon, onClick }) => (
                 <div
                     key={label}
                     title={label}
-                    className="w-10 p-[10px] aspect-square"
+                    className="w-10 p-2 aspect-square cursor-pointer mr-3 last:mr-0"
                     onClick={onClick}
                 >
                     {icon}

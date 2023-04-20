@@ -195,7 +195,7 @@ export const Map: React.FC<Props> = ({
                     </MapGL>
 
                     <div
-                        className="w-10 h-10 bg-black bg-opacity-20 backdrop-blur-md p-[10px] rounded-full absolute right-3 bottom-3 z-10"
+                        className="w-12 bg-black bg-opacity-20 backdrop-blur-md p-3 rounded-full cursor-pointer absolute right-5 bottom-5 z-10"
                         onClick={handleFocusCurrentLocation}
                     >
                         <SetCurrentLocationIcon className="w-full h-full accent-foreground" />

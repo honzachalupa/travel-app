@@ -3,7 +3,10 @@
 import { PlacesActions } from "@/actions/places";
 import { Map } from "@/components/Map";
 import { PillNavigation } from "@/components/PillNavigation";
-import { PlaceDetailPanel } from "@/components/PlaceDetailPanel";
+import {
+    PlaceDetailPanel,
+    PlaceDetailPanelRefProps,
+} from "@/components/PlaceDetailPanel";
 import {
     PlacesListPanel,
     PlacesListPanelRefProps,
@@ -16,6 +19,7 @@ export default function Home() {
     const [places, setPlaces] = useState<Place[]>([]);
     const [selectedPlace, setSelectedPlace] = useState<Place>();
 
+    const placeDetailRef = useRef<PlaceDetailPanelRefProps>(null);
     const placesListRef = useRef<PlacesListPanelRefProps>(null);
 
     const onPlaceSelected = (placeId: Place["id"]) => {
@@ -43,6 +47,7 @@ export default function Home() {
             />
 
             <PlaceDetailPanel
+                ref={placeDetailRef}
                 place={selectedPlace}
                 onClose={() => setSelectedPlace(undefined)}
             />
@@ -50,6 +55,9 @@ export default function Home() {
             <PlacesListPanel
                 ref={placesListRef}
                 places={places}
+                onOpen={() => {
+                    placeDetailRef.current?.close();
+                }}
                 onPlaceSelected={(placeId) => {
                     onPlaceSelected(placeId);
 

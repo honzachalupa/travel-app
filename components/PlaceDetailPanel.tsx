@@ -1,48 +1,47 @@
 import { Place } from "@/types/map";
-import { useEffect, useState } from "react";
-import Sheet from "react-modal-sheet";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { ModalSheet, ModalSheetRefProps } from "./ModalSheet";
 import { PlaceDetailContent } from "./PlaceDetailContent";
 
 interface Props {
     place?: Place;
-    onClose?: () => void;
+    onClose: () => void;
 }
 
-export const PlaceDetailPanel: React.FC<Props> = ({ place, onClose }) => {
-    const [isOpened, setIsOpened] = useState<boolean>(!!place);
+export interface PlaceDetailPanelRefProps {
+    open: () => void;
+    close: () => void;
+    toggle: () => void;
+}
+
+export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
+    const modalSheetRef = useRef<ModalSheetRefProps>();
 
     useEffect(() => {
         if (place) {
-            setIsOpened(true);
+            modalSheetRef.current?.open();
         }
     }, [place]);
 
-    useEffect(() => {
-        if (!isOpened) {
-            onClose?.();
-        }
-    }, [isOpened]);
+    useImperativeHandle(
+        ref,
+        (): PlaceDetailPanelRefProps => ({
+            open: () => modalSheetRef.current?.open(),
+            close: () => modalSheetRef.current?.close(),
+            toggle: () => modalSheetRef.current?.toggle(),
+        })
+    );
 
     return (
-        <Sheet
-            initialSnap={1}
+        <ModalSheet
+            ref={modalSheetRef}
             snapPoints={[600, 400, 0]}
             className="md:w-[600px] md:ml-5"
-            isOpen={isOpened}
-            onClose={() => setIsOpened(false)}
+            onClose={onClose}
         >
-            <Sheet.Container
-                style={{ backgroundColor: "" }}
-                className="theme-page-background !rounded-2xl"
-            >
-                <Sheet.Header />
-
-                <Sheet.Content className="p-5 pt-0 -mt-5">
-                    {place && (
-                        <PlaceDetailContent place={place} isAllDetailsShown />
-                    )}
-                </Sheet.Content>
-            </Sheet.Container>
-        </Sheet>
+            {place && <PlaceDetailContent place={place} isAllDetailsShown />}
+        </ModalSheet>
     );
-};
+});
+
+PlaceDetailPanel.displayName = "PlaceDetailPanel";

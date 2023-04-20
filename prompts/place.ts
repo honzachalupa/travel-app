@@ -5,14 +5,13 @@ export const placePrompt = (placeQuery: string) =>
     Search for place "${placeQuery}".
 
     Rules:
-    When the value Name is "Czechia", use "Czech Republic" instead.
     Value of Name is as general as possible.
     Value of Description is description of the place - i.e. something about the history or generally what visitor can expect from the visit.
     Value of Type is type of place - select from the array [${Object.keys(
         PlaceTypes
     )}] or use null.
     Value of Street should not contain the house number;
-    All texts are in English if there is translation available.
+    All texts are in Czech language if there is translation available - otherwise use English.
     Coordinates are in WGS84 format.
     If any of the values can't ve found, return null.
 
