@@ -2,6 +2,8 @@
 
 import { PlaceActions } from "@/actions/place";
 import { Map } from "@/components/Map";
+import { LayoutPrimary as Layout } from "@/layouts/Primary";
+import { placePrompt } from "@/prompts/place";
 import { PlaceType } from "@/types/map";
 import {
     Button,
@@ -10,8 +12,6 @@ import {
     TextArea,
 } from "@honzachalupa/design-system";
 import { useState } from "react";
-import { LayoutPrimary as Layout } from "../layouts/Primary";
-import { placePrompt } from "../prompts/place";
 
 export default function CreatePlace() {
     const [query, setQuery] = useState<string>();

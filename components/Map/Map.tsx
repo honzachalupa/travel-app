@@ -1,17 +1,19 @@
-import { CurrentLocationIcon, MarkerIcon } from "@/app/icons";
+"use client";
+
+import { useGeoLocation } from "@/hooks/useGeoLocation";
+import { CurrentLocationIcon, MarkerIcon } from "@/icons";
 import { Place } from "@/types/map";
-import { usePrefersDarkMode } from "@honzachalupa/design-system";
+import { usePreferredColorScheme } from "@react-hooks-library/core";
 import cx from "classnames";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MapGL, {
     MapLayerMouseEvent,
     MapRef,
     Marker,
     ViewStateChangeEvent,
 } from "react-map-gl";
-import { Context } from "../Context";
 import { Coordinates } from "./Map.types";
 
 interface Props {
@@ -40,8 +42,8 @@ export const Map: React.FC<Props> = ({
     onClick,
     onPlaceClick,
 }) => {
-    const { currentLocation } = useContext(Context);
-    const isDarkModeOn = usePrefersDarkMode();
+    const currentLocation = useGeoLocation();
+    const colorScheme = usePreferredColorScheme();
 
     const [zoom, setZoom] = useState<number>(initialViewZoom || defaultZoom);
 
@@ -101,11 +103,7 @@ export const Map: React.FC<Props> = ({
                             currentLocation.latitude,
                         zoom: initialViewZoom || defaultZoom,
                     }}
-                    mapStyle={
-                        isDarkModeOn
-                            ? "mapbox://styles/mapbox/dark-v11"
-                            : "mapbox://styles/mapbox/light-v11"
-                    }
+                    mapStyle={`mapbox://styles/mapbox/${colorScheme}-v11`}
                     onZoom={handleZoom}
                     onClick={handleClick}
                 >

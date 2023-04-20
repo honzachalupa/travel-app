@@ -3,9 +3,9 @@
 import { PlacesActions } from "@/actions/places";
 import { Map } from "@/components/Map";
 import { PlaceDetail } from "@/components/PlaceDetail";
+import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
 import { useEffect, useState } from "react";
-import { LayoutHome as Layout } from "./layouts/Home";
 
 export default function Home() {
     const [places, setPlaces] = useState<Place[]>([]);

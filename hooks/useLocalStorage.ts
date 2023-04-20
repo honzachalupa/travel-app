@@ -1,3 +1,5 @@
+"use client";
+
 import { useEventListener } from "@react-hooks-library/core";
 import {
     Dispatch,

@@ -1,7 +1,6 @@
-import { Context } from "@/components/Context";
+import { useGeoLocation } from "@/hooks/useGeoLocation";
 import { Place } from "@/types/map";
 import { ButtonLink } from "@honzachalupa/design-system";
-import { useContext } from "react";
 
 interface Props {
     coordinates: Place["coordinates"];
@@ -10,7 +9,7 @@ interface Props {
 export const NativeAppButton: React.FC<Props> = ({
     coordinates: { latitude, longitude },
 }) => {
-    const { currentLocation } = useContext(Context);
+    const currentLocation = useGeoLocation();
 
     const app = {
         apple: {

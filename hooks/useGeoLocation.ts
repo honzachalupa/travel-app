@@ -1,3 +1,5 @@
+"use client";
+
 import { Coordinates } from "@/components/Map/Map.types";
 import config from "@/config";
 import { useEffect } from "react";

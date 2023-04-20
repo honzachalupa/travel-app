@@ -1,32 +1,15 @@
-import { useGeoLocation } from "@/hooks/useGeoLocation";
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { Coordinates } from "./Map/Map.types";
+import { createContext, ReactNode, useState } from "react";
 
-interface Context {
-    currentLocation: Coordinates | null;
-}
+interface Context {}
 
-const initialContext: Context = {
-    currentLocation: null,
-};
+const initialContext: Context = {};
 
 export const Context = createContext<Context>(initialContext);
 
 export const ContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const { longitude, latitude } = useGeoLocation();
-
     const [context, setContext] = useState<Context>(initialContext);
-
-    useEffect(() => {
-        setContext({
-            currentLocation: {
-                longitude,
-                latitude,
-            },
-        });
-    }, [longitude, latitude]);
 
     return <Context.Provider value={context}>{children}</Context.Provider>;
 };

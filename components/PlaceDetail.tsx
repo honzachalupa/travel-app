@@ -1,9 +1,9 @@
 import { DirectionsActions } from "@/actions/directions";
-import { Context } from "@/components/Context";
+import { useGeoLocation } from "@/hooks/useGeoLocation";
 import { Direction } from "@/types/direction";
 import { Place } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Sheet from "react-modal-sheet";
 import { NativeAppButton } from "./NativeAppButton";
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const PlaceDetail: React.FC<Props> = ({ place, onClose }) => {
-    const { currentLocation } = useContext(Context);
+    const currentLocation = useGeoLocation();
 
     const [isOpened, setIsOpened] = useState<boolean>(!!place);
     const [direction, setDirection] = useState<Direction | undefined>();
