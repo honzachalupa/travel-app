@@ -951,10 +951,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.35.0.tgz#b7569632b0b788a0ca0e438235154e45d42813a7"
   integrity sha512-JXdzbRiWclLVoD8sNUjR443VVlYqiYmDVT6rGUEIEHU5YJW0gaVZwV2xgM7D4arkvASqD0IlLUVjHiFuxaftRw==
 
-"@honzachalupa/design-system@^1.0.0-alpha.23":
-  version "1.0.0-alpha.23"
-  resolved "https://registry.yarnpkg.com/@honzachalupa/design-system/-/design-system-1.0.0-alpha.23.tgz#2eda44df23b3aac9c9c5a3de43649733bfd9cf1c"
-  integrity sha512-j6x8rYKU4AODehc7J4wuHXOF/vf/OK/gmyN/zUEF6vHHHZb3r3rlIITzB3/b9UQGKWUxR2u04wX1oTn6ResY2Q==
+"@honzachalupa/design-system@^1.0.0-alpha.24":
+  version "1.0.0-alpha.24"
+  resolved "https://registry.yarnpkg.com/@honzachalupa/design-system/-/design-system-1.0.0-alpha.24.tgz#3b306d7d24bf34aa62ba3e05fac86fc6d57bf71f"
+  integrity sha512-cvBjdCBL6njm0WoEhC8OQ4EiVmLZMU6eEzHkLw2UJA39nqpoYIlX5GzVgde/f8I4DzlYcYDHmfBaTFhBQEdRzQ==
   dependencies:
     classnames "^2.3.2"
     react "^18.2.0"
@@ -1468,6 +1468,11 @@
   dependencies:
     "@typescript-eslint/types" "5.59.0"
     eslint-visitor-keys "^3.3.0"
+
+"@vercel/analytics@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.0.0.tgz#7041bf3f14d65ab685f053b2fab09c605d12543e"
+  integrity sha512-RQmj7pv82JwGDHrnKeRc6TtSw2U7rWNubc2IH0ernTzWTj02yr9zvIYiYJeztsBzrJtWv7m8Nz6vxxb+cdEtJw==
 
 acorn-jsx@^5.3.2:
   version "5.3.2"

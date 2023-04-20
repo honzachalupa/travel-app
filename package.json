@@ -12,6 +12,7 @@
         "@honzachalupa/design-system": "^1.0.0-alpha.24",
         "@react-hooks-library/core": "^0.5.1",
         "@supabase/supabase-js": "^2.21.0",
+        "@vercel/analytics": "^1.0.0",
         "classnames": "^2.3.2",
         "framer-motion": "^10.12.4",
         "mapbox-gl": "^2.14.1",

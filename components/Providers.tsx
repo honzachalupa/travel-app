@@ -2,6 +2,7 @@
 
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "@honzachalupa/design-system/tailwind-globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import { ReactNode } from "react";
 import { ContextProvider } from "./Context";
 
@@ -14,6 +15,7 @@ export const Providers: React.FC<Props> = ({ children }) => {
         <>
             <ContextProvider>{children}</ContextProvider>
 
+            <Analytics />
             <GoogleAnalytics />
         </>
     );
