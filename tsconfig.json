@@ -1,62 +1,34 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
-        "rootDir": "./src",
-        "outDir": "./dist",
-        "module": "esnext",
         "target": "es5",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "sourceMap": true,
+        "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
-        "jsx": "preserve",
-        "moduleResolution": "node",
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": true,
         "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
         "strict": true,
-        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
         "noEmit": true,
-        "typeRoots": [
-            "node_modules/@types",
-            "./types"
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
         ],
         "paths": {
-            "App/*": ["./app/App.tsx"],
-            "Components/*": ["./app/components/*"],
-            "Layouts/*": ["./app/layouts/*"],
-            "Pages/*": ["./app/pages/*"],
-            "Images/*": ["./images/*"],
-            "Icons/*": ["./images/icons/*"],
-            "Enums": ["./app/enumerators/index.ts"],
-            "Enums/*": ["./app/enumerators/*"],
-            "Interfaces/*": ["./app/interfaces/*"],
-            "Helpers": ["./app/helpers.ts"],
-            "Actions/*": ["./app/actions/*"],
-            "Hooks/*": ["./app/hooks/*"],
-            "config": ["./config.js"]
+            "@/*": ["./*"]
         }
     },
     "include": [
-        "**/*"
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "components/Context.tsx"
     ],
-    "exclude": [
-        "firebase-functions",
-        "node_modules",
-        "**/node_modules/*",
-        "**/webpack_cache/**",
-        "**/dist/**",
-        "lib",
-        "**/*.spec.ts",
-        "**/*.js"
-    ]
+    "exclude": ["node_modules"]
 }
