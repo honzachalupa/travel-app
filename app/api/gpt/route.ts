@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { Configuration, OpenAIApi } from "openai";
 
-export const GPT_ROUTE = "/api/gpt";
-
 export async function POST(request: Request) {
     const { prompt } = await request.json();
 
