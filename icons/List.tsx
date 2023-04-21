@@ -10,11 +10,11 @@ export const ListIcon: React.FC<IconProps> = ({ className }) => (
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
     >
-        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g
                 id="Editor"
                 transform="translate(-47.000000, -239.000000)"
-                fill-rule="nonzero"
+                fillRule="nonzero"
             >
                 <g
                     id="list_check_3_fill"

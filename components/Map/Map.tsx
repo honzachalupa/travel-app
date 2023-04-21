@@ -4,6 +4,7 @@ import { useGeoLocation } from "@/hooks/useGeoLocation";
 import {
     CurrentLocationIcon,
     MarkerIcon,
+    MarkerStarIcon,
     SetCurrentLocationIcon,
 } from "@/icons";
 import { Place } from "@/types/map";
@@ -30,6 +31,7 @@ interface Props {
     initialViewZoom?: number;
     initialFitBounds?: boolean;
     className?: string;
+    isSetCurrentLocationButtonShown?: boolean;
     onClick?: (coordinates: Coordinates) => void;
     onPlaceClick?: (id: Place["id"]) => void;
 }
@@ -43,6 +45,7 @@ export const Map: React.FC<Props> = ({
     initialViewZoom,
     initialFitBounds,
     className,
+    isSetCurrentLocationButtonShown,
     onClick,
     onPlaceClick,
 }) => {
@@ -128,6 +131,10 @@ export const Map: React.FC<Props> = ({
         }
     }, [places, initialFitBounds]);
 
+    useEffect(() => {
+        // console.log(isSetCurrentLocationButtonShown);
+    }, []);
+
     return (
         <div className={cx("w-full h-full relative", className)}>
             {currentLocation ? (
@@ -160,46 +167,59 @@ export const Map: React.FC<Props> = ({
                             </div>
                         </Marker>
 
-                        {places.map(({ id, name, coordinates }) => (
-                            <Marker
-                                key={id}
-                                longitude={coordinates.longitude}
-                                latitude={coordinates.latitude}
-                            >
-                                <div
-                                    className={cx(
-                                        "flex flex-col items-center relative -top-4",
-                                        {
-                                            "cursor-pointer": onPlaceClick,
-                                        }
-                                    )}
-                                    onClick={() => {
-                                        handlePlaceClick(id);
-                                    }}
+                        {places.map(({ id, name, coordinates }) => {
+                            const isVisited = false;
+                            const isFaded =
+                                selectedPlaceId && selectedPlaceId !== id;
+
+                            const Icon = isVisited
+                                ? MarkerStarIcon
+                                : MarkerIcon;
+
+                            return (
+                                <Marker
+                                    key={id}
+                                    longitude={coordinates.longitude}
+                                    latitude={coordinates.latitude}
                                 >
-                                    <MarkerIcon
+                                    <div
                                         className={cx(
-                                            "w-12 accent-foreground aspect-square transition-all",
+                                            "flex flex-col items-center relative -top-4",
                                             {
-                                                "w-5":
-                                                    selectedPlaceId &&
-                                                    selectedPlaceId !== id,
+                                                "cursor-pointer": onPlaceClick,
                                             }
                                         )}
-                                    />
+                                        onClick={() => {
+                                            handlePlaceClick(id);
+                                        }}
+                                    >
+                                        <Icon
+                                            className={cx(
+                                                "w-10 accent-foreground aspect-square transition-all",
+                                                {
+                                                    "opacity-20": isFaded,
+                                                }
+                                            )}
+                                            style={{
+                                                filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.5))",
+                                            }}
+                                        />
 
-                                    {name && zoom > 8 && <p>{name}</p>}
-                                </div>
-                            </Marker>
-                        ))}
+                                        {name && zoom > 8 && <p>{name}</p>}
+                                    </div>
+                                </Marker>
+                            );
+                        })}
                     </MapGL>
 
-                    <div
-                        className="w-12 bg-black bg-opacity-20 backdrop-blur-md p-3 rounded-full cursor-pointer absolute right-5 bottom-5 z-10"
-                        onClick={handleFocusCurrentLocation}
-                    >
-                        <SetCurrentLocationIcon className="w-full h-full accent-foreground" />
-                    </div>
+                    {isSetCurrentLocationButtonShown && (
+                        <div
+                            className="w-12 bg-black bg-opacity-20 backdrop-blur-md p-3 rounded-full cursor-pointer absolute right-5 bottom-5 z-10"
+                            onClick={handleFocusCurrentLocation}
+                        >
+                            <SetCurrentLocationIcon className="w-full h-full accent-foreground" />
+                        </div>
+                    )}
                 </>
             ) : (
                 <p>Loading map...</p>

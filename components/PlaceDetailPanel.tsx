@@ -12,6 +12,7 @@ export interface PlaceDetailPanelRefProps {
     open: () => void;
     close: () => void;
     toggle: () => void;
+    isOpened: boolean | undefined;
 }
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
@@ -29,8 +30,12 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
             open: () => modalSheetRef.current?.open(),
             close: () => modalSheetRef.current?.close(),
             toggle: () => modalSheetRef.current?.toggle(),
-        })
+            isOpened: modalSheetRef.current?.isOpened,
+        }),
+        [modalSheetRef.current?.isOpened]
     );
+
+    // console.log(2, { isOpened: modalSheetRef.current?.isOpened });
 
     return (
         <ModalSheet

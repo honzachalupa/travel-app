@@ -1,5 +1,9 @@
+export { CreatePlaceIcon } from "./CreatePlace";
 export { CurrentLocationIcon } from "./CurrentLocation";
+export { HamburgerIcon } from "./Hamburger";
 export { ListIcon } from "./List";
 export { MarkerIcon } from "./Marker";
+export { MarkerPlusIcon } from "./MarkerPlus";
+export { MarkerStarIcon } from "./MarkerStar";
 export { SetCurrentLocationIcon } from "./SetCurrentLocation";
-export { SettingsIcon } from "./Settings";
+export { UserIcon } from "./User";

@@ -35,21 +35,22 @@ export const PlaceDetailContent: React.FC<Props> = ({
 
     return (
         <div onClick={onClick}>
-            <div className="flex items-center justify-between mb-3">
-                <h3 className="text-3xl font-medium">{place.name}</h3>
-
-                <p>
-                    {direction &&
-                        `${direction.distance} km (${direction.duration})`}
+            {direction && (
+                <p className="opacity-60">
+                    {direction.distance} km ({direction.duration})
                 </p>
-            </div>
+            )}
 
-            <p className="mb-3">{place.description}</p>
+            <h3 className="text-3xl font-medium my-2">{place.name}</h3>
+
+            <p className="mb-3 text-lg opacity-80">{place.description}</p>
 
             {isAllDetailsShown && (
                 <>
                     {addressFormatted && (
-                        <p className="mb-3">Address: {addressFormatted}</p>
+                        <p className="mb-3 opacity-60">
+                            Address: {addressFormatted}
+                        </p>
                     )}
 
                     <NativeAppButton coordinates={place.coordinates} />

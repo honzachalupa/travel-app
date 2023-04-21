@@ -17,11 +17,11 @@ export const LayoutPrimary: React.FC<Props> = ({ children }) => {
                 }}
                 primaryItems={[
                     {
-                        label: "Places",
+                        label: "Místa",
                         href: "/",
                     },
                     {
-                        label: "Create place",
+                        label: "Vytvořit místo",
                         href: "/create-place",
                     },
                 ]}

@@ -25,7 +25,8 @@ export const PlacesListPanel = forwardRef(
                 open: () => modalSheetRef.current?.open(),
                 close: () => modalSheetRef.current?.close(),
                 toggle: () => modalSheetRef.current?.toggle(),
-            })
+            }),
+            []
         );
 
         return (

@@ -28,7 +28,7 @@ export default function RootLayout({
             />
 
             <html lang="en">
-                <body className="px-5 bg-black text-sm w-full h-full overscroll-none">
+                <body className="px-5 text-sm w-full h-full overscroll-none">
                     <Providers>{children}</Providers>
                 </body>
             </html>

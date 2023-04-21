@@ -1,13 +1,21 @@
 import { IconProps } from "@/types/icon";
 
-export const MarkerIcon: React.FC<IconProps> = ({ className }) => (
+export const MarkerIcon: React.FC<IconProps> = ({ className, style }) => (
     <svg
-        viewBox="0 0 1024 1024"
-        className={className}
-        style={{ filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.8))" }}
-        version="1.1"
+        width="800px"
+        height="800px"
+        viewBox="0 0 48 48"
         xmlns="http://www.w3.org/2000/svg"
+        className={className}
+        style={style}
     >
-        <path d="M512 85.333333c-164.949333 0-298.666667 133.738667-298.666667 298.666667 0 164.949333 298.666667 554.666667 298.666667 554.666667s298.666667-389.717333 298.666667-554.666667c0-164.928-133.717333-298.666667-298.666667-298.666667z m0 448a149.333333 149.333333 0 1 1 0-298.666666 149.333333 149.333333 0 0 1 0 298.666666z" />
+        <g>
+            <g>
+                <rect width="48" height="48" fill="none" />
+            </g>
+            <g>
+                <path d="M24,2C14.1,2,7,10.1,7,20S18.5,41.3,22.6,45.4a1.9,1.9,0,0,0,2.8,0C29.5,41.3,41,30.1,41,20S33.9,2,24,2Zm0,22a7,7,0,1,1,7-7A7,7,0,0,1,24,24Z" />
+            </g>
+        </g>
     </svg>
 );

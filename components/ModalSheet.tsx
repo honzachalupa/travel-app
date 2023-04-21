@@ -20,6 +20,7 @@ export interface ModalSheetRefProps {
     open: () => void;
     close: () => void;
     toggle: () => void;
+    isOpened: boolean;
 }
 
 export const ModalSheet = forwardRef(
@@ -36,8 +37,6 @@ export const ModalSheet = forwardRef(
     ) => {
         const [isOpened, setIsOpened] = useState<boolean>(false);
 
-        console.log(isOpened);
-
         useEffect(() => {
             if (isOpened) {
                 onOpen?.();
@@ -52,8 +51,12 @@ export const ModalSheet = forwardRef(
                 open: () => setIsOpened(true),
                 close: () => setIsOpened(false),
                 toggle: () => setIsOpened((prevState) => !prevState),
-            })
+                isOpened,
+            }),
+            [isOpened]
         );
+
+        // console.log(1, { isOpened });
 
         return (
             <Sheet
@@ -69,11 +72,11 @@ export const ModalSheet = forwardRef(
             >
                 <Sheet.Container
                     style={{ backgroundColor: "" }}
-                    className="theme-page-background !rounded-2xl"
+                    className="theme-page-background bg-opacity-20 backdrop-blur-lg !rounded-2xl"
                 >
                     <Sheet.Header />
 
-                    <Sheet.Content className="p-5 pt-0 -mt-5">
+                    <Sheet.Content className="p-5 pt-0 -mt-6">
                         {children}
                     </Sheet.Content>
                 </Sheet.Container>

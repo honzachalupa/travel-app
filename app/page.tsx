@@ -34,6 +34,8 @@ export default function Home() {
         PlacesActions.get().then(setPlaces);
     }, []);
 
+    // console.log(3, { isOpened: placeDetailRef.current?.isOpened });
+
     return (
         <Layout>
             <PillNavigation onPlacesListClick={handlePlacesListClick} />
@@ -43,6 +45,9 @@ export default function Home() {
                 selectedPlaceId={selectedPlace?.id}
                 initialFitBounds
                 className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none overflow-hidden"
+                isSetCurrentLocationButtonShown={
+                    !placeDetailRef.current?.isOpened
+                }
                 onPlaceClick={onPlaceSelected}
             />
 
