@@ -1,12 +1,7 @@
 "use client";
 
 import { useGeoLocation } from "@/hooks/useGeoLocation";
-import {
-    CurrentLocationIcon,
-    MarkerIcon,
-    MarkerStarIcon,
-    SetCurrentLocationIcon,
-} from "@/icons";
+import { CurrentLocationIcon, SetCurrentLocationIcon } from "@/icons";
 import { Place } from "@/types/map";
 import { usePreferredColorScheme } from "@react-hooks-library/core";
 import cx from "classnames";
@@ -20,6 +15,7 @@ import MapGL, {
     ViewStateChangeEvent,
 } from "react-map-gl";
 import { Coordinates } from "./Map.types";
+import { PlaceMarker } from "./PlaceMarker";
 
 interface Props {
     places: Place[];
@@ -64,10 +60,6 @@ export const Map: React.FC<Props> = ({
             longitude: lngLat.lng,
             latitude: lngLat.lat,
         });
-
-    const handlePlaceClick = (id: Place["id"]) => {
-        onPlaceClick?.(id);
-    };
 
     const handleFocusCurrentLocation = () => {
         ref.current?.flyTo({
@@ -167,49 +159,18 @@ export const Map: React.FC<Props> = ({
                             </div>
                         </Marker>
 
-                        {places.map(({ id, name, coordinates }) => {
-                            const isVisited = false;
-                            const isFaded =
-                                selectedPlaceId && selectedPlaceId !== id;
-
-                            const Icon = isVisited
-                                ? MarkerStarIcon
-                                : MarkerIcon;
-
-                            return (
-                                <Marker
-                                    key={id}
-                                    longitude={coordinates.longitude}
-                                    latitude={coordinates.latitude}
-                                >
-                                    <div
-                                        className={cx(
-                                            "flex flex-col items-center relative -top-4",
-                                            {
-                                                "cursor-pointer": onPlaceClick,
-                                            }
-                                        )}
-                                        onClick={() => {
-                                            handlePlaceClick(id);
-                                        }}
-                                    >
-                                        <Icon
-                                            className={cx(
-                                                "w-10 accent-foreground aspect-square transition-all",
-                                                {
-                                                    "opacity-20": isFaded,
-                                                }
-                                            )}
-                                            style={{
-                                                filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.5))",
-                                            }}
-                                        />
-
-                                        {name && zoom > 8 && <p>{name}</p>}
-                                    </div>
-                                </Marker>
-                            );
-                        })}
+                        {places.map((place) => (
+                            <PlaceMarker
+                                key={place.id}
+                                place={place}
+                                zoom={zoom}
+                                isFaded={
+                                    !!selectedPlaceId &&
+                                    selectedPlaceId !== place.id
+                                }
+                                onClick={onPlaceClick}
+                            />
+                        ))}
                     </MapGL>
 
                     {isSetCurrentLocationButtonShown && (

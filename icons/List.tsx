@@ -2,8 +2,6 @@ import { IconProps } from "@/types/icon";
 
 export const ListIcon: React.FC<IconProps> = ({ className }) => (
     <svg
-        width="800px"
-        height="800px"
         viewBox="0 0 24 24"
         version="1.1"
         className={className}

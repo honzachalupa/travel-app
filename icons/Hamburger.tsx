@@ -2,8 +2,6 @@ import { IconProps } from "@/types/icon";
 
 export const HamburgerIcon: React.FC<IconProps> = (props) => (
     <svg
-        width="800px"
-        height="800px"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
