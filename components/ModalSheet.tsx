@@ -74,7 +74,7 @@ export const ModalSheet = forwardRef(
                     style={{ backgroundColor: "" }}
                     className="theme-page-background bg-opacity-20 backdrop-blur-lg !rounded-2xl"
                 >
-                    <Sheet.Header />
+                    <Sheet.Header className="z-10" />
 
                     <Sheet.Content className="p-5 pt-0 -mt-6">
                         <div className="overflow-scroll">{children}</div>

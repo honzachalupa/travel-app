@@ -9,6 +9,7 @@ export const HamburgerIcon: React.FC<IconProps> = (props) => (
     >
         <path
             d="M5 7H19"
+            stroke="#e11d48"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -16,6 +17,7 @@ export const HamburgerIcon: React.FC<IconProps> = (props) => (
 
         <path
             d="M5 12L19 12"
+            stroke="#e11d48"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -23,6 +25,7 @@ export const HamburgerIcon: React.FC<IconProps> = (props) => (
 
         <path
             d="M5 17L19 17"
+            stroke="#e11d48"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"

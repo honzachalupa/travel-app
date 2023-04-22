@@ -1,14 +1,10 @@
 import { UsersActions } from "@/actions/users";
+import { User } from "@/types/user";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 
 export const useSupabaseAuth = () => {
-    const [user, setUser] = useState<{
-        id: string;
-        emailAddress: string;
-        firstName: string;
-        lastName: string;
-    } | null>();
+    const [user, setUser] = useState<User | null>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const getSession = async () => {
@@ -92,7 +88,8 @@ export const useSupabaseAuth = () => {
             if (session) {
                 const { id, email } = session.user;
 
-                const { firstName, lastName } = await UsersActions.get(id);
+                const { firstName, lastName, visitedPlaceIds } =
+                    await UsersActions.get(id);
 
                 if (firstName || lastName) {
                     setUser({
@@ -100,6 +97,7 @@ export const useSupabaseAuth = () => {
                         emailAddress: email!,
                         firstName: firstName || "",
                         lastName: lastName || "",
+                        visitedPlaceIds: visitedPlaceIds || [],
                     });
                 }
 

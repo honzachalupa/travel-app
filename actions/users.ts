@@ -1,3 +1,4 @@
+import { User } from "@/types/user";
 import { supabase } from "../utils/supabase";
 
 const create = async (payload: {
@@ -12,12 +13,11 @@ const create = async (payload: {
     }
 };
 
-const get = async (id: string) => {
+const get = async (id: string): Promise<User> => {
     const { data, error } = await supabase
         .from("users")
         .select()
         .eq("id", id)
-        .limit(1)
         .single();
 
     if (error) {
@@ -28,7 +28,7 @@ const get = async (id: string) => {
         throw new Error("Record not found");
     }
 
-    return data;
+    return data as User;
 };
 
 export const UsersActions = {
