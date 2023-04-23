@@ -3,7 +3,6 @@
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { NavigationAppId, NavigationAppLabels } from "@/types/map";
 import { Button, ButtonsGroup, Select } from "@honzachalupa/design-system";
-import { useLocalStorage } from "@react-hooks-library/core";
 import { useState } from "react";
 
 interface FormData {
@@ -11,12 +10,11 @@ interface FormData {
 }
 
 export default function Settings() {
-    const [localStorageData, setLocalStorageData] = useLocalStorage<FormData>(
-        "settings",
-        {
-            navigationApp: "apple-maps",
-        }
-    );
+    const localStorageData = {
+        navigationApp: "apple-maps" as any,
+    };
+
+    const setLocalStorageData = (formData: FormData) => {};
 
     const [formData, setFormData] = useState<FormData>(localStorageData);
 
