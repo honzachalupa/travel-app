@@ -1,7 +1,7 @@
 import { Place } from "@/types/map";
 import { supabase } from "@/utils/supabase";
 
-const get = async () =>
+const get = async (): Promise<Place[]> =>
     supabase
         .from("places")
         .select("*")
@@ -19,6 +19,7 @@ const get = async () =>
                     address_country,
                     contact_phoneNumber,
                     contact_emailAddress,
+                    ownerId,
                 }): Place => ({
                     id,
                     name,
@@ -37,6 +38,7 @@ const get = async () =>
                         phoneNumber: contact_phoneNumber,
                         emailAddress: contact_emailAddress,
                     },
+                    ownerId,
                 })
             )
         );

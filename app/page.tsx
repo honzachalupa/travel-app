@@ -11,11 +11,14 @@ import {
     PlacesListPanel,
     PlacesListPanelRefProps,
 } from "@/components/PlacesListPanel";
+import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+    const { user } = useSupabaseAuth();
+
     const [places, setPlaces] = useState<Place[]>([]);
     const [selectedPlace, setSelectedPlace] = useState<Place>();
 
@@ -45,6 +48,9 @@ export default function Home() {
                 selectedPlaceId={selectedPlace?.id}
                 initialFitBounds
                 className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none overflow-hidden"
+                isPlaceVisited={(placeId) =>
+                    user?.visitedPlaceIds.includes(placeId) || false
+                }
                 isSetCurrentLocationButtonShown={
                     !placeDetailRef.current?.isOpened
                 }

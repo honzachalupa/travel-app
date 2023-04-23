@@ -1,5 +1,8 @@
+import { PlaceActions } from "@/actions/place";
+import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { MoreIcon } from "@/icons";
 import { Place } from "@/types/map";
+import { User } from "@/types/user";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { ContextMenu } from "./ContextMenu";
 import { ModalSheet, ModalSheetRefProps } from "./ModalSheet";
@@ -18,7 +21,30 @@ export interface PlaceDetailPanelRefProps {
 }
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
+    const { user, refreshSession } = useSupabaseAuth();
+
     const modalSheetRef = useRef<ModalSheetRefProps>();
+
+    const handleMarkAsVisited = (placeId: Place["id"], userId: User["id"]) => {
+        PlaceActions.markAsVisited({
+            placeId,
+            userId,
+        }).then(() => {
+            refreshSession();
+        });
+    };
+
+    const handleUnmarkAsVisited = (
+        placeId: Place["id"],
+        userId: User["id"]
+    ) => {
+        PlaceActions.unmarkAsVisited({
+            placeId,
+            userId,
+        }).then(() => {
+            refreshSession();
+        });
+    };
 
     useEffect(() => {
         if (place) {
@@ -55,20 +81,32 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
             {place && (
                 <ContextMenu
                     title="Možnosti"
+                    // @ts-ignore
                     items={[
-                        {
-                            label: "Označit jako navštívené",
-                            onClick: () => {},
-                        },
-                        {
-                            label: "Upravit",
-                            onClick: () => {},
-                        },
+                        user && user.visitedPlaceIds.includes(place.id)
+                            ? {
+                                  label: "Označit jako nenavštívené",
+                                  onClick: () =>
+                                      handleUnmarkAsVisited(place.id, user.id),
+                              }
+                            : user && !user.visitedPlaceIds.includes(place.id)
+                            ? {
+                                  label: "Označit jako navštívené",
+                                  onClick: () =>
+                                      handleMarkAsVisited(place.id, user.id),
+                              }
+                            : null,
+                        place.ownerId === user?.id
+                            ? {
+                                  label: "Upravit",
+                                  onClick: () => {},
+                              }
+                            : null,
                         {
                             label: "Navigovat",
                             onClick: () => {},
                         },
-                    ]}
+                    ].filter(Boolean)}
                     itemsPosition={{
                         x: "left",
                         y: "top",

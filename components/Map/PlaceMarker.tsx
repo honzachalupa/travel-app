@@ -6,6 +6,7 @@ import { Marker } from "react-map-gl";
 interface Props {
     place: Place;
     zoom: number;
+    isVisited: boolean;
     isFaded: boolean;
     onClick?: (id: Place["id"]) => void;
 }
@@ -13,11 +14,10 @@ interface Props {
 export const PlaceMarker: React.FC<Props> = ({
     place: { id, name, coordinates },
     zoom,
+    isVisited,
     isFaded,
     onClick,
 }) => {
-    const isVisited = false;
-
     const Icon = isVisited ? MarkerStarIcon : MarkerIcon;
 
     const handlePlaceClick = (id: Place["id"]) => {
@@ -39,12 +39,11 @@ export const PlaceMarker: React.FC<Props> = ({
                 }}
             >
                 <Icon
-                    className={cx(
-                        "w-10 h-10 accent-foreground aspect-square transition-all",
-                        {
-                            "opacity-20": isFaded,
-                        }
-                    )}
+                    className={cx("w-10 h-10 aspect-square transition-all", {
+                        "fill-green-500": isVisited,
+                        "accent-foreground": !isVisited,
+                        "opacity-20": isFaded,
+                    })}
                     style={{
                         filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.5))",
                     }}

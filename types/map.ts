@@ -1,4 +1,5 @@
 import { Coordinates } from "@/components/Map/Map.types";
+import { User } from "./user";
 
 export enum PlaceTypes {
     "city" = "city",
@@ -25,4 +26,5 @@ export interface Place {
         emailAddress?: string;
         phoneNumber?: string;
     };
+    ownerId: User["id"];
 }

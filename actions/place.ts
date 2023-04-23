@@ -1,6 +1,8 @@
 import { Place } from "@/types/map";
+import { User } from "@/types/user";
 import { supabase } from "@/utils/supabase";
 import { v4 as uuid } from "uuid";
+import { UserActions } from "./user";
 
 const create = async ({
     name,
@@ -25,6 +27,44 @@ const create = async ({
         contact_emailAddress: contact?.emailAddress,
     });
 
+const markAsVisited = async ({
+    placeId,
+    userId,
+}: {
+    placeId: Place["id"];
+    userId: User["id"];
+}) => {
+    const user = await UserActions.get(userId);
+
+    return supabase
+        .from("users")
+        .update({
+            visitedPlaceIds: [...new Set([...user.visitedPlaceIds, placeId])],
+        })
+        .eq("id", userId);
+};
+
+const unmarkAsVisited = async ({
+    placeId,
+    userId,
+}: {
+    placeId: Place["id"];
+    userId: User["id"];
+}) => {
+    const user = await UserActions.get(userId);
+
+    return supabase
+        .from("users")
+        .update({
+            visitedPlaceIds: [...user.visitedPlaceIds].filter(
+                (id) => id !== placeId
+            ),
+        })
+        .eq("id", userId);
+};
+
 export const PlaceActions = {
     create,
+    markAsVisited,
+    unmarkAsVisited,
 };

@@ -1,4 +1,4 @@
-import { UsersActions } from "@/actions/users";
+import { UserActions } from "@/actions/user";
 import { User } from "@/types/user";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
@@ -46,7 +46,7 @@ export const useSupabaseAuth = () => {
         }
 
         if (firstName || lastName) {
-            UsersActions.create({
+            UserActions.create({
                 id: data.user!.id,
                 firstName,
                 lastName,
@@ -84,12 +84,12 @@ export const useSupabaseAuth = () => {
     useEffect(() => {
         getSession();
 
-        supabase.auth.onAuthStateChange(async (e, session) => {
+        supabase.auth.onAuthStateChange(async (_, session) => {
             if (session) {
                 const { id, email } = session.user;
 
                 const { firstName, lastName, visitedPlaceIds } =
-                    await UsersActions.get(id);
+                    await UserActions.get(id);
 
                 if (firstName || lastName) {
                     setUser({
@@ -112,5 +112,6 @@ export const useSupabaseAuth = () => {
         signUp,
         signIn,
         signOut,
+        refreshSession: getSession,
     };
 };

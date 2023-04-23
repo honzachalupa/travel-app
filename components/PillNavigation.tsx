@@ -84,11 +84,11 @@ export const PillNavigation: React.FC<Props> = ({ onPlacesListClick }) => {
                     items={[
                         {
                             label: "Nastavení",
-                            onClick: () => router.push("/"),
+                            onClick: () => router.push("/settings"),
                         },
                         {
                             label: "O aplikaci",
-                            onClick: () => router.push("/"),
+                            onClick: () => router.push("/about"),
                         },
                     ]}
                     itemsPosition={{

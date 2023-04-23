@@ -27,6 +27,7 @@ interface Props {
     initialViewZoom?: number;
     initialFitBounds?: boolean;
     className?: string;
+    isPlaceVisited?: (placeId: Place["id"]) => boolean;
     isSetCurrentLocationButtonShown?: boolean;
     onClick?: (coordinates: Coordinates) => void;
     onPlaceClick?: (id: Place["id"]) => void;
@@ -41,6 +42,7 @@ export const Map: React.FC<Props> = ({
     initialViewZoom,
     initialFitBounds,
     className,
+    isPlaceVisited,
     isSetCurrentLocationButtonShown,
     onClick,
     onPlaceClick,
@@ -154,8 +156,8 @@ export const Map: React.FC<Props> = ({
                             latitude={currentLocation.latitude}
                         >
                             <div className="w-5 aspect-square relative">
-                                <CurrentLocationIcon className="w-full h-full fill-green-600 absolute" />
-                                <CurrentLocationIcon className="w-full h-full fill-green-600 animate-ping absolute" />
+                                <CurrentLocationIcon className="w-full h-full fill-green-500 absolute" />
+                                <CurrentLocationIcon className="w-full h-full fill-green-500 animate-ping absolute" />
                             </div>
                         </Marker>
 
@@ -164,6 +166,7 @@ export const Map: React.FC<Props> = ({
                                 key={place.id}
                                 place={place}
                                 zoom={zoom}
+                                isVisited={isPlaceVisited?.(place.id) || false}
                                 isFaded={
                                     !!selectedPlaceId &&
                                     selectedPlaceId !== place.id

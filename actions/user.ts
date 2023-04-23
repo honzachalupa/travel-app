@@ -31,7 +31,7 @@ const get = async (id: string): Promise<User> => {
     return data as User;
 };
 
-export const UsersActions = {
+export const UserActions = {
     create,
     get,
 };
