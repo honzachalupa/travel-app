@@ -2,6 +2,7 @@
 
 import { PlaceActions } from "@/actions/place";
 import { Map } from "@/components/Map";
+import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { placePrompt } from "@/prompts/place";
 import { PlaceType } from "@/types/map";
@@ -14,6 +15,8 @@ import {
 import { useState } from "react";
 
 export default function CreatePlace() {
+    const { user } = useSupabaseAuth();
+
     const [query, setQuery] = useState<string>();
     const [attemptsCount, setAttemptsCount] = useState<number>(0);
     const [mode, setMode] = useState<"ai-powered" | "manual">("ai-powered");
@@ -146,6 +149,7 @@ export default function CreatePlace() {
                     emailAddress,
                     phoneNumber,
                 },
+                ownerId: user!.id,
             });
         }
     };
@@ -159,6 +163,7 @@ export default function CreatePlace() {
                       longitude: formData.longitude,
                       latitude: formData.latitude,
                   },
+                  ownerId: user!.id,
               }
             : null;
 
