@@ -4,7 +4,6 @@ import { Direction } from "@/types/direction";
 import { Place } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
 import { useEffect, useState } from "react";
-import { NativeAppButton } from "./NativeAppButton";
 
 interface Props {
     place: Place;
@@ -45,16 +44,8 @@ export const PlaceDetailContent: React.FC<Props> = ({
 
             <p className="mb-3 text-lg opacity-80">{place.description}</p>
 
-            {isAllDetailsShown && (
-                <>
-                    {addressFormatted && (
-                        <p className="mb-3 opacity-60">
-                            Address: {addressFormatted}
-                        </p>
-                    )}
-
-                    <NativeAppButton coordinates={place.coordinates} />
-                </>
+            {isAllDetailsShown && addressFormatted && (
+                <p className="mb-3 opacity-60">Address: {addressFormatted}</p>
             )}
         </div>
     );

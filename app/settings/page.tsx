@@ -2,11 +2,12 @@
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
+import { NavigationAppId, NavigationAppLabels } from "@/types/map";
 import { Button, ButtonsGroup, Select } from "@honzachalupa/design-system";
 import { useState } from "react";
 
 interface FormData {
-    navigationApp: "apple-maps" | "google-maps" | "waze" | "mapy-cz";
+    navigationApp: NavigationAppId;
 }
 
 export default function Settings() {
@@ -39,19 +40,19 @@ export default function Settings() {
                 options={[
                     {
                         value: "apple-maps",
-                        label: "Apple Maps",
+                        label: NavigationAppLabels["apple-maps"],
                     },
                     {
                         value: "google-maps",
-                        label: "Google Maps",
+                        label: NavigationAppLabels["google-maps"],
                     },
                     {
                         value: "waze",
-                        label: "Waze",
+                        label: NavigationAppLabels["waze"],
                     },
                     {
                         value: "mapy-cz",
-                        label: "Mapy.cz",
+                        label: NavigationAppLabels["mapy-cz"],
                     },
                 ]}
                 onChange={(value) => setFormDataValue("navigationApp", value)}

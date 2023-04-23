@@ -1,6 +1,15 @@
 import { Coordinates } from "@/components/Map/Map.types";
 import { User } from "./user";
 
+export enum NavigationAppLabels {
+    "apple-maps" = "Apple Maps",
+    "google-maps" = "Google Maps",
+    "waze" = "Waze",
+    "mapy-cz" = "Mapy.cz",
+}
+
+export type NavigationAppId = keyof typeof NavigationAppLabels;
+
 export enum PlaceTypes {
     "city" = "city",
     "mountain" = "mountain",

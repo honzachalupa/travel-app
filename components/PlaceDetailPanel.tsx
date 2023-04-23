@@ -1,8 +1,11 @@
 import { PlaceActions } from "@/actions/place";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { MoreIcon } from "@/icons";
-import { Place } from "@/types/map";
+import { NavigationAppId, Place } from "@/types/map";
 import { User } from "@/types/user";
+import { resolveNavigationAppUrl } from "@/utils/map";
+import { useRouter } from "next/navigation";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { ContextMenu } from "./ContextMenu";
 import { ModalSheet, ModalSheetRefProps } from "./ModalSheet";
@@ -21,9 +24,24 @@ export interface PlaceDetailPanelRefProps {
 }
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
+    const router = useRouter();
     const { user, refreshSession } = useSupabaseAuth();
 
+    const [settings, _] = useLocalStorage<{
+        navigationApp: NavigationAppId;
+    }>("settings", {
+        navigationApp: "apple-maps",
+    });
+
     const modalSheetRef = useRef<ModalSheetRefProps>();
+
+    const navigationAppUrl =
+        place &&
+        resolveNavigationAppUrl(
+            settings.navigationApp,
+            place.address,
+            place.coordinates
+        );
 
     const handleMarkAsVisited = (placeId: Place["id"], userId: User["id"]) => {
         PlaceActions.markAsVisited({
@@ -102,10 +120,12 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
                                   onClick: () => {},
                               }
                             : null,
-                        {
-                            label: "Navigovat",
-                            onClick: () => {},
-                        },
+                        navigationAppUrl
+                            ? {
+                                  label: "Navigovat",
+                                  href: navigationAppUrl,
+                              }
+                            : null,
                     ].filter(Boolean)}
                     itemsPosition={{
                         x: "left",

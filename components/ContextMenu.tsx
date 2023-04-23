@@ -6,7 +6,8 @@ interface Props {
     title: string;
     items: {
         label: string;
-        onClick: () => void;
+        href?: string;
+        onClick?: () => void;
     }[];
     itemsPosition: ItemsPosition;
     children: ReactNode;
@@ -37,15 +38,25 @@ export const ContextMenu: React.FC<Props> = ({
 
                 {isExpanded && (
                     <div className={styles.itemsContainer(itemsPosition)}>
-                        {items.map(({ label, onClick }) => (
-                            <div
-                                key={label}
-                                onClick={onClick}
-                                className={styles.item}
-                            >
-                                {label}
-                            </div>
-                        ))}
+                        {items.map(({ label, href, onClick }) =>
+                            onClick ? (
+                                <div
+                                    key={label}
+                                    onClick={onClick}
+                                    className={styles.item}
+                                >
+                                    {label}
+                                </div>
+                            ) : (
+                                <a
+                                    key={label}
+                                    href={href}
+                                    className={styles.item}
+                                >
+                                    {label}
+                                </a>
+                            )
+                        )}
                     </div>
                 )}
             </button>
