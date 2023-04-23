@@ -57,7 +57,7 @@ export default function Settings() {
                 onChange={(value) => setFormDataValue("navigationApp", value)}
             />
 
-            <ButtonsGroup>
+            <ButtonsGroup alignment="right">
                 <Button label="Uložit" onClick={handleSubmit} />
             </ButtonsGroup>
         </Layout>

@@ -1,14 +1,19 @@
 import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ContextMenu } from "./ContextMenu";
 
 interface Props {
-    onPlacesListClick: () => void;
+    onPlacesListClick?: () => void;
+    onCreatePlaceClick?: () => void;
 }
 
-export const PillNavigation: React.FC<Props> = ({ onPlacesListClick }) => {
+export const PillNavigation: React.FC<Props> = ({
+    onPlacesListClick,
+    onCreatePlaceClick,
+}) => {
     const router = useRouter();
+    const pathName = usePathname();
     const { user, signOut } = useSupabaseAuth();
 
     return (
@@ -61,27 +66,39 @@ export const PillNavigation: React.FC<Props> = ({ onPlacesListClick }) => {
             </ContextMenu>
 
             <div className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex fixed right-3 top-3 z-10">
-                <button
-                    title="Všechna místa"
-                    type="button"
-                    className="w-12 aspect-square"
-                    onClick={onPlacesListClick}
-                >
-                    <ListIcon className="w-full h-full p-3" />
-                </button>
+                {onPlacesListClick && (
+                    <button
+                        title="Všechna místa"
+                        type="button"
+                        className="w-12 aspect-square"
+                        onClick={onPlacesListClick}
+                    >
+                        <ListIcon className="w-full h-full p-3" />
+                    </button>
+                )}
 
-                <button
-                    title="Přidat místo"
-                    type="button"
-                    className="w-12 aspect-square"
-                    onClick={() => router.push("/create-place")}
-                >
-                    <MarkerPlusIcon className="w-full h-full p-3" />
-                </button>
+                {onCreatePlaceClick && (
+                    <button
+                        title="Přidat místo"
+                        type="button"
+                        className="w-12 aspect-square"
+                        onClick={onCreatePlaceClick}
+                    >
+                        <MarkerPlusIcon className="w-full h-full p-3" />
+                    </button>
+                )}
 
                 <ContextMenu
                     title="Další volby"
+                    // @ts-ignore
                     items={[
+                        // @ts-ignore
+                        pathName !== "/"
+                            ? {
+                                  label: "Mapa",
+                                  onClick: () => router.push("/"),
+                              }
+                            : null,
                         {
                             label: "Nastavení",
                             onClick: () => router.push("/settings"),
@@ -90,7 +107,7 @@ export const PillNavigation: React.FC<Props> = ({ onPlacesListClick }) => {
                             label: "O aplikaci",
                             onClick: () => router.push("/about"),
                         },
-                    ]}
+                    ].filter(Boolean)}
                     itemsPosition={{
                         x: "left",
                         y: "bottom",

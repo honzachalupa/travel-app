@@ -1,7 +1,7 @@
 "use client";
 
-import config from "@/config";
-import { Layout_Primary, Navigation } from "@honzachalupa/design-system";
+import { PillNavigation } from "@/components/PillNavigation";
+import { Layout_Primary } from "@honzachalupa/design-system";
 import { ReactNode } from "react";
 
 interface Props {
@@ -11,24 +11,9 @@ interface Props {
 export const LayoutPrimary: React.FC<Props> = ({ children }) => {
     return (
         <Layout_Primary>
-            <Navigation
-                brand={{
-                    name: config.appName,
-                }}
-                primaryItems={[
-                    {
-                        label: "Místa",
-                        href: "/",
-                    },
-                    {
-                        label: "Vytvořit místo",
-                        href: "/create-place",
-                    },
-                ]}
-                hasPadding={false}
-            />
+            <PillNavigation />
 
-            {children}
+            <div style={{ paddingTop: 50 }}>{children}</div>
         </Layout_Primary>
     );
 };
