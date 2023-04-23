@@ -1,9 +1,9 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { NavigationAppId, NavigationAppLabels } from "@/types/map";
 import { Button, ButtonsGroup, Select } from "@honzachalupa/design-system";
+import { useLocalStorage } from "@react-hooks-library/core";
 import { useState } from "react";
 
 interface FormData {
