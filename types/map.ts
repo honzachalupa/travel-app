@@ -14,7 +14,8 @@ export enum PlaceTypes {
     "city" = "city",
     "mountain" = "mountain",
     "restaurant" = "restaurant",
-    "entertainment" = "entertainment",
+    "bar" = "bar",
+    "nightclub" = "nightclub",
 }
 
 export type PlaceType = typeof PlaceTypes;

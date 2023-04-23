@@ -1051,10 +1051,10 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/design-system@^1.0.0-alpha.37":
-  version "1.0.0-alpha.37"
-  resolved "https://registry.yarnpkg.com/@honzachalupa/design-system/-/design-system-1.0.0-alpha.37.tgz#376774808be0be968c933b9e4891d44aef482fd9"
-  integrity sha512-2sVi1jFpnKVbzIRzSl+6UgY62VLYUR63SHipD37ppn/SPxrbzyd810U6bZShzH+LIvfP9xDRswf1F7EnEvdJSQ==
+"@honzachalupa/design-system@^1.0.0-alpha.38":
+  version "1.0.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/@honzachalupa/design-system/-/design-system-1.0.0-alpha.38.tgz#7db43f8aa2e560a3223edf3840f0768a32cf00f0"
+  integrity sha512-1s7Ml4y62wO+DHiUoTAm48wxRamNsgeL1zwnTLSoe8KcIq+e78sdfmyDQIgzu+8Qbhd9YIJ1N1k6GQXYvTc2Ww==
   dependencies:
     classnames "^2.3.2"
     react "^18.2.0"
