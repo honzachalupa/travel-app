@@ -1,12 +1,19 @@
 import { PlaceActions } from "@/actions/place";
+import { useAuthorization } from "@/hooks/useAuthorization";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { MoreIcon } from "@/icons";
 import { NavigationAppId, Place } from "@/types/map";
 import { User } from "@/types/user";
 import { resolveNavigationAppUrl } from "@/utils/map";
 import { useRouter } from "next/navigation";
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import {
+    forwardRef,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+} from "react";
+import { Context } from "./Context";
 import { ContextMenu } from "./ContextMenu";
 import { ModalSheet, ModalSheetRefProps } from "./ModalSheet";
 import { PlaceDetailContent } from "./PlaceDetailContent";
@@ -25,7 +32,9 @@ export interface PlaceDetailPanelRefProps {
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
     const router = useRouter();
-    const { user, refreshSession } = useSupabaseAuth();
+    const { refreshSession } = useAuthorization();
+
+    const { user } = useContext(Context);
 
     const [settings, _] = useLocalStorage<{
         navigationApp: NavigationAppId;

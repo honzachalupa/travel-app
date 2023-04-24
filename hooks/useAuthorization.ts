@@ -3,9 +3,8 @@ import { User } from "@/types/user";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 
-export const useSupabaseAuth = () => {
+export const useAuthorization = () => {
     const [user, setUser] = useState<User | null>();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const getSession = async () => {
         const { data, error } = await supabase.auth.getSession();
@@ -20,8 +19,6 @@ export const useSupabaseAuth = () => {
             if (error) {
                 throw error;
             }
-        } else {
-            setIsLoading(false);
         }
     };
 
@@ -91,24 +88,21 @@ export const useSupabaseAuth = () => {
                 const { firstName, lastName, visitedPlaceIds } =
                     await UserActions.get(id);
 
-                if (firstName || lastName) {
-                    setUser({
-                        id,
-                        emailAddress: email!,
-                        firstName: firstName || "",
-                        lastName: lastName || "",
-                        visitedPlaceIds: visitedPlaceIds || [],
-                    });
-                }
-
-                setIsLoading(false);
+                setUser({
+                    id,
+                    emailAddress: email!,
+                    firstName,
+                    lastName,
+                    visitedPlaceIds,
+                });
+            } else {
+                setUser(null);
             }
         });
     }, []);
 
     return {
         user,
-        isLoading,
         signUp,
         signIn,
         signOut,

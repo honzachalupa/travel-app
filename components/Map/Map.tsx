@@ -130,7 +130,9 @@ export const Map: React.FC<Props> = ({
     }, []);
 
     return (
-        <div className={cx("w-full h-full relative", className)}>
+        <div
+            className={cx("w-full h-full overflow-hidden relative", className)}
+        >
             {currentLocation ? (
                 <>
                     <MapGL

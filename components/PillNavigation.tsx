@@ -1,6 +1,8 @@
-import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
 import { usePathname, useRouter } from "next/navigation";
+import { useContext } from "react";
+import { Context } from "./Context";
 import { ContextMenu } from "./ContextMenu";
 
 interface Props {
@@ -16,7 +18,9 @@ export const PillNavigation: React.FC<Props> = ({
 }) => {
     const router = useRouter();
     const pathName = usePathname();
-    const { user, signOut } = useSupabaseAuth();
+    const { signOut } = useAuthorization();
+
+    const { user } = useContext(Context);
 
     return (
         <div className={className}>

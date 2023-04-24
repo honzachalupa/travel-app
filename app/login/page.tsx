@@ -1,6 +1,6 @@
 "use client";
 
-import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Button, Input, SwitchButton } from "@honzachalupa/design-system";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function Login({ searchParams }: any) {
     const router = useRouter();
-    const { signUp, signIn } = useSupabaseAuth();
+    const { signUp, signIn } = useAuthorization();
 
     const [mode, setMode] = useState<"sign-in" | "sign-up">(searchParams.mode);
     const [formData, setFormData] = useState<{

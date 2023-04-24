@@ -34,17 +34,17 @@ export default function Settings() {
     return (
         <Layout>
             <Select
-                label="Výchozí navigace"
+                label="Výchozí navigační aplikace"
                 placeholder="Vyberte aplikaci"
                 defaultValue={formData.navigationApp}
                 options={[
                     {
-                        value: "apple-maps",
-                        label: NavigationAppLabels["apple-maps"],
-                    },
-                    {
                         value: "google-maps",
                         label: NavigationAppLabels["google-maps"],
+                    },
+                    {
+                        value: "apple-maps",
+                        label: NavigationAppLabels["apple-maps"],
                     },
                     {
                         value: "waze",

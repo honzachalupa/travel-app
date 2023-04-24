@@ -1,8 +1,8 @@
 "use client";
 
 import { PlaceActions } from "@/actions/place";
+import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
-import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { placePrompt } from "@/prompts/place";
 import { PlaceType, PlaceTypes } from "@/types/map";
@@ -18,13 +18,14 @@ import {
 } from "@honzachalupa/design-system";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 type Mode = "automatic" | "manual";
 
 export default function CreatePlace() {
     const router = useRouter();
-    const { user } = useSupabaseAuth();
+
+    const { user } = useContext(Context);
 
     const [query, setQuery] = useState<string>();
     const [attemptsQueue, setAttemptsQueue] = useState<
@@ -305,7 +306,7 @@ export default function CreatePlace() {
                             longitude: selectedPlace?.coordinates.longitude,
                             latitude: selectedPlace?.coordinates.latitude,
                         }}
-                        className="w-full aspect-square"
+                        className="w-full aspect-square rounded-sm"
                         onClick={({ longitude, latitude }) => {
                             setMode("manual");
 

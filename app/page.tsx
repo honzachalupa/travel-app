@@ -1,6 +1,7 @@
 "use client";
 
 import { PlacesActions } from "@/actions/places";
+import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
 import { PillNavigation } from "@/components/PillNavigation";
 import {
@@ -11,16 +12,16 @@ import {
     PlacesListPanel,
     PlacesListPanelRefProps,
 } from "@/components/PlacesListPanel";
-import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function Home() {
     const router = useRouter();
-    const { user } = useSupabaseAuth();
+
+    const { user } = useContext(Context);
 
     const [places, setPlaces] = useState<Place[]>([]);
     const [selectedPlace, setSelectedPlace] = useState<Place>();
@@ -55,7 +56,7 @@ export default function Home() {
                 places={places}
                 selectedPlaceId={selectedPlace?.id}
                 initialFitBounds
-                className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none overflow-hidden"
+                className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none"
                 isPlaceVisited={(placeId) =>
                     user?.visitedPlaceIds.includes(placeId) || false
                 }
