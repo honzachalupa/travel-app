@@ -20,7 +20,7 @@ export const ContextMenu: React.FC<Props> = ({
     items,
     itemsPosition,
     children,
-    zIndex = 10,
+    zIndex = 99999,
     className,
 }) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);

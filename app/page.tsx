@@ -14,6 +14,7 @@ import {
 import { useSupabaseAuth } from "@/hooks/useSupabaseAuth";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,7 +46,9 @@ export default function Home() {
         <Layout>
             <PillNavigation
                 onPlacesListClick={handlePlacesListClick}
-                onCreatePlaceClick={() => router.push("/create-place")}
+                onCreatePlaceClick={
+                    user ? () => router.push("/create-place") : undefined
+                }
             />
 
             <Map

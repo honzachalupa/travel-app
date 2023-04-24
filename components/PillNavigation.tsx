@@ -4,11 +4,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { ContextMenu } from "./ContextMenu";
 
 interface Props {
+    className?: string;
     onPlacesListClick?: () => void;
     onCreatePlaceClick?: () => void;
 }
 
 export const PillNavigation: React.FC<Props> = ({
+    className,
     onPlacesListClick,
     onCreatePlaceClick,
 }) => {
@@ -17,7 +19,7 @@ export const PillNavigation: React.FC<Props> = ({
     const { user, signOut } = useSupabaseAuth();
 
     return (
-        <div>
+        <div className={className}>
             <ContextMenu
                 title="Možnosti"
                 items={
@@ -48,24 +50,17 @@ export const PillNavigation: React.FC<Props> = ({
                 zIndex={10}
                 className="absolute left-3 top-3"
             >
-                {user && false ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                        src={`https://dngdtdxmkbxttghitzxk.supabase.co/storage/v1/object/public/profile-images/${user?.id}.jpg`}
-                        width={46}
-                        height={46}
-                        style={{
-                            objectFit: "cover",
-                        }}
-                        className="w-full aspect-square rounded-full"
-                        alt={`${user?.firstName} ${user?.lastName} profile image`}
-                    />
+                {user ? (
+                    <p className="text-xl font-medium accent-foreground">
+                        {user.firstName.substring(0, 1)}
+                        {user.lastName.substring(0, 1)}
+                    </p>
                 ) : (
                     <UserIcon className="w-full h-full p-3" />
                 )}
             </ContextMenu>
 
-            <div className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex fixed right-3 top-3 z-10">
+            <div className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex absolute right-3 top-3 z-10">
                 {onPlacesListClick && (
                     <button
                         title="Všechna místa"

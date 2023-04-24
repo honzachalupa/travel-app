@@ -11,6 +11,8 @@ const create = async ({
     coordinates,
     address,
     contact,
+    originalQuery,
+    ownerId,
 }: Omit<Place, "id">) =>
     supabase.from("places").insert({
         id: uuid(),
@@ -25,6 +27,8 @@ const create = async ({
         address_country: address?.country,
         contact_phoneNumber: contact?.phoneNumber,
         contact_emailAddress: contact?.emailAddress,
+        originalQuery,
+        ownerId,
     });
 
 const markAsVisited = async ({

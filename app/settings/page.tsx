@@ -14,7 +14,7 @@ export default function Settings() {
     const [localStorageData, setLocalStorageData] = useLocalStorage<FormData>(
         "settings",
         {
-            navigationApp: "apple-maps",
+            navigationApp: "google-maps",
         }
     );
 

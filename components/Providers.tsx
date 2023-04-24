@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "@honzachalupa/design-system/build/tailwind-globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ReactNode } from "react";
@@ -12,11 +11,10 @@ interface Props {
 
 export const Providers: React.FC<Props> = ({ children }) => {
     return (
-        <>
-            <ContextProvider>{children}</ContextProvider>
+        <ContextProvider>
+            {children}
 
             <Analytics />
-            <GoogleAnalytics />
-        </>
+        </ContextProvider>
     );
 };

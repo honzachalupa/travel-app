@@ -13,7 +13,7 @@ export const LayoutPrimary: React.FC<Props> = ({ children }) => {
         <Layout_Primary>
             <PillNavigation />
 
-            <div style={{ paddingTop: 50 }}>{children}</div>
+            <div style={{ paddingTop: 70 }}>{children}</div>
         </Layout_Primary>
     );
 };

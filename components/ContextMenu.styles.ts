@@ -24,7 +24,7 @@ const itemsContainer = (itemsPosition: ItemsPosition) =>
         rounded-md
         flex
         flex-col
-        fixed
+        absolute
     `,
         {
             "right-0": itemsPosition.x === "left",

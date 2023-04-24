@@ -11,11 +11,18 @@ export enum NavigationAppLabels {
 export type NavigationAppId = keyof typeof NavigationAppLabels;
 
 export enum PlaceTypes {
-    "city" = "city",
-    "mountain" = "mountain",
-    "restaurant" = "restaurant",
-    "bar" = "bar",
-    "nightclub" = "nightclub",
+    "city" = "Město",
+    "mountain" = "Hora/kopec/pohoří",
+    "restaurant" = "Restaurace",
+    "bar" = "Bar",
+    "amusement-park" = "Zábavní park",
+    "national-park" = "Národní park",
+    "museum" = "Muzeum",
+    "church" = "Kostel",
+    "castle" = "Hrad",
+    "zoo" = "Zoo",
+    "park" = "Park",
+    "beach" = "Pláž",
 }
 
 export type PlaceType = typeof PlaceTypes;
@@ -36,5 +43,6 @@ export interface Place {
         emailAddress?: string;
         phoneNumber?: string;
     };
+    originalQuery?: string;
     ownerId: User["id"];
 }

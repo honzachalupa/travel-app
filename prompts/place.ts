@@ -11,7 +11,7 @@ export const placePrompt = (placeQuery: string) =>
         PlaceTypes
     )}] or use null.
     Value of Street should not contain the house number;
-    All texts are in Czech language if there is translation available - otherwise use English.
+    Translate all texts to Czech language if there is translation available - otherwise use English.
     Coordinates are in WGS84 format.
     If any of the values can't ve found, return null.
 
