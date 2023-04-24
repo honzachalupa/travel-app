@@ -165,6 +165,11 @@ export default function CreatePlace() {
             })
                 .then((response) => response.json())
                 .then((response) => {
+                    console.log(
+                        1,
+                        response.choices[0].message.content.replace(/\n+/g, "")
+                    );
+
                     try {
                         const data = JSON.parse(
                             response.choices[0].message.content.replace(
@@ -172,6 +177,8 @@ export default function CreatePlace() {
                                 ""
                             )
                         );
+
+                        console.log(2, data);
 
                         if (
                             !data.coordinates.longitude ||
