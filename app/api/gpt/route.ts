@@ -20,6 +20,8 @@ export async function POST(request: Request) {
         ],
     });
 
+    console.log(666, response);
+
     /*
         TypeScript Warning: Although Response.json() is valid, native TypeScript types
         currently shows an error, you can use NextResponse.json() for typed responses instead.
