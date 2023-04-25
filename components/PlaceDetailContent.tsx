@@ -1,8 +1,8 @@
 import { DirectionsActions } from "@/actions/directions";
-import { useGeoLocation } from "@/hooks/useGeoLocation";
 import { Direction } from "@/types/direction";
 import { Place } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
+import { useGeoLocation } from "@honzachalupa/design-system";
 import { useEffect, useState } from "react";
 
 interface Props {

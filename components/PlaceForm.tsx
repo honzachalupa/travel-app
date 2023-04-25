@@ -1,12 +1,7 @@
-"use client";
-
 import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
-import { useNavigation } from "@/hooks/useNavigation";
-import { usePlaces } from "@/hooks/usePlaces";
-import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { placePrompt } from "@/prompts/place";
-import { PlaceType, PlaceTypes } from "@/types/map";
+import { Place, PlaceType, PlaceTypes } from "@/types/map";
 import {
     Button,
     ButtonsGroup,
@@ -20,12 +15,31 @@ import {
 import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
 
-type Mode = "automatic" | "manual";
+interface FormData {
+    name: string | undefined;
+    description: string | undefined;
+    type: string | undefined;
+    longitude: number | undefined;
+    latitude: number | undefined;
+    street: string | undefined;
+    houseNumber: number | undefined;
+    city: string | undefined;
+    country: string | undefined;
+    phoneNumber: string | undefined;
+    emailAddress: string | undefined;
+}
 
-export default function CreatePlace() {
-    const navigateTo = useNavigation();
-    const { createPlace } = usePlaces();
+interface Props {
+    mode: "create" | "edit";
+    defaultValues?: FormData;
+    onSubmit: (formData: Omit<Place, "id">) => Promise<any>;
+}
 
+export const PlaceForm: React.FC<Props> = ({
+    mode,
+    defaultValues,
+    onSubmit,
+}) => {
     const { user } = useContext(Context);
 
     const [query, setQuery] = useState<string>();
@@ -34,36 +48,30 @@ export default function CreatePlace() {
             timestamp: string;
         }[]
     >([]);
-    const [mode, setMode] = useState<Mode>("automatic");
+    const [isAiModeEnabled, setIsAiModeEnabled] = useState<boolean>(true);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isFailed, setIsFailed] = useState<boolean>(false);
 
-    const [formData, setFormData] = useState<{
-        name: string | undefined;
-        description: string | undefined;
-        type: string | undefined;
-        longitude: number | undefined;
-        latitude: number | undefined;
-        street: string | undefined;
-        houseNumber: number | undefined;
-        city: string | undefined;
-        country: string | undefined;
-        phoneNumber: string | undefined;
-        emailAddress: string | undefined;
-    }>({
-        name: undefined,
-        description: undefined,
-        type: undefined,
-        longitude: undefined,
-        latitude: undefined,
-        street: undefined,
-        houseNumber: undefined,
-        city: undefined,
-        country: undefined,
-        phoneNumber: undefined,
-        emailAddress: undefined,
-    });
+    const [formData, setFormData] = useState<FormData>(
+        mode === "edit" && defaultValues
+            ? defaultValues
+            : {
+                  name: undefined,
+                  description: undefined,
+                  type: undefined,
+                  longitude: undefined,
+                  latitude: undefined,
+                  street: undefined,
+                  houseNumber: undefined,
+                  city: undefined,
+                  country: undefined,
+                  phoneNumber: undefined,
+                  emailAddress: undefined,
+              }
+    );
+
+    console.log(formData);
 
     const selectedPlace = useMemo(
         () =>
@@ -89,7 +97,7 @@ export default function CreatePlace() {
     };
 
     const handleSearch = () => {
-        setMode("automatic");
+        setIsAiModeEnabled(true);
 
         setAttemptsQueue([
             {
@@ -98,7 +106,7 @@ export default function CreatePlace() {
         ]);
     };
 
-    const handleCreate = () => {
+    const handleSubmit = () => {
         const {
             name,
             description,
@@ -107,15 +115,19 @@ export default function CreatePlace() {
             phoneNumber,
             longitude,
             latitude,
+            street,
+            houseNumber,
+            city,
+            country,
         } = formData;
 
         const appendDetailedInfo =
-            mode === "automatic" || (mode === "manual" && isExpanded);
+            isAiModeEnabled || (!isAiModeEnabled && isExpanded);
 
-        if (user && name && longitude && latitude) {
+        if (user && name && description && type && longitude && latitude) {
             setIsLoading(true);
 
-            createPlace({
+            onSubmit({
                 name,
                 description,
                 type: type as unknown as PlaceType,
@@ -125,10 +137,10 @@ export default function CreatePlace() {
                 },
                 address: appendDetailedInfo
                     ? {
-                          street: formData.street,
-                          houseNumber: formData.houseNumber,
-                          city: formData.city,
-                          country: formData.country,
+                          street,
+                          houseNumber,
+                          city,
+                          country,
                       }
                     : undefined,
                 contact: appendDetailedInfo
@@ -139,19 +151,15 @@ export default function CreatePlace() {
                     : undefined,
                 originalQuery: query,
                 ownerId: user.id,
-            })
-                .then(() => {
-                    navigateTo.home();
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
+            }).finally(() => {
+                setIsLoading(false);
+            });
         }
     };
 
     useEffect(() => {
         setIsFailed(false);
-    }, [mode]);
+    }, [isAiModeEnabled]);
 
     useEffect(() => {
         if (attemptsQueue.length > 0) {
@@ -227,8 +235,8 @@ export default function CreatePlace() {
     }, [attemptsQueue]);
 
     return (
-        <Layout>
-            <SwitchButton<Mode>
+        <>
+            <SwitchButton
                 defaultValue="automatic"
                 options={[
                     {
@@ -241,10 +249,10 @@ export default function CreatePlace() {
                     },
                 ]}
                 className="text-sm"
-                onChange={(value) => setMode(value)}
+                onChange={(value) => setIsAiModeEnabled(value === "automatic")}
             />
 
-            {mode === "automatic" && (
+            {isAiModeEnabled && (
                 <div className="flex items-end">
                     <Input<string>
                         label="Zadejte název nebo popis místa"
@@ -285,7 +293,7 @@ export default function CreatePlace() {
                 </p>
             ) : null}
 
-            {(formData.name || mode === "manual") && (
+            {(formData.name || !isAiModeEnabled) && (
                 <Input
                     label="Název"
                     value={formData.name}
@@ -295,12 +303,12 @@ export default function CreatePlace() {
                 />
             )}
 
-            {(selectedPlace || mode === "manual") && (
+            {(selectedPlace || !isAiModeEnabled) && (
                 <div>
                     <label className="mb-1 block">Pozice na mapě *</label>
 
                     <p className="text-xs opacity-50 mb-2">
-                        {mode === "automatic"
+                        {isAiModeEnabled
                             ? "Zkontrolujte umístění špendlíku a v případě potřeby upravte kliknutím do mapy"
                             : "Umístěte špendlík kliknutím do mapy"}
                     </p>
@@ -313,7 +321,7 @@ export default function CreatePlace() {
                         }}
                         className="w-full aspect-square rounded-sm"
                         onClick={({ longitude, latitude }) => {
-                            setMode("manual");
+                            setIsAiModeEnabled(false);
 
                             setFormDataValue("longitude", longitude);
                             setFormDataValue("latitude", latitude);
@@ -322,7 +330,7 @@ export default function CreatePlace() {
                 </div>
             )}
 
-            {(formData.description || mode === "manual") && (
+            {(formData.description || !isAiModeEnabled) && (
                 <TextArea
                     label="Popis"
                     value={formData.description}
@@ -332,7 +340,7 @@ export default function CreatePlace() {
                 />
             )}
 
-            {(formData.type || mode === "manual") && (
+            {(formData.type || !isAiModeEnabled) && (
                 <Select
                     label="Typ"
                     value={formData.type}
@@ -346,7 +354,7 @@ export default function CreatePlace() {
                 />
             )}
 
-            {(formData.name || mode === "manual") && (
+            {(formData.name || !isAiModeEnabled) && (
                 <Toggle label="Zadat podrobnosti" onChange={setIsExpanded} />
             )}
 
@@ -407,20 +415,20 @@ export default function CreatePlace() {
                 />
             )}
 
-            {(formData.name || mode === "manual") && (
+            {(formData.name || !isAiModeEnabled) && (
                 <ButtonsGroup alignment="right">
                     <Button
-                        label="Vytvořit"
+                        label={mode === "create" ? "Vytvořit" : "Uložit změny"}
                         isDisabled={
                             isLoading ||
                             !formData.name ||
                             !formData.latitude ||
                             !formData.longitude
                         }
-                        onClick={handleCreate}
+                        onClick={handleSubmit}
                     />
                 </ButtonsGroup>
             )}
-        </Layout>
+        </>
     );
-}
+};

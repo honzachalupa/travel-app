@@ -39,6 +39,39 @@ const create = async ({
         ownerId,
     });
 
+const update = async (
+    id: Place["id"],
+    {
+        name,
+        description,
+        type,
+        coordinates,
+        address,
+        contact,
+        originalQuery,
+        ownerId,
+    }: Omit<Place, "id">
+) =>
+    supabase
+        .from("places")
+        .update({
+            id: uuid(),
+            name,
+            description,
+            type,
+            coordinates_longitude: coordinates.longitude,
+            coordinates_latitude: coordinates.latitude,
+            address_street: address?.street,
+            address_houseNumber: address?.houseNumber,
+            address_city: address?.city,
+            address_country: address?.country,
+            contact_phoneNumber: contact?.phoneNumber,
+            contact_emailAddress: contact?.emailAddress,
+            originalQuery,
+            ownerId,
+        })
+        .eq("id", id);
+
 const delete_ = async (id: Place["id"]) =>
     supabase.from("places").delete().eq("id", id);
 
@@ -81,6 +114,7 @@ const setIsNotVisited = async ({
 export const PlaceActions = {
     get,
     create,
+    update,
     delete: delete_,
     setIsVisited,
     setIsNotVisited,

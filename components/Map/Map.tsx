@@ -1,8 +1,8 @@
 "use client";
 
-import { useGeoLocation } from "@/hooks/useGeoLocation";
 import { CurrentLocationIcon, SetCurrentLocationIcon } from "@/icons";
 import { Place } from "@/types/map";
+import { useGeoLocation } from "@honzachalupa/design-system";
 import { usePreferredColorScheme } from "@react-hooks-library/core";
 import cx from "classnames";
 import mapboxgl from "mapbox-gl";

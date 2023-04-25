@@ -20,14 +20,16 @@ const get = (coordinatesFrom: Coordinates, coordinateTo: Coordinates) => {
         `https://api.mapbox.com/directions/v5/mapbox/driving/${coordinatesList}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_API_KEY}`
     )
         .then((response) => response.json())
-        .then(
-            ({ routes }): Direction => ({
-                distance: Math.round(routes[0].distance / 1000),
-                duration: moment()
-                    .startOf("day")
-                    .seconds(routes[0].duration)
-                    .format("H:mm"),
-            })
+        .then(({ routes }): Direction | null =>
+            routes.length > 0
+                ? {
+                      distance: Math.round(routes[0].distance / 1000),
+                      duration: moment()
+                          .startOf("day")
+                          .seconds(routes[0].duration)
+                          .format("H:mm"),
+                  }
+                : null
         );
 };
 

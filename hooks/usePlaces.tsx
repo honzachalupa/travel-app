@@ -2,9 +2,9 @@ import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { NavigationAppId, Place } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
+import { useLocalStorage } from "@honzachalupa/design-system";
 import { useCallback, useState } from "react";
 import { useAuthorization } from "./useAuthorization";
-import { useLocalStorage } from "./useLocalStorage";
 
 export const usePlaces = () => {
     const { user, refreshSession } = useAuthorization();
@@ -18,6 +18,9 @@ export const usePlaces = () => {
     const [places, setPlaces] = useState<Place[]>([]);
 
     const create = (place: Omit<Place, "id">) => PlaceActions.create(place);
+
+    const update = (placeId: Place["id"], place: Omit<Place, "id">) =>
+        PlaceActions.update(placeId, place);
 
     const delete_ = (placeId: Place["id"]) => PlaceActions.delete(placeId);
 
@@ -76,6 +79,7 @@ export const usePlaces = () => {
         fetchPlace: fetchById,
         fetchPlaces: fetch,
         createPlace: create,
+        updatePlace: update,
         deletePlace: delete_,
         setIsVisited,
         setIsNotVisited,

@@ -4,6 +4,7 @@ export interface PlaceDB {
     id: string;
     name: string;
     description: string;
+    type: string;
     coordinates_longitude: number;
     coordinates_latitude: number;
     address_street: string;
@@ -19,6 +20,7 @@ export const mapPlace = ({
     id,
     name,
     description,
+    type,
     coordinates_longitude,
     coordinates_latitude,
     address_street,
@@ -32,6 +34,8 @@ export const mapPlace = ({
     id,
     name,
     description,
+    // @ts-ignore
+    type,
     coordinates: {
         longitude: coordinates_longitude,
         latitude: coordinates_latitude,

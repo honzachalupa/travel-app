@@ -13,11 +13,12 @@ export type NavigationAppId = keyof typeof NavigationAppLabels;
 export enum PlaceTypes {
     "city" = "Město",
     "mountain" = "Hora/kopec/vrchol",
+    "lake" = "Jezero/nádrž/rybník",
+    "waterfall" = "Vodopád",
     "restaurant" = "Restaurace",
     "bar" = "Bar",
     "viewpoint" = "Rozhledna/vyhlídka",
-    "amusement-park" = "Zábavní park",
-    "national-park" = "Přírodní rezervace",
+    "cave" = "Jeskyně",
     "museum" = "Muzeum",
     "church" = "Kostel",
     "castle" = "Hrad/zámek",
@@ -26,6 +27,8 @@ export enum PlaceTypes {
     "park" = "Park",
     "beach" = "Pláž",
     "bridge" = "Most",
+    "amusement-park" = "Zábavní park",
+    "national-park" = "Přírodní rezervace",
 }
 
 export type PlaceType = typeof PlaceTypes;

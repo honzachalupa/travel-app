@@ -1051,11 +1051,12 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/design-system@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.3.tgz#5b8034c1b9f3044a7899120474187522b34000c9"
-  integrity sha512-O/7i4tmtlhUSZCrtebenpY07NsuTRlXcV9VeEWHjlc8BzeEpEoUCrihUzI6rE0VKj/0qLJMFL7N9Kj8GU/wcyw==
+"@honzachalupa/design-system@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.4.tgz#5e1789ff124190be89c38bf6681444da4ef24f0b"
+  integrity sha512-uODiIgWVA+Dkz4wmpE38okiWbKZZu1TrtNOGiOxCApXMLo7/clj7YxMBJFwAKY0CH/ul/Ih5HMGWdeBRgCbJPw==
   dependencies:
+    "@react-hooks-library/core" "^0.5.1"
     classnames "^2.3.2"
     react "^18.2.0"
     react-icons "^4.8.0"

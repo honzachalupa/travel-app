@@ -43,6 +43,7 @@ const item = `
     border-b-gray-500
     border-opacity-20
     text-left
+    no-underline
     whitespace-nowrap
     cursor-pointer
     sm:text-xl

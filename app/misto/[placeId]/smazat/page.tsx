@@ -35,9 +35,11 @@ export default function PlaceDelete({ params: { placeId } }: Props) {
 
     return (
         <Layout>
-            <p>Opravdu chcete odstranit místo {place?.name}?</p>
+            <p className="text-center mb-5">
+                Opravdu chcete odstranit místo {place?.name}?
+            </p>
 
-            <ButtonsGroup alignment="right">
+            <ButtonsGroup alignment="center">
                 <Button
                     label="Ano"
                     className="bg-red-500 text-white"

@@ -8,11 +8,11 @@ export const useNavigation = () => {
         login: ({ mode }: { mode: "sign-up" | "sign-in" }) =>
             router.push(`/login?mode=${mode}`),
         home: () => router.push("/"),
-        settings: () => router.push("/settings"),
-        about: () => router.push("/about"),
-        placeCreate: () => router.push("/place/create"),
-        placeDetail: (id: Place["id"]) => router.push(`/place/${id}`),
-        placeEdit: (id: Place["id"]) => router.push(`/place/${id}/edit`),
-        placeDelete: (id: Place["id"]) => router.push(`/place/${id}/delete`),
+        settings: () => router.push("/nastaveni"),
+        about: () => router.push("/o-aplikaci"),
+        placeCreate: () => router.push("/misto/vytvorit"),
+        placeDetail: (id: Place["id"]) => router.push(`/misto/${id}`),
+        placeEdit: (id: Place["id"]) => router.push(`/misto/${id}/upravit`),
+        placeDelete: (id: Place["id"]) => router.push(`/misto/${id}/smazat`),
     };
 };

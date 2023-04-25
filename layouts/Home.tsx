@@ -1,6 +1,6 @@
 "use client";
 
-import { useServiceWorker } from "@/hooks/useServiceWorker";
+import { useServiceWorker } from "@honzachalupa/design-system";
 import { ReactNode } from "react";
 
 interface Props {
