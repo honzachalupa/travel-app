@@ -20,11 +20,12 @@ export enum PlaceTypes {
     "national-park" = "Přírodní rezervace",
     "museum" = "Muzeum",
     "church" = "Kostel",
-    "castle" = "Hrad",
+    "castle" = "Hrad/zámek",
     "ruine" = "Zřícenina",
     "zoo" = "Zoo",
     "park" = "Park",
     "beach" = "Pláž",
+    "bridge" = "Most",
 }
 
 export type PlaceType = typeof PlaceTypes;

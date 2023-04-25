@@ -14,6 +14,7 @@ import MapGL, {
     Marker,
     ViewStateChangeEvent,
 } from "react-map-gl";
+import { ContextMenu } from "../ContextMenu";
 import { Coordinates } from "./Map.types";
 import { PlaceMarker } from "./PlaceMarker";
 
@@ -63,14 +64,36 @@ export const Map: React.FC<Props> = ({
             latitude: lngLat.lat,
         });
 
-    const handleFocusCurrentLocation = () => {
+    const focusCurrentLocation = () => {
         ref.current?.flyTo({
             center: [currentLocation.longitude, currentLocation.latitude],
         });
     };
 
+    const rotateToNorth = () => {
+        ref.current?.rotateTo(0);
+    };
+
     const handleZoom = ({ viewState }: ViewStateChangeEvent) => {
         setZoom(viewState.zoom);
+    };
+
+    const zoomToAllMarkers = () => {
+        if (places.length > 0) {
+            const bounds = new mapboxgl.LngLatBounds();
+
+            places.forEach((place) => {
+                bounds.extend([
+                    place.coordinates.longitude,
+                    place.coordinates.latitude,
+                ]);
+            });
+
+            ref.current?.fitBounds(bounds, {
+                padding: 120,
+                animate: false,
+            });
+        }
     };
 
     useEffect(() => {
@@ -108,20 +131,8 @@ export const Map: React.FC<Props> = ({
     }, [selectedPlaceId]);
 
     useEffect(() => {
-        if (initialFitBounds && places.length > 0) {
-            const bounds = new mapboxgl.LngLatBounds();
-
-            places.forEach((place) => {
-                bounds.extend([
-                    place.coordinates.longitude,
-                    place.coordinates.latitude,
-                ]);
-            });
-
-            ref.current?.fitBounds(bounds, {
-                padding: 120,
-                animate: false,
-            });
+        if (initialFitBounds) {
+            zoomToAllMarkers();
         }
     }, [places, initialFitBounds]);
 
@@ -178,13 +189,31 @@ export const Map: React.FC<Props> = ({
                         ))}
                     </MapGL>
 
-                    {isSetCurrentLocationButtonShown && (
-                        <div
-                            className="w-12 bg-black bg-opacity-20 backdrop-blur-md p-3 rounded-full cursor-pointer absolute right-5 bottom-5 z-10"
-                            onClick={handleFocusCurrentLocation}
+                    {(true || isSetCurrentLocationButtonShown) && (
+                        <ContextMenu
+                            title="Možnosti"
+                            items={[
+                                {
+                                    label: "Zobrazi mou polohu",
+                                    onClick: focusCurrentLocation,
+                                },
+                                {
+                                    label: "Zobrazit všechna místa na mapě",
+                                    onClick: zoomToAllMarkers,
+                                },
+                                {
+                                    label: "Otočit mapu na sever",
+                                    onClick: rotateToNorth,
+                                },
+                            ]}
+                            itemsPosition={{
+                                x: "left",
+                                y: "top",
+                            }}
+                            className="absolute right-5 bottom-5"
                         >
-                            <SetCurrentLocationIcon className="w-full h-full accent-foreground" />
-                        </div>
+                            <SetCurrentLocationIcon className="w-full h-full accent-foreground p-3" />
+                        </ContextMenu>
                     )}
                 </>
             ) : (

@@ -39,7 +39,7 @@ export const PlaceMarker: React.FC<Props> = ({
                 }}
             >
                 <Icon
-                    className={cx("w-10 h-10 aspect-square transition-all", {
+                    className={cx("w-8 h-8 aspect-square transition-all", {
                         "fill-green-500": isVisited,
                         "accent-foreground": !isVisited,
                         "opacity-20": isFaded,
