@@ -11,8 +11,9 @@ export const placePrompt = (placeQuery: string) =>
         PlaceTypes
     )}] nebo použij hodnotu null.
     Hodnota Street neobsahuje číslo domu.
+    Pokud je hodnota Country rovna "Czechia" nebo "Česko", použij místo toho "Česká Republika"
     Přelož všechny texty do češtiny, pokud je překlad k dispozici - jinak použij angličtinu.
-    Koodináty jsou ve formátu WGS84.
+    Koordináty jsou ve formátu WGS84.
     Pokud některá z hodnot není nalezena, vrať hodnotu null.
 
     Struktura JSON objektu odpovědi:

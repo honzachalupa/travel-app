@@ -303,7 +303,7 @@ export default function CreatePlace() {
 
                     <p className="text-xs opacity-50 mb-2">
                         {mode === "automatic"
-                            ? "Zkontrolujte prosím umístění špendlíku a v případě potřeby upravte kliknutím do mapy"
+                            ? "Zkontrolujte umístění špendlíku a v případě potřeby upravte kliknutím do mapy"
                             : "Umístěte špendlík kliknutím do mapy"}
                     </p>
 
