@@ -12,14 +12,14 @@ import {
     PlacesListPanel,
     PlacesListPanelRefProps,
 } from "@/components/PlacesListPanel";
+import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
 
-import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 
 export default function Home() {
-    const router = useRouter();
+    const navigateTo = useNavigation();
 
     const { user } = useContext(Context);
 
@@ -38,7 +38,7 @@ export default function Home() {
     };
 
     useEffect(() => {
-        PlacesActions.get().then(setPlaces);
+        PlacesActions.get({}).then(setPlaces);
     }, []);
 
     // console.log(3, { isOpened: placeDetailRef.current?.isOpened });
@@ -48,7 +48,7 @@ export default function Home() {
             <PillNavigation
                 onPlacesListClick={handlePlacesListClick}
                 onCreatePlaceClick={
-                    user ? () => router.push("/create-place") : undefined
+                    user ? () => navigateTo.placeCreate() : undefined
                 }
             />
 

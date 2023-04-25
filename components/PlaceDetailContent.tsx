@@ -34,11 +34,10 @@ export const PlaceDetailContent: React.FC<Props> = ({
 
     return (
         <div onClick={onClick}>
-            {direction && (
-                <p className="opacity-60">
-                    {direction.distance} km ({direction.duration})
-                </p>
-            )}
+            <p className="min-h-[24px] opacity-60">
+                {direction &&
+                    `${direction.distance} km (${direction.duration})`}
+            </p>
 
             <h3 className="text-3xl font-medium my-2">{place.name}</h3>
 

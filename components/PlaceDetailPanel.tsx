@@ -1,11 +1,11 @@
 import { PlaceActions } from "@/actions/place";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useNavigation } from "@/hooks/useNavigation";
 import { MoreIcon } from "@/icons";
 import { NavigationAppId, Place } from "@/types/map";
 import { User } from "@/types/user";
-import { resolveNavigationAppUrl } from "@/utils/map";
-import { useRouter } from "next/navigation";
+import { resolveNavigationUrl } from "@/utils/map";
 import {
     forwardRef,
     useContext,
@@ -31,7 +31,7 @@ export interface PlaceDetailPanelRefProps {
 }
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
-    const router = useRouter();
+    const navigateTo = useNavigation();
     const { refreshSession } = useAuthorization();
 
     const { user } = useContext(Context);
@@ -46,14 +46,14 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
 
     const navigationAppUrl =
         place &&
-        resolveNavigationAppUrl(
+        resolveNavigationUrl(
             settings.navigationApp,
             place.address,
             place.coordinates
         );
 
     const handleMarkAsVisited = (placeId: Place["id"], userId: User["id"]) => {
-        PlaceActions.markAsVisited({
+        PlaceActions.setIsVisited({
             placeId,
             userId,
         }).then(() => {
@@ -65,7 +65,7 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
         placeId: Place["id"],
         userId: User["id"]
     ) => {
-        PlaceActions.unmarkAsVisited({
+        PlaceActions.setIsNotVisited({
             placeId,
             userId,
         }).then(() => {
@@ -123,10 +123,14 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
                                       handleMarkAsVisited(place.id, user.id),
                               }
                             : null,
+                        {
+                            label: "Detail",
+                            onClick: () => navigateTo.placeDetail(place.id),
+                        },
                         place.ownerId === user?.id
                             ? {
                                   label: "Upravit",
-                                  onClick: () => {},
+                                  onClick: () => navigateTo.placeEdit(place.id),
                               }
                             : null,
                         navigationAppUrl

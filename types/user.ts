@@ -4,4 +4,5 @@ export interface User {
     lastName: string;
     emailAddress: string;
     visitedPlaceIds: string[];
+    role: "USER" | "ADMIN";
 }

@@ -12,10 +12,18 @@ export const useGeoLocation = () => {
     );
 
     const onCurrentPositionChanged = ({ coords }: GeolocationPosition) => {
-        setCoordinates({
-            longitude: coords.longitude,
-            latitude: coords.latitude,
-        });
+        if (
+            JSON.stringify(coordinates) !==
+            JSON.stringify({
+                longitude: coords.longitude,
+                latitude: coords.latitude,
+            })
+        ) {
+            setCoordinates({
+                longitude: coords.longitude,
+                latitude: coords.latitude,
+            });
+        }
     };
 
     useEffect(() => {

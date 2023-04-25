@@ -3,6 +3,7 @@
 import { PlaceActions } from "@/actions/place";
 import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
+import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { placePrompt } from "@/prompts/place";
 import { PlaceType, PlaceTypes } from "@/types/map";
@@ -17,13 +18,12 @@ import {
     Toggle,
 } from "@honzachalupa/design-system";
 import moment from "moment";
-import { useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useState } from "react";
 
 type Mode = "automatic" | "manual";
 
 export default function CreatePlace() {
-    const router = useRouter();
+    const navigateTo = useNavigation();
 
     const { user } = useContext(Context);
 
@@ -140,7 +140,7 @@ export default function CreatePlace() {
                 ownerId: user.id,
             })
                 .then(() => {
-                    router.push("/");
+                    navigateTo.home();
                 })
                 .finally(() => {
                     setIsLoading(false);

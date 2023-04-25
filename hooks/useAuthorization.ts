@@ -85,7 +85,7 @@ export const useAuthorization = () => {
             if (session) {
                 const { id, email } = session.user;
 
-                const { firstName, lastName, visitedPlaceIds } =
+                const { firstName, lastName, visitedPlaceIds, role } =
                     await UserActions.get(id);
 
                 setUser({
@@ -94,6 +94,7 @@ export const useAuthorization = () => {
                     firstName,
                     lastName,
                     visitedPlaceIds,
+                    role,
                 });
             } else {
                 setUser(null);

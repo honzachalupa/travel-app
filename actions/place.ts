@@ -31,7 +31,7 @@ const create = async ({
         ownerId,
     });
 
-const markAsVisited = async ({
+const setIsVisited = async ({
     placeId,
     userId,
 }: {
@@ -48,19 +48,19 @@ const markAsVisited = async ({
         .eq("id", userId);
 };
 
-const unmarkAsVisited = async ({
+const setIsNotVisited = async ({
     placeId,
     userId,
 }: {
     placeId: Place["id"];
     userId: User["id"];
 }) => {
-    const user = await UserActions.get(userId);
+    const { visitedPlaceIds } = await UserActions.get(userId);
 
     return supabase
         .from("users")
         .update({
-            visitedPlaceIds: [...user.visitedPlaceIds].filter(
+            visitedPlaceIds: [...visitedPlaceIds].filter(
                 (id) => id !== placeId
             ),
         })
@@ -69,6 +69,6 @@ const unmarkAsVisited = async ({
 
 export const PlaceActions = {
     create,
-    markAsVisited,
-    unmarkAsVisited,
+    setIsVisited,
+    setIsNotVisited,
 };

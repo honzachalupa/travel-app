@@ -1,6 +1,7 @@
 import { useAuthorization } from "@/hooks/useAuthorization";
+import { useNavigation } from "@/hooks/useNavigation";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useContext } from "react";
 import { Context } from "./Context";
 import { ContextMenu } from "./ContextMenu";
@@ -16,8 +17,8 @@ export const PillNavigation: React.FC<Props> = ({
     onPlacesListClick,
     onCreatePlaceClick,
 }) => {
-    const router = useRouter();
     const pathName = usePathname();
+    const navigateTo = useNavigation();
     const { signOut } = useAuthorization();
 
     const { user } = useContext(Context);
@@ -38,12 +39,12 @@ export const PillNavigation: React.FC<Props> = ({
                               {
                                   label: "Přihlásit",
                                   onClick: () =>
-                                      router.push("/login?mode=sign-in"),
+                                      navigateTo.login({ mode: "sign-in" }),
                               },
                               {
                                   label: "Registrovat",
                                   onClick: () =>
-                                      router.push("/login?mode=sign-up"),
+                                      navigateTo.login({ mode: "sign-up" }),
                               },
                           ]
                 }
@@ -95,16 +96,16 @@ export const PillNavigation: React.FC<Props> = ({
                         pathName !== "/"
                             ? {
                                   label: "Mapa",
-                                  onClick: () => router.push("/"),
+                                  onClick: navigateTo.home,
                               }
                             : null,
                         {
                             label: "Nastavení",
-                            onClick: () => router.push("/settings"),
+                            onClick: navigateTo.settings,
                         },
                         {
                             label: "O aplikaci",
-                            onClick: () => router.push("/about"),
+                            onClick: navigateTo.about,
                         },
                     ].filter(Boolean)}
                     itemsPosition={{

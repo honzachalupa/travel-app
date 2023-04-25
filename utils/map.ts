@@ -1,7 +1,7 @@
 import { Coordinates } from "@/components/Map/Map.types";
 import { NavigationAppId, Place } from "@/types/map";
 
-export const resolveNavigationAppUrl = (
+export const resolveNavigationUrl = (
     appId: NavigationAppId,
     address: Place["address"],
     coordinates: Coordinates

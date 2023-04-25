@@ -1,13 +1,13 @@
 "use client";
 
 import { useAuthorization } from "@/hooks/useAuthorization";
+import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Button, Input, SwitchButton } from "@honzachalupa/design-system";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Login({ searchParams }: any) {
-    const router = useRouter();
+    const navigateTo = useNavigation();
     const { signUp, signIn } = useAuthorization();
 
     const [mode, setMode] = useState<"sign-in" | "sign-up">(searchParams.mode);
@@ -38,7 +38,7 @@ export default function Login({ searchParams }: any) {
                 emailAddress: formData.emailAddress!,
                 password: formData.password!,
             }).then(() => {
-                router.push("/");
+                navigateTo.home();
             });
         }
     };
@@ -49,7 +49,7 @@ export default function Login({ searchParams }: any) {
                 emailAddress: formData.emailAddress!,
                 password: formData.password!,
             }).then(() => {
-                router.push("/");
+                navigateTo.home();
             });
         }
     };
