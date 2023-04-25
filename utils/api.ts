@@ -1,16 +1,50 @@
-const callAPI = async (url: string, data: any): Promise<any> => {
-    const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data),
-    });
+import { Place } from "@/types/map";
 
-    const responseData = await response.json();
+export interface PlaceDB {
+    id: string;
+    name: string;
+    description: string;
+    coordinates_longitude: number;
+    coordinates_latitude: number;
+    address_street: string;
+    address_houseNumber: number;
+    address_city: string;
+    address_country: string;
+    contact_phoneNumber: string;
+    contact_emailAddress: string;
+    ownerId: string;
+}
 
-    if (!response.ok) {
-        throw new Error(responseData);
-    }
-
-    return responseData;
-};
-
-export { callAPI };
+export const mapPlace = ({
+    id,
+    name,
+    description,
+    coordinates_longitude,
+    coordinates_latitude,
+    address_street,
+    address_houseNumber,
+    address_city,
+    address_country,
+    contact_phoneNumber,
+    contact_emailAddress,
+    ownerId,
+}: PlaceDB): Place => ({
+    id,
+    name,
+    description,
+    coordinates: {
+        longitude: coordinates_longitude,
+        latitude: coordinates_latitude,
+    },
+    address: {
+        street: address_street,
+        houseNumber: address_houseNumber,
+        city: address_city,
+        country: address_country,
+    },
+    contact: {
+        phoneNumber: contact_phoneNumber,
+        emailAddress: contact_emailAddress,
+    },
+    ownerId,
+});

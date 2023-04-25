@@ -90,9 +90,7 @@ export const PillNavigation: React.FC<Props> = ({
 
                 <ContextMenu
                     title="Další volby"
-                    // @ts-ignore
                     items={[
-                        // @ts-ignore
                         pathName !== "/"
                             ? {
                                   label: "Mapa",
@@ -107,7 +105,7 @@ export const PillNavigation: React.FC<Props> = ({
                             label: "O aplikaci",
                             onClick: navigateTo.about,
                         },
-                    ].filter(Boolean)}
+                    ]}
                     itemsPosition={{
                         x: "left",
                         y: "bottom",

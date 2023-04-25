@@ -1,8 +1,16 @@
 import { Place } from "@/types/map";
 import { User } from "@/types/user";
+import { mapPlace, PlaceDB } from "@/utils/api";
 import { supabase } from "@/utils/supabase";
 import { v4 as uuid } from "uuid";
 import { UserActions } from "./user";
+
+const get = async (params: { id: Place["id"] }): Promise<Place[]> =>
+    supabase
+        .from("places")
+        .select("*")
+        .eq("id", params.id)
+        .then(({ data }) => data!.map((place) => mapPlace(place as PlaceDB)));
 
 const create = async ({
     name,
@@ -31,6 +39,9 @@ const create = async ({
         ownerId,
     });
 
+const delete_ = async (id: Place["id"]) =>
+    supabase.from("places").delete().eq("id", id);
+
 const setIsVisited = async ({
     placeId,
     userId,
@@ -38,12 +49,12 @@ const setIsVisited = async ({
     placeId: Place["id"];
     userId: User["id"];
 }) => {
-    const user = await UserActions.get(userId);
+    const { visitedPlaceIds } = await UserActions.get(userId);
 
     return supabase
         .from("users")
         .update({
-            visitedPlaceIds: [...new Set([...user.visitedPlaceIds, placeId])],
+            visitedPlaceIds: [...new Set([...visitedPlaceIds, placeId])],
         })
         .eq("id", userId);
 };
@@ -68,7 +79,9 @@ const setIsNotVisited = async ({
 };
 
 export const PlaceActions = {
+    get,
     create,
+    delete: delete_,
     setIsVisited,
     setIsNotVisited,
 };

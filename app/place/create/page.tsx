@@ -1,9 +1,9 @@
 "use client";
 
-import { PlaceActions } from "@/actions/place";
 import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
 import { useNavigation } from "@/hooks/useNavigation";
+import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { placePrompt } from "@/prompts/place";
 import { PlaceType, PlaceTypes } from "@/types/map";
@@ -24,6 +24,7 @@ type Mode = "automatic" | "manual";
 
 export default function CreatePlace() {
     const navigateTo = useNavigation();
+    const { createPlace } = usePlaces();
 
     const { user } = useContext(Context);
 
@@ -114,7 +115,7 @@ export default function CreatePlace() {
         if (user && name && longitude && latitude) {
             setIsLoading(true);
 
-            PlaceActions.create({
+            createPlace({
                 name,
                 description,
                 type: type as unknown as PlaceType,
@@ -165,11 +166,6 @@ export default function CreatePlace() {
             })
                 .then((response) => response.json())
                 .then((response) => {
-                    console.log(
-                        1,
-                        response.choices[0].message.content.replace(/\n+/g, "")
-                    );
-
                     try {
                         const data = JSON.parse(
                             response.choices[0].message.content.replace(
@@ -177,8 +173,6 @@ export default function CreatePlace() {
                                 ""
                             )
                         );
-
-                        console.log(2, data);
 
                         if (
                             !data.coordinates.longitude ||
@@ -273,14 +267,18 @@ export default function CreatePlace() {
                 </div>
             )}
 
-            {isLoading && <LoadingIndicator />}
+            {isLoading && (
+                <LoadingIndicator
+                    message={
+                        attemptsQueue.length === 1
+                            ? "Hledání místa s pomocí AI..."
+                            : "Hledání trvá déle než je běžné, ale ještě tomu dáme chvilku..."
+                    }
+                    isFullscreen
+                />
+            )}
 
-            {isLoading && attemptsQueue.length > 1 ? (
-                <p>
-                    Hledání trvá déle než je běžné, ale ještě tomu dáme
-                    chvilku...
-                </p>
-            ) : isFailed ? (
+            {isFailed ? (
                 <p>
                     Místo se nepodařilo najít. Upřesněte hledaný výraz nebo
                     místo zadejte manuálně.

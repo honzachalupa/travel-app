@@ -13,5 +13,6 @@ export const useNavigation = () => {
         placeCreate: () => router.push("/place/create"),
         placeDetail: (id: Place["id"]) => router.push(`/place/${id}`),
         placeEdit: (id: Place["id"]) => router.push(`/place/${id}/edit`),
+        placeDelete: (id: Place["id"]) => router.push(`/place/${id}/delete`),
     };
 };

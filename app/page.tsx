@@ -1,6 +1,5 @@
 "use client";
 
-import { PlacesActions } from "@/actions/places";
 import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
 import { PillNavigation } from "@/components/PillNavigation";
@@ -13,6 +12,7 @@ import {
     PlacesListPanelRefProps,
 } from "@/components/PlacesListPanel";
 import { useNavigation } from "@/hooks/useNavigation";
+import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
 
@@ -20,10 +20,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 export default function Home() {
     const navigateTo = useNavigation();
+    const { places, fetchPlaces } = usePlaces();
 
     const { user } = useContext(Context);
 
-    const [places, setPlaces] = useState<Place[]>([]);
     const [selectedPlace, setSelectedPlace] = useState<Place>();
 
     const placeDetailRef = useRef<PlaceDetailPanelRefProps>(null);
@@ -38,7 +38,7 @@ export default function Home() {
     };
 
     useEffect(() => {
-        PlacesActions.get({}).then(setPlaces);
+        fetchPlaces();
     }, []);
 
     // console.log(3, { isOpened: placeDetailRef.current?.isOpened });
@@ -60,9 +60,7 @@ export default function Home() {
                 isPlaceVisited={(placeId) =>
                     user?.visitedPlaceIds.includes(placeId) || false
                 }
-                isSetCurrentLocationButtonShown={
-                    !placeDetailRef.current?.isOpened
-                }
+                isMapControlShown={!placeDetailRef.current?.isOpened}
                 onPlaceClick={onPlaceSelected}
             />
 

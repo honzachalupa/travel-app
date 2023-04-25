@@ -1,11 +1,7 @@
-import { PlaceActions } from "@/actions/place";
-import { useAuthorization } from "@/hooks/useAuthorization";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useNavigation } from "@/hooks/useNavigation";
+import { usePlaces } from "@/hooks/usePlaces";
 import { MoreIcon } from "@/icons";
-import { NavigationAppId, Place } from "@/types/map";
-import { User } from "@/types/user";
-import { resolveNavigationUrl } from "@/utils/map";
+import { Place } from "@/types/map";
 import {
     forwardRef,
     useContext,
@@ -32,46 +28,11 @@ export interface PlaceDetailPanelRefProps {
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
     const navigateTo = useNavigation();
-    const { refreshSession } = useAuthorization();
+    const { getNavigationUrl, setIsVisited, setIsNotVisited } = usePlaces();
 
     const { user } = useContext(Context);
 
-    const [settings, _] = useLocalStorage<{
-        navigationApp: NavigationAppId;
-    }>("settings", {
-        navigationApp: "apple-maps",
-    });
-
     const modalSheetRef = useRef<ModalSheetRefProps>();
-
-    const navigationAppUrl =
-        place &&
-        resolveNavigationUrl(
-            settings.navigationApp,
-            place.address,
-            place.coordinates
-        );
-
-    const handleMarkAsVisited = (placeId: Place["id"], userId: User["id"]) => {
-        PlaceActions.setIsVisited({
-            placeId,
-            userId,
-        }).then(() => {
-            refreshSession();
-        });
-    };
-
-    const handleUnmarkAsVisited = (
-        placeId: Place["id"],
-        userId: User["id"]
-    ) => {
-        PlaceActions.setIsNotVisited({
-            placeId,
-            userId,
-        }).then(() => {
-            refreshSession();
-        });
-    };
 
     useEffect(() => {
         if (place) {
@@ -108,38 +69,27 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
             {place && (
                 <ContextMenu
                     title="Možnosti"
-                    // @ts-ignore
                     items={[
                         user && user.visitedPlaceIds.includes(place.id)
                             ? {
                                   label: "Označit jako nenavštívené",
-                                  onClick: () =>
-                                      handleUnmarkAsVisited(place.id, user.id),
+                                  onClick: () => setIsNotVisited(place.id),
                               }
                             : user && !user.visitedPlaceIds.includes(place.id)
                             ? {
                                   label: "Označit jako navštívené",
-                                  onClick: () =>
-                                      handleMarkAsVisited(place.id, user.id),
+                                  onClick: () => setIsVisited(place.id),
                               }
                             : null,
                         {
                             label: "Detail",
                             onClick: () => navigateTo.placeDetail(place.id),
                         },
-                        place.ownerId === user?.id
-                            ? {
-                                  label: "Upravit",
-                                  onClick: () => navigateTo.placeEdit(place.id),
-                              }
-                            : null,
-                        navigationAppUrl
-                            ? {
-                                  label: "Navigovat",
-                                  href: navigationAppUrl,
-                              }
-                            : null,
-                    ].filter(Boolean)}
+                        {
+                            label: "Navigovat",
+                            href: getNavigationUrl(place),
+                        },
+                    ]}
                     itemsPosition={{
                         x: "left",
                         y: "top",

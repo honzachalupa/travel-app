@@ -1,11 +1,10 @@
 "use client";
 
-import { PlacesActions } from "@/actions/places";
-import { Context } from "@/components/Context";
+import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Place } from "@/types/map";
 import { Button, ButtonsGroup } from "@honzachalupa/design-system";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
     params: {
@@ -14,24 +13,13 @@ interface Props {
 }
 
 export default function PlaceEdit({ params: { placeId } }: Props) {
-    const { user } = useContext(Context);
+    const { fetchPlace, isUserPlaceOwner } = usePlaces();
 
     const [place, setPlace] = useState<Place>();
 
-    const isOwner = useMemo(
-        () => place?.ownerId === user?.id || user?.role === "ADMIN",
-        [place, user]
-    );
-
-    const fetchPlace = async (placeId: Place["id"]) => {
-        const places = await PlacesActions.get({ id: placeId });
-
-        setPlace(places[0]);
-    };
-
     useEffect(() => {
         if (placeId) {
-            fetchPlace(placeId);
+            fetchPlace(placeId).then(setPlace);
         }
     }, [placeId]);
 
@@ -40,7 +28,7 @@ export default function PlaceEdit({ params: { placeId } }: Props) {
             <ButtonsGroup alignment="right">
                 <Button
                     label="Uložit"
-                    isDisabled={!isOwner}
+                    isDisabled={place && !isUserPlaceOwner(place)}
                     onClick={() => {}}
                 />
             </ButtonsGroup>

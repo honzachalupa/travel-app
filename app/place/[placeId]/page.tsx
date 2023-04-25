@@ -1,15 +1,15 @@
 "use client";
 
-import { PlacesActions } from "@/actions/places";
 import { Context } from "@/components/Context";
 import { ContextMenu } from "@/components/ContextMenu";
 import { Map } from "@/components/Map";
 import { PlaceDetailContent } from "@/components/PlaceDetailContent";
 import { useNavigation } from "@/hooks/useNavigation";
+import { usePlaces } from "@/hooks/usePlaces";
 import { MoreIcon } from "@/icons";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Place } from "@/types/map";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 interface Props {
     params: {
@@ -19,25 +19,21 @@ interface Props {
 
 export default function PlaceDetail({ params: { placeId } }: Props) {
     const navigateTo = useNavigation();
+    const {
+        fetchPlace,
+        getNavigationUrl,
+        setIsVisited,
+        setIsNotVisited,
+        isUserPlaceOwner,
+    } = usePlaces();
 
     const { user } = useContext(Context);
 
     const [place, setPlace] = useState<Place>();
 
-    const isOwner = useMemo(
-        () => place?.ownerId === user?.id || user?.role === "ADMIN",
-        [place, user]
-    );
-
-    const fetchPlace = async (placeId: Place["id"]) => {
-        const places = await PlacesActions.get({ id: placeId });
-
-        setPlace(places[0]);
-    };
-
     useEffect(() => {
         if (placeId) {
-            fetchPlace(placeId);
+            fetchPlace(placeId).then(setPlace);
         }
     }, [placeId]);
 
@@ -51,19 +47,47 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                         initialFitBounds
                         isReadonly
                         isMapControlShown={false}
+                        isPlaceVisited={(placeId) =>
+                            user?.visitedPlaceIds.includes(placeId) || false
+                        }
                     />
 
                     <PlaceDetailContent place={place} isAllDetailsShown />
 
                     <ContextMenu
                         title="Možnosti"
-                        // @ts-ignore
                         items={[
+                            user && user.visitedPlaceIds.includes(place.id)
+                                ? {
+                                      label: "Označit jako nenavštívené",
+                                      onClick: () => setIsNotVisited(place.id),
+                                  }
+                                : user &&
+                                  !user.visitedPlaceIds.includes(place.id)
+                                ? {
+                                      label: "Označit jako navštívené",
+                                      onClick: () => setIsVisited(place.id),
+                                  }
+                                : null,
+                            isUserPlaceOwner(place)
+                                ? {
+                                      label: "Upravit",
+                                      onClick: () =>
+                                          navigateTo.placeEdit(place.id),
+                                  }
+                                : null,
+                            isUserPlaceOwner(place)
+                                ? {
+                                      label: "Smazat",
+                                      onClick: () =>
+                                          navigateTo.placeDelete(place.id),
+                                  }
+                                : null,
                             {
-                                label: "Upravit",
-                                onClick: () => navigateTo.placeEdit(place.id),
+                                label: "Navigovat",
+                                href: getNavigationUrl(place),
                             },
-                        ].filter(Boolean)}
+                        ]}
                         itemsPosition={{
                             x: "left",
                             y: "top",

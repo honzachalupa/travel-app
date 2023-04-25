@@ -1,14 +1,13 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { NavigationAppId, Place } from "@/types/map";
-import { User } from "@/types/user";
 import { resolveNavigationUrl } from "@/utils/map";
 import { useCallback, useState } from "react";
 import { useAuthorization } from "./useAuthorization";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const usePlaces = () => {
-    const { refreshSession } = useAuthorization();
+    const { user, refreshSession } = useAuthorization();
 
     const [settings, _] = useLocalStorage<{
         navigationApp: NavigationAppId;
@@ -18,32 +17,48 @@ export const usePlaces = () => {
 
     const [places, setPlaces] = useState<Place[]>([]);
 
+    const create = (place: Omit<Place, "id">) => PlaceActions.create(place);
+
+    const delete_ = (placeId: Place["id"]) => PlaceActions.delete(placeId);
+
     const fetch = () =>
-        PlacesActions.get({}).then((data) => {
+        PlacesActions.get().then((data) => {
             setPlaces(data);
 
             return data;
         });
 
-    const fetchById = (id: Place["id"]) => PlacesActions.get({ id });
+    const fetchById = (id: Place["id"]) =>
+        PlaceActions.get({ id }).then((places) => places[0]);
 
-    const setIsVisited = (placeId: Place["id"], userId: User["id"]) => {
-        PlaceActions.setIsVisited({
-            placeId,
-            userId,
-        }).then(() => {
-            refreshSession();
-        });
+    const setIsVisited = (placeId: Place["id"]) => {
+        if (user) {
+            PlaceActions.setIsVisited({
+                placeId,
+                userId: user.id,
+            }).then(() => {
+                refreshSession();
+            });
+        } else {
+            throw new Error("User is not signed in.");
+        }
     };
 
-    const setIsNotVisited = (placeId: Place["id"], userId: User["id"]) => {
-        PlaceActions.setIsNotVisited({
-            placeId,
-            userId,
-        }).then(() => {
-            refreshSession();
-        });
+    const setIsNotVisited = (placeId: Place["id"]) => {
+        if (user) {
+            PlaceActions.setIsNotVisited({
+                placeId,
+                userId: user.id,
+            }).then(() => {
+                refreshSession();
+            });
+        } else {
+            throw new Error("User is not signed in.");
+        }
     };
+
+    const isUserPlaceOwner = (place: Place) =>
+        place?.ownerId === user?.id || user?.role === "ADMIN";
 
     const getNavigationUrl = useCallback(
         (place: Place) =>
@@ -60,8 +75,11 @@ export const usePlaces = () => {
         places,
         fetchPlace: fetchById,
         fetchPlaces: fetch,
+        createPlace: create,
+        deletePlace: delete_,
         setIsVisited,
         setIsNotVisited,
+        isUserPlaceOwner,
         getNavigationUrl,
     };
 };

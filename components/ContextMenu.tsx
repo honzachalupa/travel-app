@@ -2,13 +2,15 @@ import cx from "classnames";
 import { ReactNode, useState } from "react";
 import { ItemsPosition, styles } from "./ContextMenu.styles";
 
+interface Item {
+    label: string;
+    href?: string;
+    onClick?: () => void;
+}
+
 interface Props {
     title: string;
-    items: {
-        label: string;
-        href?: string;
-        onClick?: () => void;
-    }[];
+    items: (Item | null)[];
     itemsPosition: ItemsPosition;
     children: ReactNode;
     zIndex?: number;
@@ -38,24 +40,25 @@ export const ContextMenu: React.FC<Props> = ({
 
                 {isExpanded && (
                     <div className={styles.itemsContainer(itemsPosition)}>
-                        {items.map(({ label, href, onClick }) =>
-                            onClick ? (
-                                <div
-                                    key={label}
-                                    onClick={onClick}
-                                    className={styles.item}
-                                >
-                                    {label}
-                                </div>
-                            ) : (
-                                <a
-                                    key={label}
-                                    href={href}
-                                    className={styles.item}
-                                >
-                                    {label}
-                                </a>
-                            )
+                        {(items.filter(Boolean) as Item[]).map(
+                            ({ label, href, onClick }) =>
+                                onClick ? (
+                                    <div
+                                        key={label}
+                                        onClick={onClick}
+                                        className={styles.item}
+                                    >
+                                        {label}
+                                    </div>
+                                ) : (
+                                    <a
+                                        key={label}
+                                        href={href}
+                                        className={styles.item}
+                                    >
+                                        {label}
+                                    </a>
+                                )
                         )}
                     </div>
                 )}
