@@ -18,7 +18,7 @@ export const PlaceDetailContent: React.FC<Props> = ({
 }) => {
     const currentLocation = useGeoLocation();
 
-    const [direction, setDirection] = useState<Direction | undefined>();
+    const [direction, setDirection] = useState<Direction | null>();
 
     const addressFormatted = formatAddress(place?.address);
 
