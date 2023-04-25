@@ -1,11 +1,11 @@
 "use client";
 
-import { LoadingIndicator } from "@/../design-system/packages/design-system/build";
 import { PlaceForm } from "@/components/PlaceForm";
 import { useNavigation } from "@/hooks/useNavigation";
 import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Place } from "@/types/map";
+import { LoadingIndicator } from "@honzachalupa/design-system";
 import { useEffect, useState } from "react";
 
 interface Props {
