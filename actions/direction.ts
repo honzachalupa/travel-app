@@ -33,6 +33,6 @@ const get = (coordinatesFrom: Coordinates, coordinateTo: Coordinates) => {
         );
 };
 
-export const DirectionsActions = {
+export const DirectionActions = {
     get,
 };

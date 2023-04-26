@@ -2,12 +2,13 @@ import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { NavigationAppId, Place } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
-import { useLocalStorage } from "@honzachalupa/design-system";
+import { useGeoLocation, useLocalStorage } from "@honzachalupa/design-system";
 import { useCallback, useState } from "react";
 import { useAuthorization } from "./useAuthorization";
 
 export const usePlaces = () => {
     const { user, refreshSession } = useAuthorization();
+    const currentLocation = useGeoLocation();
 
     const [settings, _] = useLocalStorage<{
         navigationApp: NavigationAppId;
@@ -48,6 +49,28 @@ export const usePlaces = () => {
             throw new Error("User is not signed in.");
         }
     };
+
+    /* const sortByDistance = (places: Place[]) =>
+        Promise.all(
+            places.map(async (place) => ({
+                place,
+                direction: await DirectionActions.get(
+                    currentLocation,
+                    place.coordinates
+                ),
+            }))
+        ).then((placesWithDirection) =>
+            placesWithDirection
+                .sort((a, b) => {
+                    console.log({ a, b });
+
+                    const distanceA = a.direction?.distance || 0;
+                    const distanceB = b.direction?.distance || 0;
+
+                    return distanceA - distanceB;
+                })
+                .map(({ place }) => place)
+        ); */
 
     const setIsNotVisited = (placeId: Place["id"]) => {
         if (user) {

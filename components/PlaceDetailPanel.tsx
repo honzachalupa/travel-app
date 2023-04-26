@@ -61,9 +61,7 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
                 className="md:w-[600px] md:ml-5"
                 onClose={onClose}
             >
-                {place && (
-                    <PlaceDetailContent place={place} isAllDetailsShown />
-                )}
+                {place && <PlaceDetailContent place={place} />}
             </ModalSheet>
 
             {place && (

@@ -1,4 +1,4 @@
-import { DirectionsActions } from "@/actions/directions";
+import { DirectionActions } from "@/actions/direction";
 import { Direction } from "@/types/direction";
 import { Place, PlaceTypes } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 interface Props {
     place: Place;
     className?: string;
-    isAllDetailsShown?: boolean;
     onClick?: () => void;
 }
 
@@ -22,7 +21,6 @@ const Pil: React.FC<{ value: string | undefined | null }> = ({ value }) =>
 export const PlaceDetailContent: React.FC<Props> = ({
     place,
     className,
-    isAllDetailsShown,
     onClick,
 }) => {
     const currentLocation = useGeoLocation();
@@ -35,36 +33,29 @@ export const PlaceDetailContent: React.FC<Props> = ({
         setDirection(undefined);
 
         if (currentLocation && place) {
-            DirectionsActions.get(currentLocation, place.coordinates).then(
+            DirectionActions.get(currentLocation, place.coordinates).then(
                 setDirection
             );
         }
-    }, [place?.coordinates, currentLocation]);
+    }, [place?.coordinates]);
 
     return (
         <div className={className} onClick={onClick}>
-            <p className="min-h-[24px] opacity-60">
-                {direction &&
-                    `${direction.distance} km (${direction.duration})`}
-            </p>
+            <h3 className="text-3xl font-medium my-3">{place.name}</h3>
 
-            <h3 className="text-3xl font-medium mt-2 mb-3">{place.name}</h3>
+            <div className="mb-2">
+                <Pil value={place?.type && PlaceTypes[place.type]} />
 
-            {isAllDetailsShown && (
-                <div className="mb-2">
-                    <Pil value={place?.type && PlaceTypes[place.type]} />
+                <Pil value={addressFormatted} />
 
-                    <Pil value={addressFormatted} />
-
-                    <Pil
-                        value={`Vdzálenost: ${
-                            direction
-                                ? `${direction.distance} km (${direction.duration})`
-                                : "Počítám..."
-                        }`}
-                    />
-                </div>
-            )}
+                <Pil
+                    value={`Vdzálenost: ${
+                        direction
+                            ? `${direction.distance} km (${direction.duration})`
+                            : "Počítám..."
+                    }`}
+                />
+            </div>
 
             <p className="opacity-75 lg:text-lg">{place.description}</p>
         </div>

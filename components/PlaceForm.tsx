@@ -119,7 +119,7 @@ export const PlaceForm: React.FC<Props> = ({
             country,
         } = formData;
 
-        if (user && name && description && type && longitude && latitude) {
+        if (user && name && type && longitude && latitude) {
             setIsLoading(true);
 
             onSubmit({

@@ -41,6 +41,7 @@ export const PlacesListPanel = forwardRef(
                     <PlaceDetailContent
                         key={place.id}
                         place={place}
+                        className="w-full pb-5 border-0 border-b-2 border-b-gray-500 last:border-none"
                         onClick={() => onPlaceSelected(place.id)}
                     />
                 ))}

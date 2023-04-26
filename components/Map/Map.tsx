@@ -83,9 +83,10 @@ export const Map: React.FC<Props> = forwardRef(
                 latitude: lngLat.lat,
             });
 
-        const focusCurrentLocation = () => {
+        const focusCurrentLocation = (zoom?: number) => {
             mapboxRef.current?.flyTo({
                 center: [currentLocation.longitude, currentLocation.latitude],
+                zoom,
             });
         };
 
@@ -113,6 +114,10 @@ export const Map: React.FC<Props> = forwardRef(
                     animate: false,
                 });
             }
+        };
+
+        const zoomToAllMarkersNearby = () => {
+            focusCurrentLocation(7);
         };
 
         useEffect(() => {
@@ -151,7 +156,11 @@ export const Map: React.FC<Props> = forwardRef(
 
         useEffect(() => {
             if (initialFitBounds) {
-                zoomToAllMarkers();
+                if (places.length > 5) {
+                    zoomToAllMarkersNearby();
+                } else {
+                    zoomToAllMarkers();
+                }
             }
         }, [places, initialFitBounds]);
 
@@ -170,7 +179,7 @@ export const Map: React.FC<Props> = forwardRef(
         return (
             <div
                 className={cx(
-                    "w-full h-full overflow-hidden relative",
+                    "overflow-hidden relative",
                     {
                         "pointer-events-none": isReadonly,
                     },
