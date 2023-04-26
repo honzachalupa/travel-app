@@ -17,10 +17,12 @@ export const usePlaces = () => {
 
     const [places, setPlaces] = useState<Place[]>([]);
 
-    const create = (place: Omit<Place, "id">) => PlaceActions.create(place);
+    const create = (payload: Omit<Place, "id">) => PlaceActions.create(payload);
 
-    const update = (placeId: Place["id"], place: Omit<Place, "id">) =>
-        PlaceActions.update(placeId, place);
+    const update = (
+        placeId: Place["id"],
+        payload: Omit<Place, "id" | "ownerId">
+    ) => PlaceActions.update(placeId, payload);
 
     const delete_ = (placeId: Place["id"]) => PlaceActions.delete(placeId);
 

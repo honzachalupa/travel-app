@@ -49,13 +49,11 @@ const update = async (
         address,
         contact,
         originalQuery,
-        ownerId,
-    }: Omit<Place, "id">
+    }: Omit<Place, "id" | "ownerId">
 ) =>
     supabase
         .from("places")
         .update({
-            id: uuid(),
             name,
             description,
             type,
@@ -68,7 +66,6 @@ const update = async (
             contact_phoneNumber: contact?.phoneNumber,
             contact_emailAddress: contact?.emailAddress,
             originalQuery,
-            ownerId,
         })
         .eq("id", id);
 
