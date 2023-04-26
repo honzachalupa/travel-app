@@ -119,9 +119,6 @@ export const PlaceForm: React.FC<Props> = ({
             country,
         } = formData;
 
-        const appendDetailedInfo =
-            isAiModeEnabled || (!isAiModeEnabled && isExpanded);
-
         if (user && name && description && type && longitude && latitude) {
             setIsLoading(true);
 
@@ -133,20 +130,16 @@ export const PlaceForm: React.FC<Props> = ({
                     longitude,
                     latitude,
                 },
-                address: appendDetailedInfo
-                    ? {
-                          street,
-                          houseNumber,
-                          city,
-                          country,
-                      }
-                    : undefined,
-                contact: appendDetailedInfo
-                    ? {
-                          emailAddress,
-                          phoneNumber,
-                      }
-                    : undefined,
+                address: {
+                    street,
+                    houseNumber,
+                    city,
+                    country,
+                },
+                contact: {
+                    emailAddress,
+                    phoneNumber,
+                },
                 originalQuery: query,
                 ownerId: user.id,
             }).finally(() => {
