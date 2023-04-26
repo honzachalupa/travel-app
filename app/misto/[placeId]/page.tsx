@@ -93,7 +93,7 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                             y: "top",
                         }}
                         zIndex={99999999}
-                        className="absolute right-5 bottom-5"
+                        className="fixed right-5 bottom-5"
                     >
                         <MoreIcon className="w-full h-full p-3 accent-foreground" />
                     </ContextMenu>

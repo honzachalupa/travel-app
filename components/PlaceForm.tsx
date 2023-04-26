@@ -71,8 +71,6 @@ export const PlaceForm: React.FC<Props> = ({
               }
     );
 
-    console.log(formData);
-
     const selectedPlace = useMemo(
         () =>
             formData.longitude && formData.latitude

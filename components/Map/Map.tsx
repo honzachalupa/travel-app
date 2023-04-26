@@ -108,10 +108,8 @@ export const Map: React.FC<Props> = forwardRef(
                     ]);
                 });
 
-                console.log(places, bounds);
-
                 mapboxRef.current?.fitBounds(bounds, {
-                    padding: 100,
+                    padding: 30,
                     animate: false,
                 });
             }
@@ -204,8 +202,8 @@ export const Map: React.FC<Props> = forwardRef(
                                 latitude={currentLocation.latitude}
                             >
                                 <div className="w-5 aspect-square relative">
-                                    <CurrentLocationIcon className="w-full h-full fill-green-500 absolute" />
-                                    <CurrentLocationIcon className="w-full h-full fill-green-500 animate-ping absolute" />
+                                    <CurrentLocationIcon className="w-full h-full fill-blue-600 absolute" />
+                                    <CurrentLocationIcon className="w-full h-full fill-blue-600 animate-ping absolute" />
                                 </div>
                             </Marker>
 
