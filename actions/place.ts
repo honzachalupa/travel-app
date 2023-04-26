@@ -2,6 +2,7 @@ import { Place } from "@/types/map";
 import { User } from "@/types/user";
 import { mapPlace, PlaceDB } from "@/utils/api";
 import { supabase } from "@/utils/supabase";
+import moment from "moment";
 import { v4 as uuid } from "uuid";
 import { UserActions } from "./user";
 
@@ -37,6 +38,7 @@ const create = async ({
         contact_emailAddress: contact?.emailAddress,
         originalQuery,
         ownerId,
+        createdAt: moment().format(),
     });
 
 const update = async (
@@ -66,6 +68,7 @@ const update = async (
             contact_phoneNumber: contact?.phoneNumber,
             contact_emailAddress: contact?.emailAddress,
             originalQuery,
+            updatedAt: moment().format(),
         })
         .eq("id", id);
 

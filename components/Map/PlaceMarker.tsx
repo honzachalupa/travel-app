@@ -20,15 +20,14 @@ export const PlaceMarker: React.FC<Props> = ({
     isFaded,
     onClick,
 }) => {
+    const isZoomedOut = zoom < 6;
+    const isZoomedOutName = zoom > 11;
+
     const MarkerIcon = isVisited ? MarkerStarIcon : MarkerDefaultIcon;
 
     const handlePlaceClick = (id: Place["id"]) => {
         onClick?.(id);
     };
-
-    const isZoomedOut = zoom < 6;
-
-    console.log({ zoom, isZoomedOut });
 
     return (
         <Marker
@@ -71,7 +70,9 @@ export const PlaceMarker: React.FC<Props> = ({
                     />
                 )}
 
-                {name && zoom > 8 && <p className="opacity-75">{name}</p>}
+                {name && isZoomedOutName && (
+                    <p className="opacity-75">{name}</p>
+                )}
             </div>
         </Marker>
     );

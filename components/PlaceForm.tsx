@@ -340,6 +340,7 @@ export const PlaceForm: React.FC<Props> = ({
                         value: key,
                         label,
                     }))}
+                    isRequired
                     isDisabled={isLoading}
                     onChange={(value) => setFormDataValue("type", value)}
                 />

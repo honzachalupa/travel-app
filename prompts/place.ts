@@ -9,7 +9,7 @@ export const placePrompt = (placeQuery: string) =>
     Hodnota Description je popis místa - tedy něco o historii nebo obecně o tom, co návštěvník může od návštěvy očekávat.
     Hodnota Type je typ místa - vyber z pole [${Object.keys(
         PlaceTypes
-    )}] nebo použij hodnotu null.
+    )}] nebo použij hodnotu "other".
     Hodnota Street neobsahuje číslo domu.
     Pokud je hodnota Country rovna "Czechia" nebo "Česko", použij místo toho "Česká Republika"
     Přelož všechny texty do češtiny, pokud je překlad k dispozici - jinak použij angličtinu.

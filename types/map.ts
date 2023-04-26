@@ -30,6 +30,7 @@ export const PlaceTypes = {
     bar: "Bar",
     "amusement-park": "Zábavní park",
     "national-park": "Přírodní rezervace",
+    other: "Jiné",
 };
 
 export type PlaceType = keyof typeof PlaceTypes;
