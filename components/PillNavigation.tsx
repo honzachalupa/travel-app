@@ -66,6 +66,17 @@ export const PillNavigation: React.FC<Props> = ({
             </ContextMenu>
 
             <div className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex absolute right-3 top-3 z-10">
+                {onCreatePlaceClick && (
+                    <button
+                        title="Přidat místo"
+                        type="button"
+                        className="w-12 aspect-square"
+                        onClick={onCreatePlaceClick}
+                    >
+                        <MarkerPlusIcon className="w-full h-full accent-foreground p-3" />
+                    </button>
+                )}
+
                 {onPlacesListClick && (
                     <button
                         title="Všechna místa"
@@ -74,17 +85,6 @@ export const PillNavigation: React.FC<Props> = ({
                         onClick={onPlacesListClick}
                     >
                         <ListIcon className="w-full h-full p-3" />
-                    </button>
-                )}
-
-                {onCreatePlaceClick && (
-                    <button
-                        title="Přidat místo"
-                        type="button"
-                        className="w-12 aspect-square"
-                        onClick={onCreatePlaceClick}
-                    >
-                        <MarkerPlusIcon className="w-full h-full p-3" />
                     </button>
                 )}
 

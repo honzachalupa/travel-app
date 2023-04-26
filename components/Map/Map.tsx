@@ -1,6 +1,6 @@
 "use client";
 
-import { CurrentLocationIcon, SetCurrentLocationIcon } from "@/icons";
+import { PointIcon, SetCurrentLocationIcon } from "@/icons";
 import { Place } from "@/types/map";
 import { useGeoLocation } from "@honzachalupa/design-system";
 import { usePreferredColorScheme } from "@react-hooks-library/core";
@@ -202,8 +202,8 @@ export const Map: React.FC<Props> = forwardRef(
                                 latitude={currentLocation.latitude}
                             >
                                 <div className="w-5 aspect-square relative">
-                                    <CurrentLocationIcon className="w-full h-full fill-blue-600 absolute" />
-                                    <CurrentLocationIcon className="w-full h-full fill-blue-600 animate-ping absolute" />
+                                    <PointIcon className="w-full h-full fill-blue-600 absolute" />
+                                    <PointIcon className="w-full h-full fill-blue-600 animate-ping absolute" />
                                 </div>
                             </Marker>
 
@@ -212,6 +212,7 @@ export const Map: React.FC<Props> = forwardRef(
                                     key={place.id}
                                     place={place}
                                     zoom={zoom}
+                                    isSelected={selectedPlaceId === place.id}
                                     isVisited={
                                         isPlaceVisited?.(place.id) || false
                                     }

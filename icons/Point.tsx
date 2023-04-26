@@ -1,6 +1,6 @@
 import { IconProps } from "@/types/icon";
 
-export const CurrentLocationIcon: React.FC<IconProps> = ({ className }) => (
+export const PointIcon: React.FC<IconProps> = ({ className }) => (
     <svg
         className={className}
         viewBox="0 0 32 32"

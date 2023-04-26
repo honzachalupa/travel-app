@@ -1,4 +1,4 @@
-import { MarkerIcon, MarkerStarIcon } from "@/icons";
+import { MarkerDefaultIcon, MarkerStarIcon, PointIcon } from "@/icons";
 import { Place } from "@/types/map";
 import cx from "classnames";
 import { Marker } from "react-map-gl";
@@ -6,6 +6,7 @@ import { Marker } from "react-map-gl";
 interface Props {
     place: Place;
     zoom: number;
+    isSelected: boolean;
     isVisited: boolean;
     isFaded: boolean;
     onClick?: (id: Place["id"]) => void;
@@ -14,15 +15,20 @@ interface Props {
 export const PlaceMarker: React.FC<Props> = ({
     place: { id, name, coordinates },
     zoom,
+    isSelected,
     isVisited,
     isFaded,
     onClick,
 }) => {
-    const Icon = isVisited ? MarkerStarIcon : MarkerIcon;
+    const MarkerIcon = isVisited ? MarkerStarIcon : MarkerDefaultIcon;
 
     const handlePlaceClick = (id: Place["id"]) => {
         onClick?.(id);
     };
+
+    const isZoomedOut = zoom < 6;
+
+    console.log({ zoom, isZoomedOut });
 
     return (
         <Marker
@@ -31,25 +37,41 @@ export const PlaceMarker: React.FC<Props> = ({
             latitude={coordinates.latitude}
         >
             <div
-                className={cx("flex flex-col items-center relative -top-4", {
+                className={cx("flex flex-col items-center", {
+                    "relative -top-4": !isZoomedOut,
                     "cursor-pointer": !!onClick,
                 })}
                 onClick={() => {
                     handlePlaceClick(id);
                 }}
             >
-                <Icon
-                    className={cx("w-8 h-8 aspect-square transition-all", {
-                        "fill-green-500": isVisited,
-                        "accent-foreground": !isVisited,
-                        "opacity-20": isFaded,
-                    })}
-                    style={{
-                        filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.5))",
-                    }}
-                />
+                {isZoomedOut ? (
+                    <PointIcon
+                        className={cx(
+                            "w-2 aspect-square accent-foreground transition-all",
+                            {
+                                "opacity-30":
+                                    (isVisited || isFaded) && !isSelected,
+                            }
+                        )}
+                    />
+                ) : (
+                    <MarkerIcon
+                        className={cx(
+                            "w-8 aspect-square accent-foreground transition-all",
+                            {
+                                "w-6": isVisited,
+                                "opacity-30":
+                                    (isVisited || isFaded) && !isSelected,
+                            }
+                        )}
+                        style={{
+                            filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.5))",
+                        }}
+                    />
+                )}
 
-                {name && zoom > 8 && <p>{name}</p>}
+                {name && zoom > 8 && <p className="opacity-75">{name}</p>}
             </div>
         </Marker>
     );
