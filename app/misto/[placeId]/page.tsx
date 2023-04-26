@@ -43,7 +43,7 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                 <>
                     <Map
                         places={[place]}
-                        className="aspect-video mb-5"
+                        className="w-screen h-[calc(25vh+70px)] !absolute top-0 left-0"
                         initialFitBounds
                         isReadonly
                         isMapControlShown={false}
@@ -52,7 +52,11 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                         }
                     />
 
-                    <PlaceDetailContent place={place} isAllDetailsShown />
+                    <PlaceDetailContent
+                        place={place}
+                        className="mt-[25vh]"
+                        isAllDetailsShown
+                    />
 
                     <ContextMenu
                         title="Možnosti"
