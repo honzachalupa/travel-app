@@ -1,5 +1,6 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
+import { Coordinates } from "@/components/Map/Map.types";
 import { NavigationAppId, Place } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
 import { useGeoLocation, useLocalStorage } from "@honzachalupa/design-system";
@@ -18,6 +19,33 @@ export const usePlaces = () => {
 
     const [places, setPlaces] = useState<Place[]>([]);
 
+    const getRawDistance = useCallback(
+        ({ longitude, latitude }: Coordinates) => {
+            const toRadians = (value: number) => (value * Math.PI) / 180;
+
+            const R = 6371.071;
+            const rlat1 = toRadians(latitude);
+            const rlat2 = toRadians(currentLocation.latitude);
+            const difflat = rlat2 - rlat1;
+            const difflon = toRadians(currentLocation.longitude - longitude);
+
+            return (
+                2 *
+                R *
+                Math.asin(
+                    Math.sqrt(
+                        Math.sin(difflat / 2) * Math.sin(difflat / 2) +
+                            Math.cos(rlat1) *
+                                Math.cos(rlat2) *
+                                Math.sin(difflon / 2) *
+                                Math.sin(difflon / 2)
+                    )
+                )
+            );
+        },
+        [currentLocation]
+    );
+
     const create = (payload: Omit<Place, "id">) => PlaceActions.create(payload);
 
     const update = (
@@ -29,9 +57,16 @@ export const usePlaces = () => {
 
     const fetch = () =>
         PlacesActions.get().then((data) => {
-            setPlaces(data);
+            const sorted = data.sort((a, b) => {
+                const distanceA = getRawDistance(a.coordinates);
+                const distanceB = getRawDistance(b.coordinates);
 
-            return data;
+                return distanceA - distanceB;
+            });
+
+            setPlaces(sorted);
+
+            return sorted;
         });
 
     const fetchById = (id: Place["id"]) =>
