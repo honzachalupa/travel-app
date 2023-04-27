@@ -12,7 +12,7 @@ export const usePlaces = () => {
     const { user, refreshSession } = useAuthorization();
     const currentLocation = useGeoLocation();
 
-    const [settings, _] = useLocalStorage<{
+    const [settings] = useLocalStorage<{
         navigationApp: NavigationAppId;
     }>("settings", {
         navigationApp: "apple-maps",

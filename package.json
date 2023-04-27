@@ -6,7 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "tsc --noEmit && next lint"
     },
     "dependencies": {
         "@honzachalupa/design-system": "^1.0.5",
@@ -15,6 +15,7 @@
         "@vercel/analytics": "^1.0.0",
         "classnames": "^2.3.2",
         "framer-motion": "^10.12.4",
+        "husky": "^8.0.3",
         "mapbox-gl": "^2.14.1",
         "moment": "^2.29.4",
         "next": "^13.3.0",
@@ -34,10 +35,18 @@
         "@types/react": "18.0.28",
         "@types/react-dom": "18.0.11",
         "@types/uuid": "^9.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.59.1",
+        "@typescript-eslint/parser": "^5.59.1",
         "autoprefixer": "^10.4.14",
         "encoding": "^0.1.13",
         "eslint": "8.35.0",
         "eslint-config-next": "13.2.3",
+        "eslint-config-prettier": "^8.8.0",
         "tailwindcss": "^3.3.1"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "yarn lint"
+        }
     }
 }

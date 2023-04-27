@@ -31,7 +31,7 @@ export const useAuthorization = () => {
         firstName?: string;
         lastName?: string;
         emailAddress: string;
-        password: string;
+        password?: string;
     }) => {
         const { data, error } = await supabase.auth.signUp({
             email: emailAddress,
