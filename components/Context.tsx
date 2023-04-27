@@ -1,3 +1,5 @@
+"use client";
+
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { User } from "@/types/user";
 import { createContext, ReactNode, useEffect, useState } from "react";

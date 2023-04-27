@@ -83,10 +83,10 @@ export const Map: React.FC<Props> = forwardRef(
                 latitude: lngLat.lat,
             });
 
-        const focusCurrentLocation = (zoom?: number) => {
+        const focusCurrentLocation = () => {
             mapboxRef.current?.flyTo({
                 center: [currentLocation.longitude, currentLocation.latitude],
-                zoom,
+                zoom: 7,
             });
         };
 
@@ -114,10 +114,6 @@ export const Map: React.FC<Props> = forwardRef(
                     animate: false,
                 });
             }
-        };
-
-        const zoomToAllMarkersNearby = () => {
-            focusCurrentLocation(7);
         };
 
         useEffect(() => {
@@ -157,7 +153,7 @@ export const Map: React.FC<Props> = forwardRef(
         useEffect(() => {
             if (initialFitBounds) {
                 if (places.length > 5) {
-                    zoomToAllMarkersNearby();
+                    focusCurrentLocation();
                 } else {
                     zoomToAllMarkers();
                 }
@@ -239,7 +235,7 @@ export const Map: React.FC<Props> = forwardRef(
                                 title="Možnosti"
                                 items={[
                                     {
-                                        label: "Zobrazi mou polohu",
+                                        label: "Zobrazit mou polohu",
                                         onClick: focusCurrentLocation,
                                     },
                                     {

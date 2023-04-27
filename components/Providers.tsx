@@ -1,5 +1,3 @@
-"use client";
-
 import "@honzachalupa/design-system/build/tailwind-globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ReactNode } from "react";
