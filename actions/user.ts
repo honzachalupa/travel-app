@@ -6,7 +6,11 @@ const create = async (payload: {
     firstName?: string;
     lastName?: string;
 }) => {
-    const { error } = await supabase.from("users").insert([payload]);
+    const { error } = await supabase.from("users").insert({
+        ...payload,
+        visitedPlaceIds: [],
+        role: "USER",
+    });
 
     if (error) {
         throw new Error(error.message);

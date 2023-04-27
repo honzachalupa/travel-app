@@ -37,9 +37,13 @@ export default function Login({ searchParams }: any) {
                 lastName: formData.lastName!,
                 emailAddress: formData.emailAddress!,
                 password: formData.password!,
-            }).then(() => {
-                navigateTo.home();
-            });
+            })
+                .then(() => {
+                    navigateTo.home();
+                })
+                .catch((error) => alert(JSON.stringify(error)));
+        } else {
+            alert("Vyplňte všechna pole");
         }
     };
 

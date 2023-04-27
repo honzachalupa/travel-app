@@ -42,13 +42,11 @@ export const useAuthorization = () => {
             throw error;
         }
 
-        if (firstName || lastName) {
-            UserActions.create({
-                id: data.user!.id,
-                firstName,
-                lastName,
-            });
-        }
+        return UserActions.create({
+            id: data.user!.id,
+            firstName,
+            lastName,
+        });
     };
 
     const signIn = async ({

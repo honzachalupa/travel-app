@@ -6,6 +6,7 @@ import { resolveNavigationUrl } from "@/utils/map";
 import { useGeoLocation, useLocalStorage } from "@honzachalupa/design-system";
 import { useCallback, useState } from "react";
 import { useAuthorization } from "./useAuthorization";
+import { getAirDistance as getAirDistanceUtil } from "./usePlaces.utils";
 
 export const usePlaces = () => {
     const { user, refreshSession } = useAuthorization();
@@ -19,30 +20,9 @@ export const usePlaces = () => {
 
     const [places, setPlaces] = useState<Place[]>([]);
 
-    const getRawDistance = useCallback(
-        ({ longitude, latitude }: Coordinates) => {
-            const toRadians = (value: number) => (value * Math.PI) / 180;
-
-            const R = 6371.071;
-            const rlat1 = toRadians(latitude);
-            const rlat2 = toRadians(currentLocation.latitude);
-            const difflat = rlat2 - rlat1;
-            const difflon = toRadians(currentLocation.longitude - longitude);
-
-            return (
-                2 *
-                R *
-                Math.asin(
-                    Math.sqrt(
-                        Math.sin(difflat / 2) * Math.sin(difflat / 2) +
-                            Math.cos(rlat1) *
-                                Math.cos(rlat2) *
-                                Math.sin(difflon / 2) *
-                                Math.sin(difflon / 2)
-                    )
-                )
-            );
-        },
+    const getAirDistance = useCallback(
+        (coordinates: Coordinates) =>
+            getAirDistanceUtil(currentLocation, coordinates),
         [currentLocation]
     );
 
@@ -58,8 +38,8 @@ export const usePlaces = () => {
     const fetch = () =>
         PlacesActions.get().then((data) => {
             const sorted = data.sort((a, b) => {
-                const distanceA = getRawDistance(a.coordinates);
-                const distanceB = getRawDistance(b.coordinates);
+                const distanceA = getAirDistance(a.coordinates);
+                const distanceB = getAirDistance(b.coordinates);
 
                 return distanceA - distanceB;
             });
@@ -84,28 +64,6 @@ export const usePlaces = () => {
             throw new Error("User is not signed in.");
         }
     };
-
-    /* const sortByDistance = (places: Place[]) =>
-        Promise.all(
-            places.map(async (place) => ({
-                place,
-                direction: await DirectionActions.get(
-                    currentLocation,
-                    place.coordinates
-                ),
-            }))
-        ).then((placesWithDirection) =>
-            placesWithDirection
-                .sort((a, b) => {
-                    console.log({ a, b });
-
-                    const distanceA = a.direction?.distance || 0;
-                    const distanceB = b.direction?.distance || 0;
-
-                    return distanceA - distanceB;
-                })
-                .map(({ place }) => place)
-        ); */
 
     const setIsNotVisited = (placeId: Place["id"]) => {
         if (user) {
