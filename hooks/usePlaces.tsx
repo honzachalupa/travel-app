@@ -5,11 +5,11 @@ import { NavigationAppId, Place } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
 import { useGeoLocation, useLocalStorage } from "@honzachalupa/design-system";
 import { useCallback, useState } from "react";
-import { useAuthorization } from "./useAuthorization";
+import { useAuth } from "./useAuth";
 import { getAirDistance as getAirDistanceUtil } from "./usePlaces.utils";
 
 export const usePlaces = () => {
-    const { user, refreshSession } = useAuthorization();
+    const { user, refreshSession } = useAuth();
     const currentLocation = useGeoLocation();
 
     const [settings] = useLocalStorage<{

@@ -13,6 +13,7 @@ export interface PlaceDB {
     address_country: string;
     contact_phoneNumber: string;
     contact_emailAddress: string;
+    contact_url: string;
     ownerId: string;
 }
 
@@ -29,6 +30,7 @@ export const mapPlace = ({
     address_country,
     contact_phoneNumber,
     contact_emailAddress,
+    contact_url,
     ownerId,
 }: PlaceDB): Place => ({
     id,
@@ -49,6 +51,7 @@ export const mapPlace = ({
     contact: {
         phoneNumber: contact_phoneNumber,
         emailAddress: contact_emailAddress,
+        url: contact_url,
     },
     ownerId,
 });

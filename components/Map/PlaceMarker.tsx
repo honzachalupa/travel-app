@@ -46,24 +46,19 @@ export const PlaceMarker: React.FC<Props> = ({
             >
                 {isZoomedOut ? (
                     <PointIcon
-                        className={cx(
-                            "w-2 aspect-square accent-foreground transition-all",
-                            {
-                                "opacity-30":
-                                    (isVisited || isFaded) && !isSelected,
-                            }
-                        )}
+                        className={cx("w-2 aspect-square transition-all", {
+                            "fill-green-600": isVisited,
+                            "accent-foreground": !isVisited,
+                            "opacity-30": isFaded && !isSelected,
+                        })}
                     />
                 ) : (
                     <MarkerIcon
-                        className={cx(
-                            "w-8 aspect-square accent-foreground transition-all",
-                            {
-                                "w-6": isVisited,
-                                "opacity-30":
-                                    (isVisited || isFaded) && !isSelected,
-                            }
-                        )}
+                        className={cx("aspect-square transition-all", {
+                            "w-6 fill-green-600": isVisited,
+                            "w-8 accent-foreground": !isVisited,
+                            "opacity-30": isFaded && !isSelected,
+                        })}
                         style={{
                             filter: "drop-shadow(0 0 1px rgb(0 0 0 / 0.5))",
                         }}

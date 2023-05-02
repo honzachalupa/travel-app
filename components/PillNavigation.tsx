@@ -1,4 +1,4 @@
-import { useAuthorization } from "@/hooks/useAuthorization";
+import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
 import { usePathname } from "next/navigation";
@@ -19,7 +19,7 @@ export const PillNavigation: React.FC<Props> = ({
 }) => {
     const pathName = usePathname();
     const navigateTo = useNavigation();
-    const { signOut } = useAuthorization();
+    const { signOut } = useAuth();
 
     const { user } = useContext(Context);
 

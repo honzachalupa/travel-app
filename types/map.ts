@@ -50,6 +50,7 @@ export interface Place {
     contact?: {
         emailAddress?: string;
         phoneNumber?: string;
+        url?: string;
     };
     originalQuery?: string;
     ownerId: User["id"];

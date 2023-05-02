@@ -3,7 +3,7 @@ import { User } from "@/types/user";
 import { supabase } from "@/utils/supabase";
 import { useEffect, useState } from "react";
 
-export const useAuthorization = () => {
+export const useAuth = () => {
     const [user, setUser] = useState<User | null>();
 
     const getSession = async () => {

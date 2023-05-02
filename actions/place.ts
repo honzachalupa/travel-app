@@ -36,6 +36,7 @@ const create = async ({
         address_country: address?.country,
         contact_phoneNumber: contact?.phoneNumber,
         contact_emailAddress: contact?.emailAddress,
+        contact_url: contact?.url,
         originalQuery,
         ownerId,
         createdAt: moment().format(),
@@ -67,6 +68,7 @@ const update = async (
             address_country: address?.country,
             contact_phoneNumber: contact?.phoneNumber,
             contact_emailAddress: contact?.emailAddress,
+            contact_url: contact?.url,
             originalQuery,
             updatedAt: moment().format(),
         })

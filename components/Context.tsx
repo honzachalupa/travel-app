@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthorization } from "@/hooks/useAuthorization";
+import { useAuth } from "@/hooks/useAuth";
 import { User } from "@/types/user";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
@@ -17,7 +17,7 @@ export const Context = createContext<Context>(initialContext);
 export const ContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const { user } = useAuthorization();
+    const { user } = useAuth();
 
     const [context, setContext] = useState<Context>(initialContext);
 

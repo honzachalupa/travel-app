@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthorization } from "@/hooks/useAuthorization";
+import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Button, Input, SwitchButton } from "@honzachalupa/design-system";
@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export default function Login({ searchParams }: any) {
     const navigateTo = useNavigation();
-    const { signUp, signIn } = useAuthorization();
+    const { signUp, signIn } = useAuth();
 
     const [mode, setMode] = useState<"sign-in" | "sign-up">(searchParams.mode);
     const [formData, setFormData] = useState<{

@@ -33,7 +33,8 @@ export const placePrompt = (placeQuery: string) =>
         },
         contact: {
             phoneNumber: {{value}},
-            emailAddress: {{value}}
+            emailAddress: {{value}},
+            url: {{value}}
         }
     }
 

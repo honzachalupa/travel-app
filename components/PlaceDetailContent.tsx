@@ -3,7 +3,7 @@ import { Direction } from "@/types/direction";
 import { Place, PlaceTypes } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
 import { useGeoLocation } from "@honzachalupa/design-system";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 interface Props {
     place: Place;
@@ -11,10 +11,10 @@ interface Props {
     onClick?: () => void;
 }
 
-const Pil: React.FC<{ value: string | undefined | null }> = ({ value }) =>
-    value ? (
+const Pil: React.FC<{ children: ReactNode }> = ({ children }) =>
+    children ? (
         <p className="theme-background accent-foreground text-xs rounded-full inline-block px-2 py-1 mr-1 mb-1 last:mr-0">
-            {value}
+            {children}
         </p>
     ) : null;
 
@@ -44,17 +44,28 @@ export const PlaceDetailContent: React.FC<Props> = ({
             <h3 className="text-3xl font-medium my-3">{place.name}</h3>
 
             <div className="mb-2">
-                <Pil value={place?.type && PlaceTypes[place.type]} />
+                <Pil>{place?.type && PlaceTypes[place.type]}</Pil>
 
-                <Pil value={addressFormatted} />
+                <Pil>{addressFormatted}</Pil>
 
-                <Pil
-                    value={`Vdzálenost: ${
-                        direction
-                            ? `${direction.distance} km (${direction.duration})`
-                            : "Počítám..."
-                    }`}
-                />
+                <Pil>
+                    Vzdálenost:{" "}
+                    {direction
+                        ? `${direction.distance} km (${direction.duration})`
+                        : "Počítám..."}
+                </Pil>
+
+                <Pil>
+                    {place?.contact?.url && (
+                        <a
+                            href={place?.contact?.url}
+                            target="_blank"
+                            className=" underline"
+                        >
+                            Web
+                        </a>
+                    )}
+                </Pil>
             </div>
 
             <p className="opacity-75 lg:text-lg">{place.description}</p>
