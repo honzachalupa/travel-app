@@ -27,6 +27,7 @@ interface FormData {
     country: string | undefined;
     phoneNumber: string | undefined;
     emailAddress: string | undefined;
+    url: string | undefined;
 }
 
 interface Props {
@@ -68,6 +69,7 @@ export const PlaceForm: React.FC<Props> = ({
                   country: undefined,
                   phoneNumber: undefined,
                   emailAddress: undefined,
+                  url: undefined,
               }
     );
 
@@ -192,6 +194,7 @@ export const PlaceForm: React.FC<Props> = ({
                             country: data.address.country,
                             phoneNumber: data.phoneNumber,
                             emailAddress: data.emailAddress,
+                            url: data.url,
                         });
                     } catch (error) {
                         throw new Error("Unable to parse data.");
@@ -404,6 +407,15 @@ export const PlaceForm: React.FC<Props> = ({
                     onChange={(value) =>
                         setFormDataValue("emailAddress", value)
                     }
+                />
+            )}
+
+            {(formData.url || isExpanded) && (
+                <Input
+                    label="Webové stránky"
+                    value={formData.url}
+                    isDisabled={isLoading}
+                    onChange={(value) => setFormDataValue("url", value)}
                 />
             )}
 

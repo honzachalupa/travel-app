@@ -8,6 +8,7 @@ export const useNavigation = () => {
         login: ({ mode }: { mode: "sign-up" | "sign-in" }) =>
             router.push(`/login?mode=${mode}`),
         home: () => router.push("/"),
+        profile: () => router.push("/profil"),
         settings: () => router.push("/nastaveni"),
         about: () => router.push("/o-aplikaci"),
         placeCreate: () => router.push("/misto/vytvorit"),

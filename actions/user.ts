@@ -35,7 +35,26 @@ const get = async (id: string): Promise<User> => {
     return data as User;
 };
 
+const update = async (
+    id: string,
+    {
+        firstName,
+        lastName,
+    }: {
+        firstName: User["firstName"];
+        lastName: User["lastName"];
+    }
+) =>
+    supabase
+        .from("users")
+        .update({
+            firstName,
+            lastName,
+        })
+        .eq("id", id);
+
 export const UserActions = {
     create,
     get,
+    update,
 };

@@ -31,6 +31,10 @@ export const PillNavigation: React.FC<Props> = ({
                     user
                         ? [
                               {
+                                  label: "Profil",
+                                  onClick: navigateTo.profile,
+                              },
+                              {
                                   label: "Odhlásit",
                                   onClick: signOut,
                               },
