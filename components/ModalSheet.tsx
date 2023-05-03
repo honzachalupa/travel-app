@@ -56,8 +56,6 @@ export const ModalSheet = forwardRef(
             [isOpened]
         );
 
-        // console.log(1, { isOpened });
-
         return (
             <Sheet
                 initialSnap={

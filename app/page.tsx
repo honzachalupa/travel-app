@@ -15,10 +15,10 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { Place } from "@/types/map";
-
+import { LoadingIndicator } from "@honzachalupa/design-system";
 import { useContext, useEffect, useRef, useState } from "react";
 
-export default function Home() {
+const Content: React.FC = () => {
     const navigateTo = useNavigation();
     const { places, fetchPlaces } = usePlaces();
 
@@ -41,8 +41,6 @@ export default function Home() {
         fetchPlaces();
     }, []);
 
-    // console.log(3, { isOpened: placeDetailRef.current?.isOpened });
-
     return (
         <Layout>
             <PillNavigation
@@ -60,7 +58,6 @@ export default function Home() {
                 isPlaceVisited={(placeId) =>
                     user?.visitedPlaceIds.includes(placeId) || false
                 }
-                isMapControlShown={!placeDetailRef.current?.isOpened}
                 onPlaceClick={onPlaceSelected}
             />
 
@@ -84,4 +81,10 @@ export default function Home() {
             />
         </Layout>
     );
+};
+
+export default function Home() {
+    const { isLoading } = useContext(Context);
+
+    return isLoading ? <LoadingIndicator isFullscreen /> : <Content />;
 }

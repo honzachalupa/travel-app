@@ -1,16 +1,16 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
-import { Coordinates } from "@/components/Map/Map.types";
+import { Context } from "@/components/Context";
 import { NavigationAppId, Place } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
-import { useGeoLocation, useLocalStorage } from "@honzachalupa/design-system";
-import { useCallback, useState } from "react";
+import { useLocalStorage } from "@honzachalupa/design-system";
+import { useCallback, useContext, useState } from "react";
 import { useAuth } from "./useAuth";
-import { getAirDistance as getAirDistanceUtil } from "./usePlaces.utils";
+import { getAirDistance } from "./usePlaces.utils";
 
 export const usePlaces = () => {
-    const { user, refreshSession } = useAuth();
-    const currentLocation = useGeoLocation();
+    const { refreshSession } = useAuth();
+    const { user, currentLocation } = useContext(Context);
 
     const [settings] = useLocalStorage<{
         navigationApp: NavigationAppId;
@@ -19,12 +19,6 @@ export const usePlaces = () => {
     });
 
     const [places, setPlaces] = useState<Place[]>([]);
-
-    const getAirDistance = useCallback(
-        (coordinates: Coordinates) =>
-            getAirDistanceUtil(currentLocation, coordinates),
-        [currentLocation]
-    );
 
     const create = (payload: Omit<Place, "id">) => PlaceActions.create(payload);
 
@@ -35,19 +29,27 @@ export const usePlaces = () => {
 
     const delete_ = (placeId: Place["id"]) => PlaceActions.delete(placeId);
 
-    const fetch = () =>
-        PlacesActions.get().then((data) => {
-            const sorted = data.sort((a, b) => {
-                const distanceA = getAirDistance(a.coordinates);
-                const distanceB = getAirDistance(b.coordinates);
+    const fetch = useCallback(
+        () =>
+            PlacesActions.get().then((data) => {
+                const sorted = data.sort((a, b) => {
+                    const distanceA = getAirDistance(
+                        currentLocation,
+                        a.coordinates
+                    );
+                    const distanceB = getAirDistance(
+                        currentLocation,
+                        b.coordinates
+                    );
 
-                return distanceA - distanceB;
-            });
+                    return distanceA - distanceB;
+                });
+                setPlaces(sorted);
 
-            setPlaces(sorted);
-
-            return sorted;
-        });
+                return sorted;
+            }),
+        [currentLocation]
+    );
 
     const fetchById = (id: Place["id"]) =>
         PlaceActions.get({ id }).then((places) => places[0]);

@@ -314,6 +314,7 @@ export const PlaceForm: React.FC<Props> = ({
                             latitude: selectedPlace?.coordinates.latitude,
                         }}
                         className="w-full aspect-square rounded-sm"
+                        isMapControlShown={false}
                         onClick={({ longitude, latitude }) => {
                             setIsAiModeEnabled(false);
 

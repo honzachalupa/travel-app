@@ -2,13 +2,13 @@
 
 import { PointIcon, SetCurrentLocationIcon } from "@/icons";
 import { Place } from "@/types/map";
-import { useGeoLocation } from "@honzachalupa/design-system";
 import { usePreferredColorScheme } from "@react-hooks-library/core";
 import cx from "classnames";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {
     forwardRef,
+    useContext,
     useEffect,
     useImperativeHandle,
     useRef,
@@ -20,6 +20,7 @@ import MapGL, {
     Marker,
     ViewStateChangeEvent,
 } from "react-map-gl";
+import { Context } from "../Context";
 import { ContextMenu } from "../ContextMenu";
 import { Coordinates } from "./Map.types";
 import { PlaceMarker } from "./PlaceMarker";
@@ -42,7 +43,7 @@ interface Props {
 }
 
 export interface MapRefProps {
-    focusCurrentLocation: () => void;
+    focusCurrentLocation: (animate?: boolean) => void;
     zoomToAllMarkers: () => void;
 }
 
@@ -58,14 +59,14 @@ export const Map: React.FC<Props> = forwardRef(
             initialFitBounds,
             className,
             isReadonly,
-            isMapControlShown,
+            isMapControlShown = true,
             isPlaceVisited,
             onClick,
             onPlaceClick,
         },
         ref
     ) => {
-        const currentLocation = useGeoLocation();
+        const { currentLocation } = useContext(Context);
         const colorScheme = usePreferredColorScheme();
 
         const [prevSelectedPlaceId, setPrevSelectedPlaceId] = useState<
@@ -83,10 +84,11 @@ export const Map: React.FC<Props> = forwardRef(
                 latitude: lngLat.lat,
             });
 
-        const focusCurrentLocation = () => {
+        const focusCurrentLocation = (animate = true) => {
             mapboxRef.current?.flyTo({
-                center: [currentLocation.longitude, currentLocation.latitude],
+                center: [currentLocation!.longitude, currentLocation!.latitude],
                 zoom: 7,
+                animate,
             });
         };
 
@@ -153,16 +155,12 @@ export const Map: React.FC<Props> = forwardRef(
         useEffect(() => {
             if (initialFitBounds) {
                 if (places.length > 5) {
-                    focusCurrentLocation();
+                    focusCurrentLocation(false);
                 } else {
                     zoomToAllMarkers();
                 }
             }
         }, [places, initialFitBounds]);
-
-        useEffect(() => {
-            // console.log(isSetCurrentLocationButtonShown);
-        }, []);
 
         useImperativeHandle(
             ref,

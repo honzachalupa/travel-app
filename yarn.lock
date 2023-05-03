@@ -1063,10 +1063,10 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/design-system@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.6.tgz#c28dc996db9a020e7e52af8b234937776ffc33a7"
-  integrity sha512-jFokHTqwQJcIs3wI2QlydK0fR43RkLVuUnFhhQ+yjGPgv57657pP2oLG5/txvCXEKJqKKjxtsqDKpAJj6dO5wQ==
+"@honzachalupa/design-system@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.7.tgz#71c84317dc1e1077b11814fdebda17551d6f3dfa"
+  integrity sha512-vXkTZ96DZPwyv7VrroKYAFvT4rMs6l67oLya+grWo1IUwFZwqkBuKRtljxbnH4knboAdDuL2iDLeoNzWeEsrXA==
   dependencies:
     "@react-hooks-library/core" "^0.5.1"
     classnames "^2.3.2"

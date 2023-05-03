@@ -51,8 +51,6 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
         [modalSheetRef.current?.isOpened]
     );
 
-    // console.log(2, { isOpened: modalSheetRef.current?.isOpened });
-
     return (
         <>
             <ModalSheet

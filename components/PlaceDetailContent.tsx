@@ -2,8 +2,8 @@ import { DirectionActions } from "@/actions/direction";
 import { Direction } from "@/types/direction";
 import { Place, PlaceTypes } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
-import { useGeoLocation } from "@honzachalupa/design-system";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
+import { Context } from "./Context";
 
 interface Props {
     place: Place;
@@ -23,7 +23,7 @@ export const PlaceDetailContent: React.FC<Props> = ({
     className,
     onClick,
 }) => {
-    const currentLocation = useGeoLocation();
+    const { currentLocation } = useContext(Context);
 
     const [direction, setDirection] = useState<Direction | null>();
 
