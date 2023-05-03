@@ -15,16 +15,28 @@ export default function RootLayout({
 }) {
     return (
         <>
-            <link rel="manifest" href="/manifest.json" />
+            <link rel="manifest" href="/site.webmanifest" />
+
+            <link rel="shortcut icon" href="/favicons/favicon.ico" />
+
+            <link
+                rel="icon"
+                type="image/png"
+                sizes="32x32"
+                href="/favicons/favicon-32x32.png"
+            />
+            <link
+                rel="icon"
+                type="image/png"
+                sizes="16x16"
+                href="/favicons/favicon-16x16.png"
+            />
 
             <meta name="apple-mobile-web-app-capable" content="yes" />
+
             <meta
                 name="apple-mobile-web-app-status-bar-style"
                 content="black-translucent"
-            />
-            <meta
-                name="viewport"
-                content="viewport-fit=cover, width=device-width, initial-scale=1.0"
             />
 
             <html lang="en">

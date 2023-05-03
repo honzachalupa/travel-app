@@ -282,8 +282,8 @@ export const PlaceForm: React.FC<Props> = ({
 
             {isFailed ? (
                 <p>
-                    Místo se nepodařilo najít. Upřesněte hledaný výraz nebo
-                    místo zadejte manuálně.
+                    Místo se nepodařilo najít. Upřesněte prosím hledaný výraz
+                    nebo místo zadejte manuálně.
                 </p>
             ) : null}
 
