@@ -1063,12 +1063,13 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/design-system@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.7.tgz#71c84317dc1e1077b11814fdebda17551d6f3dfa"
-  integrity sha512-vXkTZ96DZPwyv7VrroKYAFvT4rMs6l67oLya+grWo1IUwFZwqkBuKRtljxbnH4knboAdDuL2iDLeoNzWeEsrXA==
+"@honzachalupa/design-system@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.8.tgz#d4ce46d0732d5fb189669c573d8decb46a75afa5"
+  integrity sha512-b6Qs8pUng5lnFyAYGcQXJgm6HvHWoi413FvsH/2wPiL2UexPYqxm1I6tzlba9nv/gZVTDYeyWCezsWCO6VZVXA==
   dependencies:
     "@react-hooks-library/core" "^0.5.1"
+    "@supabase/supabase-js" "^2.21.0"
     classnames "^2.3.2"
     react "^18.2.0"
     react-icons "^4.8.0"
