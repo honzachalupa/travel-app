@@ -64,7 +64,7 @@ export const ContextMenu: React.FC<Props> = ({
             title={title}
             type="button"
             className={cx(
-                "w-12 aspect-square theme-glass-effect bg-gray-500 bg-opacity-20 rounded-full cursor-pointer",
+                "w-12 aspect-square theme-glass-effect bg-black bg-opacity-20 rounded-full cursor-pointer",
                 className
             )}
             style={{ zIndex }}
