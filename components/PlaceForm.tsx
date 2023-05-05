@@ -36,6 +36,8 @@ interface Props {
     onSubmit: (formData: Omit<Place, "id">) => Promise<any>;
 }
 
+const RETRY_COUNT = 3;
+
 export const PlaceForm: React.FC<Props> = ({
     mode,
     defaultValues,
@@ -54,23 +56,23 @@ export const PlaceForm: React.FC<Props> = ({
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isFailed, setIsFailed] = useState<boolean>(false);
 
+    const initialFormData = {
+        name: undefined,
+        description: undefined,
+        type: undefined,
+        longitude: undefined,
+        latitude: undefined,
+        street: undefined,
+        houseNumber: undefined,
+        city: undefined,
+        country: undefined,
+        phoneNumber: undefined,
+        emailAddress: undefined,
+        url: undefined,
+    };
+
     const [formData, setFormData] = useState<FormData>(
-        mode === "edit" && defaultValues
-            ? defaultValues
-            : {
-                  name: undefined,
-                  description: undefined,
-                  type: undefined,
-                  longitude: undefined,
-                  latitude: undefined,
-                  street: undefined,
-                  houseNumber: undefined,
-                  city: undefined,
-                  country: undefined,
-                  phoneNumber: undefined,
-                  emailAddress: undefined,
-                  url: undefined,
-              }
+        mode === "edit" && defaultValues ? defaultValues : initialFormData
     );
 
     const selectedPlace = useMemo(
@@ -98,6 +100,7 @@ export const PlaceForm: React.FC<Props> = ({
 
     const handleSearch = () => {
         setIsAiModeEnabled(true);
+        setFormData(initialFormData);
 
         setAttemptsQueue([
             {
@@ -203,8 +206,6 @@ export const PlaceForm: React.FC<Props> = ({
                     }
                 })
                 .catch(() => {
-                    const RETRY_COUNT = 3;
-
                     if (attemptsQueue.length < RETRY_COUNT) {
                         console.info(
                             `Search failed (${attemptsQueue.length}/${RETRY_COUNT}). Retrying...`
@@ -277,7 +278,7 @@ export const PlaceForm: React.FC<Props> = ({
                     message={
                         attemptsQueue.length === 1
                             ? "Hledání místa s pomocí AI - může to chvíli trvat..."
-                            : "Hledání trvá déle než je obvyklé, ale ještě tomu dáme chvilku..."
+                            : `Hledání trvá déle než je obvyklé, ale ještě tomu dáme chvilku (${attemptsQueue.length}/${RETRY_COUNT} pokusů)...`
                     }
                     isFullscreen
                 />
