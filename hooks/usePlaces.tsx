@@ -1,6 +1,7 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { Context } from "@/components/Context";
+import { Coordinates } from "@/components/Map/Map.types";
 import { NavigationAppId, Place } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
 import { useLocalStorage } from "@honzachalupa/design-system";
@@ -34,11 +35,11 @@ export const usePlaces = () => {
             PlacesActions.get().then((data) => {
                 const sorted = data.sort((a, b) => {
                     const distanceA = getAirDistance(
-                        currentLocation,
+                        currentLocation as Coordinates,
                         a.coordinates
                     );
                     const distanceB = getAirDistance(
-                        currentLocation,
+                        currentLocation as Coordinates,
                         b.coordinates
                     );
 
