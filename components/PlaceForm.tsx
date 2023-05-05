@@ -276,8 +276,8 @@ export const PlaceForm: React.FC<Props> = ({
                 <LoadingIndicator
                     message={
                         attemptsQueue.length === 1
-                            ? "Hledání místa s pomocí AI..."
-                            : "Hledání trvá déle než je běžné, ale ještě tomu dáme chvilku..."
+                            ? "Hledání místa s pomocí AI - může to chvíli trvat..."
+                            : "Hledání trvá déle než je obvyklé, ale ještě tomu dáme chvilku..."
                     }
                     isFullscreen
                 />

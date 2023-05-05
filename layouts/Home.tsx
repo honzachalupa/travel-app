@@ -2,6 +2,7 @@
 
 import {
     PwaInstallationPrompt,
+    useDesignSystem,
     useServiceWorker,
 } from "@honzachalupa/design-system";
 import { ReactNode } from "react";
@@ -12,6 +13,9 @@ interface Props {
 
 export const LayoutHome: React.FC<Props> = ({ children }) => {
     useServiceWorker();
+    useDesignSystem({
+        locale: "cs",
+    });
 
     return (
         <>

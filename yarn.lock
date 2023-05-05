@@ -1063,10 +1063,10 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/design-system@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.9.tgz#1ccb001bc77dcd5a53319463ac91bf3a5d003eef"
-  integrity sha512-cuxv8efCygzo4mEvYSJVsFzsh1Jz/P0SPSUR5yQ5O0D2XHqG+MnIpgEAkEMq6+cdfrHbhwG/giGOfRr62Re01w==
+"@honzachalupa/design-system@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.10.tgz#23c61db6cc0f04a3db435e6d9360495e4e4c68d6"
+  integrity sha512-mpKmYZbNdzNT2M4wKI5w0kQq/oaCBJBTwX53aPGGprg15d7h58kySXSP0G5xTNcnp3RNhVG3D29lfFtxZxaXPQ==
   dependencies:
     "@react-hooks-library/core" "^0.5.1"
     classnames "^2.3.2"
@@ -1074,6 +1074,7 @@
     react-icons "^4.8.0"
     react-ios-pwa-prompt "^1.8.4"
     react-select "^5.7.2"
+    react-spinners "^0.13.8"
     react-textarea-autosize "^8.4.1"
     typescript "^4.5.2"
     ua-parser-js "^1.0.35"
@@ -4309,6 +4310,11 @@ react-select@^5.7.2:
     prop-types "^15.6.0"
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"
+
+react-spinners@^0.13.8:
+  version "0.13.8"
+  resolved "https://registry.npmjs.org/react-spinners/-/react-spinners-0.13.8.tgz#5262571be0f745d86bbd49a1e6b49f9f9cb19acc"
+  integrity sha512-3e+k56lUkPj0vb5NDXPVFAOkPC//XyhKPJjvcGjyMNPWsBKpplfeyialP74G7H7+It7KzhtET+MvGqbKgAqpZA==
 
 react-textarea-autosize@^8.4.1:
   version "8.4.1"

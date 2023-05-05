@@ -1,7 +1,7 @@
 "use client";
 
 import { PillNavigation } from "@/components/PillNavigation";
-import { Layout_Primary } from "@honzachalupa/design-system";
+import { Layout_Primary, useDesignSystem } from "@honzachalupa/design-system";
 import { ReactNode } from "react";
 
 interface Props {
@@ -9,6 +9,10 @@ interface Props {
 }
 
 export const LayoutPrimary: React.FC<Props> = ({ children }) => {
+    useDesignSystem({
+        locale: "en",
+    });
+
     return (
         <Layout_Primary>
             <PillNavigation />
