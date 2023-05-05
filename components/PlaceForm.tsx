@@ -113,6 +113,7 @@ export const PlaceForm: React.FC<Props> = ({
             type,
             emailAddress,
             phoneNumber,
+            url,
             longitude,
             latitude,
             street,
@@ -141,6 +142,7 @@ export const PlaceForm: React.FC<Props> = ({
                 contact: {
                     emailAddress,
                     phoneNumber,
+                    url,
                 },
                 originalQuery: query,
                 ownerId: user.id,
@@ -247,10 +249,11 @@ export const PlaceForm: React.FC<Props> = ({
             />
 
             {isAiModeEnabled && (
-                <div className="flex items-end">
+                <div className="flex items-end mt-3">
                     <Input<string>
-                        label="Zadejte název nebo popis místa"
-                        placeholder={`Například "hora Sveti Jure" nebo "město Nin"`}
+                        label="Název nebo popis místa"
+                        description={`Místo můžete vyhledat pomocí názvu, popisu nebo adresy. Například "město Nin, Chorvatsko".`}
+                        containerClassName="basis-full"
                         onChange={(value) => {
                             setQuery(value);
 
@@ -260,7 +263,7 @@ export const PlaceForm: React.FC<Props> = ({
 
                     <Button
                         label="Hledat"
-                        className=" ml-1 mb-3"
+                        className="ml-1 mb-3"
                         isDisabled={!query || isLoading}
                         onClick={() => {
                             handleSearch();

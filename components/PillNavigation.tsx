@@ -69,7 +69,7 @@ export const PillNavigation: React.FC<Props> = ({
                 )}
             </ContextMenu>
 
-            <div className="bg-black bg-opacity-20 backdrop-blur-md rounded-full flex absolute right-3 top-3 z-10">
+            <div className="theme-glass-effect rounded-full flex absolute right-3 top-3 z-10">
                 {onCreatePlaceClick && (
                     <button
                         title="Přidat místo"
@@ -114,7 +114,7 @@ export const PillNavigation: React.FC<Props> = ({
                         x: "left",
                         y: "bottom",
                     }}
-                    className="bg-transparent backdrop-blur-none"
+                    className="!bg-transparent !backdrop-blur-none"
                 >
                     <HamburgerIcon className="w-full h-full p-3" />
                 </ContextMenu>

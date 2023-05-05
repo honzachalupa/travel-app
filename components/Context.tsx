@@ -2,21 +2,23 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { User } from "@/types/user";
-import { useGeoLocation } from "@honzachalupa/design-system";
+import {
+    GeolocationCoordinates,
+    useGeoLocation,
+} from "@honzachalupa/design-system";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { Coordinates } from "./Map/Map.types";
 
 interface Context {
     user: User | null | undefined;
-    currentLocation: Coordinates;
+    currentLocation: GeolocationCoordinates;
     isLoading: boolean;
 }
 
 const initialContext: Context = {
     user: undefined,
     currentLocation: {
-        longitude: 0,
-        latitude: 0,
+        longitude: undefined,
+        latitude: undefined,
     },
     isLoading: true,
 };
@@ -50,8 +52,8 @@ export const ContextProvider: React.FC<{ children: ReactNode }> = ({
             ...prevContext,
             isLoading:
                 user === undefined ||
-                currentLocation.latitude === 0 ||
-                currentLocation.longitude === 0,
+                currentLocation.latitude === undefined ||
+                currentLocation.longitude === undefined,
         }));
     }, [user, currentLocation]);
 

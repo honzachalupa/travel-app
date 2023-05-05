@@ -1,6 +1,9 @@
 "use client";
 
-import { useServiceWorker } from "@honzachalupa/design-system";
+import {
+    PwaInstallationPrompt,
+    useServiceWorker,
+} from "@honzachalupa/design-system";
 import { ReactNode } from "react";
 
 interface Props {
@@ -10,5 +13,11 @@ interface Props {
 export const LayoutHome: React.FC<Props> = ({ children }) => {
     useServiceWorker();
 
-    return <>{children}</>;
+    return (
+        <>
+            {children}
+
+            <PwaInstallationPrompt />
+        </>
+    );
 };

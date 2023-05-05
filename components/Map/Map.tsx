@@ -86,7 +86,10 @@ export const Map: React.FC<Props> = forwardRef(
 
         const focusCurrentLocation = (animate = true) => {
             mapboxRef.current?.flyTo({
-                center: [currentLocation!.longitude, currentLocation!.latitude],
+                center: [
+                    currentLocation.longitude || 0,
+                    currentLocation.latitude || 0,
+                ],
                 zoom: 7,
                 animate,
             });
@@ -190,10 +193,12 @@ export const Map: React.FC<Props> = forwardRef(
                             initialViewState={{
                                 longitude:
                                     initialViewCoordinates?.longitude ||
-                                    currentLocation.longitude,
+                                    currentLocation?.longitude ||
+                                    0,
                                 latitude:
                                     initialViewCoordinates?.latitude ||
-                                    currentLocation.latitude,
+                                    currentLocation?.latitude ||
+                                    0,
                                 zoom: initialViewZoom || defaultZoom,
                             }}
                             mapStyle={`mapbox://styles/mapbox/${colorScheme}-v11`}
@@ -201,8 +206,8 @@ export const Map: React.FC<Props> = forwardRef(
                             onClick={handleClick}
                         >
                             <Marker
-                                longitude={currentLocation.longitude}
-                                latitude={currentLocation.latitude}
+                                longitude={currentLocation.longitude || 0}
+                                latitude={currentLocation.latitude || 0}
                             >
                                 <div className="w-5 aspect-square relative">
                                     <PointIcon className="w-full h-full fill-blue-600 absolute" />

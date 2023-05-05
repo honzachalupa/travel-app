@@ -1,4 +1,4 @@
-import { IconProps } from "@/types/icon";
+import { IconProps } from "@honzachalupa/design-system";
 
 export const UserIcon: React.FC<IconProps> = (props) => (
     <svg
