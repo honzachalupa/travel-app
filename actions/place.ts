@@ -69,6 +69,7 @@ const update = async (
             contact_phoneNumber: contact?.phoneNumber,
             contact_emailAddress: contact?.emailAddress,
             contact_url: contact?.url,
+            contact_instagramUrl: contact?.instagramUrl,
             originalQuery,
             updatedAt: moment().format(),
         })

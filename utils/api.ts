@@ -14,6 +14,7 @@ export interface PlaceDB {
     contact_phoneNumber: string;
     contact_emailAddress: string;
     contact_url: string;
+    contact_instagramUrl: string;
     ownerId: string;
 }
 
@@ -31,6 +32,7 @@ export const mapPlace = ({
     contact_phoneNumber,
     contact_emailAddress,
     contact_url,
+    contact_instagramUrl,
     ownerId,
 }: PlaceDB): Place => ({
     id,
@@ -52,6 +54,7 @@ export const mapPlace = ({
         phoneNumber: contact_phoneNumber,
         emailAddress: contact_emailAddress,
         url: contact_url,
+        instagramUrl: contact_instagramUrl,
     },
     ownerId,
 });

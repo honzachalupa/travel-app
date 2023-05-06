@@ -52,7 +52,12 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                         }
                     />
 
-                    <PlaceDetailContent place={place} className="mt-[25vh]" />
+                    <PlaceDetailContent
+                        place={place}
+                        className="mt-[25vh]"
+                        isContactInfoShown
+                        isDisclaimerShown
+                    />
 
                     <ContextMenu
                         title="Možnosti"

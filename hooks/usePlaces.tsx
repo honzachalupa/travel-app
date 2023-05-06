@@ -81,9 +81,6 @@ export const usePlaces = () => {
         }
     };
 
-    const isUserPlaceOwner = (place: Place) =>
-        place?.ownerId === user?.id || user?.role === "ADMIN";
-
     const getNavigationUrl = useCallback(
         (place: Place) =>
             place &&
@@ -95,6 +92,12 @@ export const usePlaces = () => {
         [settings.navigationApp]
     );
 
+    /* const isPlaceVisited = (id: Place["id"]) =>
+        user?.visitedPlaceIds.includes(id); */
+
+    const isUserPlaceOwner = (place: Place) =>
+        place?.ownerId === user?.id || user?.role === "ADMIN";
+
     return {
         places,
         fetchPlace: fetchById,
@@ -102,9 +105,10 @@ export const usePlaces = () => {
         createPlace: create,
         updatePlace: update,
         deletePlace: delete_,
+        getNavigationUrl,
+        // isPlaceVisited,
+        isUserPlaceOwner,
         setIsVisited,
         setIsNotVisited,
-        isUserPlaceOwner,
-        getNavigationUrl,
     };
 };

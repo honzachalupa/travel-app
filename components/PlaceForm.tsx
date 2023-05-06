@@ -28,6 +28,7 @@ interface FormData {
     phoneNumber: string | undefined;
     emailAddress: string | undefined;
     url: string | undefined;
+    instagramUrl: string | undefined;
 }
 
 interface Props {
@@ -69,6 +70,7 @@ export const PlaceForm: React.FC<Props> = ({
         phoneNumber: undefined,
         emailAddress: undefined,
         url: undefined,
+        instagramUrl: undefined,
     };
 
     const [formData, setFormData] = useState<FormData>(
@@ -200,6 +202,7 @@ export const PlaceForm: React.FC<Props> = ({
                             phoneNumber: data.phoneNumber,
                             emailAddress: data.emailAddress,
                             url: data.url,
+                            instagramUrl: data.instagramUrl,
                         });
                     } catch (error) {
                         throw new Error("Unable to parse data.");

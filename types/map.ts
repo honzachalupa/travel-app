@@ -51,6 +51,7 @@ export interface Place {
         emailAddress?: string;
         phoneNumber?: string;
         url?: string;
+        instagramUrl?: string;
     };
     originalQuery?: string;
     ownerId: User["id"];

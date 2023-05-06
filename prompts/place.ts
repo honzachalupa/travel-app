@@ -12,7 +12,7 @@ export const placePrompt = (placeQuery: string) =>
     )}] nebo použij hodnotu "other".
     Hodnota Street neobsahuje číslo domu.
     Pokud je hodnota Country rovna "Czechia" nebo "Česko", použij místo toho "Česká Republika"
-    Hodnota "url" je URL adresa, která začíná "http://" nebo "https://".
+    Hodnota "instagramUrl" je URL adresa na Instagram profil místa.
     Přelož všechny texty do češtiny, pokud je překlad k dispozici - jinak použij angličtinu.
     Koordináty jsou ve formátu WGS84.
     Pokud některá z hodnot není nalezena, vrať hodnotu null.
@@ -35,7 +35,8 @@ export const placePrompt = (placeQuery: string) =>
         contact: {
             phoneNumber: {{value}},
             emailAddress: {{value}},
-            url: {{value}}
+            url: {{value}},
+            instagramUrl: {{value}}
         }
     }
 

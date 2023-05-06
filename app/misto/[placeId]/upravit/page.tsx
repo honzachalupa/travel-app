@@ -49,6 +49,7 @@ export default function EditPlace({ params: { placeId } }: Props) {
                         phoneNumber: place.contact?.phoneNumber,
                         emailAddress: place.contact?.emailAddress,
                         url: place.contact?.url,
+                        instagramUrl: place.contact?.instagramUrl,
                     }}
                     onSubmit={handleUpdate}
                 />

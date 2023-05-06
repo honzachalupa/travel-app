@@ -10,21 +10,26 @@ import { Coordinates } from "./Map/Map.types";
 interface Props {
     place: Place;
     className?: string;
+    isContactInfoShown?: boolean;
+    isVisitedStatusShown?: boolean;
+    isDisclaimerShown?: boolean;
     onClick?: () => void;
 }
 
-const Pil: React.FC<{ children: ReactNode; isGrayscale?: boolean }> = ({
-    children,
-    isGrayscale,
-}) =>
+const Pil: React.FC<{
+    children: ReactNode;
+    color?: "gray" | "green";
+    className?: string;
+}> = ({ children, color, className }) =>
     children ? (
         <p
             className={cx(
-                "theme-background text-xs md:text-lg rounded-full inline-block px-2 py-1 md:px-4 mr-1 mb-1 last:mr-0",
+                "theme-background accent-foreground text-xs md:text-lg rounded-full inline-block px-2 py-1 md:px-4 mr-1 mb-1 last:mr-0",
                 {
-                    "accent-foreground": !isGrayscale,
-                    "theme-foreground-faded": isGrayscale,
-                }
+                    "bg-green-600 text-white": color === "green",
+                    "theme-foreground-faded": color === "gray",
+                },
+                className
             )}
         >
             {children}
@@ -34,9 +39,12 @@ const Pil: React.FC<{ children: ReactNode; isGrayscale?: boolean }> = ({
 export const PlaceDetailContent: React.FC<Props> = ({
     place,
     className,
+    isContactInfoShown,
+    isVisitedStatusShown,
+    isDisclaimerShown,
     onClick,
 }) => {
-    const { currentLocation } = useContext(Context);
+    const { user, currentLocation } = useContext(Context);
 
     const [direction, setDirection] = useState<Direction | null>();
 
@@ -70,44 +78,65 @@ export const PlaceDetailContent: React.FC<Props> = ({
                 </Pil>
             </div>
 
-            <p className="opacity-75 lg:text-lg">{place.description}</p>
+            <p className="opacity-75 lg:text-lg text-justify">
+                {place.description}
+            </p>
 
-            {(place?.contact?.emailAddress ||
+            {((isContactInfoShown && place?.contact?.emailAddress) ||
                 place?.contact?.phoneNumber ||
                 place?.contact?.url) && (
-                <>
-                    <h3 className="mt-5 text-sm md:text-lg text-opacity-80">
-                        Kontakty
-                    </h3>
+                <div className="mt-3">
+                    <Pil color="gray">
+                        {place?.contact?.url && (
+                            <a href={place.contact.url} target="_blank">
+                                {place.contact.url}
+                            </a>
+                        )}
+                    </Pil>
 
-                    <div className="mt-2">
-                        <Pil isGrayscale>
-                            {place?.contact?.url && (
-                                <a href={place.contact.url} target="_blank">
-                                    {place.contact.url}
-                                </a>
-                            )}
-                        </Pil>
+                    <Pil color="gray">
+                        {place?.contact?.instagramUrl && (
+                            <a
+                                href={place.contact.instagramUrl}
+                                target="_blank"
+                            >
+                                @{place.contact.instagramUrl}
+                            </a>
+                        )}
+                    </Pil>
 
-                        <Pil isGrayscale>
-                            {place?.contact?.emailAddress && (
-                                <a
-                                    href={`mailto:${place.contact.emailAddress}`}
-                                >
-                                    {place.contact.emailAddress}
-                                </a>
-                            )}
-                        </Pil>
+                    <Pil color="gray">
+                        {place?.contact?.emailAddress && (
+                            <a href={`mailto:${place.contact.emailAddress}`}>
+                                {place.contact.emailAddress}
+                            </a>
+                        )}
+                    </Pil>
 
-                        <Pil isGrayscale>
-                            {place?.contact?.phoneNumber && (
-                                <a href={`tel:${place.contact.phoneNumber}`}>
-                                    {place.contact.phoneNumber}
-                                </a>
-                            )}
-                        </Pil>
-                    </div>
-                </>
+                    <Pil color="gray">
+                        {place?.contact?.phoneNumber && (
+                            <a href={`tel:${place.contact.phoneNumber}`}>
+                                {place.contact.phoneNumber}
+                            </a>
+                        )}
+                    </Pil>
+                </div>
+            )}
+
+            {isVisitedStatusShown &&
+                user?.visitedPlaceIds.includes(place.id) && (
+                    <Pil color="green" className="mt-3">
+                        Navštíveno
+                    </Pil>
+                )}
+
+            {isDisclaimerShown && (
+                <p className="text-xs text-opacity-30 text-justify mt-5">
+                    Upozornění: Údaje uvedené v aplikaci byly nalezeny umělou
+                    inteligencí - je proto možné, že nebudou zcela správné. Než
+                    vyrazíte na výlet, údaje si raději ověřte (zejména kontaktní
+                    údaje).
+                </p>
             )}
         </div>
     );
