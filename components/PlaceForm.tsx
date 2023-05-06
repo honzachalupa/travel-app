@@ -93,7 +93,7 @@ export const PlaceForm: React.FC<Props> = ({
         [user, formData.longitude, formData.latitude]
     );
 
-    const setFormDataValue = <T,>(key: keyof typeof formData, value: T) => {
+    const setFormDataValue = <T,>(key: keyof FormData, value: T) => {
         setFormData((prevState) => ({
             ...prevState,
             [key]: value,

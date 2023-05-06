@@ -24,7 +24,7 @@ export default function Settings() {
 
     const [formData, setFormData] = useState<FormData>(localStorageData);
 
-    const setFormDataValue = <T,>(key: keyof typeof formData, value: T) => {
+    const setFormDataValue = <T,>(key: keyof FormData, value: T) => {
         setFormData((prevState) => ({
             ...prevState,
             [key]: value as any,

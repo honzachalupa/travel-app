@@ -1,5 +1,14 @@
-import { Place } from "@/types/map";
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { Place, PlaceTypes } from "@/types/map";
+import { Input, Toggle } from "@honzachalupa/design-system";
+import React, {
+    forwardRef,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState,
+} from "react";
+import { Context } from "./Context";
 import { ModalSheet, ModalSheetRefProps } from "./ModalSheet";
 import { PlaceDetailContent } from "./PlaceDetailContent";
 
@@ -15,9 +24,91 @@ export interface PlacesListPanelRefProps {
     toggle: () => void;
 }
 
+interface FormData {
+    query: string | undefined;
+    includeVisitedPlaces: boolean;
+}
+
+const Filter: React.FC<{
+    onChange: (formData: FormData) => void;
+}> = ({ onChange }) => {
+    const [formData, setFormData] = useState<FormData>({
+        query: undefined,
+        includeVisitedPlaces: true,
+    });
+
+    const setFormDataValue = <T,>(key: keyof FormData, value: T) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [key]: value as any,
+        }));
+    };
+
+    useEffect(() => {
+        onChange(formData);
+    }, [formData]);
+
+    return (
+        <div>
+            <Input
+                placeholder="Hledat"
+                onChange={(value) => {
+                    setFormDataValue("query", value);
+                }}
+            />
+
+            <Toggle
+                label="Zobrazit navštívená místa"
+                defaultValue={formData.includeVisitedPlaces}
+                onChange={(value) => {
+                    setFormDataValue("includeVisitedPlaces", value);
+                }}
+            />
+        </div>
+    );
+};
+
 export const PlacesListPanel = forwardRef(
     ({ places, onPlaceSelected, onOpen }: Props, ref) => {
+        const { user } = useContext(Context);
+
+        const [filteredPlaces, setFilteredPlaces] = useState<Place[]>(places);
+
         const modalSheetRef = useRef<ModalSheetRefProps>();
+
+        const filter = ({ query, includeVisitedPlaces }: FormData) => {
+            let filteredPlaces = places;
+
+            if (query) {
+                filteredPlaces = filteredPlaces.filter(
+                    (place) =>
+                        place.name
+                            .toLowerCase()
+                            .includes(query.toLowerCase()) ||
+                        place.description
+                            ?.toLowerCase()
+                            .includes(query.toLowerCase()) ||
+                        // @ts-ignore
+                        PlaceTypes[place.type]
+                            ?.toLowerCase()
+                            .includes(query.toLowerCase()) ||
+                        place.address?.city
+                            ?.toLowerCase()
+                            .includes(query.toLowerCase()) ||
+                        place.address?.country
+                            ?.toLowerCase()
+                            .includes(query.toLowerCase())
+                );
+            }
+
+            if (!includeVisitedPlaces) {
+                filteredPlaces = filteredPlaces.filter(
+                    (place) => !user?.visitedPlaceIds.includes(place.id)
+                );
+            }
+
+            setFilteredPlaces(filteredPlaces);
+        };
 
         useImperativeHandle(
             ref,
@@ -37,7 +128,9 @@ export const PlacesListPanel = forwardRef(
                 className="md:w-[600px] md:ml-5"
                 onOpen={onOpen}
             >
-                {places.map((place) => (
+                <Filter onChange={filter} />
+
+                {filteredPlaces.map((place) => (
                     <PlaceDetailContent
                         key={place.id}
                         place={place}
