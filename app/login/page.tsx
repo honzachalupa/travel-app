@@ -12,7 +12,7 @@ export default function Login({
         mode: "sign-up" | "sign-in";
     };
 }) {
-    const navigateTo = useNavigation();
+    const { navigateTo } = useNavigation();
     const { signUp, signIn } = useAuth();
 
     return (

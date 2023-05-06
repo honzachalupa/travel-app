@@ -7,7 +7,7 @@ import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { Place } from "@/types/map";
 
 export default function CreatePlace() {
-    const navigateTo = useNavigation();
+    const { navigateTo } = useNavigation();
     const { createPlace } = usePlaces();
 
     const handleCreate = (formData: Omit<Place, "id">) =>

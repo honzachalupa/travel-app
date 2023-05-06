@@ -19,7 +19,7 @@ import { LoadingIndicator } from "@honzachalupa/design-system";
 import { useContext, useEffect, useRef, useState } from "react";
 
 const Content: React.FC = () => {
-    const navigateTo = useNavigation();
+    const { searchParams, navigateTo } = useNavigation();
     const { places, fetchPlaces } = usePlaces();
 
     const { user } = useContext(Context);
@@ -40,6 +40,12 @@ const Content: React.FC = () => {
     useEffect(() => {
         fetchPlaces();
     }, []);
+
+    useEffect(() => {
+        if (searchParams.placeId) {
+            onPlaceSelected(searchParams.placeId);
+        }
+    }, [searchParams.placeId, places]);
 
     return (
         <Layout>

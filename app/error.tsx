@@ -4,7 +4,7 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { Button, ButtonsGroup } from "@honzachalupa/design-system";
 
 export default function Error() {
-    const navigateTo = useNavigation();
+    const { navigateTo } = useNavigation();
 
     return (
         <div className="w-full h-full p-5 flex flex-col items-center justify-center">

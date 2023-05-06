@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function EditPlace({ params: { placeId } }: Props) {
-    const navigateTo = useNavigation();
+    const { navigateTo } = useNavigation();
     const { fetchPlace, updatePlace } = usePlaces();
 
     const [place, setPlace] = useState<Place>();

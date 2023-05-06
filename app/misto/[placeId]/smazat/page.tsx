@@ -16,7 +16,7 @@ interface Props {
 
 export default function PlaceDelete({ params: { placeId } }: Props) {
     const router = useRouter();
-    const navigateTo = useNavigation();
+    const { navigateTo } = useNavigation();
     const { fetchPlace, deletePlace, isUserPlaceOwner } = usePlaces();
 
     const [place, setPlace] = useState<Place>();

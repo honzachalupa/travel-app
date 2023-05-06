@@ -8,7 +8,7 @@ import { AccountForm } from "@honzachalupa/design-system";
 
 export default function Profil() {
     const { user } = useAuth();
-    const navigateTo = useNavigation();
+    const { navigateTo } = useNavigation();
 
     return (
         <Layout>

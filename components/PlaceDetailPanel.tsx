@@ -27,7 +27,7 @@ export interface PlaceDetailPanelRefProps {
 }
 
 export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
-    const navigateTo = useNavigation();
+    const { location, navigateTo } = useNavigation();
     const { getNavigationUrl, setIsVisited, setIsNotVisited } = usePlaces();
 
     const { user } = useContext(Context);
@@ -89,7 +89,10 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
                         },
                         {
                             label: "Sdílet",
-                            onClick: () => navigator.share({ text: "xxx" }),
+                            onClick: () =>
+                                navigator.share({
+                                    url: `${location.origin}?placeId=${place.id}`,
+                                }),
                         },
                         {
                             label: "Navigovat",

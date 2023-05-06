@@ -1,7 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
-import { usePathname } from "next/navigation";
 import { useContext } from "react";
 import { Context } from "./Context";
 import { ContextMenu } from "./ContextMenu";
@@ -17,8 +16,7 @@ export const PillNavigation: React.FC<Props> = ({
     onPlacesListClick,
     onCreatePlaceClick,
 }) => {
-    const pathName = usePathname();
-    const navigateTo = useNavigation();
+    const { location, navigateTo } = useNavigation();
     const { signOut } = useAuth();
 
     const { user } = useContext(Context);
@@ -95,7 +93,7 @@ export const PillNavigation: React.FC<Props> = ({
                 <ContextMenu
                     title="Další volby"
                     items={[
-                        pathName !== "/"
+                        location.pathname !== "/"
                             ? {
                                   label: "Mapa",
                                   onClick: navigateTo.home,

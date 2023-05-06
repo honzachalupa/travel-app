@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function PlaceDetail({ params: { placeId } }: Props) {
-    const navigateTo = useNavigation();
+    const { location, navigateTo } = useNavigation();
     const {
         fetchPlace,
         getNavigationUrl,
@@ -90,7 +90,10 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                                 : null,
                             {
                                 label: "Sdílet",
-                                onClick: () => navigator.share({ text: "xxx" }),
+                                onClick: () =>
+                                    navigator.share({
+                                        url: `${location.origin}?placeId=${placeId}`,
+                                    }),
                             },
                             {
                                 label: "Navigovat",
