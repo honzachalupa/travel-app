@@ -139,6 +139,19 @@ export const PlacesListPanel = forwardRef(
                         onClick={() => onPlaceSelected(place.id)}
                     />
                 ))}
+
+                {user && (
+                    <div className="w-full p-3 fixed bottom-0 left-0 flex justify-center">
+                        <p className="theme-glass-effect text-sm text-opacity-70 text-center rounded-2xl p-3">
+                            Navštíveno{" "}
+                            {Math.min(
+                                user?.visitedPlaceIds.length,
+                                places.length
+                            )}{" "}
+                            z {places.length} míst
+                        </p>
+                    </div>
+                )}
             </ModalSheet>
         );
     }
