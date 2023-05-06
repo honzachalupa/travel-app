@@ -427,6 +427,17 @@ export const PlaceForm: React.FC<Props> = ({
                 />
             )}
 
+            {(formData.instagramUrl || isExpanded) && (
+                <Input
+                    label="Instagram"
+                    value={formData.instagramUrl}
+                    isDisabled={isLoading}
+                    onChange={(value) =>
+                        setFormDataValue("instagramUrl", value)
+                    }
+                />
+            )}
+
             {(formData.name || !isAiModeEnabled) && (
                 <ButtonsGroup alignment="right">
                     <Button
