@@ -89,6 +89,10 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
                                   }
                                 : null,
                             {
+                                label: "Sdílet",
+                                onClick: () => navigator.share({ text: "xxx" }),
+                            },
+                            {
                                 label: "Navigovat",
                                 href: getNavigationUrl(place),
                             },

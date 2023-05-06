@@ -88,6 +88,10 @@ export const PlaceDetailPanel = forwardRef(({ place, onClose }: Props, ref) => {
                             onClick: () => navigateTo.placeDetail(place.id),
                         },
                         {
+                            label: "Sdílet",
+                            onClick: () => navigator.share({ text: "xxx" }),
+                        },
+                        {
                             label: "Navigovat",
                             href: getNavigationUrl(place),
                         },
