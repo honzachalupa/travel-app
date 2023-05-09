@@ -2,7 +2,10 @@
 
 import { PointIcon, SetCurrentLocationIcon } from "@/icons";
 import { Place } from "@/types/map";
-import { usePreferredColorScheme } from "@react-hooks-library/core";
+import {
+    useLocalStorage,
+    usePreferredColorScheme,
+} from "@honzachalupa/design-system";
 import cx from "classnames";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -75,6 +78,8 @@ export const Map: React.FC<Props> = forwardRef(
         const [zoom, setZoom] = useState<number>(
             initialViewZoom || defaultZoom
         );
+        const [isSatelliteViewEnabled, setIsSatelliteViewEnabled] =
+            useLocalStorage("isSatelliteViewEnabled", false);
 
         const mapboxRef = useRef<MapRef>(null);
 
@@ -173,6 +178,12 @@ export const Map: React.FC<Props> = forwardRef(
             })
         );
 
+        const mapStyle = {
+            light: "mapbox://styles/mapbox/light-v11",
+            dark: "mapbox://styles/mapbox/dark-v11",
+            satellite: "mapbox://styles/mapbox/satellite-streets-v12",
+        }[isSatelliteViewEnabled ? "satellite" : colorScheme];
+
         return (
             <div
                 className={cx(
@@ -201,7 +212,7 @@ export const Map: React.FC<Props> = forwardRef(
                                     0,
                                 zoom: initialViewZoom || defaultZoom,
                             }}
-                            mapStyle={`mapbox://styles/mapbox/${colorScheme}-v11`}
+                            mapStyle={mapStyle}
                             onZoom={handleZoom}
                             onClick={handleClick}
                         >
@@ -248,6 +259,15 @@ export const Map: React.FC<Props> = forwardRef(
                                     {
                                         label: "Otočit mapu na sever",
                                         onClick: rotateToNorth,
+                                    },
+                                    {
+                                        label: isSatelliteViewEnabled
+                                            ? "Skrýt satelitní snímky"
+                                            : "Zobrazit satelitní snímky",
+                                        onClick: () =>
+                                            setIsSatelliteViewEnabled(
+                                                !isSatelliteViewEnabled
+                                            ),
                                     },
                                 ]}
                                 itemsPosition={{
