@@ -1,6 +1,6 @@
-import { IconProps } from "@honzachalupa/design-system";
+import { IIconProps } from "@honzachalupa/design-system";
 
-export const MarkerStarIcon: React.FC<IconProps> = (props) => (
+export const MarkerStarIcon: React.FC<IIconProps> = (props) => (
     <svg
         viewBox="0 0 24 24"
         fill="none"

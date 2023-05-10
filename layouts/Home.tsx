@@ -1,21 +1,23 @@
 "use client";
 
 import {
+    DesignSystemContext,
     PwaInstallationPrompt,
-    useDesignSystem,
     useServiceWorker,
 } from "@honzachalupa/design-system";
-import { ReactNode } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 
-interface Props {
+interface IProps {
     children: ReactNode;
 }
 
-export const LayoutHome: React.FC<Props> = ({ children }) => {
+export const LayoutHome: React.FC<IProps> = ({ children }) => {
     useServiceWorker();
-    useDesignSystem({
-        locale: "cs",
-    });
+    const { setLocale } = useContext(DesignSystemContext);
+
+    useEffect(() => {
+        setLocale("cs");
+    }, []);
 
     return (
         <>

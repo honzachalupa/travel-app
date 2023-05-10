@@ -1,23 +1,23 @@
-import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
+import { AuthContext } from "@honzachalupa/admin";
 import { useContext } from "react";
 import { Context } from "./Context";
 import { ContextMenu } from "./ContextMenu";
 
-interface Props {
+interface IProps {
     className?: string;
     onPlacesListClick?: () => void;
     onCreatePlaceClick?: () => void;
 }
 
-export const PillNavigation: React.FC<Props> = ({
+export const PillNavigation: React.FC<IProps> = ({
     className,
     onPlacesListClick,
     onCreatePlaceClick,
 }) => {
     const { location, navigateTo } = useNavigation();
-    const { signOut } = useAuth();
+    const { signOut } = useContext(AuthContext);
 
     const { user } = useContext(Context);
 
@@ -93,7 +93,7 @@ export const PillNavigation: React.FC<Props> = ({
                 <ContextMenu
                     title="Další volby"
                     items={[
-                        location.pathname !== "/"
+                        location?.pathname !== "/"
                             ? {
                                   label: "Mapa",
                                   onClick: navigateTo.home,

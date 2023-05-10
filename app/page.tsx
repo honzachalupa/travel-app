@@ -4,17 +4,17 @@ import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
 import { PillNavigation } from "@/components/PillNavigation";
 import {
+    IPlaceDetailPanelRefProps,
     PlaceDetailPanel,
-    PlaceDetailPanelRefProps,
 } from "@/components/PlaceDetailPanel";
 import {
+    IPlacesListPanelRefProps,
     PlacesListPanel,
-    PlacesListPanelRefProps,
 } from "@/components/PlacesListPanel";
 import { useNavigation } from "@/hooks/useNavigation";
 import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutHome as Layout } from "@/layouts/Home";
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 import { LoadingIndicator } from "@honzachalupa/design-system";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -24,12 +24,12 @@ const Content: React.FC = () => {
 
     const { user } = useContext(Context);
 
-    const [selectedPlace, setSelectedPlace] = useState<Place>();
+    const [selectedPlace, setSelectedPlace] = useState<IPlace>();
 
-    const placeDetailRef = useRef<PlaceDetailPanelRefProps>(null);
-    const placesListRef = useRef<PlacesListPanelRefProps>(null);
+    const placeDetailRef = useRef<IPlaceDetailPanelRefProps>(null);
+    const placesListRef = useRef<IPlacesListPanelRefProps>(null);
 
-    const onPlaceSelected = (placeId: Place["id"]) => {
+    const onPlaceSelected = (placeId: IPlace["id"]) => {
         setSelectedPlace(places.find(({ id }) => id === placeId));
     };
 

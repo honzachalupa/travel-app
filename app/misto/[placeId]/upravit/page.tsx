@@ -4,21 +4,21 @@ import { PlaceForm } from "@/components/PlaceForm";
 import { useNavigation } from "@/hooks/useNavigation";
 import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 import { LoadingIndicator } from "@honzachalupa/design-system";
 import { useEffect, useState } from "react";
 
-interface Props {
+interface IProps {
     params: {
-        placeId: Place["id"];
+        placeId: IPlace["id"];
     };
 }
 
-export default function EditPlace({ params: { placeId } }: Props) {
+export default function EditPlace({ params: { placeId } }: IProps) {
     const { navigateTo } = useNavigation();
     const { fetchPlace, updatePlace } = usePlaces();
 
-    const [place, setPlace] = useState<Place>();
+    const [place, setPlace] = useState<IPlace>();
 
     useEffect(() => {
         if (placeId) {
@@ -26,7 +26,7 @@ export default function EditPlace({ params: { placeId } }: Props) {
         }
     }, [placeId]);
 
-    const handleUpdate = (formData: Omit<Place, "id">) =>
+    const handleUpdate = (formData: Omit<IPlace, "id">) =>
         updatePlace(placeId, formData).then(() => {
             navigateTo.placeDetail(placeId);
         });

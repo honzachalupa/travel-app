@@ -1,9 +1,9 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
-import { AuthForm } from "@honzachalupa/design-system";
+import { AuthContext, AuthForm } from "@honzachalupa/admin";
+import { useContext } from "react";
 
 export default function Login({
     searchParams,
@@ -13,7 +13,7 @@ export default function Login({
     };
 }) {
     const { navigateTo } = useNavigation();
-    const { signUp, signIn } = useAuth();
+    const { signUp, signIn } = useContext(AuthContext);
 
     return (
         <Layout>

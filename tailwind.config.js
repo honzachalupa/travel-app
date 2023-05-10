@@ -2,9 +2,7 @@
 
 module.exports = {
     content: [
-        "./app/**/*.{ts,tsx}",
-        "./components/**/*.{ts,tsx}",
-        "./layouts/**/*.{ts,tsx}",
+        "./**/*.{js,ts,jsx,tsx}",
         "./node_modules/@honzachalupa/design-system/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {

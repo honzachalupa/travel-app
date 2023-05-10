@@ -8,16 +8,16 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { usePlaces } from "@/hooks/usePlaces";
 import { MoreIcon } from "@/icons";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 import { useContext, useEffect, useState } from "react";
 
-interface Props {
+interface IProps {
     params: {
-        placeId: Place["id"];
+        placeId: IPlace["id"];
     };
 }
 
-export default function PlaceDetail({ params: { placeId } }: Props) {
+export default function PlaceDetail({ params: { placeId } }: IProps) {
     const { location, navigateTo } = useNavigation();
     const {
         fetchPlace,
@@ -29,7 +29,7 @@ export default function PlaceDetail({ params: { placeId } }: Props) {
 
     const { user } = useContext(Context);
 
-    const [place, setPlace] = useState<Place>();
+    const [place, setPlace] = useState<IPlace>();
 
     useEffect(() => {
         if (placeId) {

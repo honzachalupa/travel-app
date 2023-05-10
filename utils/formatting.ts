@@ -1,6 +1,6 @@
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 
-export const formatAddress = ({ name, address }: Place) =>
+export const formatAddress = ({ name, address }: IPlace) =>
     [
         [address?.street, address?.houseNumber].filter(Boolean).join(" "),
         address?.city,

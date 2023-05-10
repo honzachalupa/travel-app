@@ -1,18 +1,18 @@
 import { MarkerDefaultIcon, MarkerStarIcon, PointIcon } from "@/icons";
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 import cx from "classnames";
 import { Marker } from "react-map-gl";
 
-interface Props {
-    place: Place;
+interface IProps {
+    place: IPlace;
     zoom: number;
     isSelected: boolean;
     isVisited: boolean;
     isFaded: boolean;
-    onClick?: (id: Place["id"]) => void;
+    onClick?: (id: IPlace["id"]) => void;
 }
 
-export const PlaceMarker: React.FC<Props> = ({
+export const PlaceMarker: React.FC<IProps> = ({
     place: { id, name, coordinates },
     zoom,
     isSelected,
@@ -25,7 +25,7 @@ export const PlaceMarker: React.FC<Props> = ({
 
     const MarkerIcon = isVisited ? MarkerStarIcon : MarkerDefaultIcon;
 
-    const handlePlaceClick = (id: Place["id"]) => {
+    const handlePlaceClick = (id: IPlace["id"]) => {
         onClick?.(id);
     };
 

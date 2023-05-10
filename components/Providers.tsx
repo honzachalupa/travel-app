@@ -1,18 +1,25 @@
-import "@honzachalupa/design-system/build/tailwind-globals.css";
+"use client";
+
+import { AuthContextProvider } from "@honzachalupa/admin";
+import { DesignSystemContextProvider } from "@honzachalupa/design-system";
 import { Analytics } from "@vercel/analytics/react";
 import { ReactNode } from "react";
 import { ContextProvider } from "./Context";
 
-interface Props {
+interface IProps {
     children: ReactNode;
 }
 
-export const Providers: React.FC<Props> = ({ children }) => {
+export const Providers: React.FC<IProps> = ({ children }) => {
     return (
-        <ContextProvider>
-            {children}
+        <>
+            <DesignSystemContextProvider>
+                <AuthContextProvider>
+                    <ContextProvider>{children}</ContextProvider>
+                </AuthContextProvider>
+            </DesignSystemContextProvider>
 
             <Analytics />
-        </ContextProvider>
+        </>
     );
 };

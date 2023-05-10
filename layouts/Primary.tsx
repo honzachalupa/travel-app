@@ -1,17 +1,22 @@
 "use client";
 
 import { PillNavigation } from "@/components/PillNavigation";
-import { Layout_Primary, useDesignSystem } from "@honzachalupa/design-system";
-import { ReactNode } from "react";
+import {
+    DesignSystemContext,
+    Layout_Primary,
+} from "@honzachalupa/design-system";
+import { ReactNode, useContext, useEffect } from "react";
 
-interface Props {
+interface IProps {
     children: ReactNode;
 }
 
-export const LayoutPrimary: React.FC<Props> = ({ children }) => {
-    useDesignSystem({
-        locale: "en",
-    });
+export const LayoutPrimary: React.FC<IProps> = ({ children }) => {
+    const { setLocale } = useContext(DesignSystemContext);
+
+    useEffect(() => {
+        setLocale("cs");
+    }, []);
 
     return (
         <Layout_Primary>

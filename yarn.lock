@@ -1070,6 +1070,16 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
+"@honzachalupa/admin@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.3.tgz#09452ff34e84cc524ed498ae3998b14ad8096c4c"
+  integrity sha512-mAj20d0EWtLOqUpslcSIMwaGjwxzscj3dYh8htEt/pKmFbZL4CHsoccJzJuE6xTq/M5hmXiBQ1OKiCnuj7VJZQ==
+  dependencies:
+    "@honzachalupa/design-system" "^1.0.12"
+    classnames "^2.3.2"
+    react "^18.2.0"
+    typescript "^4.5.2"
+
 "@honzachalupa/design-system@^1.0.12":
   version "1.0.12"
   resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.12.tgz#4162d6b857894afc70d96c6d0b100015cd0f21f0"

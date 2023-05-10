@@ -1,14 +1,14 @@
 import { DirectionActions } from "@/actions/direction";
 import { Direction } from "@/types/direction";
-import { Place, PlaceTypes } from "@/types/map";
+import { EPlaceTypes, IPlace } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
 import cx from "classnames";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { Context } from "./Context";
 import { Coordinates } from "./Map/Map.types";
 
-interface Props {
-    place: Place;
+interface IProps {
+    place: IPlace;
     className?: string;
     isContactInfoShown?: boolean;
     isVisitedStatusShown?: boolean;
@@ -36,7 +36,7 @@ const Pil: React.FC<{
         </p>
     ) : null;
 
-export const PlaceDetailContent: React.FC<Props> = ({
+export const PlaceDetailContent: React.FC<IProps> = ({
     place,
     className,
     isContactInfoShown,
@@ -66,7 +66,7 @@ export const PlaceDetailContent: React.FC<Props> = ({
             <h3 className="text-3xl font-medium my-3">{place.name}</h3>
 
             <div className="mb-2">
-                <Pil>{place?.type && PlaceTypes[place.type]}</Pil>
+                <Pil>{place?.type && EPlaceTypes[place.type]}</Pil>
 
                 <Pil>{addressFormatted}</Pil>
 

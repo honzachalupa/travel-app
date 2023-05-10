@@ -1,6 +1,6 @@
-import { IconProps } from "@honzachalupa/design-system";
+import { IIconProps } from "@honzachalupa/design-system";
 
-export const MoreIcon: React.FC<IconProps> = ({ className }) => (
+export const MoreIcon: React.FC<IIconProps> = ({ className }) => (
     <svg
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"

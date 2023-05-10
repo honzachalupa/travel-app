@@ -1,12 +1,12 @@
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
+import { useLocation } from "@honzachalupa/design-system";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 export const useNavigation = () => {
     const searchParams_ = useSearchParams();
     const router = useRouter();
-
-    const location = useMemo(() => window.location, [window.location]);
+    const location = useLocation();
 
     const searchParams = useMemo(
         () => Object.fromEntries(searchParams_.entries()),
@@ -14,6 +14,11 @@ export const useNavigation = () => {
     );
 
     const navigateTo = {
+        back: router.back,
+        forward: router.forward,
+        refresh: router.refresh,
+        replace: router.replace,
+
         login: ({ mode }: { mode: "sign-up" | "sign-in" }) =>
             router.push(`/login?mode=${mode}`),
         home: () => router.push("/"),
@@ -21,14 +26,9 @@ export const useNavigation = () => {
         settings: () => router.push("/nastaveni"),
         about: () => router.push("/o-aplikaci"),
         placeCreate: () => router.push("/misto/vytvorit"),
-        placeDetail: (id: Place["id"]) => router.push(`/misto/${id}`),
-        placeEdit: (id: Place["id"]) => router.push(`/misto/${id}/upravit`),
-        placeDelete: (id: Place["id"]) => router.push(`/misto/${id}/smazat`),
-
-        back: () => router.back(),
-        forward: () => router.forward(),
-        refresh: () => router.refresh(),
-        replace: (url: string) => router.replace(url),
+        placeDetail: (id: IPlace["id"]) => router.push(`/misto/${id}`),
+        placeEdit: (id: IPlace["id"]) => router.push(`/misto/${id}/upravit`),
+        placeDelete: (id: IPlace["id"]) => router.push(`/misto/${id}/smazat`),
     };
 
     return {

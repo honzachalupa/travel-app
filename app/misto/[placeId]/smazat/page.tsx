@@ -3,23 +3,23 @@
 import { useNavigation } from "@/hooks/useNavigation";
 import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 import { Button, ButtonsGroup } from "@honzachalupa/design-system";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-interface Props {
+interface IProps {
     params: {
-        placeId: Place["id"];
+        placeId: IPlace["id"];
     };
 }
 
-export default function PlaceDelete({ params: { placeId } }: Props) {
+export default function PlaceDelete({ params: { placeId } }: IProps) {
     const router = useRouter();
     const { navigateTo } = useNavigation();
     const { fetchPlace, deletePlace, isUserPlaceOwner } = usePlaces();
 
-    const [place, setPlace] = useState<Place>();
+    const [place, setPlace] = useState<IPlace>();
 
     const handleDelete = () => {
         deletePlace(placeId).then(() => {

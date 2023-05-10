@@ -1,12 +1,11 @@
-import { Place } from "@/types/map";
-import { User } from "@/types/user";
+import { IPlace } from "@/types/map";
 import { mapPlace, PlaceDB } from "@/utils/api";
 import { supabase } from "@/utils/supabase";
+import { IUser, UserActions } from "@honzachalupa/admin";
 import moment from "moment";
 import { v4 as uuid } from "uuid";
-import { UserActions } from "./user";
 
-const get = async (params: { id: Place["id"] }): Promise<Place[]> =>
+const get = async (params: { id: IPlace["id"] }): Promise<IPlace[]> =>
     supabase
         .from("places")
         .select("*")
@@ -22,7 +21,7 @@ const create = async ({
     contact,
     originalQuery,
     ownerId,
-}: Omit<Place, "id">) =>
+}: Omit<IPlace, "id">) =>
     supabase.from("places").insert({
         id: uuid(),
         name,
@@ -43,7 +42,7 @@ const create = async ({
     });
 
 const update = async (
-    id: Place["id"],
+    id: IPlace["id"],
     {
         name,
         description,
@@ -52,7 +51,7 @@ const update = async (
         address,
         contact,
         originalQuery,
-    }: Omit<Place, "id" | "ownerId">
+    }: Omit<IPlace, "id" | "ownerId">
 ) =>
     supabase
         .from("places")
@@ -75,17 +74,17 @@ const update = async (
         })
         .eq("id", id);
 
-const delete_ = async (id: Place["id"]) =>
+const delete_ = async (id: IPlace["id"]) =>
     supabase.from("places").delete().eq("id", id);
 
 const setIsVisited = async ({
     placeId,
     userId,
 }: {
-    placeId: Place["id"];
-    userId: User["id"];
+    placeId: IPlace["id"];
+    userId: IUser["id"];
 }) => {
-    const { visitedPlaceIds } = await UserActions.get(userId);
+    const { visitedPlaceIds } = await UserActions.searchSingle(userId);
 
     return supabase
         .from("users")
@@ -99,10 +98,10 @@ const setIsNotVisited = async ({
     placeId,
     userId,
 }: {
-    placeId: Place["id"];
-    userId: User["id"];
+    placeId: IPlace["id"];
+    userId: IUser["id"];
 }) => {
-    const { visitedPlaceIds } = await UserActions.get(userId);
+    const { visitedPlaceIds } = await UserActions.searchSingle(userId);
 
     return supabase
         .from("users")

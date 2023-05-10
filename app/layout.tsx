@@ -1,5 +1,6 @@
 import { Providers } from "@/components/Providers";
 import config from "@/config";
+import "@honzachalupa/design-system/build/tailwind-globals.css";
 import "./layout.css";
 
 export const metadata = {

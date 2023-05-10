@@ -7,7 +7,7 @@ import {
 } from "react";
 import Sheet from "react-modal-sheet";
 
-interface Props {
+interface IProps {
     initialSnapPointIndex?: number;
     snapPoints?: number[];
     className?: string;
@@ -16,7 +16,7 @@ interface Props {
     onClose?: () => void;
 }
 
-export interface ModalSheetRefProps {
+export interface IModalSheetRefProps {
     open: () => void;
     close: () => void;
     toggle: () => void;
@@ -32,7 +32,7 @@ export const ModalSheet = forwardRef(
             children,
             onOpen,
             onClose,
-        }: Props,
+        }: IProps,
         ref
     ) => {
         const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export const ModalSheet = forwardRef(
 
         useImperativeHandle(
             ref,
-            (): ModalSheetRefProps => ({
+            (): IModalSheetRefProps => ({
                 open: () => setIsOpened(true),
                 close: () => setIsOpened(false),
                 toggle: () => setIsOpened((prevState) => !prevState),

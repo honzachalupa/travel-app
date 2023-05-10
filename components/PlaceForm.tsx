@@ -1,7 +1,7 @@
 import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
 import { placePrompt } from "@/prompts/place";
-import { Place, PlaceType, PlaceTypes } from "@/types/map";
+import { EPlaceTypes, IPlace, TPlaceType } from "@/types/map";
 import {
     Button,
     ButtonsGroup,
@@ -31,15 +31,15 @@ interface FormData {
     instagramUrl: string | undefined;
 }
 
-interface Props {
+interface IProps {
     mode: "create" | "edit";
     defaultValues?: FormData;
-    onSubmit: (formData: Omit<Place, "id">) => Promise<any>;
+    onSubmit: (formData: Omit<IPlace, "id">) => Promise<any>;
 }
 
 const RETRY_COUNT = 3;
 
-export const PlaceForm: React.FC<Props> = ({
+export const PlaceForm: React.FC<IProps> = ({
     mode,
     defaultValues,
     onSubmit,
@@ -133,7 +133,7 @@ export const PlaceForm: React.FC<Props> = ({
             onSubmit({
                 name,
                 description,
-                type: type as unknown as PlaceType,
+                type: type as unknown as TPlaceType,
                 coordinates: {
                     longitude,
                     latitude,
@@ -347,10 +347,12 @@ export const PlaceForm: React.FC<Props> = ({
                     label="Typ"
                     value={formData.type}
                     placeholder="Vyberte typ"
-                    options={Object.entries(PlaceTypes).map(([key, label]) => ({
-                        value: key,
-                        label,
-                    }))}
+                    options={Object.entries(EPlaceTypes).map(
+                        ([key, label]) => ({
+                            value: key,
+                            label,
+                        })
+                    )}
                     isRequired
                     isDisabled={isLoading}
                     onChange={(value) => setFormDataValue("type", value)}

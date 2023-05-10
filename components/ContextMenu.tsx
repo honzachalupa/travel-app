@@ -8,7 +8,7 @@ interface Item {
     onClick?: () => void;
 }
 
-interface Props {
+interface IProps {
     title: string;
     items: (Item | null)[];
     itemsPosition: {
@@ -20,7 +20,7 @@ interface Props {
     className?: string;
 }
 
-export const ContextMenu: React.FC<Props> = ({
+export const ContextMenu: React.FC<IProps> = ({
     title,
     items,
     itemsPosition,

@@ -1,4 +1,4 @@
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 
 export interface PlaceDB {
     id: string;
@@ -34,7 +34,7 @@ export const mapPlace = ({
     contact_url,
     contact_instagramUrl,
     ownerId,
-}: PlaceDB): Place => ({
+}: PlaceDB): IPlace => ({
     id,
     name,
     description,

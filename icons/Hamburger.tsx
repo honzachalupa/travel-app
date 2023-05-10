@@ -1,6 +1,6 @@
-import { IconProps } from "@honzachalupa/design-system";
+import { IIconProps } from "@honzachalupa/design-system";
 
-export const HamburgerIcon: React.FC<IconProps> = (props) => (
+export const HamburgerIcon: React.FC<IIconProps> = (props) => (
     <svg
         viewBox="0 0 24 24"
         fill="none"

@@ -1,7 +1,7 @@
 "use client";
 
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
-import { NavigationAppId, NavigationAppLabels } from "@/types/map";
+import { ENavigationAppLabels, TNavigationAppId } from "@/types/map";
 import {
     Button,
     ButtonsGroup,
@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 
 interface FormData {
-    navigationApp: NavigationAppId;
+    navigationApp: TNavigationAppId;
 }
 
 export default function Settings() {
@@ -44,19 +44,19 @@ export default function Settings() {
                 options={[
                     {
                         value: "google-maps",
-                        label: NavigationAppLabels["google-maps"],
+                        label: ENavigationAppLabels["google-maps"],
                     },
                     {
                         value: "apple-maps",
-                        label: NavigationAppLabels["apple-maps"],
+                        label: ENavigationAppLabels["apple-maps"],
                     },
                     {
                         value: "waze",
-                        label: NavigationAppLabels["waze"],
+                        label: ENavigationAppLabels["waze"],
                     },
                     {
                         value: "mapy-cz",
-                        label: NavigationAppLabels["mapy-cz"],
+                        label: ENavigationAppLabels["mapy-cz"],
                     },
                 ]}
                 onChange={(value) => setFormDataValue("navigationApp", value)}

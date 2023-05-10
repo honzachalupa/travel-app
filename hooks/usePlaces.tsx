@@ -2,33 +2,34 @@ import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { Context } from "@/components/Context";
 import { Coordinates } from "@/components/Map/Map.types";
-import { NavigationAppId, Place } from "@/types/map";
+import { IPlace, TNavigationAppId } from "@/types/map";
 import { resolveNavigationUrl } from "@/utils/map";
+import { AuthContext } from "@honzachalupa/admin";
 import { useLocalStorage } from "@honzachalupa/design-system";
 import { useCallback, useContext, useState } from "react";
-import { useAuth } from "./useAuth";
 import { getAirDistance } from "./usePlaces.utils";
 
 export const usePlaces = () => {
-    const { refreshSession } = useAuth();
+    const { refreshSession } = useContext(AuthContext);
     const { user, currentLocation } = useContext(Context);
 
     const [settings] = useLocalStorage<{
-        navigationApp: NavigationAppId;
+        navigationApp: TNavigationAppId;
     }>("settings", {
         navigationApp: "apple-maps",
     });
 
-    const [places, setPlaces] = useState<Place[]>([]);
+    const [places, setPlaces] = useState<IPlace[]>([]);
 
-    const create = (payload: Omit<Place, "id">) => PlaceActions.create(payload);
+    const create = (payload: Omit<IPlace, "id">) =>
+        PlaceActions.create(payload);
 
     const update = (
-        placeId: Place["id"],
-        payload: Omit<Place, "id" | "ownerId">
+        placeId: IPlace["id"],
+        payload: Omit<IPlace, "id" | "ownerId">
     ) => PlaceActions.update(placeId, payload);
 
-    const delete_ = (placeId: Place["id"]) => PlaceActions.delete(placeId);
+    const delete_ = (placeId: IPlace["id"]) => PlaceActions.delete(placeId);
 
     const fetch = useCallback(
         () =>
@@ -52,10 +53,10 @@ export const usePlaces = () => {
         [currentLocation]
     );
 
-    const fetchById = (id: Place["id"]) =>
+    const fetchById = (id: IPlace["id"]) =>
         PlaceActions.get({ id }).then((places) => places[0]);
 
-    const setIsVisited = (placeId: Place["id"]) => {
+    const setIsVisited = (placeId: IPlace["id"]) => {
         if (user) {
             PlaceActions.setIsVisited({
                 placeId,
@@ -68,7 +69,7 @@ export const usePlaces = () => {
         }
     };
 
-    const setIsNotVisited = (placeId: Place["id"]) => {
+    const setIsNotVisited = (placeId: IPlace["id"]) => {
         if (user) {
             PlaceActions.setIsNotVisited({
                 placeId,
@@ -82,7 +83,7 @@ export const usePlaces = () => {
     };
 
     const getNavigationUrl = useCallback(
-        (place: Place) =>
+        (place: IPlace) =>
             place &&
             resolveNavigationUrl(
                 settings.navigationApp,
@@ -92,10 +93,10 @@ export const usePlaces = () => {
         [settings.navigationApp]
     );
 
-    /* const isPlaceVisited = (id: Place["id"]) =>
+    /* const isPlaceVisited = (id: IPlace["id"]) =>
         user?.visitedPlaceIds.includes(id); */
 
-    const isUserPlaceOwner = (place: Place) =>
+    const isUserPlaceOwner = (place: IPlace) =>
         place?.ownerId === user?.id || user?.role === "ADMIN";
 
     return {

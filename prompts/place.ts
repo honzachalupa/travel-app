@@ -1,4 +1,4 @@
-import { PlaceTypes } from "@/types/map";
+import { EPlaceTypes } from "@/types/map";
 
 export const placePrompt = (placeQuery: string) =>
     `
@@ -8,7 +8,7 @@ export const placePrompt = (placeQuery: string) =>
     Hodnota Name je obecná.
     Hodnota Description je popis místa - tedy něco o historii nebo obecně o tom, co návštěvník může od návštěvy očekávat.
     Hodnota Type je typ místa - vyber z pole [${Object.keys(
-        PlaceTypes
+        EPlaceTypes
     )}] nebo použij hodnotu "other".
     Hodnota Street neobsahuje číslo domu.
     Pokud je hodnota Country rovna "Czechia" nebo "Česko", použij místo toho "Česká Republika"
@@ -54,7 +54,7 @@ Rules:
 Value of Name is as general as possible.
 Value of Description is description of the place - i.e. something about the history or generally what visitor can expect from the visit.
 Value of Type is type of place - select from the array [${Object.keys(
-    PlaceTypes
+    EPlaceTypes
 )}] or use null.
 Value of Street should not contain the house number;
 Translate all texts to Czech language if there is translation available - otherwise use English.

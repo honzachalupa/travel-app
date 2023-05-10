@@ -1,7 +1,7 @@
 "use client";
 
 import { PointIcon, SetCurrentLocationIcon } from "@/icons";
-import { Place } from "@/types/map";
+import { IPlace } from "@/types/map";
 import {
     useLocalStorage,
     usePreferredColorScheme,
@@ -28,9 +28,9 @@ import { ContextMenu } from "../ContextMenu";
 import { Coordinates } from "./Map.types";
 import { PlaceMarker } from "./PlaceMarker";
 
-interface Props {
-    places: Place[];
-    selectedPlaceId?: Place["id"];
+interface IProps {
+    places: IPlace[];
+    selectedPlaceId?: IPlace["id"];
     initialViewCoordinates?: {
         longitude?: Coordinates["longitude"];
         latitude?: Coordinates["latitude"];
@@ -40,19 +40,19 @@ interface Props {
     className?: string;
     isReadonly?: boolean;
     isMapControlShown?: boolean;
-    isPlaceVisited?: (placeId: Place["id"]) => boolean;
+    isPlaceVisited?: (placeId: IPlace["id"]) => boolean;
     onClick?: (coordinates: Coordinates) => void;
-    onPlaceClick?: (id: Place["id"]) => void;
+    onPlaceClick?: (id: IPlace["id"]) => void;
 }
 
-export interface MapRefProps {
+export interface IMapRefProps {
     focusCurrentLocation: (animate?: boolean) => void;
     zoomToAllMarkers: () => void;
 }
 
 const defaultZoom = 15;
 
-export const Map: React.FC<Props> = forwardRef(
+export const Map: React.FC<IProps> = forwardRef(
     (
         {
             places,
@@ -73,7 +73,7 @@ export const Map: React.FC<Props> = forwardRef(
         const colorScheme = usePreferredColorScheme();
 
         const [prevSelectedPlaceId, setPrevSelectedPlaceId] = useState<
-            Place["id"] | null
+            IPlace["id"] | null
         >();
         const [zoom, setZoom] = useState<number>(
             initialViewZoom || defaultZoom
@@ -172,7 +172,7 @@ export const Map: React.FC<Props> = forwardRef(
 
         useImperativeHandle(
             ref,
-            (): MapRefProps => ({
+            (): IMapRefProps => ({
                 focusCurrentLocation,
                 zoomToAllMarkers,
             })

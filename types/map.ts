@@ -1,16 +1,16 @@
 import { Coordinates } from "@/components/Map/Map.types";
-import { User } from "./user";
+import { IUser } from "@honzachalupa/admin";
 
-export enum NavigationAppLabels {
+export enum ENavigationAppLabels {
     "apple-maps" = "Apple Maps",
     "google-maps" = "Google Maps",
     "waze" = "Waze",
     "mapy-cz" = "Mapy.cz",
 }
 
-export type NavigationAppId = keyof typeof NavigationAppLabels;
+export type TNavigationAppId = keyof typeof ENavigationAppLabels;
 
-export const PlaceTypes = {
+export const EPlaceTypes = {
     city: "Město",
     mountain: "Hora, kopec, vrchol",
     viewpoint: "Rozhledna, vyhlídka",
@@ -33,13 +33,13 @@ export const PlaceTypes = {
     other: "Jiné",
 };
 
-export type PlaceType = keyof typeof PlaceTypes;
+export type TPlaceType = keyof typeof EPlaceTypes;
 
-export interface Place {
+export interface IPlace {
     id: string;
     name: string;
     description?: string;
-    type?: PlaceType;
+    type?: TPlaceType;
     coordinates: Coordinates;
     address?: {
         street?: string;
@@ -54,5 +54,5 @@ export interface Place {
         instagramUrl?: string;
     };
     originalQuery?: string;
-    ownerId: User["id"];
+    ownerId: IUser["id"];
 }

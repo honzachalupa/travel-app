@@ -1,6 +1,6 @@
-import { IconProps } from "@honzachalupa/design-system";
+import { IIconProps } from "@honzachalupa/design-system";
 
-export const SetCurrentLocationIcon: React.FC<IconProps> = ({ className }) => (
+export const SetCurrentLocationIcon: React.FC<IIconProps> = ({ className }) => (
     <svg
         viewBox="0 0 24 24"
         fill="none"

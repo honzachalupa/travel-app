@@ -1,15 +1,20 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
-import { User } from "@/types/user";
+import { AuthContext, IUser } from "@honzachalupa/admin";
 import {
     GeolocationCoordinates,
     useGeoLocation,
 } from "@honzachalupa/design-system";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+    createContext,
+    ReactNode,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 
 interface Context {
-    user: User | null | undefined;
+    user: IUser | null | undefined;
     currentLocation: GeolocationCoordinates;
     isLoading: boolean;
 }
@@ -28,7 +33,7 @@ export const Context = createContext<Context>(initialContext);
 export const ContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
-    const { user } = useAuth();
+    const { user } = useContext(AuthContext);
     const currentLocation = useGeoLocation();
 
     const [context, setContext] = useState<Context>(initialContext);

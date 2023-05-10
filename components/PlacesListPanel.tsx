@@ -1,4 +1,4 @@
-import { Place, PlaceTypes } from "@/types/map";
+import { EPlaceTypes, IPlace } from "@/types/map";
 import { Input, Toggle } from "@honzachalupa/design-system";
 import React, {
     forwardRef,
@@ -9,16 +9,16 @@ import React, {
     useState,
 } from "react";
 import { Context } from "./Context";
-import { ModalSheet, ModalSheetRefProps } from "./ModalSheet";
+import { IModalSheetRefProps, ModalSheet } from "./ModalSheet";
 import { PlaceDetailContent } from "./PlaceDetailContent";
 
-interface Props {
-    places: Place[];
-    onPlaceSelected: (placeId: Place["id"]) => void;
+interface IProps {
+    places: IPlace[];
+    onPlaceSelected: (placeId: IPlace["id"]) => void;
     onOpen: () => void;
 }
 
-export interface PlacesListPanelRefProps {
+export interface IPlacesListPanelRefProps {
     open: () => void;
     close: () => void;
     toggle: () => void;
@@ -69,12 +69,12 @@ const Filter: React.FC<{
 };
 
 export const PlacesListPanel = forwardRef(
-    ({ places, onPlaceSelected, onOpen }: Props, ref) => {
+    ({ places, onPlaceSelected, onOpen }: IProps, ref) => {
         const { user } = useContext(Context);
 
-        const [filteredPlaces, setFilteredPlaces] = useState<Place[]>(places);
+        const [filteredPlaces, setFilteredPlaces] = useState<IPlace[]>(places);
 
-        const modalSheetRef = useRef<ModalSheetRefProps>();
+        const modalSheetRef = useRef<IModalSheetRefProps>();
 
         const filter = ({ query, includeVisitedPlaces }: FormData) => {
             let filteredPlaces = places;
@@ -89,7 +89,7 @@ export const PlacesListPanel = forwardRef(
                             ?.toLowerCase()
                             .includes(query.toLowerCase()) ||
                         // @ts-ignore
-                        PlaceTypes[place.type]
+                        EPlaceTypes[place.type]
                             ?.toLowerCase()
                             .includes(query.toLowerCase()) ||
                         place.address?.city
@@ -112,7 +112,7 @@ export const PlacesListPanel = forwardRef(
 
         useImperativeHandle(
             ref,
-            (): PlacesListPanelRefProps => ({
+            (): IPlacesListPanelRefProps => ({
                 open: () => modalSheetRef.current?.open(),
                 close: () => modalSheetRef.current?.close(),
                 toggle: () => modalSheetRef.current?.toggle(),

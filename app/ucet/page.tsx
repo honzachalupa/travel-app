@@ -1,13 +1,12 @@
 "use client";
 
-import { UserActions } from "@/actions/user";
-import { useAuth } from "@/hooks/useAuth";
 import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
-import { AccountForm } from "@honzachalupa/design-system";
+import { AccountForm, AuthContext, UserActions } from "@honzachalupa/admin";
+import { useContext } from "react";
 
 export default function Profil() {
-    const { user } = useAuth();
+    const { user } = useContext(AuthContext);
     const { navigateTo } = useNavigation();
 
     return (

@@ -1,9 +1,9 @@
 import { Coordinates } from "@/components/Map/Map.types";
-import { NavigationAppId, Place } from "@/types/map";
+import { IPlace, TNavigationAppId } from "@/types/map";
 
 export const resolveNavigationUrl = (
-    appId: NavigationAppId,
-    address: Place["address"],
+    appId: TNavigationAppId,
+    address: IPlace["address"],
     coordinates: Coordinates
 ) => {
     switch (appId) {

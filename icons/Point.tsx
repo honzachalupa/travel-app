@@ -1,6 +1,6 @@
-import { IconProps } from "@honzachalupa/design-system";
+import { IIconProps } from "@honzachalupa/design-system";
 
-export const PointIcon: React.FC<IconProps> = ({ className }) => (
+export const PointIcon: React.FC<IIconProps> = ({ className }) => (
     <svg
         className={className}
         viewBox="0 0 32 32"
