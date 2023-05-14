@@ -1,4 +1,5 @@
 import { Direction } from "@/types/direction";
+import { ICoordinates } from "@honzachalupa/design-system";
 import moment from "moment";
 
 const get = (coordinatesFrom: ICoordinates, coordinateTo: ICoordinates) => {
