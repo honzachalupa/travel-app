@@ -1,16 +1,20 @@
 import { IPlace } from "@/types/map";
-import { mapPlace, PlaceDB } from "@/utils/api";
-import { supabase } from "@/utils/supabase";
-import { IUser, UserActions } from "@honzachalupa/admin";
+import { mapPlace, PlaceDB, resolveAdminApiUrl } from "@/utils/api";
 import moment from "moment";
-import { v4 as uuid } from "uuid";
 
-const get = async (params: { id: IPlace["id"] }): Promise<IPlace[]> =>
-    supabase
-        .from("places")
-        .select("*")
-        .eq("id", params.id)
-        .then(({ data }) => data!.map((place) => mapPlace(place as PlaceDB)));
+const get = (params: { id: IPlace["id"] }): Promise<IPlace> =>
+    fetch(
+        resolveAdminApiUrl(
+            `/api/travel-app/places?id=${params.id}&single=true`
+        ),
+        {
+            method: "GET",
+        }
+    ).then(async (response) => {
+        const data: PlaceDB = await response.json();
+
+        return mapPlace(data);
+    });
 
 const create = async ({
     name,
@@ -22,24 +26,26 @@ const create = async ({
     originalQuery,
     ownerId,
 }: Omit<IPlace, "id">) =>
-    supabase.from("places").insert({
-        id: uuid(),
-        name,
-        description,
-        type,
-        coordinates_longitude: coordinates.longitude,
-        coordinates_latitude: coordinates.latitude,
-        address_street: address?.street,
-        address_houseNumber: address?.houseNumber,
-        address_city: address?.city,
-        address_country: address?.country,
-        contact_phoneNumber: contact?.phoneNumber,
-        contact_emailAddress: contact?.emailAddress,
-        contact_url: contact?.url,
-        originalQuery,
-        ownerId,
-        createdAt: moment().format(),
-    });
+    fetch(resolveAdminApiUrl("/api/travel-app/places"), {
+        method: "POST",
+        body: JSON.stringify({
+            name,
+            description,
+            type,
+            coordinates_longitude: coordinates.longitude,
+            coordinates_latitude: coordinates.latitude,
+            address_street: address?.street,
+            address_houseNumber: address?.houseNumber,
+            address_city: address?.city,
+            address_country: address?.country,
+            contact_phoneNumber: contact?.phoneNumber,
+            contact_emailAddress: contact?.emailAddress,
+            contact_url: contact?.url,
+            originalQuery,
+            ownerId,
+            createdAt: moment().format(),
+        }),
+    }).then((response) => response.json());
 
 const update = async (
     id: IPlace["id"],
@@ -53,9 +59,9 @@ const update = async (
         originalQuery,
     }: Omit<IPlace, "id" | "ownerId">
 ) =>
-    supabase
-        .from("places")
-        .update({
+    fetch(resolveAdminApiUrl(`/api/travel-app/places?id=${id}`), {
+        method: "PATCH",
+        body: JSON.stringify({
             name,
             description,
             type,
@@ -71,53 +77,21 @@ const update = async (
             contact_instagramUrl: contact?.instagramUrl,
             originalQuery,
             updatedAt: moment().format(),
-        })
-        .eq("id", id);
+        }),
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        },
+    }).then((response) => response.json());
 
 const delete_ = async (id: IPlace["id"]) =>
-    supabase.from("places").delete().eq("id", id);
-
-const setIsVisited = async ({
-    placeId,
-    userId,
-}: {
-    placeId: IPlace["id"];
-    userId: IUser["id"];
-}) => {
-    const { visitedPlaceIds } = await UserActions.searchSingle(userId);
-
-    return supabase
-        .from("users")
-        .update({
-            visitedPlaceIds: [...new Set([...visitedPlaceIds, placeId])],
-        })
-        .eq("id", userId);
-};
-
-const setIsNotVisited = async ({
-    placeId,
-    userId,
-}: {
-    placeId: IPlace["id"];
-    userId: IUser["id"];
-}) => {
-    const { visitedPlaceIds } = await UserActions.searchSingle(userId);
-
-    return supabase
-        .from("users")
-        .update({
-            visitedPlaceIds: [...visitedPlaceIds].filter(
-                (id) => id !== placeId
-            ),
-        })
-        .eq("id", userId);
-};
+    fetch(resolveAdminApiUrl(`/api/travel-app/places?id=${id}`), {
+        method: "DELETE",
+    }).then((response) => response.json());
 
 export const PlaceActions = {
     get,
     create,
     update,
     delete: delete_,
-    setIsVisited,
-    setIsNotVisited,
 };

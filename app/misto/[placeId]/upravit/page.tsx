@@ -1,12 +1,12 @@
 "use client";
 
 import { PlaceForm } from "@/components/PlaceForm";
+import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
-import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { IPlace } from "@/types/map";
 import { LoadingIndicator } from "@honzachalupa/design-system";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 interface IProps {
     params: {
@@ -16,7 +16,7 @@ interface IProps {
 
 export default function EditPlace({ params: { placeId } }: IProps) {
     const { navigateTo } = useNavigation();
-    const { fetchPlace, updatePlace } = usePlaces();
+    const { fetchPlace, updatePlace } = useContext(PlacesContext);
 
     const [place, setPlace] = useState<IPlace>();
 

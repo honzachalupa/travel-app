@@ -1,5 +1,5 @@
+import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
-import { usePlaces } from "@/hooks/usePlaces";
 import { MoreIcon } from "@/icons";
 import { IPlace } from "@/types/map";
 import {
@@ -9,7 +9,7 @@ import {
     useImperativeHandle,
     useRef,
 } from "react";
-import { Context } from "./Context";
+import { AppContext } from "../contexts/App";
 import { ContextMenu } from "./ContextMenu";
 import { IModalSheetRefProps, ModalSheet } from "./ModalSheet";
 import { PlaceDetailContent } from "./PlaceDetailContent";
@@ -29,9 +29,14 @@ export interface IPlaceDetailPanelRefProps {
 export const PlaceDetailPanel = forwardRef(
     ({ place, onClose }: IProps, ref) => {
         const { location, navigateTo } = useNavigation();
-        const { getNavigationUrl, setIsVisited, setIsNotVisited } = usePlaces();
+        const {
+            isPlaceVisited,
+            getNavigationUrl,
+            setIsVisited,
+            setIsNotVisited,
+        } = useContext(PlacesContext);
 
-        const { user } = useContext(Context);
+        const { user } = useContext(AppContext);
 
         const modalSheetRef = useRef<IModalSheetRefProps>();
 
@@ -73,13 +78,12 @@ export const PlaceDetailPanel = forwardRef(
                     <ContextMenu
                         title="Možnosti"
                         items={[
-                            user && user.visitedPlaceIds.includes(place.id)
+                            user && isPlaceVisited(place.id)
                                 ? {
                                       label: "Označit jako nenavštívené",
                                       onClick: () => setIsNotVisited(place.id),
                                   }
-                                : user &&
-                                  !user.visitedPlaceIds.includes(place.id)
+                                : user && !isPlaceVisited(place.id)
                                 ? {
                                       label: "Označit jako navštívené",
                                       onClick: () => setIsVisited(place.id),

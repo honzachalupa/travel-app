@@ -1,11 +1,11 @@
 "use client";
 
-import { Context } from "@/components/Context";
 import { ContextMenu } from "@/components/ContextMenu";
 import { Map } from "@/components/Map";
 import { PlaceDetailContent } from "@/components/PlaceDetailContent";
+import { AppContext } from "@/contexts/App";
+import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
-import { usePlaces } from "@/hooks/usePlaces";
 import { MoreIcon } from "@/icons";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { IPlace } from "@/types/map";
@@ -25,9 +25,9 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
         setIsVisited,
         setIsNotVisited,
         isUserPlaceOwner,
-    } = usePlaces();
+    } = useContext(PlacesContext);
 
-    const { user } = useContext(Context);
+    const { user } = useContext(AppContext);
 
     const [place, setPlace] = useState<IPlace>();
 
@@ -47,9 +47,6 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
                         initialFitBounds
                         isReadonly
                         isMapControlShown={false}
-                        isPlaceVisited={(placeId) =>
-                            user?.visitedPlaceIds.includes(placeId) || false
-                        }
                     />
 
                     <PlaceDetailContent

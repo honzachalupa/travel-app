@@ -8,7 +8,7 @@ import React, {
     useRef,
     useState,
 } from "react";
-import { Context } from "./Context";
+import { AppContext } from "../contexts/App";
 import { IModalSheetRefProps, ModalSheet } from "./ModalSheet";
 import { PlaceDetailContent } from "./PlaceDetailContent";
 
@@ -70,7 +70,7 @@ const Filter: React.FC<{
 
 export const PlacesListPanel = forwardRef(
     ({ places, onPlaceSelected, onOpen }: IProps, ref) => {
-        const { user } = useContext(Context);
+        const { user } = useContext(AppContext);
 
         const [filteredPlaces, setFilteredPlaces] = useState<IPlace[]>(places);
 

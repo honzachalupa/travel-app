@@ -1,12 +1,14 @@
 import { IPlace } from "@/types/map";
-import { mapPlace, PlaceDB } from "@/utils/api";
-import { supabase } from "@/utils/supabase";
+import { mapPlace, PlaceDB, resolveAdminApiUrl } from "@/utils/api";
 
-const get = async (): Promise<IPlace[]> =>
-    supabase
-        .from("places")
-        .select("*")
-        .then(({ data }) => data!.map((place) => mapPlace(place as PlaceDB)));
+const get = (): Promise<IPlace[]> =>
+    fetch(resolveAdminApiUrl("/api/travel-app/places"), {
+        method: "GET",
+    }).then(async (response) => {
+        const data: PlaceDB[] = await response.json();
+
+        return data.map(mapPlace);
+    });
 
 export const PlacesActions = {
     get,

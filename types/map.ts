@@ -56,3 +56,9 @@ export interface IPlace {
     originalQuery?: string;
     ownerId: IUser["id"];
 }
+
+export interface IPlaceVisit {
+    id: string;
+    userId: IUser["id"];
+    placeIds: IPlace["id"][];
+}

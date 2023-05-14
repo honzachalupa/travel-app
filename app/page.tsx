@@ -1,6 +1,5 @@
 "use client";
 
-import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
 import { PillNavigation } from "@/components/PillNavigation";
 import {
@@ -11,8 +10,9 @@ import {
     IPlacesListPanelRefProps,
     PlacesListPanel,
 } from "@/components/PlacesListPanel";
+import { AppContext } from "@/contexts/App";
+import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
-import { usePlaces } from "@/hooks/usePlaces";
 import { LayoutHome as Layout } from "@/layouts/Home";
 import { IPlace } from "@/types/map";
 import { LoadingIndicator } from "@honzachalupa/design-system";
@@ -20,9 +20,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 const Content: React.FC = () => {
     const { searchParams, navigateTo } = useNavigation();
-    const { places, fetchPlaces } = usePlaces();
+    const { places } = useContext(PlacesContext);
 
-    const { user } = useContext(Context);
+    const { user } = useContext(AppContext);
 
     const [selectedPlace, setSelectedPlace] = useState<IPlace>();
 
@@ -36,10 +36,6 @@ const Content: React.FC = () => {
     const handlePlacesListClick = () => {
         placesListRef.current?.toggle();
     };
-
-    useEffect(() => {
-        fetchPlaces();
-    }, []);
 
     useEffect(() => {
         if (searchParams.placeId) {
@@ -61,9 +57,6 @@ const Content: React.FC = () => {
                 selectedPlaceId={selectedPlace?.id}
                 initialFitBounds
                 className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none"
-                isPlaceVisited={(placeId) =>
-                    user?.visitedPlaceIds.includes(placeId) || false
-                }
                 onPlaceClick={onPlaceSelected}
             />
 
@@ -90,7 +83,7 @@ const Content: React.FC = () => {
 };
 
 export default function Home() {
-    const { isLoading } = useContext(Context);
+    const { isLoading } = useContext(AppContext);
 
     return isLoading ? <LoadingIndicator isFullscreen /> : <Content />;
 }

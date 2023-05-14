@@ -2,7 +2,7 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
 import { AuthContext } from "@honzachalupa/admin";
 import { useContext } from "react";
-import { Context } from "./Context";
+import { AppContext } from "../contexts/App";
 import { ContextMenu } from "./ContextMenu";
 
 interface IProps {
@@ -19,7 +19,7 @@ export const PillNavigation: React.FC<IProps> = ({
     const { location, navigateTo } = useNavigation();
     const { signOut } = useContext(AuthContext);
 
-    const { user } = useContext(Context);
+    const { user } = useContext(AppContext);
 
     return (
         <div className={className}>

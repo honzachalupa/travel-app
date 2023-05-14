@@ -1,5 +1,6 @@
 "use client";
 
+import { PlacesContext } from "@/contexts/Places";
 import { PointIcon, SetCurrentLocationIcon } from "@/icons";
 import { IPlace } from "@/types/map";
 import {
@@ -23,7 +24,7 @@ import MapGL, {
     Marker,
     ViewStateChangeEvent,
 } from "react-map-gl";
-import { Context } from "../Context";
+import { AppContext } from "../../contexts/App";
 import { ContextMenu } from "../ContextMenu";
 import { Coordinates } from "./Map.types";
 import { PlaceMarker } from "./PlaceMarker";
@@ -40,7 +41,6 @@ interface IProps {
     className?: string;
     isReadonly?: boolean;
     isMapControlShown?: boolean;
-    isPlaceVisited?: (placeId: IPlace["id"]) => boolean;
     onClick?: (coordinates: Coordinates) => void;
     onPlaceClick?: (id: IPlace["id"]) => void;
 }
@@ -63,13 +63,13 @@ export const Map: React.FC<IProps> = forwardRef(
             className,
             isReadonly,
             isMapControlShown = true,
-            isPlaceVisited,
             onClick,
             onPlaceClick,
         },
         ref
     ) => {
-        const { currentLocation } = useContext(Context);
+        const { currentLocation } = useContext(AppContext);
+        const { isPlaceVisited } = useContext(PlacesContext);
         const colorScheme = usePreferredColorScheme();
 
         const [prevSelectedPlaceId, setPrevSelectedPlaceId] = useState<
@@ -232,9 +232,7 @@ export const Map: React.FC<IProps> = forwardRef(
                                     place={place}
                                     zoom={zoom}
                                     isSelected={selectedPlaceId === place.id}
-                                    isVisited={
-                                        isPlaceVisited?.(place.id) || false
-                                    }
+                                    isVisited={isPlaceVisited(place.id)}
                                     isFaded={
                                         !!selectedPlaceId &&
                                         selectedPlaceId !== place.id

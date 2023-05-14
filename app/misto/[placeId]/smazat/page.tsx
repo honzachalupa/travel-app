@@ -1,12 +1,13 @@
 "use client";
 
+import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
-import { usePlaces } from "@/hooks/usePlaces";
+
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { IPlace } from "@/types/map";
 import { Button, ButtonsGroup } from "@honzachalupa/design-system";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 interface IProps {
     params: {
@@ -17,7 +18,8 @@ interface IProps {
 export default function PlaceDelete({ params: { placeId } }: IProps) {
     const router = useRouter();
     const { navigateTo } = useNavigation();
-    const { fetchPlace, deletePlace, isUserPlaceOwner } = usePlaces();
+    const { fetchPlace, deletePlace, isUserPlaceOwner } =
+        useContext(PlacesContext);
 
     const [place, setPlace] = useState<IPlace>();
 

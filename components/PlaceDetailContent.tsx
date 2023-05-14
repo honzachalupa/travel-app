@@ -4,7 +4,7 @@ import { EPlaceTypes, IPlace } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
 import cx from "classnames";
 import { ReactNode, useContext, useEffect, useState } from "react";
-import { Context } from "./Context";
+import { AppContext } from "../contexts/App";
 import { Coordinates } from "./Map/Map.types";
 
 interface IProps {
@@ -44,7 +44,7 @@ export const PlaceDetailContent: React.FC<IProps> = ({
     isDisclaimerShown,
     onClick,
 }) => {
-    const { user, currentLocation } = useContext(Context);
+    const { user, currentLocation } = useContext(AppContext);
 
     const [direction, setDirection] = useState<Direction | null>();
 

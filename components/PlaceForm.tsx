@@ -1,5 +1,5 @@
-import { Context } from "@/components/Context";
 import { Map } from "@/components/Map";
+import { AppContext } from "@/contexts/App";
 import { placePrompt } from "@/prompts/place";
 import { EPlaceTypes, IPlace, TPlaceType } from "@/types/map";
 import {
@@ -44,7 +44,7 @@ export const PlaceForm: React.FC<IProps> = ({
     defaultValues,
     onSubmit,
 }) => {
-    const { user } = useContext(Context);
+    const { user } = useContext(AppContext);
 
     const [query, setQuery] = useState<string>();
     const [attemptsQueue, setAttemptsQueue] = useState<

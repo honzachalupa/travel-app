@@ -13,13 +13,13 @@ import {
     useState,
 } from "react";
 
-interface Context {
+interface IAppContext {
     user: IUser | null | undefined;
     currentLocation: GeolocationCoordinates;
     isLoading: boolean;
 }
 
-const initialContext: Context = {
+const initialContext: IAppContext = {
     user: undefined,
     currentLocation: {
         longitude: undefined,
@@ -28,15 +28,15 @@ const initialContext: Context = {
     isLoading: true,
 };
 
-export const Context = createContext<Context>(initialContext);
+export const AppContext = createContext<IAppContext>(initialContext);
 
-export const ContextProvider: React.FC<{ children: ReactNode }> = ({
+export const AppContextProvider: React.FC<{ children: ReactNode }> = ({
     children,
 }) => {
     const { user } = useContext(AuthContext);
     const currentLocation = useGeoLocation();
 
-    const [context, setContext] = useState<Context>(initialContext);
+    const [context, setContext] = useState<IAppContext>(initialContext);
 
     useEffect(() => {
         setContext((prevContext) => ({
@@ -62,5 +62,7 @@ export const ContextProvider: React.FC<{ children: ReactNode }> = ({
         }));
     }, [user, currentLocation]);
 
-    return <Context.Provider value={context}>{children}</Context.Provider>;
+    return (
+        <AppContext.Provider value={context}>{children}</AppContext.Provider>
+    );
 };
