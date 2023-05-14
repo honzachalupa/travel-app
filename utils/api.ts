@@ -18,15 +18,8 @@ export interface PlaceDB {
     ownerId: string;
 }
 
-export const resolveAdminApiUrl = (path: string) => {
-    console.log({
-        "process.env.NEXT_PUBLIC_ADMIN_API_URL":
-            process.env.NEXT_PUBLIC_ADMIN_API_URL,
-        path,
-    });
-
-    return process.env.NEXT_PUBLIC_ADMIN_API_URL + path;
-};
+export const resolveAdminApiUrl = (path: string) =>
+    process.env.NEXT_PUBLIC_ADMIN_API_URL + path;
 
 export const mapPlace = ({
     id,

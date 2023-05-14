@@ -24,6 +24,7 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
         getNavigationUrl,
         setIsVisited,
         setIsNotVisited,
+        isPlaceVisited,
         isUserPlaceOwner,
     } = useContext(PlacesContext);
 
@@ -59,13 +60,12 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
                     <ContextMenu
                         title="Možnosti"
                         items={[
-                            user && user.visitedPlaceIds.includes(place.id)
+                            user && isPlaceVisited(place.id)
                                 ? {
                                       label: "Označit jako nenavštívené",
                                       onClick: () => setIsNotVisited(place.id),
                                   }
-                                : user &&
-                                  !user.visitedPlaceIds.includes(place.id)
+                                : user && !isPlaceVisited(place.id)
                                 ? {
                                       label: "Označit jako navštívené",
                                       onClick: () => setIsVisited(place.id),

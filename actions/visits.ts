@@ -57,7 +57,7 @@ const setIsNotVisited = async ({
     });
 };
 
-export const VisitedPlacesActions = {
+export const VisitsActions = {
     get,
     setIsVisited,
     setIsNotVisited,

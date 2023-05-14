@@ -1,4 +1,5 @@
 import { DirectionActions } from "@/actions/direction";
+import { PlacesContext } from "@/contexts/Places";
 import { Direction } from "@/types/direction";
 import { EPlaceTypes, IPlace } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
@@ -44,7 +45,8 @@ export const PlaceDetailContent: React.FC<IProps> = ({
     isDisclaimerShown,
     onClick,
 }) => {
-    const { user, currentLocation } = useContext(AppContext);
+    const { currentLocation } = useContext(AppContext);
+    const { isPlaceVisited } = useContext(PlacesContext);
 
     const [direction, setDirection] = useState<Direction | null>();
 
@@ -123,12 +125,11 @@ export const PlaceDetailContent: React.FC<IProps> = ({
                 </div>
             )}
 
-            {isVisitedStatusShown &&
-                user?.visitedPlaceIds.includes(place.id) && (
-                    <Pil color="green" className="mt-3">
-                        Navštíveno
-                    </Pil>
-                )}
+            {isVisitedStatusShown && isPlaceVisited(place.id) && (
+                <Pil color="green" className="mt-3">
+                    Navštíveno
+                </Pil>
+            )}
 
             {isDisclaimerShown && (
                 <p className="text-xs text-opacity-30 text-justify mt-5">

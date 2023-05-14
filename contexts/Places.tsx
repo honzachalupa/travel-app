@@ -1,6 +1,6 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
-import { VisitedPlacesActions } from "@/actions/visitedPlaces";
+import { VisitsActions } from "@/actions/visits";
 import { Coordinates } from "@/components/Map/Map.types";
 import { IPlace, TNavigationAppId } from "@/types/map";
 import { getAirDistance, resolveNavigationUrl } from "@/utils/map";
@@ -17,7 +17,7 @@ import { AppContext } from "./App";
 
 interface IPlaceContext {
     places: IPlace[];
-    visits: IPlace["id"][];
+    visitedPlaceIds: IPlace["id"][];
     fetchPlace: (id: IPlace["id"]) => Promise<IPlace>;
     refetchPlaces: () => Promise<IPlace[]>;
     createPlace: (payload: Omit<IPlace, "id">) => Promise<any>;
@@ -35,7 +35,7 @@ interface IPlaceContext {
 
 const initialContext: IPlaceContext = {
     places: [],
-    visits: [],
+    visitedPlaceIds: [],
     fetchPlace: () => new Promise(() => {}),
     refetchPlaces: () => new Promise(() => {}),
     createPlace: () => new Promise(() => {}),
@@ -95,16 +95,16 @@ export const PlacesContextProvider = ({
     const fetchVisits = useCallback(
         async () =>
             user
-                ? await VisitedPlacesActions.get({ userId: user.id }).then(
-                      ({ placeIds }) => {
+                ? await VisitsActions.get({ userId: user.id })
+                      .then(({ placeIds }) => {
                           setContext((prevState) => ({
                               ...prevState,
                               visits: placeIds,
                           }));
 
                           return placeIds;
-                      }
-                  )
+                      })
+                      .catch(() => [])
                 : [],
         [currentLocation]
     );
@@ -131,7 +131,7 @@ export const PlacesContextProvider = ({
 
     const setIsVisited = (placeId: IPlace["id"]) => {
         if (user) {
-            VisitedPlacesActions.setIsVisited({
+            VisitsActions.setIsVisited({
                 placeId,
                 userId: user.id,
             }).then(() => {
@@ -144,7 +144,7 @@ export const PlacesContextProvider = ({
 
     const setIsNotVisited = (placeId: IPlace["id"]) => {
         if (user) {
-            VisitedPlacesActions.setIsNotVisited({
+            VisitsActions.setIsNotVisited({
                 placeId,
                 userId: user.id,
             }).then(() => {
@@ -167,7 +167,7 @@ export const PlacesContextProvider = ({
     );
 
     const isPlaceVisited = (id: IPlace["id"]) =>
-        context.visits.includes(id) || false;
+        context.visitedPlaceIds.includes(id) || false;
 
     const isUserPlaceOwner = (place: IPlace) =>
         place?.ownerId === user?.id || user?.role === "ADMIN";

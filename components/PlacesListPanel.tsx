@@ -1,3 +1,4 @@
+import { PlacesContext } from "@/contexts/Places";
 import { EPlaceTypes, IPlace } from "@/types/map";
 import { Input, Toggle } from "@honzachalupa/design-system";
 import React, {
@@ -71,6 +72,7 @@ const Filter: React.FC<{
 export const PlacesListPanel = forwardRef(
     ({ places, onPlaceSelected, onOpen }: IProps, ref) => {
         const { user } = useContext(AppContext);
+        const { visitedPlaceIds, isPlaceVisited } = useContext(PlacesContext);
 
         const [filteredPlaces, setFilteredPlaces] = useState<IPlace[]>(places);
 
@@ -103,7 +105,7 @@ export const PlacesListPanel = forwardRef(
 
             if (!includeVisitedPlaces) {
                 filteredPlaces = filteredPlaces.filter(
-                    (place) => !user?.visitedPlaceIds.includes(place.id)
+                    (place) => !isPlaceVisited(place.id)
                 );
             }
 
@@ -144,11 +146,8 @@ export const PlacesListPanel = forwardRef(
                     <div className="w-full p-3 fixed bottom-0 left-0 flex justify-center">
                         <p className="theme-glass-effect text-sm text-opacity-70 text-center rounded-2xl p-3">
                             Navštíveno{" "}
-                            {Math.min(
-                                user?.visitedPlaceIds.length,
-                                places.length
-                            )}{" "}
-                            z {places.length} míst
+                            {Math.min(visitedPlaceIds.length, places.length)} z{" "}
+                            {places.length} míst
                         </p>
                     </div>
                 )}
