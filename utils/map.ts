@@ -1,9 +1,9 @@
-import { Coordinates } from "@/components/Map/Map.types";
+import { ICoordinates } from "@/components/Map/Map.types";
 import { IPlace, TNavigationAppId } from "@/types/map";
 
 export const getAirDistance = (
-    currentLocation: Coordinates,
-    { longitude, latitude }: Coordinates
+    currentLocation: ICoordinates,
+    { longitude, latitude }: ICoordinates
 ) => {
     const toRadians = (value: number) => (value * Math.PI) / 180;
 
@@ -31,7 +31,7 @@ export const getAirDistance = (
 export const resolveNavigationUrl = (
     appId: TNavigationAppId,
     address: IPlace["address"],
-    coordinates: Coordinates
+    coordinates: ICoordinates
 ) => {
     switch (appId) {
         case "apple-maps":

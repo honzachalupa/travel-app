@@ -1,33 +1,33 @@
+import { PlacesContext } from "@/contexts/Places";
 import { MarkerDefaultIcon, MarkerStarIcon, PointIcon } from "@/icons";
 import { IPlace } from "@/types/map";
 import cx from "classnames";
+import { useContext } from "react";
 import { Marker } from "react-map-gl";
+import { IMarker } from "./Map.core";
 
 interface IProps {
-    place: IPlace;
-    zoom: number;
+    data: IMarker["data"];
+    currentZoom: number;
     isSelected: boolean;
-    isVisited: boolean;
     isFaded: boolean;
     onClick?: (id: IPlace["id"]) => void;
 }
 
 export const PlaceMarker: React.FC<IProps> = ({
-    place: { id, name, coordinates },
-    zoom,
+    data: { id, name, coordinates },
+    currentZoom,
     isSelected,
-    isVisited,
     isFaded,
     onClick,
 }) => {
-    const isZoomedOut = zoom < 6;
-    const isZoomedOutName = zoom > 11;
+    const { isPlaceVisited } = useContext(PlacesContext);
+
+    const isZoomedOut = currentZoom < 6;
+    const isZoomedOutName = currentZoom > 11;
+    const isVisited = isPlaceVisited(id);
 
     const MarkerIcon = isVisited ? MarkerStarIcon : MarkerDefaultIcon;
-
-    const handlePlaceClick = (id: IPlace["id"]) => {
-        onClick?.(id);
-    };
 
     return (
         <Marker
@@ -41,7 +41,7 @@ export const PlaceMarker: React.FC<IProps> = ({
                     "cursor-pointer": !!onClick,
                 })}
                 onClick={() => {
-                    handlePlaceClick(id);
+                    onClick?.(id);
                 }}
             >
                 {isZoomedOut ? (

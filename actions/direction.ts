@@ -1,8 +1,7 @@
-import { Coordinates } from "@/components/Map/Map.types";
 import { Direction } from "@/types/direction";
 import moment from "moment";
 
-const get = (coordinatesFrom: Coordinates, coordinateTo: Coordinates) => {
+const get = (coordinatesFrom: ICoordinates, coordinateTo: ICoordinates) => {
     const coordinatesList = [
         {
             longitude: coordinatesFrom.longitude,

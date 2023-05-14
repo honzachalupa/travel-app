@@ -1099,6 +1099,24 @@
     typescript "^4.5.2"
     ua-parser-js "^1.0.35"
 
+"@honzachalupa/design-system@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.17.tgz#939f908e065158ee5ebf840d7c5f12f486681013"
+  integrity sha512-WRtELz31lo+P9zRFJlPl58Dv8TST2+xpA/Q790mY69rCozQeEv9plx3iQ/Ukm5PdouogNiy+pPJUWwmrZF5mjw==
+  dependencies:
+    "@react-hooks-library/core" "^0.5.1"
+    classnames "^2.3.2"
+    mapbox-gl "^2.14.1"
+    react "^18.2.0"
+    react-icons "^4.8.0"
+    react-ios-pwa-prompt "^1.8.4"
+    react-map-gl "^7.0.23"
+    react-select "^5.7.2"
+    react-spinners "^0.13.8"
+    react-textarea-autosize "^8.4.1"
+    typescript "^4.5.2"
+    ua-parser-js "^1.0.35"
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"

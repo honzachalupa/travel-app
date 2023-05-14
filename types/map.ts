@@ -1,5 +1,5 @@
-import { Coordinates } from "@/components/Map/Map.types";
 import { IUser } from "@honzachalupa/admin";
+import { ICoordinates } from "@honzachalupa/design-system";
 
 export enum ENavigationAppLabels {
     "apple-maps" = "Apple Maps",
@@ -40,7 +40,7 @@ export interface IPlace {
     name: string;
     description?: string;
     type?: TPlaceType;
-    coordinates: Coordinates;
+    coordinates: ICoordinates;
     address?: {
         street?: string;
         houseNumber?: number;

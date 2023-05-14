@@ -1,7 +1,7 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { VisitsActions } from "@/actions/visits";
-import { Coordinates } from "@/components/Map/Map.types";
+import { ICoordinates } from "@/components/Map/Map.types";
 import { IPlace, TNavigationAppId } from "@/types/map";
 import { getAirDistance, resolveNavigationUrl } from "@/utils/map";
 import { useLocalStorage } from "@honzachalupa/design-system";
@@ -70,12 +70,12 @@ export const PlacesContextProvider = ({
             PlacesActions.get().then((data) => {
                 const sorted = data.sort((a, b) => {
                     const distanceA = getAirDistance(
-                        currentLocation as Coordinates,
+                        currentLocation as ICoordinates,
                         a.coordinates
                     );
 
                     const distanceB = getAirDistance(
-                        currentLocation as Coordinates,
+                        currentLocation as ICoordinates,
                         b.coordinates
                     );
 

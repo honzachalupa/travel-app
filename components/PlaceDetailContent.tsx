@@ -6,7 +6,7 @@ import { formatAddress } from "@/utils/formatting";
 import cx from "classnames";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { AppContext } from "../contexts/App";
-import { Coordinates } from "./Map/Map.types";
+import { ICoordinates } from "./Map/Map.types";
 
 interface IProps {
     place: IPlace;
@@ -57,7 +57,7 @@ export const PlaceDetailContent: React.FC<IProps> = ({
 
         if (currentLocation.latitude && currentLocation.longitude && place) {
             DirectionActions.get(
-                currentLocation as Coordinates,
+                currentLocation as ICoordinates,
                 place.coordinates
             ).then(setDirection);
         }

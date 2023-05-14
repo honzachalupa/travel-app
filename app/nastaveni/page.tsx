@@ -1,38 +1,49 @@
 "use client";
 
+import { SettingsContext } from "@/contexts/Settings";
+import { useNavigation } from "@/hooks/useNavigation";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { ENavigationAppLabels, TNavigationAppId } from "@/types/map";
 import {
     Button,
     ButtonsGroup,
     Select,
-    useLocalStorage,
+    Toggle,
 } from "@honzachalupa/design-system";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 interface FormData {
     navigationApp: TNavigationAppId;
+    isMapSatelliteViewEnabled: boolean;
 }
 
 export default function Settings() {
-    const [localStorageData, setLocalStorageData] = useLocalStorage<FormData>(
-        "settings",
-        {
-            navigationApp: "google-maps",
-        }
-    );
+    const { navigateTo } = useNavigation();
 
-    const [formData, setFormData] = useState<FormData>(localStorageData);
+    const {
+        navigationApp,
+        isMapSatelliteViewEnabled,
+        setNavigationApp,
+        setMapSateliteViewEnabled,
+    } = useContext(SettingsContext);
+
+    const [formData, setFormData] = useState<FormData>({
+        navigationApp,
+        isMapSatelliteViewEnabled,
+    });
 
     const setFormDataValue = <T,>(key: keyof FormData, value: T) => {
         setFormData((prevState) => ({
             ...prevState,
-            [key]: value as any,
+            [key]: value,
         }));
     };
 
     const handleSubmit = () => {
-        setLocalStorageData(formData);
+        setNavigationApp(formData.navigationApp);
+        setMapSateliteViewEnabled(formData.isMapSatelliteViewEnabled);
+
+        navigateTo.home();
     };
 
     return (
@@ -60,6 +71,14 @@ export default function Settings() {
                     },
                 ]}
                 onChange={(value) => setFormDataValue("navigationApp", value)}
+            />
+
+            <Toggle
+                label="Zobrazit na mapě satelitní snímky"
+                defaultValue={formData.isMapSatelliteViewEnabled}
+                onChange={(value) =>
+                    setFormDataValue("isMapSatelliteViewEnabled", value)
+                }
             />
 
             <ButtonsGroup alignment="right">

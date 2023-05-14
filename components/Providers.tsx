@@ -1,6 +1,7 @@
 "use client";
 
 import { PlacesContextProvider } from "@/contexts/Places";
+import { SettingsContextProvider } from "@/contexts/Settings";
 import { AuthContextProvider } from "@honzachalupa/admin";
 import { DesignSystemContextProvider } from "@honzachalupa/design-system";
 import { Analytics } from "@vercel/analytics/react";
@@ -18,7 +19,9 @@ export const Providers: React.FC<IProps> = ({ children }) => {
                 <AuthContextProvider>
                     <AppContextProvider>
                         <PlacesContextProvider>
-                            {children}
+                            <SettingsContextProvider>
+                                {children}
+                            </SettingsContextProvider>
                         </PlacesContextProvider>
                     </AppContextProvider>
                 </AuthContextProvider>
