@@ -9,7 +9,7 @@
         "lint": "tsc --noEmit && next lint"
     },
     "dependencies": {
-        "@honzachalupa/admin": "^1.0.12",
+        "@honzachalupa/admin": "^1.0.15",
         "@honzachalupa/design-system": "^1.0.15",
         "@vercel/analytics": "^1.0.0",
         "classnames": "^2.3.2",

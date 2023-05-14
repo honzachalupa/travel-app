@@ -19,10 +19,11 @@ export interface PlaceDB {
 }
 
 export const resolveAdminApiUrl = (path: string) => {
-    console.log(
-        "process.env.NEXT_PUBLIC_ADMIN_API_URL",
-        process.env.NEXT_PUBLIC_ADMIN_API_URL
-    );
+    console.log({
+        "process.env.NEXT_PUBLIC_ADMIN_API_URL":
+            process.env.NEXT_PUBLIC_ADMIN_API_URL,
+        path,
+    });
 
     return process.env.NEXT_PUBLIC_ADMIN_API_URL + path;
 };

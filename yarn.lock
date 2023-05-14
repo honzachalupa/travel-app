@@ -1070,10 +1070,10 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/admin@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.12.tgz#fe1f7a065ae86dfdd029893a36fa1716b397a0d0"
-  integrity sha512-gESnYEno/3NO56IAPHfdq3iX0v4WJkJXpoTu/zWtZ7eevtWzPuVh6hfzupf+130z42J02Pna5pbWWyssxEokVg==
+"@honzachalupa/admin@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.15.tgz#8cd026dda476cdaac720ed447c8ae45481084380"
+  integrity sha512-zXIuw2nb0rYrL+45bqsxBZUlg88RiVUtJR2yxn3YZ0n4LLs3OBuMRy1WY4TIgfMt3OaiPiEA0E8+VxhseItMuQ==
   dependencies:
     "@honzachalupa/design-system" "^1.0.15"
     "@supabase/supabase-js" "^2.21.0"
