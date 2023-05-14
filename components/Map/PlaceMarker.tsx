@@ -1,10 +1,10 @@
 import { PlacesContext } from "@/contexts/Places";
 import { MarkerDefaultIcon, MarkerStarIcon, PointIcon } from "@/icons";
 import { IPlace } from "@/types/map";
+import { IMarker } from "@honzachalupa/design-system";
 import cx from "classnames";
 import { useContext } from "react";
 import { Marker } from "react-map-gl";
-import { IMarker } from "./Map.core";
 
 interface IProps {
     data: IMarker["data"];

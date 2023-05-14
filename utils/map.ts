@@ -1,5 +1,5 @@
-import { ICoordinates } from "@/components/Map/Map.types";
 import { IPlace, TNavigationAppId } from "@/types/map";
+import { ICoordinates } from "@honzachalupa/design-system";
 
 export const getAirDistance = (
     currentLocation: ICoordinates,

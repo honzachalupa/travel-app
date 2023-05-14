@@ -3,10 +3,10 @@ import { PlacesContext } from "@/contexts/Places";
 import { Direction } from "@/types/direction";
 import { EPlaceTypes, IPlace } from "@/types/map";
 import { formatAddress } from "@/utils/formatting";
+import { ICoordinates } from "@honzachalupa/design-system";
 import cx from "classnames";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { AppContext } from "../contexts/App";
-import { ICoordinates } from "./Map/Map.types";
 
 interface IProps {
     place: IPlace;

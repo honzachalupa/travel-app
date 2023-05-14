@@ -1,10 +1,9 @@
 import { PlaceActions } from "@/actions/place";
 import { PlacesActions } from "@/actions/places";
 import { VisitsActions } from "@/actions/visits";
-import { ICoordinates } from "@/components/Map/Map.types";
 import { IPlace, TNavigationAppId } from "@/types/map";
 import { getAirDistance, resolveNavigationUrl } from "@/utils/map";
-import { useLocalStorage } from "@honzachalupa/design-system";
+import { ICoordinates, useLocalStorage } from "@honzachalupa/design-system";
 import {
     createContext,
     ReactNode,
