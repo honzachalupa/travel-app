@@ -10,7 +10,14 @@ interface ISettingsContext {
     setMapSateliteViewEnabled: (value: boolean) => void;
 }
 
-const localStorageData = JSON.parse(localStorage.getItem("settings") || "{}");
+let localStorageData: Partial<ISettingsContext> = {
+    navigationApp: "google-maps",
+    isMapSatelliteViewEnabled: false,
+};
+
+try {
+    localStorageData = JSON.parse(localStorage.getItem("settings") || "{}");
+} catch (error) {}
 
 const initialContext: ISettingsContext = {
     navigationApp: localStorageData.navigationApp || "google-maps",
