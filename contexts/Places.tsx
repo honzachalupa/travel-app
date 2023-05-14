@@ -67,7 +67,7 @@ export const PlacesContextProvider = ({
 
     const fetchPlaces = useCallback(
         () =>
-            PlacesActions.get().then(async (data) => {
+            PlacesActions.get().then((data) => {
                 const sorted = data.sort((a, b) => {
                     const distanceA = getAirDistance(
                         currentLocation as Coordinates,
@@ -96,17 +96,17 @@ export const PlacesContextProvider = ({
         async () =>
             user
                 ? await VisitsActions.get({ userId: user.id })
-                      .then(({ placeIds }) => {
+                      .then(({ placeIds: visitedPlaceIds }) => {
                           setContext((prevState) => ({
                               ...prevState,
-                              visits: placeIds,
+                              visitedPlaceIds,
                           }));
 
-                          return placeIds;
+                          return visitedPlaceIds;
                       })
                       .catch(() => [])
                 : [],
-        [currentLocation]
+        [user]
     );
 
     const create = (payload: Omit<IPlace, "id">) =>

@@ -1,25 +1,34 @@
-import { IPlace } from "@/types/map";
+import { IPlace, IPlaceRecord } from "@/types/map";
 
-export interface PlaceDB {
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    coordinates_longitude: number;
-    coordinates_latitude: number;
-    address_street: string;
-    address_houseNumber: number;
-    address_city: string;
-    address_country: string;
-    contact_phoneNumber: string;
-    contact_emailAddress: string;
-    contact_url: string;
-    contact_instagramUrl: string;
-    ownerId: string;
-}
+export const callAPI = (
+    method: "GET" | "POST" | "PATCH" | "DELETE",
+    path: string,
+    data?: {
+        params?: {
+            [key: string]: string | boolean;
+        };
+        body?: {
+            [key: string]: any;
+        };
+    }
+) => {
+    const url = new URL(process.env.NEXT_PUBLIC_ADMIN_API_URL + path);
 
-export const resolveAdminApiUrl = (path: string) =>
-    process.env.NEXT_PUBLIC_ADMIN_API_URL + path;
+    if (data?.params) {
+        Object.entries(data.params).forEach(([key, value]) => {
+            url.searchParams.set(key, value.toString());
+        });
+    }
+
+    return fetch(url, {
+        method,
+        body: data?.body && JSON.stringify(data.body),
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        },
+    }).then((response) => response.json());
+};
 
 export const mapPlace = ({
     id,
@@ -37,7 +46,7 @@ export const mapPlace = ({
     contact_url,
     contact_instagramUrl,
     ownerId,
-}: PlaceDB): IPlace => ({
+}: IPlaceRecord): IPlace => ({
     id,
     name,
     description,

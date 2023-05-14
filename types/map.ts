@@ -57,6 +57,24 @@ export interface IPlace {
     ownerId: IUser["id"];
 }
 
+export interface IPlaceRecord {
+    id: string;
+    name: string;
+    description: string;
+    type: string;
+    coordinates_longitude: number;
+    coordinates_latitude: number;
+    address_street: string;
+    address_houseNumber: number;
+    address_city: string;
+    address_country: string;
+    contact_phoneNumber: string;
+    contact_emailAddress: string;
+    contact_url: string;
+    contact_instagramUrl: string;
+    ownerId: string;
+}
+
 export interface IPlaceVisit {
     id: string;
     userId: IUser["id"];

@@ -1,14 +1,10 @@
-import { IPlace } from "@/types/map";
-import { mapPlace, PlaceDB, resolveAdminApiUrl } from "@/utils/api";
+import { IPlace, IPlaceRecord } from "@/types/map";
+import { callAPI, mapPlace } from "@/utils/api";
 
 const get = (): Promise<IPlace[]> =>
-    fetch(resolveAdminApiUrl("/api/travel-app/places"), {
-        method: "GET",
-    }).then(async (response) => {
-        const data: PlaceDB[] = await response.json();
-
-        return data.map(mapPlace);
-    });
+    callAPI("GET", "/api/travel-app/places").then((data: IPlaceRecord[]) =>
+        data.map(mapPlace)
+    );
 
 export const PlacesActions = {
     get,

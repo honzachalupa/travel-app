@@ -1,22 +1,16 @@
-import { IPlace } from "@/types/map";
-import { mapPlace, PlaceDB, resolveAdminApiUrl } from "@/utils/api";
+import { IPlace, IPlaceRecord } from "@/types/map";
+import { callAPI, mapPlace } from "@/utils/api";
 import moment from "moment";
 
 const get = (params: { id: IPlace["id"] }): Promise<IPlace> =>
-    fetch(
-        resolveAdminApiUrl(
-            `/api/travel-app/places?id=${params.id}&single=true`
-        ),
-        {
-            method: "GET",
-        }
-    ).then(async (response) => {
-        const data: PlaceDB = await response.json();
+    callAPI("GET", "/api/travel-app/places", {
+        params: {
+            id: params.id,
+            returnFirst: true,
+        },
+    }).then((data: IPlaceRecord) => mapPlace(data));
 
-        return mapPlace(data);
-    });
-
-const create = async ({
+const create = ({
     name,
     description,
     type,
@@ -26,9 +20,8 @@ const create = async ({
     originalQuery,
     ownerId,
 }: Omit<IPlace, "id">) =>
-    fetch(resolveAdminApiUrl("/api/travel-app/places"), {
-        method: "POST",
-        body: JSON.stringify({
+    callAPI("POST", "/api/travel-app/places", {
+        body: {
             name,
             description,
             type,
@@ -44,10 +37,10 @@ const create = async ({
             originalQuery,
             ownerId,
             createdAt: moment().format(),
-        }),
-    }).then((response) => response.json());
+        },
+    });
 
-const update = async (
+const update = (
     id: IPlace["id"],
     {
         name,
@@ -59,9 +52,8 @@ const update = async (
         originalQuery,
     }: Omit<IPlace, "id" | "ownerId">
 ) =>
-    fetch(resolveAdminApiUrl(`/api/travel-app/places?id=${id}`), {
-        method: "PATCH",
-        body: JSON.stringify({
+    callAPI("PATCH", "/api/travel-app/places", {
+        body: {
             name,
             description,
             type,
@@ -77,17 +69,13 @@ const update = async (
             contact_instagramUrl: contact?.instagramUrl,
             originalQuery,
             updatedAt: moment().format(),
-        }),
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
         },
-    }).then((response) => response.json());
+    });
 
-const delete_ = async (id: IPlace["id"]) =>
-    fetch(resolveAdminApiUrl(`/api/travel-app/places?id=${id}`), {
-        method: "DELETE",
-    }).then((response) => response.json());
+const delete_ = (id: IPlace["id"]) =>
+    callAPI("DELETE", "/api/travel-app/places", {
+        params: { id },
+    });
 
 export const PlaceActions = {
     get,

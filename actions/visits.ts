@@ -1,18 +1,16 @@
 import { IPlace, IPlaceVisit } from "@/types/map";
-import { resolveAdminApiUrl } from "@/utils/api";
+import { callAPI } from "@/utils/api";
 import { IUser } from "@honzachalupa/admin";
 
 const get = (params: { userId: IUser["id"] }): Promise<IPlaceVisit> =>
-    fetch(
-        resolveAdminApiUrl(
-            `/api/travel-app/visited-places?id=${params.userId}&single=true`
-        ),
-        {
-            method: "GET",
-        }
-    ).then((response) => response.json());
+    callAPI("GET", "/api/travel-app/visits", {
+        params: {
+            id: params.userId,
+            returnFirst: true,
+        },
+    });
 
-const update = async (
+const update = (
     id: IPlace["id"],
     {
         placeIds,
@@ -20,16 +18,14 @@ const update = async (
         placeIds: IPlace["id"][];
     }
 ) =>
-    fetch(resolveAdminApiUrl(`/api/travel-app/visited-places?id=${id}`), {
-        method: "PATCH",
-        body: JSON.stringify({
-            placeIds,
-        }),
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
+    callAPI("PATCH", "/api/travel-app/visits", {
+        params: {
+            id,
         },
-    }).then((response) => response.json());
+        body: {
+            placeIds,
+        },
+    });
 
 const setIsVisited = async ({
     placeId,
