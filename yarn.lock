@@ -1070,12 +1070,12 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/admin@^1.0.20":
-  version "1.0.20"
-  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.20.tgz#2bee5cc9bca5a10b61d0df14a6338c75a197b207"
-  integrity sha512-vpu0W8PtugZQBfXdcH6CqzfeKCJAOBBYWzdQY2qD6EbTfQSd+AJ9oHY1EtWfqWuhRT6lIMGsoryoa/a3cwLQjQ==
+"@honzachalupa/admin@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.21.tgz#b674b0b36a5937a67816d3b25e81757a738c56bb"
+  integrity sha512-bcNGYYS1Fpp/9HF8pZDJWo0P9JBC8j7yeMPYYfZRfp6TttMj0u76FEy9OVpC7CaTlHA+oT8yFzTJhhjgfqLgew==
   dependencies:
-    "@honzachalupa/design-system" "^1.0.15"
+    "@honzachalupa/design-system" "^1.0.21"
     "@supabase/supabase-js" "^2.21.0"
     classnames "^2.3.2"
     cors "^2.8.5"
@@ -1083,28 +1083,10 @@
     typescript "^4.9.5"
     uuid "^9.0.0"
 
-"@honzachalupa/design-system@^1.0.15":
-  version "1.0.17"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.17.tgz#939f908e065158ee5ebf840d7c5f12f486681013"
-  integrity sha512-WRtELz31lo+P9zRFJlPl58Dv8TST2+xpA/Q790mY69rCozQeEv9plx3iQ/Ukm5PdouogNiy+pPJUWwmrZF5mjw==
-  dependencies:
-    "@react-hooks-library/core" "^0.5.1"
-    classnames "^2.3.2"
-    mapbox-gl "^2.14.1"
-    react "^18.2.0"
-    react-icons "^4.8.0"
-    react-ios-pwa-prompt "^1.8.4"
-    react-map-gl "^7.0.23"
-    react-select "^5.7.2"
-    react-spinners "^0.13.8"
-    react-textarea-autosize "^8.4.1"
-    typescript "^4.5.2"
-    ua-parser-js "^1.0.35"
-
-"@honzachalupa/design-system@^1.0.19":
-  version "1.0.19"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.19.tgz#154315c8973f9bce03eb622dd56e41c0be3f53b8"
-  integrity sha512-tnspAsPKmQSx9fBKzAxFZN9HZ+iEEJ0zblBr5gXP+04efnL0wtLE1eHhAhWWhOU/+S9yDfqyCO6FTh0UUAodhw==
+"@honzachalupa/design-system@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.21.tgz#775b5dea334d0fc052353f03d4e9b03654aa2f5b"
+  integrity sha512-kqzjVJAsALY57UiwPKY2+YPDqNAQKs1+m5ORWqW3PEBzi3yD2dOsYJJCxtUZInZmImj/Z0XExjlI9nXqYzrkdw==
   dependencies:
     "@react-hooks-library/core" "^0.5.1"
     classnames "^2.3.2"
