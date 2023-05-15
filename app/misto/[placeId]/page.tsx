@@ -89,7 +89,7 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
                                 label: "Sdílet",
                                 onClick: () =>
                                     navigator.share({
-                                        url: `${location.origin}?placeId=${placeId}`,
+                                        url: `${location?.origin}?placeId=${placeId}`,
                                     }),
                             },
                             {

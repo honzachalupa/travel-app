@@ -173,6 +173,9 @@ export const PlacesContextProvider = ({
 
     useEffect(() => {
         fetchPlaces();
+    }, []);
+
+    useEffect(() => {
         fetchVisits();
     }, [user]);
 

@@ -1391,7 +1391,7 @@
   dependencies:
     cross-fetch "^3.1.5"
 
-"@supabase/gotrue-js@^2.23.0":
+"@supabase/gotrue-js@^2.26.0":
   version "2.26.0"
   resolved "https://registry.npmjs.org/@supabase/gotrue-js/-/gotrue-js-2.26.0.tgz#165415fd6ea45fa990fbe35158c1e437144b2df8"
   integrity sha512-orxz8nwaF5D1nY/9H5xxTfFSCTvYeDLx24UO/Mxsx83xFP0t5RNxQZ0lEHBOhHhXJ4vR/COv79AxoWCOTu/7Rg==
@@ -1422,12 +1422,12 @@
     cross-fetch "^3.1.5"
 
 "@supabase/supabase-js@^2.21.0":
-  version "2.21.0"
-  resolved "https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.21.0.tgz#a6bc5a2a4479adc6934539723469ffddd1d6dbab"
-  integrity sha512-FW3ZzBoc4orSgfX0dXrmJoXAcI/hiekmqXTkN64vjtUF2Urp3UjyAf71UTtV9Jl6ejHoe3K++e0+Rg9zKUJh5w==
+  version "2.22.0"
+  resolved "https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.22.0.tgz#c46a3025af5f21b5784fe3436217895f384eb72e"
+  integrity sha512-omkgSWL1HwnpXZZy+yshFLx/qqxwk9kx9jbRM6IHNEylKrH/sz6JX7rGyIOmN9niDxMRjsCu1nwuBhD6IiF2xg==
   dependencies:
     "@supabase/functions-js" "^2.1.0"
-    "@supabase/gotrue-js" "^2.23.0"
+    "@supabase/gotrue-js" "^2.26.0"
     "@supabase/postgrest-js" "^1.1.1"
     "@supabase/realtime-js" "^2.7.2"
     "@supabase/storage-js" "^2.5.1"
@@ -1485,7 +1485,7 @@
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/mapbox-gl@^2.6.0", "@types/mapbox-gl@^2.7.11":
+"@types/mapbox-gl@^2.6.0":
   version "2.7.11"
   resolved "https://registry.npmjs.org/@types/mapbox-gl/-/mapbox-gl-2.7.11.tgz#c9b9ed2ed24970aeef947609fdfcfcf826a3aa49"
   integrity sha512-4vSwPSTQIawZTFRiTY2R74aZwAiM9gE6KGj871xdyAPpa+DmEObXxQQXqL2PsMH31/rP9nxJ2Kv0boeTVJMXVw==

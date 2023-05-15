@@ -2,7 +2,6 @@
 
 import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
-
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { IPlace } from "@/types/map";
 import { Button, ButtonsGroup } from "@honzachalupa/design-system";

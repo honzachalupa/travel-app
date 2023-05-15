@@ -6,7 +6,7 @@ import { useMemo } from "react";
 export const useNavigation = () => {
     const searchParams_ = useSearchParams();
     const router = useRouter();
-    const location = useLocation()!;
+    const location = useLocation();
 
     const searchParams = useMemo(
         () => Object.fromEntries(searchParams_.entries()),

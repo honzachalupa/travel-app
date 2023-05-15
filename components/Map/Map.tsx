@@ -9,7 +9,7 @@ import {
     IMarker,
     Map as MapCore,
 } from "@honzachalupa/design-system";
-import { forwardRef, useContext, useImperativeHandle, useRef } from "react";
+import { useContext, useRef } from "react";
 import { ContextMenu } from "../ContextMenu";
 import { PlaceMarker } from "./PlaceMarker";
 
@@ -29,108 +29,93 @@ interface IProps {
     onPlaceClick?: (id: IPlace["id"]) => void;
 }
 
-export const Map: React.FC<IProps> = forwardRef(
-    (
-        {
-            places,
-            selectedPlaceId,
-            initialViewCoordinates,
-            initialViewZoom,
-            initialFitBounds,
-            className,
-            isReadonly,
-            isMapControlShown = true,
-            onClick,
-            onPlaceClick,
-        },
-        ref
-    ) => {
-        const { isMapSatelliteViewEnabled, setMapSateliteViewEnabled } =
-            useContext(SettingsContext);
+export const Map: React.FC<IProps> = ({
+    places,
+    selectedPlaceId,
+    initialViewCoordinates,
+    initialViewZoom,
+    initialFitBounds,
+    className,
+    isReadonly,
+    isMapControlShown = true,
+    onClick,
+    onPlaceClick,
+}) => {
+    console.log({ initialViewCoordinates, initialFitBounds });
+    const { isMapSatelliteViewEnabled, setMapSateliteViewEnabled } =
+        useContext(SettingsContext);
 
-        const mapRef = useRef<IMapRefProps>(null);
+    const mapRef = useRef<IMapRefProps>(null);
 
-        const markers: IMarker[] = places.map(
-            ({ id, name, coordinates, ...rest }) => ({
-                id,
-                name,
-                coordinates,
-                data: rest,
-            })
-        );
+    const markers: IMarker[] = places.map(
+        ({ id, name, coordinates, ...rest }) => ({
+            id,
+            name,
+            coordinates,
+            data: rest,
+        })
+    );
 
-        useImperativeHandle(
-            ref,
-            (): IMapRefProps => ({
-                focusCurrentLocation: mapRef.current?.focusCurrentLocation!,
-                zoomToAllMarkers: mapRef.current?.zoomToAllMarkers!,
-                rotateToNorth: mapRef.current?.rotateToNorth!,
-            })
-        );
-
-        return (
-            <>
-                <MapCore
-                    // @ts-ignore
-                    ref={mapRef}
-                    markers={markers}
-                    selectedMarkerId={selectedPlaceId}
-                    initialViewCoordinates={initialViewCoordinates}
-                    initialViewZoom={initialViewZoom}
-                    initialFitBounds={initialFitBounds}
-                    mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY!}
-                    className={className}
-                    renderMarkerComponent={(props) => (
-                        <PlaceMarker
-                            {...props}
-                            onClick={() =>
-                                onPlaceClick?.(props.data.id as IPlace["id"])
-                            }
-                        />
-                    )}
-                    isReadonly={isReadonly}
-                    isSatelliteViewEnabled={isMapSatelliteViewEnabled}
-                    onClick={onClick}
-                />
-
-                {isMapControlShown && (
-                    <ContextMenu
-                        title="Možnosti"
-                        items={[
-                            {
-                                label: "Zobrazit mou polohu",
-                                onClick: mapRef.current?.focusCurrentLocation,
-                            },
-                            {
-                                label: "Zobrazit všechna místa na mapě",
-                                onClick: mapRef.current?.zoomToAllMarkers,
-                            },
-                            {
-                                label: "Otočit mapu na sever",
-                                onClick: mapRef.current?.rotateToNorth,
-                            },
-                            {
-                                label: isMapSatelliteViewEnabled
-                                    ? "Skrýt satelitní snímky"
-                                    : "Zobrazit satelitní snímky",
-                                onClick: () =>
-                                    setMapSateliteViewEnabled(
-                                        !isMapSatelliteViewEnabled
-                                    ),
-                            },
-                        ]}
-                        itemsPosition={{
-                            x: "left",
-                            y: "top",
-                        }}
-                        className="absolute right-5 bottom-5"
-                    >
-                        <SetCurrentLocationIcon className="w-full h-full accent-foreground p-3" />
-                    </ContextMenu>
+    return (
+        <>
+            <MapCore
+                // @ts-ignore
+                ref={mapRef}
+                markers={markers}
+                selectedMarkerId={selectedPlaceId}
+                initialViewCoordinates={initialViewCoordinates}
+                initialViewZoom={initialViewZoom}
+                initialFitBounds={initialFitBounds}
+                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY!}
+                className={className}
+                renderMarkerComponent={(props) => (
+                    <PlaceMarker
+                        {...props}
+                        onClick={() =>
+                            onPlaceClick?.(props.data.id as IPlace["id"])
+                        }
+                    />
                 )}
-            </>
-        );
-    }
-);
+                isReadonly={isReadonly}
+                isSatelliteViewEnabled={isMapSatelliteViewEnabled}
+                onClick={onClick}
+            />
 
-Map.displayName = "Map";
+            {isMapControlShown && (
+                <ContextMenu
+                    title="Možnosti"
+                    items={[
+                        {
+                            label: "Zobrazit mou polohu",
+                            onClick: mapRef.current?.focusCurrentLocation,
+                        },
+                        {
+                            label: "Zobrazit všechna místa na mapě",
+                            onClick: mapRef.current?.zoomToAllMarkers,
+                        },
+                        {
+                            label: "Otočit mapu na sever",
+                            onClick: mapRef.current?.rotateToNorth,
+                        },
+                        {
+                            label: isMapSatelliteViewEnabled
+                                ? "Skrýt satelitní snímky"
+                                : "Zobrazit satelitní snímky",
+                            onClick: () =>
+                                setMapSateliteViewEnabled(
+                                    !isMapSatelliteViewEnabled
+                                ),
+                        },
+                    ]}
+                    itemsPosition={{
+                        x: "left",
+                        y: "top",
+                    }}
+                    className="absolute right-5 bottom-5"
+                >
+                    <SetCurrentLocationIcon className="w-full h-full accent-foreground p-3" />
+                </ContextMenu>
+            )}
+        </>
+    );
+};

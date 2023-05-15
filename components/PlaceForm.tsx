@@ -1,5 +1,6 @@
 import { Map } from "@/components/Map";
 import { AppContext } from "@/contexts/App";
+import { useNavigation } from "@/hooks/useNavigation";
 import { placePrompt } from "@/prompts/place";
 import { EPlaceTypes, IPlace, TPlaceType } from "@/types/map";
 import {
@@ -44,6 +45,8 @@ export const PlaceForm: React.FC<IProps> = ({
     defaultValues,
     onSubmit,
 }) => {
+    const { location } = useNavigation();
+
     const { user } = useContext(AppContext);
 
     const [query, setQuery] = useState<string>();
@@ -166,17 +169,17 @@ export const PlaceForm: React.FC<IProps> = ({
             setIsLoading(true);
             setIsFailed(false);
 
-            fetch("/api/gpt", {
+            fetch(`${location?.origin}/api/gpt`, {
                 method: "POST",
                 body: JSON.stringify({
                     prompt: placePrompt(query!),
                 }),
             })
                 .then((response) => response.json())
-                .then((response) => {
+                .then((responseData) => {
                     try {
                         const data = JSON.parse(
-                            response.choices[0].message.content.replace(
+                            responseData.choices[0].message.content.replace(
                                 /\n+/g,
                                 ""
                             )
