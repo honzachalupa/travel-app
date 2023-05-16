@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "@honzachalupa/admin": "^1.0.22",
-        "@honzachalupa/design-system": "^1.0.23",
+        "@honzachalupa/design-system": "^1.0.24",
         "@vercel/analytics": "^1.0.1",
         "classnames": "^2.3.2",
         "framer-motion": "^10.12.10",
