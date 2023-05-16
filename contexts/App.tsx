@@ -1,10 +1,7 @@
 "use client";
 
 import { AuthContext, IUser } from "@honzachalupa/admin";
-import {
-    GeolocationCoordinates,
-    useGeoLocation,
-} from "@honzachalupa/design-system";
+import { ICoordinates, useGeoLocation } from "@honzachalupa/design-system";
 import {
     createContext,
     ReactNode,
@@ -15,7 +12,7 @@ import {
 
 interface IAppContext {
     user: IUser | null | undefined;
-    currentLocation: GeolocationCoordinates;
+    currentLocation: ICoordinates;
     isLoading: boolean;
 }
 
