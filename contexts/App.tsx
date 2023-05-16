@@ -12,7 +12,10 @@ import {
 
 interface IAppContext {
     user: IUser | null | undefined;
-    currentLocation: ICoordinates;
+    currentLocation: {
+        longitude?: ICoordinates["longitude"];
+        latitude?: ICoordinates["latitude"];
+    };
     isLoading: boolean;
 }
 
