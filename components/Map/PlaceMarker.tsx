@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export const PlaceMarker: React.FC<IProps> = ({
-    data: { id, name, coordinates },
+    data: { id, name },
     currentZoom,
     isSelected,
     isFaded,
@@ -58,7 +58,6 @@ export const PlaceMarker: React.FC<IProps> = ({
                     }}
                 />
             )}
-
             {name && isZoomedOutName && <p className="opacity-75">{name}</p>}
         </div>
     );

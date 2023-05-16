@@ -41,7 +41,6 @@ export const Map: React.FC<IProps> = ({
     onClick,
     onPlaceClick,
 }) => {
-    console.log({ initialViewCoordinates, initialFitBounds });
     const { isMapSatelliteViewEnabled, setMapSateliteViewEnabled } =
         useContext(SettingsContext);
 
