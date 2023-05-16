@@ -58,6 +58,7 @@ export const PlaceMarker: React.FC<IProps> = ({
                     }}
                 />
             )}
+
             {name && isZoomedOutName && <p className="opacity-75">{name}</p>}
         </div>
     );

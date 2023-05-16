@@ -47,7 +47,7 @@ export const PlaceForm: React.FC<IProps> = ({
 }) => {
     const { location } = useNavigation();
 
-    const { user } = useContext(AppContext);
+    const { user, currentLocation } = useContext(AppContext);
 
     const [query, setQuery] = useState<string>();
     const [attemptsQueue, setAttemptsQueue] = useState<
@@ -320,8 +320,12 @@ export const PlaceForm: React.FC<IProps> = ({
                     <Map
                         places={selectedPlace ? [selectedPlace] : []}
                         initialViewCoordinates={{
-                            longitude: selectedPlace?.coordinates.longitude,
-                            latitude: selectedPlace?.coordinates.latitude,
+                            longitude:
+                                selectedPlace?.coordinates.longitude ||
+                                currentLocation.longitude,
+                            latitude:
+                                selectedPlace?.coordinates.latitude ||
+                                currentLocation.latitude,
                         }}
                         className="w-full aspect-square rounded-sm"
                         isMapControlShown={false}

@@ -21,7 +21,8 @@ interface IProps {
         latitude?: ICoordinates["latitude"];
     };
     initialViewZoom?: number;
-    initialFitBounds?: boolean;
+    initialFocusCurrentLocation?: boolean;
+    initialFocusMarkers?: boolean;
     className?: string;
     isReadonly?: boolean;
     isMapControlShown?: boolean;
@@ -34,7 +35,8 @@ export const Map: React.FC<IProps> = ({
     selectedPlaceId,
     initialViewCoordinates,
     initialViewZoom,
-    initialFitBounds,
+    initialFocusCurrentLocation,
+    initialFocusMarkers,
     className,
     isReadonly,
     isMapControlShown = true,
@@ -64,7 +66,8 @@ export const Map: React.FC<IProps> = ({
                 selectedMarkerId={selectedPlaceId}
                 initialViewCoordinates={initialViewCoordinates}
                 initialViewZoom={initialViewZoom}
-                initialFitBounds={initialFitBounds}
+                initialFocusCurrentLocation={initialFocusCurrentLocation}
+                initialFocusMarkers={initialFocusMarkers}
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY!}
                 className={className}
                 renderMarkerComponent={(props) => (
@@ -90,7 +93,7 @@ export const Map: React.FC<IProps> = ({
                         },
                         {
                             label: "Zobrazit všechna místa na mapě",
-                            onClick: mapRef.current?.zoomToAllMarkers,
+                            onClick: mapRef.current?.focusMarkers,
                         },
                         {
                             label: "Otočit mapu na sever",

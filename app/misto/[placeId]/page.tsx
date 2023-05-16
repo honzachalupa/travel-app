@@ -45,7 +45,7 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
                     <Map
                         places={[place]}
                         className="w-screen h-[calc(25vh+70px)] !absolute top-0 left-0"
-                        initialFitBounds
+                        initialFocusMarkers
                         isReadonly
                         isMapControlShown={false}
                     />

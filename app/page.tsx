@@ -55,7 +55,7 @@ const Content: React.FC = () => {
             <Map
                 places={places}
                 selectedPlaceId={selectedPlace?.id}
-                initialFitBounds
+                initialFocusCurrentLocation
                 className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none"
                 onPlaceClick={onPlaceSelected}
             />
