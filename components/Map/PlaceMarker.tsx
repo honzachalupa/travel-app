@@ -34,9 +34,7 @@ export const PlaceMarker: React.FC<IProps> = ({
                 "relative -top-4": !isZoomedOut,
                 "cursor-pointer": !!onClick,
             })}
-            onClick={() => {
-                onClick?.(id);
-            }}
+            onClick={() => onClick?.(id)}
         >
             {isZoomedOut ? (
                 <PointIcon
