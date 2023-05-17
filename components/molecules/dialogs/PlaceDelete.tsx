@@ -60,7 +60,10 @@ export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
         );
 
         return (
-            <Modal ref={modalRef}>
+            <Modal
+                // @ts-ignore
+                ref={modalRef}
+            >
                 <p className="text-center mb-5">
                     Opravdu chcete odstranit místo {place?.name}?
                 </p>
