@@ -1,4 +1,5 @@
 import { IPlace } from "@/types/map";
+import { applySearchParams } from "@/utils/navigation";
 import { useLocation } from "@honzachalupa/design-system";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
@@ -20,8 +21,11 @@ export const useNavigation = () => {
         replace: router.replace,
 
         login: ({ mode }: { mode: "sign-up" | "sign-in" }) =>
-            router.push(`/login?mode=${mode}`),
-        home: () => router.push("/"),
+            router.push(applySearchParams("/login", { mode })),
+
+        home: (createdPlaceId?: IPlace["id"]) =>
+            router.push(applySearchParams("/", { createdPlaceId })),
+
         profile: () => router.push("/ucet"),
         settings: () => router.push("/nastaveni"),
         about: () => router.push("/o-aplikaci"),

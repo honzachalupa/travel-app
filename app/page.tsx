@@ -20,8 +20,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 const Content: React.FC = () => {
     const { searchParams, navigateTo } = useNavigation();
-    const { places } = useContext(PlacesContext);
 
+    const { places } = useContext(PlacesContext);
     const { user } = useContext(AppContext);
 
     const [selectedPlace, setSelectedPlace] = useState<IPlace>();
@@ -29,7 +29,7 @@ const Content: React.FC = () => {
     const placeDetailRef = useRef<IPlaceDetailPanelRefProps>(null);
     const placesListRef = useRef<IPlacesListPanelRefProps>(null);
 
-    const onPlaceSelected = (placeId: IPlace["id"]) => {
+    const selectPlace = (placeId: IPlace["id"]) => {
         setSelectedPlace(places.find(({ id }) => id === placeId));
     };
 
@@ -39,9 +39,11 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         if (searchParams.placeId) {
-            onPlaceSelected(searchParams.placeId);
+            selectPlace(searchParams.placeId);
+        } else if (searchParams.createdPlaceId) {
+            selectPlace(searchParams.createdPlaceId);
         }
-    }, [searchParams.placeId, places]);
+    }, [searchParams, places]);
 
     return (
         <Layout>
@@ -57,7 +59,7 @@ const Content: React.FC = () => {
                 selectedPlaceId={selectedPlace?.id}
                 initialFocusCurrentLocation
                 className="w-screen h-screen !absolute top-0 left-0 rounded-t-2xl md:rounded-none"
-                onPlaceClick={onPlaceSelected}
+                onPlaceClick={selectPlace}
             />
 
             <PlaceDetailPanel
@@ -73,7 +75,7 @@ const Content: React.FC = () => {
                     placeDetailRef.current?.close();
                 }}
                 onPlaceSelected={(placeId) => {
-                    onPlaceSelected(placeId);
+                    selectPlace(placeId);
 
                     placesListRef.current?.close();
                 }}

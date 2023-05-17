@@ -109,8 +109,10 @@ export const PlacesContextProvider = ({
     );
 
     const create = (payload: Omit<IPlace, "id">) =>
-        PlaceActions.create(payload).then(() => {
+        PlaceActions.create(payload).then((data) => {
             fetchPlaces();
+
+            return data;
         });
 
     const update = (

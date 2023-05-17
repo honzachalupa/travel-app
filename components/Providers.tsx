@@ -27,7 +27,7 @@ export const Providers: React.FC<IProps> = ({ children }) => {
                 </AuthContextProvider>
             </DesignSystemContextProvider>
 
-            <Analytics />
+            <Analytics debug={false} />
         </>
     );
 };

@@ -12,8 +12,8 @@ export default function CreatePlace() {
     const { createPlace } = useContext(PlacesContext);
 
     const handleCreate = (formData: Omit<IPlace, "id">) =>
-        createPlace(formData).then(() => {
-            navigateTo.home();
+        createPlace(formData).then(({ id: placeId }) => {
+            navigateTo.home(placeId);
         });
 
     return (
