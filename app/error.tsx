@@ -14,10 +14,11 @@ export default function Error() {
             </p>
 
             <ButtonsGroup alignment="center" className="mt-10">
-                <Button label="Přejít na mapu" onClick={navigateTo.home} />
+                <Button
+                    label="Přejít na mapu"
+                    onClick={() => navigateTo.home()}
+                />
             </ButtonsGroup>
         </div>
     );
 }
-
-// test 2

@@ -6,7 +6,8 @@
         "dev": "PORT=4003 next dev",
         "build": "next build --debug",
         "start": "next start",
-        "lint": "tsc --noEmit && next lint"
+        "lint": "tsc --noEmit && next lint",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@honzachalupa/admin": "^1.0.23",
