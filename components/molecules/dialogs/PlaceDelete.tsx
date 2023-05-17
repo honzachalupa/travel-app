@@ -37,13 +37,13 @@ export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
 
         const handleDelete = () => {
             deletePlace(placeId).then(() => {
-                modalRef.current.close();
+                modalRef.current?.close();
                 navigateTo.home();
             });
         };
 
         const handleCancel = () => {
-            modalRef.current.close();
+            modalRef.current?.close();
         };
 
         useEffect(() => {
