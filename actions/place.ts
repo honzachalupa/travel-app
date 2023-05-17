@@ -53,6 +53,7 @@ const update = (
     }: Omit<IPlace, "id" | "ownerId">
 ) =>
     callAPI("PATCH", "/api/travel-app/places", {
+        params: { id },
         body: {
             name,
             description,
