@@ -11,7 +11,6 @@ import {
 } from "@honzachalupa/design-system";
 import {
     forwardRef,
-    Ref,
     useContext,
     useEffect,
     useImperativeHandle,
@@ -24,7 +23,7 @@ interface IProps {
 }
 
 export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
-    ({ placeId }, forwardedRef: Ref<IModalRefProps>) => {
+    ({ placeId }, forwardedRef) => {
         const { navigateTo } = useNavigation();
         const { fetchPlace, deletePlace, isUserPlaceOwner } =
             useContext(PlacesContext);
