@@ -202,10 +202,10 @@ export const PlaceForm: React.FC<IProps> = ({
                             houseNumber: data.address.houseNumber,
                             city: data.address.city,
                             country: data.address.country,
-                            phoneNumber: data.phoneNumber,
-                            emailAddress: data.emailAddress,
-                            url: data.url,
-                            instagramUrl: data.instagramUrl,
+                            phoneNumber: data.contact.phoneNumber,
+                            emailAddress: data.contact.emailAddress,
+                            url: data.contact.url,
+                            instagramUrl: data.contact.instagramUrl,
                         });
                     } catch (error) {
                         throw new Error("Unable to parse data.");
