@@ -3,6 +3,7 @@ module.exports = {
     plugins: ["@typescript-eslint"],
     rules: {
         "react-hooks/exhaustive-deps": "off",
+        "react/display-name": "off",
         "@next/next/no-html-link-for-pages": "off",
     },
 };

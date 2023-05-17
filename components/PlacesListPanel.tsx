@@ -70,7 +70,7 @@ const Filter: React.FC<{
 };
 
 export const PlacesListPanel = forwardRef(
-    ({ places, onPlaceSelected, onOpen }: IProps, ref) => {
+    ({ places, onPlaceSelected, onOpen }: IProps, forwardedRef) => {
         const { user } = useContext(AppContext);
         const { visitedPlaceIds, isPlaceVisited } = useContext(PlacesContext);
 
@@ -113,7 +113,7 @@ export const PlacesListPanel = forwardRef(
         };
 
         useImperativeHandle(
-            ref,
+            forwardedRef,
             (): IPlacesListPanelRefProps => ({
                 open: () => modalSheetRef.current?.open(),
                 close: () => modalSheetRef.current?.close(),
@@ -155,5 +155,3 @@ export const PlacesListPanel = forwardRef(
         );
     }
 );
-
-PlacesListPanel.displayName = "PlacesListPanel";

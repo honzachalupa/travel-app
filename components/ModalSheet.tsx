@@ -82,5 +82,3 @@ export const ModalSheet = forwardRef(
         );
     }
 );
-
-ModalSheet.displayName = "ModalSheet";

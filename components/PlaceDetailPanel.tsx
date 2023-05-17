@@ -27,7 +27,7 @@ export interface IPlaceDetailPanelRefProps {
 }
 
 export const PlaceDetailPanel = forwardRef(
-    ({ place, onClose }: IProps, ref) => {
+    ({ place, onClose }: IProps, forwardedRef) => {
         const { location, navigateTo } = useNavigation();
         const {
             isPlaceVisited,
@@ -47,7 +47,7 @@ export const PlaceDetailPanel = forwardRef(
         }, [place]);
 
         useImperativeHandle(
-            ref,
+            forwardedRef,
             (): IPlaceDetailPanelRefProps => ({
                 open: () => modalSheetRef.current?.open(),
                 close: () => modalSheetRef.current?.close(),
@@ -119,5 +119,3 @@ export const PlaceDetailPanel = forwardRef(
         );
     }
 );
-
-PlaceDetailPanel.displayName = "PlaceDetailPanel";

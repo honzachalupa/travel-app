@@ -2,6 +2,7 @@
 
 import { ContextMenu } from "@/components/ContextMenu";
 import { Map } from "@/components/Map";
+import { PlaceDeleteDialog } from "@/components/molecules/dialogs/PlaceDelete";
 import { PlaceDetailContent } from "@/components/PlaceDetailContent";
 import { AppContext } from "@/contexts/App";
 import { PlacesContext } from "@/contexts/Places";
@@ -9,7 +10,8 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { MoreIcon } from "@/icons";
 import { LayoutPrimary as Layout } from "@/layouts/Primary";
 import { IPlace } from "@/types/map";
-import { useContext, useEffect, useState } from "react";
+import { IModalRefProps } from "@honzachalupa/design-system";
+import { useContext, useEffect, useRef, useState } from "react";
 
 interface IProps {
     params: {
@@ -30,6 +32,8 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
 
     const { user } = useContext(AppContext);
 
+    const placeDeleteModalRef = useRef<IModalRefProps>(null);
+
     const [place, setPlace] = useState<IPlace>();
 
     useEffect(() => {
@@ -42,6 +46,12 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
         <Layout>
             {place && (
                 <>
+                    <PlaceDeleteDialog
+                        // @ts-ignore
+                        ref={placeDeleteModalRef}
+                        placeId={placeId}
+                    />
+
                     <Map
                         places={[place]}
                         className="w-screen h-[calc(25vh+70px)] !absolute top-0 left-0"
@@ -82,7 +92,7 @@ export default function PlaceDetail({ params: { placeId } }: IProps) {
                                 ? {
                                       label: "Smazat",
                                       onClick: () =>
-                                          navigateTo.placeDelete(place.id),
+                                          placeDeleteModalRef.current?.showModal(),
                                   }
                                 : null,
                             {

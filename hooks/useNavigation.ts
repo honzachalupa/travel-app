@@ -32,7 +32,6 @@ export const useNavigation = () => {
         placeCreate: () => router.push("/misto/vytvorit"),
         placeDetail: (id: IPlace["id"]) => router.push(`/misto/${id}`),
         placeEdit: (id: IPlace["id"]) => router.push(`/misto/${id}/upravit`),
-        placeDelete: (id: IPlace["id"]) => router.push(`/misto/${id}/smazat`),
     };
 
     return {
