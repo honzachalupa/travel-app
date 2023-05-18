@@ -1,7 +1,7 @@
+import { GPTActions } from "@/actions/gpt";
 import { Map } from "@/components/Map";
 import { AppContext } from "@/contexts/App";
 import { useNavigation } from "@/hooks/useNavigation";
-import { placePrompt } from "@/prompts/place";
 import { EPlaceTypes, IPlace, TPlaceType } from "@/types/map";
 import {
     Button,
@@ -114,6 +114,55 @@ export const PlaceForm: React.FC<IProps> = ({
         ]);
     };
 
+    const fetch = async () => {
+        if (attemptsQueue.length > 0) {
+            setIsLoading(true);
+            setIsFailed(false);
+
+            await GPTActions.generateContent(query!)
+                .then((data) => {
+                    setFormData({
+                        name: data.name,
+                        description: data.description,
+                        type: data.type,
+                        longitude: data.coordinates.longitude,
+                        latitude: data.coordinates.latitude,
+                        street: data.address.street,
+                        houseNumber: data.address.houseNumber,
+                        city: data.address.city,
+                        country: data.address.country,
+                        phoneNumber: data.contact.phoneNumber,
+                        emailAddress: data.contact.emailAddress,
+                        url: data.contact.url,
+                        instagramUrl: data.contact.instagramUrl,
+                    });
+                })
+                .catch(() => {
+                    if (attemptsQueue.length < RETRY_COUNT) {
+                        console.info(
+                            `Search failed (${attemptsQueue.length}/${RETRY_COUNT}). Retrying...`
+                        );
+
+                        setAttemptsQueue((prevState) => [
+                            ...prevState,
+                            {
+                                timestamp: moment().format(),
+                            },
+                        ]);
+                    } else {
+                        console.info(
+                            `Search failed (${attemptsQueue.length}/${RETRY_COUNT}).`
+                        );
+
+                        setIsFailed(true);
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    };
+
     const handleSubmit = () => {
         const {
             name,
@@ -165,76 +214,7 @@ export const PlaceForm: React.FC<IProps> = ({
     }, [isAiModeEnabled]);
 
     useEffect(() => {
-        if (attemptsQueue.length > 0) {
-            setIsLoading(true);
-            setIsFailed(false);
-
-            fetch(`${location?.origin}/api/gpt`, {
-                method: "POST",
-                body: JSON.stringify({
-                    prompt: placePrompt(query!),
-                }),
-            })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    try {
-                        const data = JSON.parse(
-                            responseData.choices[0].message.content.replace(
-                                /\n+/g,
-                                ""
-                            )
-                        );
-
-                        if (
-                            !data.coordinates.longitude ||
-                            !data.coordinates.latitude
-                        ) {
-                            throw new Error("Unable to find data.");
-                        }
-
-                        setFormData({
-                            name: data.name,
-                            description: data.description,
-                            type: data.type,
-                            longitude: data.coordinates.longitude,
-                            latitude: data.coordinates.latitude,
-                            street: data.address.street,
-                            houseNumber: data.address.houseNumber,
-                            city: data.address.city,
-                            country: data.address.country,
-                            phoneNumber: data.contact.phoneNumber,
-                            emailAddress: data.contact.emailAddress,
-                            url: data.contact.url,
-                            instagramUrl: data.contact.instagramUrl,
-                        });
-                    } catch (error) {
-                        throw new Error("Unable to parse data.");
-                    }
-                })
-                .catch(() => {
-                    if (attemptsQueue.length < RETRY_COUNT) {
-                        console.info(
-                            `Search failed (${attemptsQueue.length}/${RETRY_COUNT}). Retrying...`
-                        );
-
-                        setAttemptsQueue((prevState) => [
-                            ...prevState,
-                            {
-                                timestamp: moment().format(),
-                            },
-                        ]);
-                    } else {
-                        console.info(
-                            `Search failed (${attemptsQueue.length}/${RETRY_COUNT}).`
-                        );
-
-                        setIsFailed(true);
-                    }
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
-        }
+        fetch();
     }, [attemptsQueue]);
 
     return (

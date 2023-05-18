@@ -32,8 +32,6 @@ export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
 
         const [place, setPlace] = useState<IPlace>();
 
-        console.log({ placeId });
-
         const handleDelete = () => {
             deletePlace(placeId).then(() => {
                 modalRef.current?.close();
