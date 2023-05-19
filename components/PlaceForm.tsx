@@ -1,7 +1,7 @@
 import { GPTActions } from "@/actions/gpt";
 import { Map } from "@/components/Map";
 import { AppContext } from "@/contexts/App";
-import { useNavigation } from "@/hooks/useNavigation";
+import { PlacesContext } from "@/contexts/Places";
 import { EPlaceTypes, IPlace, TPlaceType } from "@/types/map";
 import {
     Button,
@@ -45,9 +45,8 @@ export const PlaceForm: React.FC<IProps> = ({
     defaultValues,
     onSubmit,
 }) => {
-    const { location } = useNavigation();
-
     const { user, currentLocation } = useContext(AppContext);
+    const { places } = useContext(PlacesContext);
 
     const [query, setQuery] = useState<string>();
     const [attemptsQueue, setAttemptsQueue] = useState<
@@ -240,7 +239,7 @@ export const PlaceForm: React.FC<IProps> = ({
                     <Input<string>
                         label="Název nebo popis místa"
                         description={`Místo můžete vyhledat pomocí názvu, popisu nebo adresy. Například "město Nin, Chorvatsko".`}
-                        containerClassName="basis-full"
+                        containerClassName="[&>p]:w-[calc(100%+85px)]"
                         onChange={(value) => {
                             setQuery(value);
 
@@ -298,7 +297,9 @@ export const PlaceForm: React.FC<IProps> = ({
                     </p>
 
                     <Map
-                        places={selectedPlace ? [selectedPlace] : []}
+                        places={
+                            selectedPlace ? [selectedPlace, ...places] : places
+                        }
                         initialViewCoordinates={{
                             longitude:
                                 selectedPlace?.coordinates.longitude ||
@@ -308,7 +309,6 @@ export const PlaceForm: React.FC<IProps> = ({
                                 currentLocation.latitude,
                         }}
                         className="w-full aspect-square rounded-sm"
-                        isMapControlShown={false}
                         onClick={({ longitude, latitude }) => {
                             setIsAiModeEnabled(false);
 

@@ -1,18 +1,21 @@
 import { useNavigation } from "@/hooks/useNavigation";
 import { HamburgerIcon, ListIcon, MarkerPlusIcon, UserIcon } from "@/icons";
 import { AuthContext } from "@honzachalupa/admin";
+import cx from "classnames";
 import { useContext } from "react";
 import { AppContext } from "../contexts/App";
 import { ContextMenu } from "./ContextMenu";
 
 interface IProps {
     className?: string;
+    isTransparent?: boolean;
     onPlacesListClick?: () => void;
     onCreatePlaceClick?: () => void;
 }
 
-export const PillNavigation: React.FC<IProps> = ({
+export const Navigation: React.FC<IProps> = ({
     className,
+    isTransparent,
     onPlacesListClick,
     onCreatePlaceClick,
 }) => {
@@ -55,7 +58,9 @@ export const PillNavigation: React.FC<IProps> = ({
                     y: "bottom",
                 }}
                 zIndex={10}
-                className="absolute left-3 top-3"
+                className={cx("absolute left-3 top-3", {
+                    "bg-transparent": isTransparent,
+                })}
             >
                 {user ? (
                     <p className="text-xl font-medium accent-foreground">
@@ -67,7 +72,11 @@ export const PillNavigation: React.FC<IProps> = ({
                 )}
             </ContextMenu>
 
-            <div className="theme-glass-effect rounded-full flex absolute right-3 top-3 z-10">
+            <div
+                className={cx("rounded-full flex absolute right-3 top-3 z-10", {
+                    "theme-glass-effect": !isTransparent,
+                })}
+            >
                 {onCreatePlaceClick && (
                     <button
                         title="Přidat místo"

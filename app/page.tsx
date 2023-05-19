@@ -1,7 +1,7 @@
 "use client";
 
 import { Map } from "@/components/Map";
-import { PillNavigation } from "@/components/PillNavigation";
+import { Navigation } from "@/components/Navigation";
 import {
     IPlaceDetailPanelRefProps,
     PlaceDetailPanel,
@@ -47,7 +47,7 @@ const Content: React.FC = () => {
 
     return (
         <Layout>
-            <PillNavigation
+            <Navigation
                 onPlacesListClick={handlePlacesListClick}
                 onCreatePlaceClick={
                     user ? () => navigateTo.placeCreate() : undefined

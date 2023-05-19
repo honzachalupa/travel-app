@@ -1070,10 +1070,10 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
-"@honzachalupa/admin@^1.0.23":
-  version "1.0.23"
-  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.23.tgz#761fa5146112557de2e52a95dfc63d490eefcb95"
-  integrity sha512-Na8dZpQEl+6R/uI4G1hnIq2gCyk3cxsp9d9U6GVNtISbT2ac+gK86sGc4wFMe6/IrQzbKuQQxGMKMzuKGZJZDQ==
+"@honzachalupa/admin@^1.0.24":
+  version "1.0.24"
+  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.0.24.tgz#1dd9726f656783ea157c25a95625d6d53f48ddfc"
+  integrity sha512-LjcCaa8NCSOJSLdtxhDkwfGrQhu/YMn95dTjETsUlIv++5jpwHShFuXCc1Ih1TCLb7v9IUxocETs16nXHmxBgQ==
   dependencies:
     "@honzachalupa/design-system" "^1.0.21"
     "@supabase/supabase-js" "^2.21.0"
@@ -1101,10 +1101,10 @@
     typescript "^4.5.2"
     ua-parser-js "^1.0.35"
 
-"@honzachalupa/design-system@^1.0.28":
-  version "1.0.28"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.28.tgz#055dc6448eab49d0a536990e883f8ea6c014c156"
-  integrity sha512-i8lav8gMmvU1sRxNwi8Y09VN8EBBWZh2QVOP8sdWe5LloKEuKG0zaek9UQmm5RikBkTDnWEgkWRtiP4LYeq2kA==
+"@honzachalupa/design-system@^1.0.29":
+  version "1.0.29"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.29.tgz#e9c2d3952852648cdb459d0fb58d13f21417fab9"
+  integrity sha512-aPCFszESLa3t29YuNDwa8zYzOHbUnvK0vH/w/IiBsk2WznNsQUD1O4xHZJeDW4Z1aWaYsw8xL+BjsmAXN5wT1w==
   dependencies:
     "@react-hooks-library/core" "^0.5.1"
     classnames "^2.3.2"

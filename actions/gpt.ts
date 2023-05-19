@@ -5,7 +5,7 @@ const generateContent = (query: string) => {
     const typesList = Object.keys(EPlaceTypes);
 
     return callAPI("POST", "/api/gpt", {
-        params: {
+        body: {
             prompt: `
                 Search for a place "${query}" and get data stated below.
 
@@ -15,7 +15,7 @@ const generateContent = (query: string) => {
                 Value of "type" is type of place - select from the array [${typesList}] or use null.
                 Value of "street" should not contain the house number;
                 If value of "country" equals "Czechia" or "Česko", replace it with "Česká Republika".
-                Value of "instagramUrl" is URL address to Instagram profile of the place.
+                Value of "instagramUrl" is URL address to Instagram profile of the place or business (if exists).
                 Translate name and description texts to Czech language.
                 Coordinates are in WGS84 format.
                 Try find as many information as possible.

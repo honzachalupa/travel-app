@@ -13,6 +13,7 @@ export type TNavigationAppId = keyof typeof ENavigationAppLabels;
 export const EPlaceTypes = {
     city: "Město",
     mountain: "Hora, kopec, vrchol",
+    valley: "Údolí",
     viewpoint: "Rozhledna, vyhlídka",
     lake: "Jezero, nádrž, rybník",
     river: "Řeka, potok",

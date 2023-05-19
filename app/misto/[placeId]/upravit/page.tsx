@@ -32,7 +32,7 @@ export default function EditPlace({ params: { placeId } }: IProps) {
         });
 
     return (
-        <Layout>
+        <Layout title="Upravit místo">
             {place ? (
                 <PlaceForm
                     mode="edit"

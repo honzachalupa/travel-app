@@ -58,7 +58,7 @@ export const Map: React.FC<IProps> = ({
     );
 
     return (
-        <>
+        <div className="relative h-full">
             <MapCore
                 // @ts-ignore
                 ref={mapRef}
@@ -91,10 +91,12 @@ export const Map: React.FC<IProps> = ({
                             label: "Zobrazit mou polohu",
                             onClick: mapRef.current?.focusCurrentLocation,
                         },
-                        {
-                            label: "Zobrazit všechna místa na mapě",
-                            onClick: mapRef.current?.focusMarkers,
-                        },
+                        markers.length > 1
+                            ? {
+                                  label: "Zobrazit všechna místa na mapě",
+                                  onClick: mapRef.current?.focusMarkers,
+                              }
+                            : null,
                         {
                             label: "Otočit mapu na sever",
                             onClick: mapRef.current?.rotateToNorth,
@@ -118,6 +120,6 @@ export const Map: React.FC<IProps> = ({
                     <SetCurrentLocationIcon className="w-full h-full accent-foreground p-3" />
                 </ContextMenu>
             )}
-        </>
+        </div>
     );
 };

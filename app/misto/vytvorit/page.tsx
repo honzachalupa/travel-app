@@ -17,7 +17,7 @@ export default function CreatePlace() {
         });
 
     return (
-        <Layout>
+        <Layout title="Vytvořit místo">
             <PlaceForm mode="create" onSubmit={handleCreate} />
         </Layout>
     );

@@ -47,7 +47,7 @@ export default function Settings() {
     };
 
     return (
-        <Layout>
+        <Layout title="Nastavení">
             <Select
                 label="Výchozí navigační aplikace"
                 placeholder="Vyberte aplikaci"

@@ -142,11 +142,10 @@ export const PlacesListPanel = forwardRef(
                     />
                 ))}
 
-                {user && (
+                {user && visitedPlaceIds?.length > 0 && (
                     <div className="w-full p-3 fixed bottom-0 left-0 flex justify-center">
                         <p className="theme-glass-effect text-sm text-opacity-70 text-center rounded-2xl p-3">
-                            Navštíveno{" "}
-                            {Math.min(visitedPlaceIds.length, places.length)} z{" "}
+                            Navštíveno {visitedPlaceIds.length} z{" "}
                             {places.length} míst
                         </p>
                     </div>
