@@ -428,7 +428,7 @@ export const PlaceForm: React.FC<IProps> = ({
             )}
 
             {(formData.name || !isAiModeEnabled) && (
-                <ButtonsGroup alignment="right">
+                <ButtonsGroup alignment="right" className="pb-5">
                     <Button
                         label={mode === "create" ? "Vytvořit" : "Uložit změny"}
                         isDisabled={

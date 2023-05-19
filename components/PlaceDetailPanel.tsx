@@ -2,6 +2,7 @@ import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
 import { MoreIcon } from "@/icons";
 import { IPlace } from "@/types/map";
+import { IModalRefProps } from "@honzachalupa/design-system";
 import {
     forwardRef,
     useContext,
@@ -12,10 +13,11 @@ import {
 import { AppContext } from "../contexts/App";
 import { ContextMenu } from "./ContextMenu";
 import { IModalSheetRefProps, ModalSheet } from "./ModalSheet";
+import { PlaceDeleteDialog } from "./molecules/dialogs/PlaceDelete";
 import { PlaceDetailContent } from "./PlaceDetailContent";
 
 interface IProps {
-    place?: IPlace;
+    place: IPlace | undefined;
     onClose: () => void;
 }
 
@@ -34,11 +36,13 @@ export const PlaceDetailPanel = forwardRef(
             getNavigationUrl,
             setIsVisited,
             setIsNotVisited,
+            isUserPlaceOwner,
         } = useContext(PlacesContext);
 
         const { user } = useContext(AppContext);
 
         const modalSheetRef = useRef<IModalSheetRefProps>();
+        const placeDeleteModalRef = useRef<IModalRefProps>(null);
 
         useEffect(() => {
             if (place) {
@@ -59,6 +63,13 @@ export const PlaceDetailPanel = forwardRef(
 
         return (
             <>
+                <PlaceDeleteDialog
+                    // @ts-ignore
+                    ref={placeDeleteModalRef}
+                    placeId={place?.id!}
+                    onClose={() => modalSheetRef.current?.close()}
+                />
+
                 <ModalSheet
                     ref={modalSheetRef}
                     snapPoints={[600, 400, 0]}
@@ -85,10 +96,20 @@ export const PlaceDetailPanel = forwardRef(
                                       onClick: () => setIsVisited(place.id),
                                   }
                                 : null,
-                            {
-                                label: "Detail",
-                                onClick: () => navigateTo.placeDetail(place.id),
-                            },
+                            isUserPlaceOwner(place)
+                                ? {
+                                      label: "Upravit",
+                                      onClick: () =>
+                                          navigateTo.placeEdit(place.id),
+                                  }
+                                : null,
+                            isUserPlaceOwner(place)
+                                ? {
+                                      label: "Smazat",
+                                      onClick: () =>
+                                          placeDeleteModalRef.current?.showModal(),
+                                  }
+                                : null,
                             {
                                 label: "Sdílet",
                                 onClick: () =>

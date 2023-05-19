@@ -20,10 +20,11 @@ import {
 
 interface IProps {
     placeId: IPlace["id"];
+    onClose?: () => void;
 }
 
 export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
-    ({ placeId }, forwardedRef) => {
+    ({ placeId, onClose }, forwardedRef) => {
         const { navigateTo } = useNavigation();
         const { fetchPlace, deletePlace, isUserPlaceOwner } =
             useContext(PlacesContext);
@@ -61,6 +62,7 @@ export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
             <Modal
                 // @ts-ignore
                 ref={modalRef}
+                onClose={onClose}
             >
                 <p className="text-center mb-5">
                     Opravdu chcete odstranit místo {place?.name}?
