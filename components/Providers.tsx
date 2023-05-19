@@ -12,22 +12,20 @@ interface IProps {
     children: ReactNode;
 }
 
-export const Providers: React.FC<IProps> = ({ children }) => {
-    return (
-        <>
-            <DesignSystemContextProvider>
-                <AuthContextProvider>
-                    <AppContextProvider>
-                        <PlacesContextProvider>
-                            <SettingsContextProvider>
-                                {children}
-                            </SettingsContextProvider>
-                        </PlacesContextProvider>
-                    </AppContextProvider>
-                </AuthContextProvider>
-            </DesignSystemContextProvider>
+export const Providers: React.FC<IProps> = ({ children }) => (
+    <>
+        <DesignSystemContextProvider>
+            <AuthContextProvider namespaceId="travel-app">
+                <AppContextProvider>
+                    <PlacesContextProvider>
+                        <SettingsContextProvider>
+                            {children}
+                        </SettingsContextProvider>
+                    </PlacesContextProvider>
+                </AppContextProvider>
+            </AuthContextProvider>
+        </DesignSystemContextProvider>
 
-            <Analytics debug={false} />
-        </>
-    );
-};
+        <Analytics debug={false} />
+    </>
+);

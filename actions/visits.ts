@@ -3,7 +3,7 @@ import { callAPI } from "@/utils/api";
 import { IUser } from "@honzachalupa/admin";
 
 const get = (params: { userId: IUser["id"] }): Promise<IPlaceVisit> =>
-    callAPI("GET", "/api/travel-app/visits", {
+    callAPI("GET", "/api/db/travel-app/visits", {
         params: {
             id: params.userId,
             returnFirst: true,
@@ -18,7 +18,7 @@ const update = (
         placeIds: IPlace["id"][];
     }
 ) =>
-    callAPI("PATCH", "/api/travel-app/visits", {
+    callAPI("PATCH", "/api/db/travel-app/visits", {
         params: {
             id,
         },

@@ -3,7 +3,7 @@ import { callAPI, mapPlace } from "@/utils/api";
 import moment from "moment";
 
 const get = (params: { id: IPlace["id"] }): Promise<IPlace> =>
-    callAPI("GET", "/api/travel-app/places", {
+    callAPI("GET", "/api/db/travel-app/places", {
         params: {
             id: params.id,
             returnFirst: true,
@@ -20,7 +20,7 @@ const create = ({
     originalQuery,
     ownerId,
 }: Omit<IPlace, "id">) =>
-    callAPI("POST", "/api/travel-app/places", {
+    callAPI("POST", "/api/db/travel-app/places", {
         body: {
             name,
             description,
@@ -52,7 +52,7 @@ const update = (
         originalQuery,
     }: Omit<IPlace, "id" | "ownerId">
 ) =>
-    callAPI("PATCH", "/api/travel-app/places", {
+    callAPI("PATCH", "/api/db/travel-app/places", {
         params: { id },
         body: {
             name,
@@ -74,7 +74,7 @@ const update = (
     });
 
 const delete_ = (id: IPlace["id"]) =>
-    callAPI("DELETE", "/api/travel-app/places", {
+    callAPI("DELETE", "/api/db/travel-app/places", {
         params: { id },
     });
 
