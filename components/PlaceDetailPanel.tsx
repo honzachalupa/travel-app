@@ -77,7 +77,11 @@ export const PlaceDetailPanel = forwardRef(
                     onClose={onClose}
                 >
                     {place && (
-                        <PlaceDetailContent place={place} isContactInfoShown />
+                        <PlaceDetailContent
+                            place={place}
+                            isContactInfoShown
+                            isDisclaimerShown
+                        />
                     )}
                 </ModalSheet>
 

@@ -28,7 +28,7 @@ export default function EditPlace({ params: { placeId } }: IProps) {
 
     const handleUpdate = (formData: Omit<IPlace, "id">) =>
         updatePlace(placeId, formData).then(() => {
-            navigateTo.placeDetail(placeId);
+            navigateTo.home(placeId);
         });
 
     return (

@@ -40,8 +40,6 @@ const Content: React.FC = () => {
     useEffect(() => {
         if (searchParams.placeId) {
             selectPlace(searchParams.placeId);
-        } else if (searchParams.createdPlaceId) {
-            selectPlace(searchParams.createdPlaceId);
         }
     }, [searchParams, places]);
 

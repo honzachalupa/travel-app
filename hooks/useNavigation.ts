@@ -23,14 +23,13 @@ export const useNavigation = () => {
         login: ({ mode }: { mode: "sign-up" | "sign-in" }) =>
             router.push(applySearchParams("/login", { mode })),
 
-        home: (createdPlaceId?: IPlace["id"]) =>
-            router.push(applySearchParams("/", { createdPlaceId })),
+        home: (placeId?: IPlace["id"]) =>
+            router.push(applySearchParams("/", { placeId })),
 
         profile: () => router.push("/ucet"),
         settings: () => router.push("/nastaveni"),
         about: () => router.push("/o-aplikaci"),
         placeCreate: () => router.push("/misto/vytvorit"),
-        placeDetail: (id: IPlace["id"]) => router.push(`/misto/${id}`),
         placeEdit: (id: IPlace["id"]) => router.push(`/misto/${id}/upravit`),
     };
 
