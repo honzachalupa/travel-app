@@ -10,7 +10,7 @@
         "prepare": "husky install"
     },
     "dependencies": {
-        "@honzachalupa/admin": "^1.0.27",
+        "@honzachalupa/admin": "^1.1.0",
         "@honzachalupa/design-system": "^1.0.31",
         "@vercel/analytics": "^1.0.1",
         "classnames": "^2.3.2",
