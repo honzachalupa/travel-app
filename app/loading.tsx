@@ -3,5 +3,5 @@
 import { LoadingIndicator } from "@honzachalupa/design-system";
 
 export default function Loading() {
-    return <LoadingIndicator message="Načítání" isFullscreen />;
+    return <LoadingIndicator isFullscreen>Načítání</LoadingIndicator>;
 }
