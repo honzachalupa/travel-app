@@ -1,14 +1,17 @@
 import { EPlaceTypes } from "@/types/map";
 import { callAPI } from "@/utils/api";
 
-const generateContent = (query: string) => {
+const generateContent = (query: string, controller?: AbortController) => {
     const typesList = Object.keys(EPlaceTypes);
 
-    return callAPI("POST", "/api/openai/gpt", {
-        body: {
-            message: {
-                role: "user",
-                content: `
+    return callAPI(
+        "POST",
+        "/api/openai/gpt",
+        {
+            body: {
+                message: {
+                    role: "user",
+                    content: `
                     Search for a place "${query}" and get data stated below.
 
                     Rules:
@@ -48,9 +51,11 @@ const generateContent = (query: string) => {
 
                     [no prose]
                 `,
+                },
             },
         },
-    }).then((response) => {
+        controller
+    ).then((response) => {
         try {
             const data = JSON.parse(
                 response.choices[0].message.content.replace(/\n+/g, "")

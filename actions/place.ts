@@ -19,6 +19,7 @@ const create = ({
     contact,
     originalQuery,
     ownerId,
+    isFeatured,
 }: Omit<IPlace, "id">) =>
     callAPI("POST", "/api/db/travel-app/places", {
         body: {
@@ -37,6 +38,7 @@ const create = ({
             originalQuery,
             ownerId,
             createdAt: moment().format(),
+            isFeatured,
         },
     });
 
@@ -50,6 +52,7 @@ const update = (
         address,
         contact,
         originalQuery,
+        isFeatured,
     }: Omit<IPlace, "id" | "ownerId">
 ) =>
     callAPI("PATCH", "/api/db/travel-app/places", {
@@ -70,6 +73,7 @@ const update = (
             contact_instagramUrl: contact?.instagramUrl,
             originalQuery,
             updatedAt: moment().format(),
+            isFeatured,
         },
     });
 

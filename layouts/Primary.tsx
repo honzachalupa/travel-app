@@ -1,10 +1,7 @@
 "use client";
 
 import { Navigation } from "@/components/Navigation";
-import {
-    DesignSystemContext,
-    Layout_Primary,
-} from "@honzachalupa/design-system";
+import { DesignSystemContext, Layout } from "@honzachalupa/design-system";
 import { ReactNode, useContext, useEffect } from "react";
 
 interface IProps {
@@ -20,7 +17,7 @@ export const LayoutPrimary: React.FC<IProps> = ({ title, children }) => {
     }, []);
 
     return (
-        <Layout_Primary>
+        <Layout.Blank>
             {title && (
                 <header className="w-full flex justify-center absolute top-0 left-0 my-5">
                     <h1 className="text-lg">{title}</h1>
@@ -32,6 +29,6 @@ export const LayoutPrimary: React.FC<IProps> = ({ title, children }) => {
             <div className="h-full pt-[70px] md:pt-[90px] md:mx-auto md:max-w-[800px]">
                 {children}
             </div>
-        </Layout_Primary>
+        </Layout.Blank>
     );
 };

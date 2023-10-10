@@ -10,7 +10,8 @@ export const callAPI = (
         body?: {
             [key: string]: any;
         };
-    }
+    },
+    controller?: AbortController
 ) => {
     const url = new URL(process.env.NEXT_PUBLIC_ADMIN_API_URL + path);
 
@@ -27,6 +28,7 @@ export const callAPI = (
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json",
         },
+        signal: controller?.signal || undefined,
     }).then((response) => response.json());
 };
 
@@ -46,6 +48,7 @@ export const mapPlace = ({
     contact_url,
     contact_instagramUrl,
     ownerId,
+    isFeatured,
 }: IPlaceRecord): IPlace => ({
     id,
     name,
@@ -69,4 +72,5 @@ export const mapPlace = ({
         instagramUrl: contact_instagramUrl,
     },
     ownerId,
+    isFeatured,
 });

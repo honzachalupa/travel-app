@@ -68,6 +68,8 @@ export const PlaceDetailContent: React.FC<IProps> = ({
             <h3 className="text-3xl font-medium my-3">{place.name}</h3>
 
             <div className="mb-2">
+                {place.isFeatured && <Pil color="green">Doporučené</Pil>}
+
                 <Pil>{place?.type && EPlaceTypes[place.type]}</Pil>
 
                 <Pil>{addressFormatted}</Pil>

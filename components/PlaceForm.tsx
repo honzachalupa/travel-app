@@ -14,7 +14,7 @@ import {
     Toggle,
 } from "@honzachalupa/design-system";
 import moment from "moment";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 
 interface FormData {
     name: string | undefined;
@@ -30,6 +30,7 @@ interface FormData {
     emailAddress: string | undefined;
     url: string | undefined;
     instagramUrl: string | undefined;
+    isFeatured: boolean;
 }
 
 interface IProps {
@@ -38,7 +39,7 @@ interface IProps {
     onSubmit: (formData: Omit<IPlace, "id">) => Promise<any>;
 }
 
-const RETRY_COUNT = 3;
+const RETRY_COUNT = 2;
 
 export const PlaceForm: React.FC<IProps> = ({
     mode,
@@ -47,6 +48,8 @@ export const PlaceForm: React.FC<IProps> = ({
 }) => {
     const { user, currentLocation } = useContext(AppContext);
     const { places } = useContext(PlacesContext);
+
+    const controllerRef = useRef<AbortController>();
 
     const [query, setQuery] = useState<string>();
     const [attemptsQueue, setAttemptsQueue] = useState<
@@ -73,6 +76,7 @@ export const PlaceForm: React.FC<IProps> = ({
         emailAddress: undefined,
         url: undefined,
         instagramUrl: undefined,
+        isFeatured: false,
     };
 
     const [formData, setFormData] = useState<FormData>(
@@ -113,12 +117,14 @@ export const PlaceForm: React.FC<IProps> = ({
         ]);
     };
 
-    const fetch = async () => {
+    const search = async () => {
         if (attemptsQueue.length > 0) {
             setIsLoading(true);
             setIsFailed(false);
 
-            await GPTActions.generateContent(query!)
+            controllerRef.current = new AbortController();
+
+            await GPTActions.generateContent(query!, controllerRef.current)
                 .then((data) => {
                     setFormData({
                         name: data.name,
@@ -134,9 +140,10 @@ export const PlaceForm: React.FC<IProps> = ({
                         emailAddress: data.contact.emailAddress,
                         url: data.contact.url,
                         instagramUrl: data.contact.instagramUrl,
+                        isFeatured: false,
                     });
                 })
-                .catch(() => {
+                .catch((error) => {
                     if (attemptsQueue.length < RETRY_COUNT) {
                         console.info(
                             `Search failed (${attemptsQueue.length}/${RETRY_COUNT}). Retrying...`
@@ -162,6 +169,10 @@ export const PlaceForm: React.FC<IProps> = ({
         }
     };
 
+    const cancelSearch = () => {
+        controllerRef.current?.abort();
+    };
+
     const handleSubmit = () => {
         const {
             name,
@@ -176,6 +187,7 @@ export const PlaceForm: React.FC<IProps> = ({
             houseNumber,
             city,
             country,
+            isFeatured,
         } = formData;
 
         if (user && name && type && longitude && latitude) {
@@ -202,6 +214,7 @@ export const PlaceForm: React.FC<IProps> = ({
                 },
                 originalQuery: query,
                 ownerId: user.id,
+                isFeatured,
             }).finally(() => {
                 setIsLoading(false);
             });
@@ -213,7 +226,7 @@ export const PlaceForm: React.FC<IProps> = ({
     }, [isAiModeEnabled]);
 
     useEffect(() => {
-        fetch();
+        search();
     }, [attemptsQueue]);
 
     return (
@@ -259,14 +272,13 @@ export const PlaceForm: React.FC<IProps> = ({
             )}
 
             {isLoading && (
-                <LoadingIndicator
-                    message={
-                        attemptsQueue.length === 1
-                            ? "Hledání místa s pomocí AI - může to chvíli trvat..."
-                            : `Hledání trvá déle než je obvyklé, ale ještě tomu dáme chvilku (${attemptsQueue.length}/${RETRY_COUNT} pokusů)...`
-                    }
-                    isFullscreen
-                />
+                <LoadingIndicator isFullscreen>
+                    <p className="mb-3">
+                        Hledání místa s pomocí AI - může to chvíli trvat...
+                    </p>
+
+                    <Button label="Zrušit" onClick={cancelSearch} />
+                </LoadingIndicator>
             )}
 
             {isFailed ? (
@@ -343,6 +355,14 @@ export const PlaceForm: React.FC<IProps> = ({
                     isRequired
                     isDisabled={isLoading}
                     onChange={(value) => setFormDataValue("type", value)}
+                />
+            )}
+
+            {formData.name && (
+                <Toggle
+                    label="Doporučené"
+                    value={formData.isFeatured}
+                    onChange={(value) => setFormDataValue("isFeatured", value)}
                 />
             )}
 

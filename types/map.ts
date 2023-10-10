@@ -56,6 +56,7 @@ export interface IPlace {
     };
     originalQuery?: string;
     ownerId: IUser["id"];
+    isFeatured?: boolean;
 }
 
 export interface IPlaceRecord {
@@ -74,6 +75,7 @@ export interface IPlaceRecord {
     contact_url: string;
     contact_instagramUrl: string;
     ownerId: string;
+    isFeatured: boolean;
 }
 
 export interface IPlaceVisit {

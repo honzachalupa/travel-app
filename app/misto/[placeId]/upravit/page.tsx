@@ -50,6 +50,7 @@ export default function EditPlace({ params: { placeId } }: IProps) {
                         emailAddress: place.contact?.emailAddress,
                         url: place.contact?.url,
                         instagramUrl: place.contact?.instagramUrl,
+                        isFeatured: place.isFeatured || false,
                     }}
                     onSubmit={handleUpdate}
                 />
