@@ -49,11 +49,11 @@ export const Map: React.FC<IProps> = ({
     const mapRef = useRef<IMapRefProps>(null);
 
     const markers: IMarker[] = places.map(
-        ({ id, name, coordinates, ...rest }) => ({
+        ({ id, name, coordinates, ...data }) => ({
             id,
             name,
             coordinates,
-            data: rest,
+            data,
         })
     );
 

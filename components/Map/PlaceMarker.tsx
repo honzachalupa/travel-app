@@ -14,7 +14,11 @@ interface IProps {
 }
 
 export const PlaceMarker: React.FC<IProps> = ({
-    data: { id, name },
+    data: {
+        id,
+        name,
+        data: { isFeatured },
+    },
     currentZoom,
     isSelected,
     isFaded,
@@ -41,6 +45,7 @@ export const PlaceMarker: React.FC<IProps> = ({
                     className={cx("w-2 aspect-square transition-all", {
                         "fill-green-600": isVisited,
                         "accent-foreground": !isVisited,
+                        "fill-yellow-600": !isVisited && isFeatured,
                         "opacity-30": isFaded && !isSelected,
                     })}
                 />
@@ -49,6 +54,7 @@ export const PlaceMarker: React.FC<IProps> = ({
                     className={cx("aspect-square transition-all", {
                         "w-6 fill-green-600": isVisited,
                         "w-8 accent-foreground": !isVisited,
+                        "fill-yellow-600": !isVisited && isFeatured,
                         "opacity-30": isFaded && !isSelected,
                     })}
                     style={{

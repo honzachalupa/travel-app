@@ -137,7 +137,6 @@ export const PlacesListPanel = forwardRef(
                         key={place.id}
                         place={place}
                         className="w-full pb-5 border-0 border-b-2 border-b-gray-500 last:border-none cursor-pointer"
-                        isVisitedStatusShown
                         onClick={() => onPlaceSelected(place.id)}
                     />
                 ))}

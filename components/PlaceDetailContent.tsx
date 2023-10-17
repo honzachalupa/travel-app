@@ -12,14 +12,13 @@ interface IProps {
     place: IPlace;
     className?: string;
     isContactInfoShown?: boolean;
-    isVisitedStatusShown?: boolean;
     isDisclaimerShown?: boolean;
     onClick?: () => void;
 }
 
 const Pil: React.FC<{
     children: ReactNode;
-    color?: "gray" | "green";
+    color?: "gray" | "green" | "orange";
     className?: string;
 }> = ({ children, color, className }) =>
     children ? (
@@ -28,6 +27,7 @@ const Pil: React.FC<{
                 "theme-background accent-foreground text-xs md:text-lg rounded-full inline-block px-2 py-1 md:px-4 mr-1 mb-1 last:mr-0",
                 {
                     "bg-green-600 text-white": color === "green",
+                    "bg-orange-600 text-white": color === "orange",
                     "theme-foreground-faded": color === "gray",
                 },
                 className
@@ -41,7 +41,6 @@ export const PlaceDetailContent: React.FC<IProps> = ({
     place,
     className,
     isContactInfoShown,
-    isVisitedStatusShown,
     isDisclaimerShown,
     onClick,
 }) => {
@@ -68,7 +67,13 @@ export const PlaceDetailContent: React.FC<IProps> = ({
             <h3 className="text-3xl font-medium my-3">{place.name}</h3>
 
             <div className="mb-2">
-                {place.isFeatured && <Pil color="green">Doporučené</Pil>}
+                {place.isFeatured && <Pil color="orange">Doporučené</Pil>}
+
+                {isPlaceVisited(place.id) && (
+                    <Pil color="green" className="mt-3">
+                        Navštíveno
+                    </Pil>
+                )}
 
                 <Pil>{place?.type && EPlaceTypes[place.type]}</Pil>
 
@@ -125,12 +130,6 @@ export const PlaceDetailContent: React.FC<IProps> = ({
                         )}
                     </Pil>
                 </div>
-            )}
-
-            {isVisitedStatusShown && isPlaceVisited(place.id) && (
-                <Pil color="green" className="mt-3">
-                    Navštíveno
-                </Pil>
             )}
 
             {isDisclaimerShown && (
