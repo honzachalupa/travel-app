@@ -6,4 +6,5 @@ export { MarkerStarIcon } from "./MarkerStar";
 export { MoreIcon } from "./More";
 export { PointIcon } from "./Point";
 export { SetCurrentLocationIcon } from "./SetCurrentLocation";
+export { StarIcon } from "./Star";
 export { UserIcon } from "./User";
