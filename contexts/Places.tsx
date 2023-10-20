@@ -168,7 +168,7 @@ export const PlacesContextProvider = ({
     );
 
     const isPlaceVisited = (id: IPlace["id"]) =>
-        context.visitedPlaceIds.includes(id) || false;
+        context.visitedPlaceIds?.includes(id) || false;
 
     const isUserPlaceOwner = (place: IPlace) =>
         place?.ownerId === user?.id || user?.role === "ADMIN";
