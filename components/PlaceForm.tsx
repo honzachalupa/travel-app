@@ -190,7 +190,7 @@ export const PlaceForm: React.FC<IProps> = ({
             isFeatured,
         } = formData;
 
-        if (user && name && type && longitude && latitude) {
+        if (user && name && type && country && longitude && latitude) {
             setIsLoading(true);
 
             onSubmit({
@@ -274,7 +274,7 @@ export const PlaceForm: React.FC<IProps> = ({
             {isLoading && (
                 <LoadingIndicator isFullscreen>
                     <p className="mb-3">
-                        Hledání místa s pomocí AI - může to chvíli trvat...
+                        {`Hledání místa "${query}" s pomocí AI - může to chvíli trvat...`}
                     </p>
 
                     <Button label="Zrušit" onClick={cancelSearch} />
@@ -398,14 +398,16 @@ export const PlaceForm: React.FC<IProps> = ({
                 />
             )}
 
-            {(formData.country || isExpanded) && (
-                <Input
-                    label="Země"
-                    value={formData.country}
-                    isDisabled={isLoading}
-                    onChange={(value) => setFormDataValue("country", value)}
-                />
-            )}
+            {formData.country ||
+                (!isAiModeEnabled && (
+                    <Input
+                        label="Země"
+                        value={formData.country}
+                        isRequired
+                        isDisabled={isLoading}
+                        onChange={(value) => setFormDataValue("country", value)}
+                    />
+                ))}
 
             {(formData.phoneNumber || isExpanded) && (
                 <Input
