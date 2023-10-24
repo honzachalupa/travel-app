@@ -1102,10 +1102,10 @@
     typescript "^4.5.2"
     ua-parser-js "^1.0.35"
 
-"@honzachalupa/design-system@^1.0.36":
-  version "1.0.36"
-  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.36.tgz#18a9ae3a0abfcc2f98378f1cedc65d7d4527d7d6"
-  integrity sha512-zZXbAkakBPzpC1kamvCsRZEumXBAWOx9SNTUDGcpV8OHbma4FwCw7BjZE5RDKH11w3gtmgLM+y3ftG2UZyWUfw==
+"@honzachalupa/design-system@^1.0.37":
+  version "1.0.37"
+  resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.37.tgz#228fb7d09afd5111d7db9cc7c12f060cb0bc73c8"
+  integrity sha512-j8AunM9aZNx100zWvivnKXkZnuc/VYsAwPLeRb2xMYmg1mKInR6HC+LRKpmM+zyLYUU/YGIYhoLd6L/A35R0NQ==
   dependencies:
     "@popperjs/core" "^2.11.7"
     "@react-hooks-library/core" "^0.5.1"

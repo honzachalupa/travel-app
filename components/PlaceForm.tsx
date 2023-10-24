@@ -1,4 +1,5 @@
 import { GPTActions } from "@/actions/gpt";
+import { PlacesActions } from "@/actions/places";
 import { Map } from "@/components/Map";
 import { AppContext } from "@/contexts/App";
 import { PlacesContext } from "@/contexts/Places";
@@ -52,6 +53,7 @@ export const PlaceForm: React.FC<IProps> = ({
     const controllerRef = useRef<AbortController>();
 
     const [query, setQuery] = useState<string>();
+    const [countries, setCountries] = useState<string[]>([]);
     const [attemptsQueue, setAttemptsQueue] = useState<
         {
             timestamp: string;
@@ -220,6 +222,10 @@ export const PlaceForm: React.FC<IProps> = ({
             });
         }
     };
+
+    useEffect(() => {
+        PlacesActions.getCountries().then(setCountries);
+    }, []);
 
     useEffect(() => {
         setIsFailed(false);
@@ -398,16 +404,26 @@ export const PlaceForm: React.FC<IProps> = ({
                 />
             )}
 
-            {formData.country ||
-                (!isAiModeEnabled && (
+            {(formData.country || !isAiModeEnabled) && (
+                <>
                     <Input
                         label="Země"
                         value={formData.country}
+                        listId="countries"
                         isRequired
                         isDisabled={isLoading}
                         onChange={(value) => setFormDataValue("country", value)}
                     />
-                ))}
+
+                    {!!countries.length && (
+                        <datalist id="countries">
+                            {countries.map((country) => (
+                                <option key={country} value={country} />
+                            ))}
+                        </datalist>
+                    )}
+                </>
+            )}
 
             {(formData.phoneNumber || isExpanded) && (
                 <Input
@@ -456,6 +472,7 @@ export const PlaceForm: React.FC<IProps> = ({
                         isDisabled={
                             isLoading ||
                             !formData.name ||
+                            !formData.country ||
                             !formData.latitude ||
                             !formData.longitude
                         }

@@ -19,7 +19,7 @@ const generateContent = (query: string, controller?: AbortController) => {
                     Value of "description" is description of the place - something about the history of the place or generally what visitor can expect from the visit.
                     Value of "type" is type of place - select from the array [${typesList}] or use null.
                     Value of "street" should not contain the house number;
-                    If value of "country" equals "Czechia" or "Česko", replace it with "Česká Republika".
+                    If value of "country" equals "Czechia" or "Česko", replace it with "Česká republika".
                     Value of "instagramUrl" is URL address to Instagram profile of the place or business (if exists).
                     Translate name and description texts to Czech language.
                     Coordinates are in WGS84 format.

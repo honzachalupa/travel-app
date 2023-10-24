@@ -17,6 +17,7 @@ export const EPlaceTypes = {
     viewpoint: "Rozhledna, vyhlídka",
     lake: "Jezero, nádrž, rybník",
     river: "Řeka, potok",
+    island: "Ostrov",
     waterfall: "Vodopád",
     cave: "Jeskyně",
     museum: "Muzeum",
