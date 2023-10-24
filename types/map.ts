@@ -21,7 +21,7 @@ export const EPlaceTypes = {
     waterfall: "Vodopád",
     cave: "Jeskyně",
     museum: "Muzeum",
-    zoo: "Zoo",
+    zoo: "Zoo, akvárium",
     church: "Kostel",
     castle: "Hrad/zámek",
     ruine: "Zřícenina",
@@ -32,6 +32,8 @@ export const EPlaceTypes = {
     bar: "Bar",
     "amusement-park": "Zábavní park",
     "national-park": "Přírodní rezervace",
+    "military-object": "Vojenský objekt",
+    "technology-interest": "Technická zajímavost",
     other: "Jiné",
 };
 
