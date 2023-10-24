@@ -75,7 +75,9 @@ export const ModalSheet = forwardRef(
                     <Sheet.Header className="z-10" />
 
                     <Sheet.Content className="p-5 pt-0 -mt-6">
-                        <div className="overflow-scroll">{children}</div>
+                        <div className="overflow-scroll w-full h-full">
+                            {children}
+                        </div>
                     </Sheet.Content>
                 </Sheet.Container>
             </Sheet>

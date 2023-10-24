@@ -37,6 +37,38 @@ const Pil: React.FC<{
         </p>
     ) : null;
 
+const DistancePil: React.FC<{ coordinates: ICoordinates }> = ({
+    coordinates,
+}) => {
+    const { currentLocation } = useContext(AppContext);
+
+    const [direction, setDirection] = useState<Direction | null>();
+    const [isFailed, setIsFailed] = useState(false);
+
+    useEffect(() => {
+        if (
+            currentLocation.latitude &&
+            currentLocation.longitude &&
+            coordinates.latitude &&
+            coordinates.longitude
+        ) {
+            DirectionActions.get(currentLocation as ICoordinates, coordinates)
+                .then(setDirection)
+                .catch(() => {
+                    setIsFailed(true);
+                });
+        }
+    }, [coordinates]);
+
+    return !isFailed ? (
+        <Pil>
+            {direction
+                ? `Vzdálenost: ${direction.distance} km (${direction.duration})`
+                : "Počítání odhadované vzdálenosti..."}
+        </Pil>
+    ) : null;
+};
+
 export const PlaceDetailContent: React.FC<IProps> = ({
     place,
     className,
@@ -44,23 +76,9 @@ export const PlaceDetailContent: React.FC<IProps> = ({
     isDisclaimerShown,
     onClick,
 }) => {
-    const { currentLocation } = useContext(AppContext);
     const { isPlaceVisited } = useContext(PlacesContext);
 
-    const [direction, setDirection] = useState<Direction | null>();
-
     const addressFormatted = formatAddress(place);
-
-    useEffect(() => {
-        setDirection(undefined);
-
-        if (currentLocation.latitude && currentLocation.longitude && place) {
-            DirectionActions.get(
-                currentLocation as ICoordinates,
-                place.coordinates
-            ).then(setDirection);
-        }
-    }, [place?.coordinates]);
 
     return (
         <div className={className} onClick={onClick}>
@@ -79,12 +97,7 @@ export const PlaceDetailContent: React.FC<IProps> = ({
 
                 <Pil>{addressFormatted}</Pil>
 
-                <Pil>
-                    Vzdálenost:{" "}
-                    {direction
-                        ? `${direction.distance} km (${direction.duration})`
-                        : "Počítám..."}
-                </Pil>
+                <DistancePil coordinates={place.coordinates} />
             </div>
 
             <p className="opacity-75 lg:text-lg text-justify">

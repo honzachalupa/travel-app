@@ -1,6 +1,7 @@
 import { PlacesContext } from "@/contexts/Places";
 import { EPlaceTypes, IPlace } from "@/types/map";
-import { Input, Toggle } from "@honzachalupa/design-system";
+import { Input, Toggle, VirtualizedList } from "@honzachalupa/design-system";
+import cx from "classnames";
 import React, {
     forwardRef,
     useContext,
@@ -132,14 +133,20 @@ export const PlacesListPanel = forwardRef(
             >
                 <Filter onChange={filter} />
 
-                {filteredPlaces.map((place) => (
-                    <PlaceDetailContent
-                        key={place.id}
-                        place={place}
-                        className="w-full pb-5 border-0 border-b-2 border-b-gray-500 last:border-none cursor-pointer"
-                        onClick={() => onPlaceSelected(place.id)}
+                <div className="h-full">
+                    <VirtualizedList
+                        items={filteredPlaces}
+                        renderer={(place) => (
+                            <PlaceDetailContent
+                                place={place}
+                                className={cx(
+                                    "w-full pb-5 border-0 border-b-2 border-b-gray-500 last:border-none cursor-pointer"
+                                )}
+                                onClick={() => onPlaceSelected(place.id)}
+                            />
+                        )}
                     />
-                ))}
+                </div>
 
                 {user && visitedPlaceIds?.length > 0 && (
                     <div className="w-full p-3 fixed bottom-0 left-0 flex justify-center">
