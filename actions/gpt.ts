@@ -22,7 +22,7 @@ const generateContent = (query: string, controller?: AbortController) => {
                             Value of "street" should not contain the house number;
                             If value of "country" equals "Czechia" or "Česko", replace it with "Česká republika".
                             Value of "instagramUrl" is URL address to Instagram profile of the place or business (if exists).
-                            Translate name and description texts to Czech language.
+                            Translate all texts to Czech language.
                             Coordinates are in WGS84 format.
                             If any of the values can't ve found, return null.
 
@@ -53,15 +53,20 @@ const generateContent = (query: string, controller?: AbortController) => {
                 ],
                 message: {
                     role: "user",
-                    content: `Search for a place: ${query}. [no prose]`,
+                    content: `Search for a place: ${query}.`,
                 },
+                responseType: "json",
             },
         },
         controller
     ).then((response) => {
         try {
+            // TODO: Move parser into admin package
             const data = JSON.parse(
-                response.choices[0].message.content.replace(/\n+/g, "")
+                response.choices[0].message.content
+                    .replace(/\n+/g, "")
+                    .replace("```json", "")
+                    .replace("```", "")
             );
 
             if (!data.coordinates.longitude || !data.coordinates.latitude) {
