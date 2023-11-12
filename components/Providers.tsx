@@ -15,7 +15,7 @@ interface IProps {
 export const Providers: React.FC<IProps> = ({ children }) => (
     <>
         <DesignSystemContextProvider>
-            <AuthContextProvider namespaceId="travel-app">
+            <AuthContextProvider appId="travel-app">
                 <AppContextProvider>
                     <PlacesContextProvider>
                         <SettingsContextProvider>
