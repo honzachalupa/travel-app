@@ -1,5 +1,6 @@
 "use client";
 
+import config from "@/config";
 import { PlacesContext } from "@/contexts/Places";
 import { useNavigation } from "@/hooks/useNavigation";
 import { IPlace } from "@/types/map";
@@ -9,6 +10,7 @@ import {
     IModalRefProps,
     Modal,
 } from "@honzachalupa/design-system";
+import { useLogger } from "@honzachalupa/logger";
 import {
     forwardRef,
     useContext,
@@ -26,6 +28,8 @@ interface IProps {
 export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
     ({ placeId, onClose }, forwardedRef) => {
         const { navigateTo } = useNavigation();
+        const { log } = useLogger(config.appId);
+
         const { fetchPlace, deletePlace, isUserPlaceOwner } =
             useContext(PlacesContext);
 
@@ -37,6 +41,8 @@ export const PlaceDeleteDialog: React.FC<IProps> = forwardRef(
             deletePlace(placeId).then(() => {
                 modalRef.current?.close();
                 navigateTo.home();
+
+                log.info("Place deleted.", { id: placeId });
             });
         };
 

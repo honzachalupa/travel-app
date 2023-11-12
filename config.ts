@@ -1,4 +1,5 @@
 const config = {
+    appId: "travel-app" as const,
     appName: "Výletuje.me",
     description: "",
     keywords: [

@@ -1091,6 +1091,20 @@
     typescript "^4.9.5"
     uuid "^9.0.0"
 
+"@honzachalupa/admin@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@honzachalupa/admin/-/admin-1.2.1.tgz#bb63ba8c326c6d0adb811f82a3d62198c2ba7daf"
+  integrity sha512-A0B4/aa3NDavMRyM9ph1l/gI3Yg1rP5SoVC2a4u4E64+SHlTfq1fPkJrWnr0UMpqArVmZMZI0/ODtPjlFED/EQ==
+  dependencies:
+    "@honzachalupa/design-system" "^2.0.5"
+    "@supabase/supabase-js" "^2.21.0"
+    classnames "^2.3.2"
+    cors "^2.8.5"
+    openai "^3.2.1"
+    react "^18.2.0"
+    typescript "^4.9.5"
+    uuid "^9.0.0"
+
 "@honzachalupa/design-system@^1.0.21":
   version "1.0.21"
   resolved "https://registry.npmjs.org/@honzachalupa/design-system/-/design-system-1.0.21.tgz#775b5dea334d0fc052353f03d4e9b03654aa2f5b"
@@ -1129,6 +1143,21 @@
     react-virtualized "^9.22.5"
     typescript "^4.5.2"
     ua-parser-js "^1.0.35"
+
+"@honzachalupa/logger@^1.1.12":
+  version "1.1.12"
+  resolved "https://registry.npmjs.org/@honzachalupa/logger/-/logger-1.1.12.tgz#3124c2c5127786eb359dedc3d58ab3b9e57b4c3e"
+  integrity sha512-2Te1WdD/L8iIr8k47hiwT/Nn3jLwy52gPWWyMM+xL9srfSRcKgo/nDn36hvKzoLDfZpBubMCS/Us3dm5GjaT/Q==
+  dependencies:
+    "@honzachalupa/admin" "^1.2.1"
+    "@supabase/supabase-js" "^2.21.0"
+    classnames "^2.3.2"
+    cors "^2.8.5"
+    moment "^2.29.4"
+    openai "^3.2.1"
+    react "^18.2.0"
+    typescript "^4.9.5"
+    uuid "^9.0.0"
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"

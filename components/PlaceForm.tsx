@@ -1,6 +1,7 @@
 import { GPTActions } from "@/actions/gpt";
 import { PlacesActions } from "@/actions/places";
 import { Map } from "@/components/Map";
+import config from "@/config";
 import { AppContext } from "@/contexts/App";
 import { PlacesContext } from "@/contexts/Places";
 import { EPlaceTypes, IPlace, TPlaceType } from "@/types/map";
@@ -14,6 +15,7 @@ import {
     TextArea,
     Toggle,
 } from "@honzachalupa/design-system";
+import { useLogger } from "@honzachalupa/logger";
 import moment from "moment";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 
@@ -47,6 +49,8 @@ export const PlaceForm: React.FC<IProps> = ({
     defaultValues,
     onSubmit,
 }) => {
+    const { log } = useLogger(config.appId);
+
     const { user, currentLocation } = useContext(AppContext);
     const { places } = useContext(PlacesContext);
 
@@ -146,6 +150,11 @@ export const PlaceForm: React.FC<IProps> = ({
                     });
                 })
                 .catch((error) => {
+                    log.warning(error.error, {
+                        request: { query },
+                        response: error.data,
+                    });
+
                     if (attemptsQueue.length < RETRY_COUNT) {
                         console.info(
                             `Search failed (${attemptsQueue.length}/${RETRY_COUNT}). Retrying...`

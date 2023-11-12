@@ -111,7 +111,7 @@ export const PlaceDetailContent: React.FC<IProps> = ({
                     <Pil color="gray">
                         {place?.contact?.url && (
                             <a href={place.contact.url} target="_blank">
-                                {place.contact.url}
+                                {place.contact.url.replace(/https?:\/\//i, "")}
                             </a>
                         )}
                     </Pil>

@@ -70,12 +70,18 @@ const generateContent = (query: string, controller?: AbortController) => {
             );
 
             if (!data.coordinates.longitude || !data.coordinates.latitude) {
-                throw new Error("Unable to find data.");
+                throw {
+                    error: new Error("Unable to find data."),
+                    data: response,
+                };
             }
 
             return data;
         } catch (error) {
-            throw new Error("Unable to parse data.");
+            throw {
+                error: new Error("Unable to parse data."),
+                data: response,
+            };
         }
     });
 };
